@@ -1,0 +1,151 @@
+#pragma once
+#include"ErrorException.h"
+#include"AliceMathUtility.h"
+#include"Camera.h"
+#include"DirectX12Core.h"
+#include"Light.h"
+#include"Transform.h"
+#include"Material.h"
+#include"ConstantBuffer.h"
+#include"VertexBuffer.h"
+#include"IndexBuffer.h"
+
+enum class ModelShape
+{
+	Cube,//立方体
+	Sphere,//球
+	Capsule,//カプセル
+	Cylinder,//円柱
+	Cone,//円錐
+};
+
+enum ShaderType
+{
+	Default,
+	Flat,
+	Gouraud,
+	Lambert,
+	Phong,
+
+};
+
+struct ModelData
+{
+	ModelData() = default;
+	~ModelData() = default;
+
+	std::string filePath;
+
+	uint32_t modelHandle;
+private:
+	char PADING1[4] = {};
+public:
+
+	TextureData* textureData;
+	//頂点バッファ
+	std::unique_ptr<VertexBuffer> vertexBuffer;
+	//インデックスバッファ
+	std::unique_ptr<IndexBuffer> indexBuffer;
+private:
+	char PADING2[4] = {};
+public:
+
+	//インデックスの数
+	UINT maxIndex = 0u;;
+private:
+	char PADING3[4] = {};
+public:
+
+	//頂点の数
+	UINT maxVert = 0u;
+	//ワールド行列
+	AliceMathF::Matrix4 matWorld;
+	//頂点データ
+	std::vector<PosNormalUv>vertices;
+	//頂点インデックス
+	std::vector<uint32_t> indices;
+	//頂点法線スムージング用データ
+	std::unordered_map<uint32_t, std::vector<uint32_t>>smoothData;
+	//マテリアル
+	ModelMaterial modelMaterial{};
+	//定数バッファマテリアル
+	std::unique_ptr<ConstantBuffer> constBuffMaterial;
+	std::unique_ptr<ConstantBuffer> constBuffVelocity;
+	Material* modelMaterialData;
+
+private:
+
+	//コピーコンストラクタ・代入演算子削除
+	ModelData& operator=(const ModelData&) = delete;
+	ModelData(const ModelData&) = delete;
+};
+
+class Model
+{
+protected:
+
+	static Microsoft::WRL::ComPtr<ID3D12Device> device;
+	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
+
+	//ライト
+	static Light* light;
+
+	static std::vector<std::string>filePaths;
+
+	static std::unordered_map<std::string, std::unique_ptr<ModelData>> modelDatas;
+
+	static uint32_t modelCount;
+
+	static const uint32_t maxModel = 1024;
+
+	ModelData* modelData;
+
+
+
+public:
+
+	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	AliceMathF::Matrix4& GetMatWorld();
+
+	/// <summary>
+	/// 頂点座標を取得
+	/// </summary>
+	/// <returns>頂点座標配列</returns>
+	const std::vector<PosNormalUv>GetVertices();
+
+	/// <summary>
+	/// インデックスを取得
+	/// </summary>
+	/// <returns>インデックス座標配列</returns>
+	const std::vector<uint32_t>GetIndices();
+
+	/// <summary>
+	/// ライトのセット
+	/// </summary>
+	/// <param name="light">ライト</param>
+	static void SetLight(Light* light_);
+
+	void SetModel(uint32_t modelHandle);
+
+	Model() = default;
+	~Model() = default;
+
+	void Draw(Transform* transform, Material* material = nullptr);
+
+	void EffectDraw(Transform* transform, float velocity, Material* material = nullptr);
+
+	static uint32_t CreatePrimitiveModel(ModelShape type);
+
+	static uint32_t CreateObjModel(const std::string& filePath, bool smoothing = false);
+
+	static void CommonInitialize();
+
+private:
+
+	//コピーコンストラクタ・代入演算子削除
+	Model& operator=(const Model&) = delete;
+	Model(const Model&) = delete;
+};
