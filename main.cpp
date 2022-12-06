@@ -81,7 +81,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//‚»‚Ì‘¼‰Šú‰»‚±‚±‚Ü‚Å
 
 	//ƒV[ƒ“‚Ì‰Šú‰»
-	GameScene* gameScene = GameScene::GetInstance();
+	GameScene* gameScene = new GameScene();
 	gameScene->Initialize();
 
 	bool post = true;
