@@ -24,14 +24,20 @@ void GameScene::Initialize()
 	camera = std::make_unique<CinemaCamera>();
 	camera->Initialize();
 
+	modelHandl = Model::CreateObjModel("Resources/F-15");
+
+	model = std::make_unique<Model>();
+	model->SetModel(modelHandl);
+
+	modelTrans.Initialize();
 }
 
 void GameScene::Update()
 {
-
+	modelTrans.TransUpdate(camera.get());
 }
 
 void GameScene::Draw()
 {
-
+	model->Draw(&modelTrans);
 }

@@ -36,6 +36,9 @@ private:
 
 	std::unique_ptr<CinemaCamera> camera;
 
+	std::unique_ptr<Model> model;
+	uint32_t modelHandl;
+	Transform modelTrans;
 public:
 
 	GameScene();
