@@ -23,6 +23,8 @@
 #include"Model.h"
 #include "CinemaCamera.h"
 
+#include "Stage.h"
+
 class GameScene
 {
 private:
@@ -39,6 +41,11 @@ private:
 	std::unique_ptr<Model> model;
 	uint32_t modelHandl;
 	Transform modelTrans;
+
+	std::unique_ptr<Stage> stage_;
+	uint32_t stageModelHandle_;
+	Transform stageModelTrans_;
+
 public:
 
 	GameScene();

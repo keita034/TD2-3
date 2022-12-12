@@ -321,6 +321,9 @@
     <ClInclude Include="PostEffectManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -601,6 +604,9 @@
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="PostEffectManager.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -159,6 +159,7 @@
     <ClInclude Include="lib\Engine\Util\AliceUtility.h" />
     <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +362,7 @@
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PostEffectManager.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
