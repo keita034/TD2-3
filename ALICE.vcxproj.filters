@@ -324,6 +324,9 @@
     <ClInclude Include="Stage.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -608,6 +611,9 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
