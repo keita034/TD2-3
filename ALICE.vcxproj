@@ -157,6 +157,7 @@
     <ClInclude Include="lib\Engine\Math\float\Vector4.h" />
     <ClInclude Include="lib\Engine\Util\AliceFunctionUtility.h" />
     <ClInclude Include="lib\Engine\Util\AliceUtility.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stage.h" />
@@ -361,6 +362,7 @@
     <ClCompile Include="lib\Engine\Util\AliceFunctionUtility.cpp" />
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
