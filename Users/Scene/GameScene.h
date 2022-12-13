@@ -39,6 +39,7 @@ private:
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
 
 	std::unique_ptr<CinemaCamera> camera;
+	std::unique_ptr<GameCamera> gameCamera_;
 
 	std::unique_ptr<Model> model;
 	uint32_t modelHandl;

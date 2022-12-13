@@ -321,10 +321,10 @@
     <ClInclude Include="PostEffectManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -609,10 +609,10 @@
     <ClCompile Include="PostEffectManager.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
