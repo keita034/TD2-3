@@ -17,6 +17,9 @@ private:
 	uint32_t foldStageHandle_;
 
 public:
+	Stage() = default;
+	~Stage() = default;
+
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
