@@ -33,6 +33,10 @@ void GameScene::Initialize()
 	model = std::make_unique<Model>();
 	model->SetModel(modelHandl);
 
+	//ƒvƒŒ[ƒ„[ì¬
+	player_ = new Player(modelHandl);
+	player_->Initialise();
+
 	modelTrans.Initialize();
 	stageModelTrans_.Initialize();
 }
@@ -41,10 +45,12 @@ void GameScene::Update()
 {
 	stage_->Update(camera.get());
 	modelTrans.TransUpdate(camera.get());
+	player_->Update(camera.get());
 }
 
 void GameScene::Draw()
 {
 	stage_->Draw();
-	model->Draw(&modelTrans);
+	//model->Draw(&modelTrans);
+	player_->Draw();
 }

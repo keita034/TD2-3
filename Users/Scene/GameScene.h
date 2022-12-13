@@ -25,6 +25,8 @@
 
 #include "Stage.h"
 
+#include"Player.h"
+
 class GameScene
 {
 private:
@@ -45,6 +47,8 @@ private:
 	std::unique_ptr<Stage> stage_;
 	uint32_t stageModelHandle_;
 	Transform stageModelTrans_;
+
+	Player* player_ = nullptr;
 
 public:
 
