@@ -24,7 +24,6 @@
 #include "CinemaCamera.h"
 
 #include "Stage.h"
-
 #include"Player.h"
 
 class GameScene
