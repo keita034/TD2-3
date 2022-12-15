@@ -92,6 +92,18 @@ struct worldViewpojCamera
 	AliceMathF::Vector3 cameraPos;
 };
 
+struct worldViewpojCameraWVP
+{
+	//ワールド行列
+	AliceMathF::Matrix4 world;
+	//ワールド座標
+	AliceMathF::Matrix4 matWorld;
+	//カメラ座標(ワールド座標)
+	AliceMathF::Vector3 cameraPos;
+	AliceMathF::Matrix4 WVP;
+
+};
+
 //マテリアルよう定数バッファ構造体
 struct ConstBuffDataMaterial
 {

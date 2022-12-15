@@ -48,4 +48,18 @@ namespace AliceMathF
 	Vector4 Vec4Mat4Mul(const Vector4& vec, const Matrix4& mat);
 
 	Vector3 Vector3Lerp(const Vector3& src1, const Vector3& src2, float t);
+
+	Vector4 Vec4MulPs(const Vector4& vec, const Vector4& vec2);
+
+	Vector4 Vec4AddPs(const Vector4& vec, const Vector4& vec2);
+
+	Vector4 Vec4SetPs1(float value);
+
+	Vector4 VectorReplicate(float value);
+
+	//Vector4 QuaternionSlerpV(const Vector4& vec, const Vector4& vec2);
+
+	Vector4 VectorLess(const Vector4& vec, const Vector4& vec2);
+
+	Vector4 Vec4CmpltPs(const Vector4& vec, const Vector4& vec2);
 }

@@ -41,15 +41,6 @@ void FbxLoader::LoadModel(fbxModel* model, const std::string& modelDirectory, bo
 		}
 	}
 
-	UINT flag = 0;
-	flag |= aiProcess_Triangulate;//三角面化
-	flag |= aiProcess_CalcTangentSpace;//接線ベクトル生成
-	flag |= aiProcess_GenSmoothNormals;//スムージングベクトル生成
-	flag |= aiProcess_GenUVCoords;//非マッピングを適切なUV座標に変換
-	flag |= aiProcess_RemoveRedundantMaterials;//冗長なマテリアルを削除
-	flag |= aiProcess_OptimizeMeshes;//メッシュ数を最適化
-	flag |= aiProcess_MakeLeftHanded;//ノードを左手座標系に
-
 	model->mScene = aiImportFile(filePath.c_str(), ASSIMP_LOAD_FLAG_DEFAULT);
 
 	model->name = model->mScene->mName.C_Str();
@@ -67,9 +58,9 @@ void FbxLoader::LoadModel(fbxModel* model, const std::string& modelDirectory, bo
 	}
 
 	UINT32 nodeNum = 0;
-	GetNodeNum(model->mScene->mRootNode,  nodeNum);
+	GetNodeNum(model->mScene->mRootNode, nodeNum);
 	model->nodes.reserve(nodeNum);
-	model->globalInverseTransform = model->mScene->mRootNode->mTransformation.Inverse();
+	model->globalInverseTransform = model->mScene->mRootNode->mTransformation.Transpose();
 	// ルートノードから順に解析してモデルに流し込む
 	PraseNodeRecurive(model, model->mScene->mRootNode);
 
@@ -225,7 +216,7 @@ void FbxLoader::ParseMeshFaces(fbxModel* model, aiMesh* mesh)
 	indices.resize(static_cast<size_t>(mesh->mNumFaces) * 3);
 
 	//インデックス
-	for (UINT i = 0u; i < mesh->mNumFaces; ++i)
+	for (UINT i = 0; i < mesh->mNumFaces; ++i)
 	{
 		const aiFace& face = mesh->mFaces[i];
 
@@ -267,9 +258,9 @@ void FbxLoader::ParseMaterial(fbxModel* model, aiMesh* mesh, aiMaterial* materia
 	modelMesh.material.specular = AliceMathF::Vector3(specular.r, specular.g, specular.b);
 
 	// ディフューズマップ
-	std::vector<TextureData*> diffuseMaps = this->LoadMatrixerialTextures(material, aiTextureType_DIFFUSE, "Diffuse", model->mScene);
+	std::vector<TextureData*> diffuseMaps = LoadMatrixerialTextures(material, aiTextureType_DIFFUSE, "Diffuse", model->mScene);
 	// 法線マップ
-	std::vector<TextureData*> normalMaps = this->LoadMatrixerialTextures(material, aiTextureType_HEIGHT, "Normal", model->mScene);
+	std::vector<TextureData*> normalMaps = LoadMatrixerialTextures(material, aiTextureType_HEIGHT, "Normal", model->mScene);
 
 	modelMesh.textures.insert(modelMesh.textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 	modelMesh.texturesNormal.insert(modelMesh.texturesNormal.end(), normalMaps.begin(), normalMaps.end());
@@ -277,6 +268,20 @@ void FbxLoader::ParseMaterial(fbxModel* model, aiMesh* mesh, aiMaterial* materia
 
 void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 {
+	//ボーン番号とスキンウェイトのペア
+	struct WeightSet
+	{
+		UINT index;
+		float weight;
+	};
+
+	//二次元配列(ジャグ配列)
+	//list:頂点が影響を受けるボーンの全リスト
+	//vector:それを全頂点分
+	std::vector<std::list<WeightSet>>weightLists(model->meshes.back().vertices.size());
+
+	auto& vertices = model->meshes.back().vertices;
+
 	//ボーン無ければ終了
 	if (mesh->mNumBones == 0)
 	{
@@ -294,98 +299,70 @@ void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 		//新しくボーンを追加し、追加したボーンの参照を得る
 		Bone& bone = model->meshes.back().bones[meshBone->mName.C_Str()];
 
-		
-
 		bone.name = boneName;
 
 		//FBXから初期姿勢行列を取得する
 
 		//初期姿勢行列の逆行列を得る
-		bone.offsetMatirx = meshBone->mOffsetMatrix;
+		bone.offsetMatirx = meshBone->mOffsetMatrix.Transpose();
 		bone.index = i;
 
 		model->meshes.back().vecBones.push_back(bone);
 
-		//ボーン番号とスキンウェイトのペア
-		struct WeightSet
+		//影響を受ける全頂点について
+		for (size_t k = 0; k < meshBone->mNumWeights; k++)
 		{
-			UINT index;
-			float weight;
-		};
-
-		//二次元配列(ジャグ配列)
-		//list:頂点が影響を受けるボーンの全リスト
-		//vector:それを全頂点分
-		std::vector<std::list<WeightSet>>weightLists(model->meshes.back().vertices.size());
-
-		//全てのボーンについて
-		for (size_t j = 0; j < mesh->mNumBones; j++)
-		{
-			auto& tmpBone = mesh->mBones[j];
-
-			//FBXボーン情報
-			//このボーンに影響を受ける頂点の数
-			UINT controlPointIndicesCount = tmpBone->mNumWeights;
-
-			//影響を受ける全頂点について
-			for (size_t k = 0; k < controlPointIndicesCount; k++)
-			{
-				//頂点番号
-				UINT vertIndex = tmpBone->mWeights[k].mVertexId;
-				//スキンウェイト
-				float weight = tmpBone->mWeights[k].mWeight;
-				//その頂点の影響を受けるボーンリストに、ボーンとウェイトのペアを追加
-				weightLists[vertIndex].emplace_back(WeightSet{ (UINT)j,weight });
-			}
-		}
-
-		//頂点配列書き換え用の参照
-		auto& vertices = model->meshes.back().vertices;
-
-		//各頂点について処理
-		for (size_t j = 0; j < vertices.size(); j++)
-		{
-			//頂点のウェイトから最も大きい4つを選択
-			auto& weightList = weightLists[j];
-
-			//大証皮革用のラムダ式を指定して降順にソート
-			weightList.sort(
-				[](auto const& lhs, auto const& rhs)
-				{
-					//左の要素の方が大きければrue、そうでなければfalse
-					return lhs.weight > rhs.weight;
-				});
-
-			size_t weightArrayIndex = 0;
-			//降順ソート済みのウェイトリストから
-
-			for (auto& weightSet : weightList)
-			{
-				//頂点データに書き込み
-				vertices[j].boneIndex[weightArrayIndex] = weightSet.index;
-				vertices[j].boneWeight[weightArrayIndex] = weightSet.weight;
-				
-				//4つに達したら修了
-				if (++weightArrayIndex >= MAX_BONE_INDICES)
-				{
-					float weight = 0.0f;
-					//2番目以降のウェイトを合計
-					for (size_t k = 0; k < MAX_BONE_INDICES; k++)
-					{
-						weight += vertices[j].boneWeight[k];
-					}
-
-					//合計で1.0f(100%)になるように調整
-					vertices[j].boneWeight[0] = 1.0f - weight;
-					break;
-				}
-
-			}
+			//頂点番号
+			UINT vertIndex = meshBone->mWeights[k].mVertexId;
+			//スキンウェイト
+			float weight = meshBone->mWeights[k].mWeight;
+			//その頂点の影響を受けるボーンリストに、ボーンとウェイトのペアを追加
+			weightLists[vertIndex].emplace_back(WeightSet{ (UINT)i,weight });
 		}
 	}
 
+	//各頂点について処理
+	for (size_t j = 0; j < vertices.size(); j++)
+	{
+		//頂点のウェイトから最も大きい4つを選択
+		auto& weightList = weightLists[j];
 
+		////大証皮革用のラムダ式を指定して降順にソート
+		//weightList.sort(
+		//	[](auto const& lhs, auto const& rhs)
+		//	{
+		//		//左の要素の方が大きければrue、そうでなければfalse
+		//		return lhs.weight > rhs.weight;
+		//	});
+
+		size_t weightArrayIndex = 0;
+		//降順ソート済みのウェイトリストから
+
+		for (auto& weightSet : weightList)
+		{
+			//頂点データに書き込み
+			vertices[j].boneIndex[weightArrayIndex] = weightSet.index;
+			vertices[j].boneWeight[weightArrayIndex] = weightSet.weight;
+
+			//4つに達したら修了
+			if (++weightArrayIndex >= MAX_BONE_INDICES)
+			{
+				float weight = 0.0f;
+				//2番目以降のウェイトを合計
+				for (size_t k = 0; k < MAX_BONE_INDICES; k++)
+				{
+					weight += vertices[j].boneWeight[k];
+				}
+
+				//合計で1.0f(100%)になるように調整
+				//vertices[j].boneWeight[0] += 1.0f - weight;
+				break;
+			}
+
+		}
+	}
 }
+
 std::vector<TextureData*> FbxLoader::LoadMatrixerialTextures(aiMaterial* cmatrix, aiTextureType type, std::string typeName, const aiScene* scene_)
 {
 	std::vector<TextureData*> textures;
@@ -415,7 +392,7 @@ std::vector<TextureData*> FbxLoader::LoadMatrixerialTextures(aiMaterial* cmatrix
 
 		}
 
-		texture->path = str.C_Str();
+		//texture->path = str.C_Str();
 		textures.push_back(texture);
 	}
 	return textures;
@@ -445,7 +422,7 @@ void FbxLoader::PrintModelData(fbxModel* model)
 
 		printf("			テクスチャ数 %zu\n", model->meshes[i].textures.size());
 		printf("			テクスチャ = {\n");
-		for (size_t j = 0; j < model->meshes[j].textures.size(); j++)
+		for (size_t j = 0; j < model->meshes[i].textures.size(); j++)
 		{
 			printf("				テクスチャ名 %s {\n", model->meshes[i].textures[j]->path.c_str());
 			printf("					ファイルパス : %s\n", model->meshes[i].textures[j]->path.c_str());

@@ -21,14 +21,14 @@ namespace AliceMathF
 		Quaternion(const Vector4& v);
 
 		//内積を求める
-		float Dot(const Quaternion& q);
+		float Dot(const Quaternion& q)const;
 
 		//ノルムを求める
-		float Length();
+		float Length()const;
 		//正規化する
-		Quaternion Normalize();
+		Quaternion Normalize() const;
 		//単項演算子オーバーロード
-		Quaternion operator + ()const;
+		Quaternion operator + ();
 		Quaternion operator - ()const;
 		//代入演算子オーバーロード
 		Quaternion& operator += (const Quaternion& q);

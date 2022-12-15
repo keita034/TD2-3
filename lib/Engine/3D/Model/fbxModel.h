@@ -63,6 +63,15 @@ public:
 
 private:
 
+	void ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform);
+	aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string& strNodeName);
+	void CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	bool FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nScalingIndex);
+	void CalcInterpolatedRotation(AliceMathF::Vector4& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	bool FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nRotationIndex);
+	void CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	bool FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nPosIndex);
+
 	//コピーコンストラクタ・代入演算子削除
 	fbxModel& operator=(const fbxModel&) = delete;
 	fbxModel(const fbxModel&) = delete;

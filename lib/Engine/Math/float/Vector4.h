@@ -19,6 +19,8 @@ namespace AliceMathF
 
 		Vector4(aiQuaternion& aiQuaternion);//¬•ª‚ğw’è‚µ‚Ä¶¬
 
+		Vector4(const DirectX::XMVECTOR& vec);//¬•ª‚ğw’è‚µ‚Ä¶¬
+
 		float Length()const;//ƒmƒ‹ƒ€‚ğ‹‚ß‚é
 		float LengthSquared()const;
 		Vector4 Normalization()const;//³‹K‰»‚·‚é

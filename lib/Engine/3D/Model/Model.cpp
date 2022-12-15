@@ -105,7 +105,7 @@ uint32_t Model::CreateObjModel(const std::string& filePath, bool smoothing)
 	if (itr == modelDatas.end())
 	{
 
-		modelCount++;
+		uint32_t modelHandle = modelCount;
 
 		std::unique_ptr<ModelData> data;
 		data = std::make_unique<ModelData>();
@@ -120,7 +120,9 @@ uint32_t Model::CreateObjModel(const std::string& filePath, bool smoothing)
 
 		filePaths[modelCount] = path;
 
-		return modelCount;
+		modelCount++;
+
+		return modelHandle;
 	}
 	else
 	{

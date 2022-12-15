@@ -51,25 +51,32 @@ void fbxModel::Draw(Transform* transform, Material* material)
 
 void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 {
-	if (oldFrame == frame)
+	AliceMathF::Matrix4 mxIdentity = AliceMathF::MakeIdentity();
+	aiNode* pNode = mScene->mRootNode;
+	aiAnimation* pAnimation = animation->mAnimation->mAnimations[0];
+
+	FLOAT TicksPerSecond = (FLOAT)(pAnimation->mTicksPerSecond != 0
+		? pAnimation->mTicksPerSecond
+		: 25.0f);
+
+	FLOAT TimeInTicks = frame * TicksPerSecond;
+	FLOAT AnimationTime = fmod(TimeInTicks, (FLOAT)pAnimation->mDuration);
+
+	for (ModelMesh mesh : meshes)
 	{
-		return;
+		ReadNodeHeirarchy(&mesh, pAnimation, AnimationTime, pNode, mxIdentity);
+
+		UINT nNumBones = (UINT)mesh.bones.size();
+
+		for (UINT i = 0; i < nNumBones; i++)
+		{
+			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name].matrix;
+		}
+
+		mesh.FillVertex();
 	}
 
-	oldFrame = frame;
-	if (!animation)
-	{
-		return;
-	}
 
-	
-
-	for (ModelMesh& m : meshes)
-	{
-		m.BoneTransform(frame, m.skinData.bones, animation, globalInverseTransform);
-
-		m.Update(computeRelation.get());
-	}
 }
 
 void fbxModel::Create(const char* filePath, bool smoothing, bool inverseU, bool inverseV, bool animeFlag)
@@ -118,3 +125,240 @@ void fbxModel::Create(const char* filePath, bool smoothing, bool inverseU, bool 
 	}
 }
 
+void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
+{
+	AliceMathF::Matrix4 mxNodeTransformation = AliceMathF::MakeIdentity();
+	mxNodeTransformation = pNode->mTransformation;
+	mxNodeTransformation = mxNodeTransformation.Transpose();
+
+	AliceMathF::Matrix4 mxThisTrans = mxNodeTransformation.Transpose();
+
+	std::string strNodeName(pNode->mName.data);
+
+	const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
+
+	DirectX::XMMATRIX tmp100 = AliceMathF::MakeIdentity();
+	DirectX::XMMATRIX tmp101 = AliceMathF::MakeIdentity();
+	DirectX::XMMATRIX tmp102 = AliceMathF::MakeIdentity();
+
+	if (pNodeAnim)
+	{
+		//僗働乕儕儞僌
+		AliceMathF::Vector3 vScaling = {};
+		CalcInterpolatedScaling(vScaling, AnimationTime, pNodeAnim);
+		AliceMathF::Matrix4 mxScaling;
+		mxScaling.MakeScaling(vScaling);
+
+		//夞揮妏
+		AliceMathF::Vector4 vRotationQ = {};
+		CalcInterpolatedRotation(vRotationQ, AnimationTime, pNodeAnim);
+		AliceMathF::Matrix4 mxRotationM = AliceMathF::Quaternion(vRotationQ).Rotate();
+
+		//堏摦
+		AliceMathF::Vector3 vTranslation = {};
+		CalcInterpolatedPosition(vTranslation, AnimationTime, pNodeAnim);
+		AliceMathF::Matrix4 mxTranslationM;
+		mxTranslationM.MakeTranslation(vTranslation);
+
+		mxNodeTransformation = mxScaling.MatrixMultiply(mxRotationM).MatrixMultiply(mxTranslationM);
+
+		tmp100 = mxScaling;
+		tmp101 = mxRotationM;
+		tmp102 = mxTranslationM;
+
+
+	}
+
+	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation.MatrixMultiply(mxParentTransform);
+
+	DirectX::XMMATRIX tmp;
+	DirectX::XMMATRIX tmp2;
+	DirectX::XMMATRIX tmp3 = tmp100 * tmp101 * tmp102;
+	DirectX::XMMATRIX tmp4;
+	DirectX::XMMATRIX tmp5 = globalInverseTransform;
+
+	UINT nBoneIndex = 0;
+	AliceMathF::Matrix4 offsetMatirx;
+	AliceMathF::Matrix4 matirx;
+	if (mesh->bones.find(strNodeName) != mesh->bones.end())
+	{
+		offsetMatirx = mesh->bones[strNodeName].offsetMatirx;
+
+		matirx
+			= offsetMatirx.MatrixMultiply(mxGlobalTransformation).
+			MatrixMultiply(globalInverseTransform);
+
+		mesh->bones[strNodeName].matrix = matirx;
+
+		tmp = offsetMatirx;
+		tmp2 = tmp3 * mxParentTransform;
+		tmp4 = tmp * tmp2 * tmp5;
+
+	}
+
+	for (UINT i = 0; i < pNode->mNumChildren; i++)
+	{
+		ReadNodeHeirarchy(mesh
+			, pAnimation
+			, AnimationTime
+			, pNode->mChildren[i]
+			, mxGlobalTransformation);
+	}
+}
+
+aiNodeAnim* fbxModel::FindNodeAnim(const aiAnimation* pAnimation, const std::string& strNodeName)
+{
+	for (UINT i = 0; i < pAnimation->mNumChannels; i++)
+	{
+		if (std::string(pAnimation->mChannels[i]->mNodeName.data) == strNodeName)
+		{
+			return pAnimation->mChannels[i];
+		}
+	}
+
+	return nullptr;
+}
+
+void fbxModel::CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumScalingKeys == 1)
+	{
+		mxOut = pNodeAnim->mScalingKeys[0].mValue;
+		return;
+	}
+
+	UINT ScalingIndex = 0;
+	if (!FindScaling(AnimationTime, pNodeAnim, ScalingIndex))
+	{
+		mxOut = AliceMathF::Vector3(1.0f, 1.0f, 1.0f);
+		return;
+	}
+
+	UINT NextScalingIndex = (ScalingIndex + 1);
+	ATLASSERT(NextScalingIndex < pNodeAnim->mNumScalingKeys);
+	float DeltaTime = (float)(pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mScalingKeys[ScalingIndex].mTime) / DeltaTime;
+	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+
+	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->mScalingKeys[ScalingIndex].mValue, pNodeAnim->mScalingKeys[NextScalingIndex].mValue, Factor);
+
+}
+
+bool fbxModel::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nScalingIndex)
+{
+	nScalingIndex = 0;
+	if (!(pNodeAnim->mNumScalingKeys > 0))
+	{
+		return FALSE;
+	}
+
+	for (UINT i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
+	{
+		// 严格判断时间Tick是否在两个关紒E≈丒
+		if ((AnimationTime >= (float)pNodeAnim->mScalingKeys[i].mTime)
+			&& (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime))
+		{
+			nScalingIndex = i;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+void fbxModel::CalcInterpolatedRotation(AliceMathF::Vector4& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumRotationKeys == 1)
+	{
+		mxOut = pNodeAnim->mRotationKeys[0].mValue;
+		return;
+	}
+
+	UINT RotationIndex = 0;
+	if (!FindRotation(AnimationTime, pNodeAnim, RotationIndex))
+	{
+		mxOut = AliceMathF::Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		return;
+	}
+
+	UINT NextRotationIndex = (RotationIndex + 1);
+	ATLASSERT(NextRotationIndex < pNodeAnim->mNumRotationKeys);
+	float DeltaTime = (float)(pNodeAnim->mRotationKeys[NextRotationIndex].mTime
+		- pNodeAnim->mRotationKeys[RotationIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+
+	AliceMathF::QuaternionSlerp(mxOut
+		, pNodeAnim->mRotationKeys[RotationIndex].mValue
+		, pNodeAnim->mRotationKeys[NextRotationIndex].mValue
+		, Factor);
+
+}
+
+bool fbxModel::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nRotationIndex)
+{
+	nRotationIndex = 0;
+	if (!(pNodeAnim->mNumRotationKeys > 0))
+	{
+		return FALSE;
+	}
+
+	for (UINT i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+	{
+		// 严格判断时间Tick是否在两个关紒E≈丒
+		if ((AnimationTime >= (float)pNodeAnim->mRotationKeys[i].mTime)
+			&& (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime))
+		{
+			nRotationIndex = i;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+void fbxModel::CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumPositionKeys == 1)
+	{
+		mxOut = pNodeAnim->mPositionKeys[0].mValue;
+		return;
+	}
+
+	UINT PositionIndex = 0;
+	if (!FindPosition(AnimationTime, pNodeAnim, PositionIndex))
+	{
+		mxOut = AliceMathF::Vector3( 0.0f, 0.0f, 0.0f );
+		return;
+	}
+
+	UINT NextPositionIndex = (PositionIndex + 1);
+
+	ATLASSERT(NextPositionIndex < pNodeAnim->mNumPositionKeys);
+	float DeltaTime = (float)(pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+
+	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->mPositionKeys[PositionIndex].mValue, pNodeAnim->mPositionKeys[NextPositionIndex].mValue, Factor);
+}
+
+bool fbxModel::FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nPosIndex)
+{
+	nPosIndex = 0;
+	if (!(pNodeAnim->mNumPositionKeys > 0))
+	{
+		return FALSE;
+	}
+
+	for (UINT i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++)
+	{
+		if ((AnimationTime >= (float)pNodeAnim->mPositionKeys[i].mTime)
+			&& (AnimationTime < (float)pNodeAnim->mPositionKeys[i + 1].mTime))
+		{
+			nPosIndex = i;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}

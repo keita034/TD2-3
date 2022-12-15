@@ -178,6 +178,7 @@
     <None Include="Resources\Shaders\2D\Sprite.hlsli" />
     <None Include="Resources\Shaders\3D\Model\Lambert.hlsli" />
     <None Include="Resources\Shaders\3D\Model\ModelBasic.hlsli" />
+    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli" />
     <None Include="Resources\Shaders\3D\Model\Phong.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +283,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\PhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

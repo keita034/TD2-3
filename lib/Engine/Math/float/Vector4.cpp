@@ -20,6 +20,14 @@ namespace AliceMathF
 		w = aiQuaternion.w;
 	}
 
+	Vector4::Vector4(const DirectX::XMVECTOR& vec)
+	{
+		x = vec.m128_f32[0];
+		y = vec.m128_f32[1];
+		z = vec.m128_f32[2];
+		w = vec.m128_f32[3];
+	}
+
 	float Vector4::Length() const
 	{
 		float len = LengthSquared();
