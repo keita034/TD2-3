@@ -327,6 +327,9 @@
     <ClInclude Include="Stage.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="UserCamera.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -364,6 +367,7 @@
     <None Include="Resources\Shaders\2D\RainParticle.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </None>
+    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\2D\SpritePS.hlsl">
@@ -426,6 +430,8 @@
     <FxCompile Include="Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl" />
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp">
@@ -613,6 +619,9 @@
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UserCamera.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
