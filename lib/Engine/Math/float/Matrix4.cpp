@@ -294,19 +294,64 @@ namespace AliceMathF
 		return mat;
 	}
 
-	Matrix4& Matrix4::Transpose()
+	Matrix4 Matrix4::Transpose()
 	{
+		Matrix4 tmp(*this);
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = i; j < 4; j++)
 			{
-				float f = m[i][j];
-				m[i][j] = m[j][i];
-				m[j][i] = f;
+				float f = tmp.m[i][j];
+				tmp.m[i][j] = tmp.m[j][i];
+				tmp.m[j][i] = f;
 			}
 		}
 
-		return *this;
+		return tmp;
+	}
+
+	Matrix4 Matrix4::MatrixMultiply(const Matrix4& mat)
+	{
+		Matrix4 tmp;
+
+		Vector4 vX;
+		Vector4 vY;
+		Vector4 vZ;
+		Vector4 vW;
+
+		Vector4 matR0;
+		Vector4 matR1;
+		Vector4 matR2;
+		Vector4 matR3;
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			vX = { m[i][0],m[i][0],m[i][0],m[i][0] };
+			vY = { m[i][1],m[i][1],m[i][1],m[i][1] };
+			vZ = { m[i][2],m[i][2],m[i][2],m[i][2] };
+			vW = { m[i][3],m[i][3],m[i][3],m[i][3] };
+
+			matR0 = { mat.m[0][0],mat.m[0][1],mat.m[0][2],mat.m[0][3] };
+			matR1 = { mat.m[1][0],mat.m[1][1],mat.m[1][2],mat.m[1][3] };
+			matR2 = { mat.m[2][0],mat.m[2][1],mat.m[2][2],mat.m[2][3] };
+			matR3 = { mat.m[3][0],mat.m[3][1],mat.m[3][2],mat.m[3][3] };
+
+			vX = Vec4MulPs(vX, matR0);
+			vY = Vec4MulPs(vY, matR1);
+			vZ = Vec4MulPs(vZ, matR2);
+			vW = Vec4MulPs(vW, matR3);
+
+			vX = Vec4AddPs(vX, vZ);
+			vY = Vec4AddPs(vY, vW);
+			vX = Vec4AddPs(vX, vY);
+
+			tmp.m[i][0] = vX.x;
+			tmp.m[i][1] = vX.y;
+			tmp.m[i][2] = vX.z;
+			tmp.m[i][3] = vX.w;
+		}
+
+		return tmp;
 	}
 
 	Matrix4& Matrix4::operator=(const Matrix4& _m)
@@ -369,13 +414,15 @@ namespace AliceMathF
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				float f = 0.0f;
+				double f = 0.0;
 				for (int k = 0; k < 4; k++)
 				{
-					f += temp.m[i][k] * mat.m[k][j];
+					f += (double)temp.m[i][k] * (double)mat.m[k][j];
+
+					m[i][j] = (float)f;
 				}
 
-				m[i][j] = f;
+				
 			}
 		}
 		return *this;

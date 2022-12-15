@@ -81,23 +81,26 @@ namespace AliceMathF
 		w = v.w;
 	}
 
-	float Quaternion::Dot(const Quaternion& q)
+	float Quaternion::Dot(const Quaternion& q)const
 	{
 		return w * q.w + x * q.x + y * q.y + z * q.z;
 	}
 
-	float Quaternion::Length()
+	float Quaternion::Length()const
 	{
 		return Sqrt(Dot(*this));
 	}
 
-	Quaternion Quaternion::Normalize()
+	Quaternion Quaternion::Normalize()const
 	{
 		float len = Length();
 
 		if (len != 0)
 		{
-			*this /= len;
+			Quaternion tmp = *this;
+			tmp /= len;
+
+			return tmp;
 		}
 
 		return *this;
@@ -106,7 +109,7 @@ namespace AliceMathF
 	//単項演算子のオーバーロード
 	//単項演算子は特に意味を持たない
 	//(+クォータニオン)
-	Quaternion Quaternion::operator+()const
+	Quaternion Quaternion::operator+()
 	{
 		return *this;
 	}
@@ -161,39 +164,32 @@ namespace AliceMathF
 	}
 	Quaternion Quaternion::Slerp(const Quaternion& q, float t)
 	{
-		float cos = Dot(q);
-		Quaternion t2 = q;
+		
+		Quaternion tmp;
+		float angle = Acos(this->Dot(q));
 
-		if (cos < 0.0f)
+
+		float st = sinf(angle);
+
+		if (st == 0)
 		{
-			cos = -cos;
-			t2 = -q;
+			return *this;
 		}
 
-		float k0 = 1.0f - t;
-		float k1 = t;
+		float sut = sinf(angle * t);
+		float sout = sinf(angle * (1.0f - t));
 
-		if ((1.0f - cos) > 0.001f)
-		{
-			float  theta = (float)acos(cos);
-			k0 = (float)(sin(theta * k0) / sin(theta));
-			k1 = (float)(sin(theta * k1) / sin(theta));
-		}
-		return *this * k0 + t2 * k1;
-	}
-	Quaternion Quaternion::Lerp(const Quaternion& q, float t)
-	{
-		float cos = Dot(q);
-		Quaternion t2 = q;
-		if (cos < 0.0f)
-		{
-			cos = -cos;
-			t2 = -q;
-		}
+		float coeff1 = sout / st;
+		float coeff2 = sut / st;
 
-		float k0 = 1.0f - t;
-		float k1 = t;
-		return *this * k0 + t2 * k1;
+		tmp.x = coeff1 * x + coeff2 * q.x;
+		tmp.y = coeff1 * y + coeff2 * q.y;
+		tmp.z = coeff1 * z + coeff2 * q.z;
+		tmp.w = coeff1 * w + coeff2 * q.w;
+
+		tmp = tmp.Normalize();
+		return tmp;
+
 	}
 	Matrix4 Quaternion::Rotate()
 	{
@@ -205,7 +201,7 @@ namespace AliceMathF
 		float yz = y * z * 2.0f;
 		float wx = w * x * 2.0f;
 		float wy = w * y * 2.0f;
-		float wz = z * z * 2.0f;
+		float wz = w * z * 2.0f;
 			
 		
 		
@@ -274,11 +270,18 @@ namespace AliceMathF
 		result /= s;
 		return result;
 	}
-	void QuaternionSlerp(Vector4& vOut, aiQuaternion& qStart, aiQuaternion& qEnd, float t)
+	void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t)
 	{
-		Quaternion start = Quaternion(qStart);
-		Quaternion end = Quaternion(qEnd);
+		
+		//Quaternion start = Quaternion(qStart);
+		//Quaternion end = Quaternion(qEnd);
+		//
+		//vOut = start.Slerp(end, t).GetElement();
 
-		vOut = start.Slerp(end, t).GetElement();
+		DirectX::XMVECTOR start = { qStart.x, qStart.y ,qStart.z ,qStart.w };
+
+		DirectX::XMVECTOR end = { qEnd.x, qEnd.y ,qEnd.z ,qEnd.w };
+
+		vOut = DirectX::XMQuaternionSlerp(start, end,t);
 	}
 }

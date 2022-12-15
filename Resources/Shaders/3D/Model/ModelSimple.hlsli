@@ -24,7 +24,10 @@ cbuffer cbuff3 : register(b3)
     matrix postureMat;
 };
 
-
+cbuffer cbuff4 : register(b4)
+{
+    matrix boneMat[128];
+};
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
 struct VSOutput
 {

@@ -215,11 +215,13 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のPOSITION
-	{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のNORMAL
-	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float2のTEXCOORD
-	{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
-	{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
+	{ "POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float3のPOSITION
+	{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0   }, // float3のNORMAL
+	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float2のTEXCOORD
+	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
+	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
+	{ "BONEINDEX",	0, DXGI_FORMAT_R32G32B32A32_UINT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  },
+	{ "BONEWEIGHT",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	//ルートシグネチャ設定
@@ -228,6 +230,7 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 4);//b3
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
@@ -297,7 +300,7 @@ void DefaultMaterial::CreateDefaultMeshMaterial()
 	pixelShader->Create("Resources/Shaders/2D/MeshPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//三角形形状用パイプラインセット
-	DEFAULT_MESH_MATERIAL[0].reset(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(),pixelShader.get()));
+	DEFAULT_MESH_MATERIAL[0].reset(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()));
 	DEFAULT_MESH_MATERIAL[1].reset(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ALPHA, vertexShader.get(), pixelShader.get()));
 	DEFAULT_MESH_MATERIAL[2].reset(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ADD, vertexShader.get(), pixelShader.get()));
 	DEFAULT_MESH_MATERIAL[3].reset(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_SUB, vertexShader.get(), pixelShader.get()));
@@ -372,7 +375,7 @@ void DefaultMaterial::CreateDefaultPostEffectMaterial()
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_POST_EFFECT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffectTestPS.hlsl","main","ps_5_0");
+	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffectTestPS.hlsl", "main", "ps_5_0");
 
 	//頂点レイアウト設定
 	DEFAULT_POST_EFFECT_MATERIAL->inputLayouts =
@@ -386,7 +389,7 @@ void DefaultMaterial::CreateDefaultPostEffectMaterial()
 	};
 
 	DEFAULT_POST_EFFECT_MATERIAL->depthFlag = false;
-	
+
 	DEFAULT_POST_EFFECT_MATERIAL->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
 	DEFAULT_POST_EFFECT_MATERIAL->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
 	DEFAULT_POST_EFFECT_MATERIAL->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
@@ -472,7 +475,7 @@ Material* DefaultMaterial::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE 
 	material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 	//生成
 	material->Initialize();
-	
+
 	return material;
 }
 
@@ -548,7 +551,7 @@ Material* DefaultMaterial::CreateDefaultSprite2DBlend(BlendMode mode, Shader* ve
 
 	//生成
 	material->Initialize();
-	
+
 	return material;
 }
 
@@ -576,7 +579,7 @@ Material* DefaultMaterial::CreateDefaultSprite3DBlend(BlendMode mode, Shader* ve
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	};
 
-		material->blenddesc.AlphaToCoverageEnable = true;
+	material->blenddesc.AlphaToCoverageEnable = true;
 
 	switch (mode)
 	{

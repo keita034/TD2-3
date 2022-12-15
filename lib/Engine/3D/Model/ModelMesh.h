@@ -16,7 +16,7 @@
 #pragma warning(push)
 #pragma warning(disable: 5264)
 //ボーンの最大数
-constexpr int MAX_BONES = 32;
+constexpr int MAX_BONES = 128;
 constexpr int MAX_BONE_INDICES = 4;
 #pragma warning(pop)
 
@@ -56,6 +56,8 @@ struct PosNormUvTangeCol
 	AliceMathF::Vector2 uv; // uv座標
 	AliceMathF::Vector3 tangent; // 接空間
 	AliceMathF::Vector4 color; // 頂点色
+	std::array<UINT, MAX_BONE_INDICES> boneIndex;	// ボーンの番号
+	std::array<float, MAX_BONE_INDICES> boneWeight;	// ボーンの重み
 };
 
 struct PosNormSkin
@@ -94,6 +96,12 @@ struct Node
 	AliceMathF::Matrix4 globalTransform;
 	//親ノード
 	Node* parent = nullptr;
+};
+
+struct BoneData
+{
+	//ボーンデータ
+	std::array<AliceMathF::Matrix4, MAX_BONES> boneMat;
 };
 
 //コンピュートシェーダー関連(クラス共通)
@@ -166,6 +174,8 @@ public:
 	std::shared_ptr<IndexBuffer> indexBuffer;
 	//マテリアルバッファ
 	std::shared_ptr<ConstantBuffer> materialBuffer;
+	//ボーン
+	std::shared_ptr<ConstantBuffer> constBoneBuffer;
 
 	//計算シェーダー用頂点データ
 	std::shared_ptr<StructuredBuffer> computeInputBuff;
@@ -177,6 +187,8 @@ public:
 	SkinComputeInput skinComputeInput;
 
 	SkinData skinData;
+
+	BoneData bonedata;
 
 	ModelMesh() = default;
 	~ModelMesh() = default;
@@ -202,35 +214,14 @@ public:
 
 	void BoneTransform(float frame, std::vector<AliceMathF::Matrix4>& transforms, const fbxAnimation* animation, const AliceMathF::Matrix4& inverseTransform);
 
-
+	void FillVertex();
 private:
-
-
-	void ReadNodeHierarchy(float frame, const aiNode* pNode, const aiMatrix4x4 parentTransform, const aiAnimation* animation, const AliceMathF::Matrix4& inverseTransform);
-
-	const aiNodeAnim* FindNodeAnim(const aiAnimation* pAnimation, const std::string pNodeName);
-
-	aiVector3D calcInterpolatedScaling(float frame, const aiNodeAnim* pNodeAnim);
-
-	UINT FindScaling(float frame, const aiNodeAnim* pNodeAnim);
-
-	aiQuaternion CalcInterpolatedRotation(float frame, const aiNodeAnim* pNodeAnim);
-
-	UINT FindRotation(float frame, const aiNodeAnim* pNodeAnim);
-
-	aiVector3D CalcInterpolatedPosition(float frame, const aiNodeAnim* pNodeAnim);
-
-	UINT FindPosition(float frame, const aiNodeAnim* pNodeAnim);
-
-	aiQuaternion Nlerp(aiQuaternion quaternion1, aiQuaternion quaternion2, float t);
-
-
 
 	void GetSkinData(SkinData& data);
 
 	void FillComputeMatrix();
 
-	void FillVertex();
+
 
 	void CopyResource();
 };

@@ -37,6 +37,15 @@ private:
 		aiProcess_JoinIdenticalVertices|//インデックスを生成
 		aiProcess_LimitBoneWeights;//各頂点が影響を受けるボーンを4に制限
 
+	//const UINT ASSIMP_LOAD_FLAG_DEFAULT =
+	//	aiProcess_Triangulate | //三角面化
+	//	aiProcess_GenSmoothNormals | //スムージングベクトル生成
+	//	aiProcess_GenBoundingBoxes | //AABBを生成
+	//	aiProcess_FlipUVs|
+	//	aiProcess_ConvertToLeftHanded|
+	//	aiProcess_JoinIdenticalVertices |//インデックスを生成
+	//	aiProcess_LimitBoneWeights;//各頂点が影響を受けるボーンを4に制限
+
 public:
 	/// <summary>
 	/// シングルトンインスタンスの取得
