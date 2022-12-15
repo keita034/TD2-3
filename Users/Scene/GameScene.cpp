@@ -29,7 +29,7 @@ void GameScene::Initialize()
 	gameCamera_->Initialize(UpdateProjMatrixFunc_Perspective);
 
 	modelHandl = Model::CreateObjModel("Resources/Player");
-	stageModelHandle_ = Model::CreateObjModel("Resources/MainStage");
+	stageModelHandle_ = Model::CreateObjModel("Resources/Stage");
 
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(stageModelHandle_);
