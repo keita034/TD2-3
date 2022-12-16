@@ -37,7 +37,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     m = boneMat[iBone];
     output.svpos += boneWeight * mul(m, pos);
     output.normal += boneWeight * mul((float3x3) m, normal);
-    
+ 
     output.svpos = mul(matWorld, output.svpos);
     
     output.normal = wnormal.xyz;

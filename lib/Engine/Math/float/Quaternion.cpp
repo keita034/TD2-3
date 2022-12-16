@@ -165,7 +165,7 @@ namespace AliceMathF
 	Quaternion Quaternion::Slerp(const Quaternion& q, float t)
 	{
 		
-		Quaternion tmp;
+		/*Quaternion ans;
 		float angle = Acos(this->Dot(q));
 
 
@@ -182,13 +182,27 @@ namespace AliceMathF
 		float coeff1 = sout / st;
 		float coeff2 = sut / st;
 
-		tmp.x = coeff1 * x + coeff2 * q.x;
-		tmp.y = coeff1 * y + coeff2 * q.y;
-		tmp.z = coeff1 * z + coeff2 * q.z;
-		tmp.w = coeff1 * w + coeff2 * q.w;
+		ans.x = coeff1 * x + coeff2 * q.x;
+		ans.y = coeff1 * y + coeff2 * q.y;
+		ans.z = coeff1 * z + coeff2 * q.z;
+		ans.w = coeff1 * w + coeff2 * q.w;
 
-		tmp = tmp.Normalize();
-		return tmp;
+		ans = ans.Normalize();
+		return ans;*/
+
+		Quaternion r;
+		float t_ = 1 - t;
+		float Wa, Wb;
+		float theta = acos(x * q.x + y * q.y + z * q.z + w * q.w);
+		float sn = sin(theta);
+		Wa = sin(t_ * theta) / sn;
+		Wb = sin(t * theta) / sn;
+		r.x = Wa * x + Wb * q.x;
+		r.y = Wa * y + Wb * q.y;
+		r.z = Wa * z + Wb * q.z;
+		r.w = Wa * w + Wb * q.w;
+		r = r.Normalize();
+		return r;
 
 	}
 	Matrix4 Quaternion::Rotate()

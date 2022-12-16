@@ -1,5 +1,6 @@
 #pragma once
 #include"ErrorException.h"
+#include"AliceUtility.h"
 #include"AliceMathUtility.h"
 #include"Camera.h"
 #include"DirectX12Core.h"
@@ -8,7 +9,9 @@
 #include"Material.h"
 #include"ConstantBuffer.h"
 #include"VertexBuffer.h"
+#include"ComputeVertexBuffer.h"
 #include"IndexBuffer.h"
+#include"StructuredBuffer.h"
 
 enum class ModelShape
 {
@@ -43,7 +46,7 @@ public:
 
 	TextureData* textureData;
 	//頂点バッファ
-	std::unique_ptr<VertexBuffer> vertexBuffer;
+	std::unique_ptr<ComputeVertexBuffer> vertexBuffer;
 	//インデックスバッファ
 	std::unique_ptr<IndexBuffer> indexBuffer;
 private:
@@ -70,7 +73,16 @@ public:
 	ModelMaterial modelMaterial{};
 	//定数バッファマテリアル
 	std::unique_ptr<ConstantBuffer> constBuffMaterial;
+	//ポリゴン爆散
 	std::unique_ptr<ConstantBuffer> constBuffVelocity;
+
+	//コンピュートシェーダ入力
+	std::unique_ptr<StructuredBuffer> csInputVer;
+	//コンピュートシェーダ変換
+	std::unique_ptr<StructuredBuffer> csInputBlendVer;
+	//コンピュートシェーダタイム
+	std::unique_ptr<ConstantBuffer> csTime;
+
 	Material* modelMaterialData;
 
 private:
@@ -98,8 +110,11 @@ protected:
 
 	static const uint32_t maxModel = 1024;
 
+	static ComputeRelation computeRelation;
+
 	ModelData* modelData;
 
+	std::vector<ModelData*> blendModels;
 
 
 public:
@@ -130,10 +145,16 @@ public:
 
 	void SetModel(uint32_t modelHandle);
 
+	void SetBlendModel(const std::vector<uint32_t>& models);
+
+	void ClearBlendModel();
+
 	Model() = default;
 	~Model() = default;
 
 	void Draw(Transform* transform, Material* material = nullptr);
+
+	void BlendShapeUpdate(float& t);
 
 	void EffectDraw(Transform* transform, float velocity, Material* material = nullptr);
 

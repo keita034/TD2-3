@@ -78,6 +78,8 @@ private:
 
 	 Material* CreateDefaultSprite3DBlend(BlendMode mode, Shader* vex, Shader* pix);
 
+	 D3D12_BLEND_DESC CreateBlend(BlendMode mode);
+
 	//コピーコンストラクタ・代入演算子削除
 	 DefaultMaterial& operator=(const DefaultMaterial&) = delete;
 	 DefaultMaterial(const DefaultMaterial&) = delete;

@@ -140,7 +140,7 @@ void objModel::Create(const char* filePath, bool smoothing, ModelData* data)
 	data->maxIndex = static_cast<UINT>(data->indices.size());
 
 	//頂点バッファ・インデックス生成
-	data->vertexBuffer = std::make_unique<VertexBuffer>();
+	data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
 	data->vertexBuffer->Create(data->maxVert, sizeof(PosNormalUv));
 
 	data->indexBuffer = std::make_unique<IndexBuffer>();
@@ -152,16 +152,29 @@ void objModel::Create(const char* filePath, bool smoothing, ModelData* data)
 	//インデックスバッファへのデータ転送
 	data->indexBuffer->Update(data->indices.data());
 
+	//マテリアル用定数バッファ生成
 	data->constBuffMaterial = std::make_unique<ConstantBuffer>();
 	data->constBuffMaterial->Create(sizeof(ConstBuffDataMaterial));
 	ConstBuffDataMaterial tmpMaterial = data->modelMaterial.GetConstBuffMaterial();
 	data->constBuffMaterial->Update(&tmpMaterial);
 
+	//ポリゴン爆散用定数バッファ生成
 	data->constBuffVelocity = std::make_unique<ConstantBuffer>();
 	data->constBuffVelocity->Create(sizeof(float));
 	float zero = 0.0f;
 	data->constBuffVelocity->Update(&zero);
 
+	//コンピュートシェーダ用入力バッファ生成
+	data->csInputVer = std::make_unique<StructuredBuffer>();
+	data->csInputVer->Create(data->vertices.size(), sizeof(PosNormalUv));
+
+	//コンピュートシェーダ用ブレンドバッファ生成
+	data->csInputBlendVer = std::make_unique<StructuredBuffer>();
+	data->csInputBlendVer->Create(data->vertices.size(), sizeof(PosNormalUv));
+
+	//コンピュートシェーダ用タイム定数バッファ生成
+	data->csTime = std::make_unique<ConstantBuffer>();
+	data->csTime->Create(sizeof(float));
 }
 
 void objModel::LoadMaterial(const std::string& directoryPath, const std::string& filename,ModelData* data)
