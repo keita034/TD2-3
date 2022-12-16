@@ -36,8 +36,8 @@ void GameScene::Initialize()
 	sprite.reset(Sprite::Create2DSprite(spriteHandle));
 	sprite->SetSize({ (float)WindowsApp::GetWindowsSize().width, (float)WindowsApp::GetWindowsSize().height });
 	//trans.translation = { WindowsApp::GetWindowsSize().width / 2.0f,WindowsApp::GetWindowsSize().height / 2.0f ,0 };
-	trans.translation = { 0,0,0 };
-	//trans.scale = {0.01f,0.01f,0.01f };
+	//trans.translation = { 0,0,0 };
+	trans.scale = {0.01f,0.01f,0.01f };
 	trans.Initialize();
 
 	modelHandle1 = Model::CreateObjModel("Resources/cube2");
@@ -46,10 +46,10 @@ void GameScene::Initialize()
 	model->SetBlendModel({ modelHandle1,modelHandle2 });
 	FbxModel = std::make_unique<fbxModel>();
 	FbxModel->Initialize();
-	FbxModel->Create("Resources/FBX",false,false,true,false);
+	FbxModel->Create("Resources/FoldPlane",false,false,true,false);
 
 	fbxAnim = std::make_unique<fbxAnimation>();
-	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FBX","test");
+	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FoldPlane","test");
 
 	userCamera = new UserCamera(1280, 640);
 
