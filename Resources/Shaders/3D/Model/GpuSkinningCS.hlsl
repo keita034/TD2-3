@@ -1,5 +1,5 @@
 // 頂点データ
-static const int MAX_BONE = 32;
+static const int MAX_BONE = 128;
 
 struct PosNormSkin
 {
@@ -38,25 +38,45 @@ RWStructuredBuffer<OutputData> output : register(u0);
 [numthreads(256, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
 {
-
-    // ゼロクリア
+     // ゼロクリア
     OutputData outputData = (OutputData) 0;
-    
+
+    uint iBone; // 計算するボーンの番号
+    float boneWeight; // ボーンウェイト(重み)
     matrix m; // スキニング行列
 
-    
-    m = input[DTid.x].boneWeight.x * bones[input[DTid.x].boneIndex.x];
-    m += input[DTid.x].boneWeight.y * bones[input[DTid.x].boneIndex.y];
-    m += input[DTid.x].boneWeight.z * bones[input[DTid.x].boneIndex.z];
-    m += input[DTid.x].boneWeight.w * bones[input[DTid.x].boneIndex.w];
-    
     // ボーン0
-    outputData.pos = mul(m, input[DTid.x].pos);
-    outputData.normal = mul((float3x3) m, input[DTid.x].normal);
+    iBone = input[DTid.x].boneIndex.x;
+    boneWeight = input[DTid.x].boneWeight.x;
+    m = bones[iBone];
+    outputData.pos += boneWeight * mul(m, input[DTid.x].pos);
+    outputData.normal += boneWeight * mul((float3x3) m, input[DTid.x].normal);
 
+    // ボーン1
+    iBone = input[DTid.x].boneIndex.y;
+    boneWeight = input[DTid.x].boneWeight.y;
+    m = bones[iBone];
+    outputData.pos += boneWeight * mul(m, input[DTid.x].pos);
+    outputData.normal += boneWeight * mul((float3x3) m, input[DTid.x].normal);
+
+    // ボーン2
+    iBone = input[DTid.x].boneIndex.z;
+    boneWeight = input[DTid.x].boneWeight.z;
+    m = bones[iBone];
+    outputData.pos += boneWeight * mul(m, input[DTid.x].pos);
+    outputData.normal += boneWeight * mul((float3x3) m, input[DTid.x].normal);
+
+    // ボーン3
+    iBone = input[DTid.x].boneIndex.w;
+    boneWeight = input[DTid.x].boneWeight.w;
+    m = bones[iBone];
+    outputData.pos += boneWeight * mul(m, input[DTid.x].pos);
+    outputData.normal += boneWeight * mul((float3x3) m, input[DTid.x].normal);
+ 
     outputData.uv = input[DTid.x].uv;
     outputData.tangent = input[DTid.x].tangent;
     outputData.color = input[DTid.x].color;
+    
     output[DTid.x] = outputData;
 
 }

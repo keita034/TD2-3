@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	postEffect->PostInitialize();
 
 	Model::CommonInitialize();
-
+	fbxModel::CommonInitialize();
 	//‚»‚Ì‘¼‰Šú‰»‚±‚±‚Ü‚Å
 
 	//ƒV[ƒ“‚Ì‰Šú‰»
