@@ -1,5 +1,6 @@
 #pragma once
 #include "ErrorException.h"
+#include"AliceUtility.h"
 #include "Model.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -102,27 +103,6 @@ struct BoneData
 {
 	//ボーンデータ
 	std::array<AliceMathF::Matrix4, MAX_BONES> boneMat;
-};
-
-//コンピュートシェーダー関連(クラス共通)
-struct ComputeRelation
-{
-	ComputeRelation() = default;
-	~ComputeRelation() = default;
-
-	//パイプラインステート
-	std::shared_ptr<ComputePipelineState> computePipelineState;
-	//ルートシグネチャ
-	std::unique_ptr<RootSignature> rootSignature;
-
-	std::unique_ptr<RootSignature> rootSignature1;
-	//シェーダー
-	std::unique_ptr<Shader> computeShader;
-
-private:
-	//コピーコンストラクタ・代入演算子削除
-	ComputeRelation& operator=(const ComputeRelation&) = delete;
-	ComputeRelation(const ComputeRelation&) = delete;
 };
 
 class ModelMesh

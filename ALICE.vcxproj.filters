@@ -318,14 +318,14 @@
     <ClInclude Include="CinemaCamera.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PostEffectManager.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffectManager.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +363,9 @@
     </None>
     <None Include="Resources\Shaders\2D\RainParticle.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
+    </None>
+    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +427,15 @@
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
   </ItemGroup>

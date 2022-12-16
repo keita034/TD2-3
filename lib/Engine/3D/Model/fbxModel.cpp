@@ -137,10 +137,6 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 
 	const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
 
-	DirectX::XMMATRIX tmp100 = AliceMathF::MakeIdentity();
-	DirectX::XMMATRIX tmp101 = AliceMathF::MakeIdentity();
-	DirectX::XMMATRIX tmp102 = AliceMathF::MakeIdentity();
-
 	if (pNodeAnim)
 	{
 		//スケーリング
@@ -161,23 +157,10 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 		mxTranslationM.MakeTranslation(vTranslation);
 
 		mxNodeTransformation = mxScaling.MatrixMultiply(mxRotationM).MatrixMultiply(mxTranslationM);
-
-		tmp100 = mxScaling;
-		tmp101 = mxRotationM;
-		tmp102 = mxTranslationM;
-
-
 	}
 
 	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation.MatrixMultiply(mxParentTransform);
 
-	DirectX::XMMATRIX tmp;
-	DirectX::XMMATRIX tmp2;
-	DirectX::XMMATRIX tmp3 = tmp100 * tmp101 * tmp102;
-	DirectX::XMMATRIX tmp4;
-	DirectX::XMMATRIX tmp5 = globalInverseTransform;
-
-	UINT nBoneIndex = 0;
 	AliceMathF::Matrix4 offsetMatirx;
 	AliceMathF::Matrix4 matirx;
 	if (mesh->bones.find(strNodeName) != mesh->bones.end())
@@ -189,10 +172,6 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 			MatrixMultiply(globalInverseTransform);
 
 		mesh->bones[strNodeName].matrix = matirx;
-
-		tmp = offsetMatirx;
-		tmp2 = tmp3 * mxParentTransform;
-		tmp4 = tmp * tmp2 * tmp5;
 
 	}
 
@@ -254,7 +233,6 @@ bool fbxModel::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, UIN
 
 	for (UINT i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
 	{
-		// ﾑﾏｸﾐｶﾏﾊｱｼ腟ickﾊﾇｷﾚﾁｽｸﾘｼ・｡ﾖｮｼ・
 		if ((AnimationTime >= (float)pNodeAnim->mScalingKeys[i].mTime)
 			&& (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime))
 		{

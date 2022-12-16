@@ -234,6 +234,12 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+	DEFAULT_FBX_MATERIAL->blenddesc.AlphaToCoverageEnable = true;
+
+	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+
 	//生成
 	DEFAULT_FBX_MATERIAL->Initialize();
 }
@@ -631,4 +637,50 @@ Material* DefaultMaterial::CreateDefaultSprite3DBlend(BlendMode mode, Shader* ve
 	material->Initialize();
 
 	return material;
+}
+
+D3D12_BLEND_DESC DefaultMaterial::CreateBlend(BlendMode mode)
+{
+	D3D12_BLEND_DESC blend = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+
+	switch (mode)
+	{
+	case BlendMode::AX_BLENDMODE_NOBLEND:
+
+		break;
+	case BlendMode::AX_BLENDMODE_ALPHA:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+		break;
+	case BlendMode::AX_BLENDMODE_ADD:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		break;
+	case BlendMode::AX_BLENDMODE_SUB:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;// デストからソースを減算
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		break;
+	case BlendMode::AX_BLENDMODE_MULA:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+		break;
+	case BlendMode::AX_BLENDMODE_INVSRC:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;// 1.0f-デストカラーの値
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;// 使わない
+		break;
+	case BlendMode::AX_BLENDMODE_MAX:
+		break;
+	case BlendMode::AX_BLENDMODE_CUSTOM:
+		break;
+	default:
+		break;
+	}
+
+	return blend;
 }
