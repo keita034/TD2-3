@@ -23,6 +23,9 @@
 #include"Model.h"
 #include "CinemaCamera.h"
 
+#include "Stage.h"
+#include"Player.h"
+
 class GameScene
 {
 private:
@@ -35,23 +38,17 @@ private:
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
 
 	std::unique_ptr<CinemaCamera> camera;
-
-	uint32_t modelHandle = 0u;
+	std::unique_ptr<GameCamera> gameCamera_;
 
 	std::unique_ptr<Model> model;
+	uint32_t modelHandl;
+	Transform modelTrans;
 
-	std::unique_ptr<fbxModel> FbxModel;
+	std::unique_ptr<Stage> stage_;
+	uint32_t stageModelHandle_;
+	Transform stageModelTrans_;
 
-	std::unique_ptr<fbxAnimation> fbxAnim;
-
-	Transform trans;
-
-	std::unique_ptr<Sprite2D> sprite;
-	uint32_t spriteHandle = 0u;
-
-	float lns = 70.0f;
-
-	float fram = 0.0f;
+	Player* player_ = nullptr;
 
 public:
 
@@ -72,9 +69,6 @@ public:
 	/// ï`âÊ
 	/// </summary>
 	void Draw();
-
-	//ÉQÉbÉ^Å[
-	static GameScene* GetInstance();
 
 private:
 

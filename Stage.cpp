@@ -14,7 +14,8 @@ void Stage::Initialize(uint32_t& model)
 	// ワールド変換データの初期化
 	mainStageTrans_.Initialize();
 	// スケール
-	mainStageTrans_.scale = { 10.0f,1.0f,10.0f };
+	mainStageTrans_.scale = { 10.0f,10.0f,10.0f };
+	mainStageTrans_.translation = { 0.0f,-10.0f,0.0f };
 }
 
 void Stage::InitializeFold(uint32_t& model)

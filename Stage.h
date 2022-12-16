@@ -39,5 +39,4 @@ public:
 	/// ô‚ŞŠî–{“®ì
 	/// </summary>
 	void InitializeFold(uint32_t& model);
-
 };

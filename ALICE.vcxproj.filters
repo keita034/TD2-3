@@ -318,14 +318,17 @@
     <ClInclude Include="CinemaCamera.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
+    <ClInclude Include="PostEffectManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PostEffectManager.h">
-      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
+    <ClInclude Include="Stage.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="UserCamera.h">
+      <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,9 +367,7 @@
     <None Include="Resources\Shaders\2D\RainParticle.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </None>
-    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli">
-      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
-    </None>
+    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\2D\SpritePS.hlsl">
@@ -429,15 +430,8 @@
     <FxCompile Include="Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
-    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl" />
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp">
@@ -621,10 +615,13 @@
     <ClCompile Include="PostEffectManager.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UserCamera.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
