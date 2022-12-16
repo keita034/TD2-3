@@ -78,42 +78,16 @@ void ModelMesh::CreateBuffer()
 		vertice[i].uv = vertices[i].uv;
 		vertice[i].tangent = vertices[i].tangent;
 		vertice[i].color = vertices[i].color;
-
-		for (size_t j = 0; j < vertice[i].boneIndex.size(); j++)
-		{
-			vertice[i].boneIndex[j] = vertices[i].boneIndex[j];
-			vertice[i].boneWeight[j] = vertices[i].boneWeight[j];
-		}
 	}
 
 	vertexBuffer->Update(vertice.data());
 }
 
-void ModelMesh::UpdateBoneMatrix(Node* aiNode, AliceMathF::Matrix4 matrix)
-{
-	static_cast<void>(aiNode);
-	static_cast<void>(matrix);
-
-}
-
-void ModelMesh::FillComputeMatrix()
-{
-
-}
-
 void ModelMesh::FillVertex()
 {
-	//GetSkinData(skinData);
-	/*skinComputeInput.bone.bones.resize(vecBones.size());
 
-	for (size_t i = 0; i < vecBones.size(); i++)
-	{
-		skinComputeInput.bone.bones[i] = vecBones[i].matrix;
-	}
 
-	boneBuffer->Update(skinComputeInput.bone.bones.data());
-
-	computeInputBuff->Update(vertices.data());*/
+	computeInputBuff->Update(vertices.data());
 
 	BoneData data;
 	
@@ -125,34 +99,6 @@ void ModelMesh::FillVertex()
 	constBoneBuffer->Update(data.boneMat.data());
 }
 
-void ModelMesh::BoneTransform(float frame, std::vector<AliceMathF::Matrix4>& transforms,const fbxAnimation* animation, const AliceMathF::Matrix4& inverseTransform)
-{
-
-}
-
-void ModelMesh::GetSkinData(SkinData& data)
-{
-
-	size_t i = 0;
-
-	for (auto itr = bones.begin(); itr != bones.end(); ++itr)
-	{
-
-		if (32 <= i)
-		{
-			return;
-		}
-
-		data.bones[i] = itr->second.matrix;
-
-		i++;
-	}
-}
-
-void ModelMesh::CopyResource()
-{
-	
-}
 void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, Light* light)
 {
 	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
@@ -163,7 +109,6 @@ void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, L
 		// 定数バッファビュー(CBV)の設定コマンド
 		cmdList->SetGraphicsRootConstantBufferView(0, transform->GetconstBuff()->GetGPUVirtualAddress());
 		cmdList->SetGraphicsRootConstantBufferView(1, materialBuffer->GetAddress());
-		cmdList->SetGraphicsRootConstantBufferView(4, constBoneBuffer->GetAddress());
 		light->SetConstBufferView(cmdList, 2);
 
 		// 頂点バッファビューの設定コマンド
@@ -176,7 +121,7 @@ void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, L
 		cmdList->SetDescriptorHeaps(1, texture->srvHeap.GetAddressOf());
 
 		// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
-		cmdList->SetGraphicsRootDescriptorTable(5, texture->gpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(4, texture->gpuHandle);
 
 		// 描画コマンド
 		cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
@@ -186,30 +131,9 @@ void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, L
 	}
 }
 
-void ModelMesh::UpdateBoneMatrix(aiNode* aiNode, AliceMathF::Matrix4 matrix)
+void ModelMesh::Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandList* cmdList)
 {
-	Bone* bone = &bones[aiNode->mName.C_Str()];
-
-	AliceMathF::Matrix4 world;
-	world = matrix;
-	world *= bone->animationMatrix;
-
-	bone->matrix = world;
-	bone->matrix *= bone->offsetMatirx;
-
-	for (unsigned int n = 0; n < aiNode->mNumChildren; n++)
-	{
-		UpdateBoneMatrix(aiNode->mChildren[n], world);
-	}
-}
-
-void ModelMesh::Update(ComputeRelation* computeRelation)
-{
-	FillComputeMatrix();
-
 	FillVertex();
-
-	ID3D12GraphicsCommandList* cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
 	//デスクプリタヒープをセット
 	ID3D12DescriptorHeap* descriptorHeaps[] = {
@@ -222,13 +146,11 @@ void ModelMesh::Update(ComputeRelation* computeRelation)
 	cmdList->SetPipelineState(computeRelation->computePipelineState->GetPipelineState());
 
 	cmdList->SetComputeRootDescriptorTable(0, computeInputBuff->GetAddress());
-	cmdList->SetComputeRootConstantBufferView(1, boneBuffer->GetAddress());
+	cmdList->SetComputeRootConstantBufferView(1, constBoneBuffer->GetAddress());
 
 	cmdList->SetComputeRootDescriptorTable(2, vertexBuffer->GetAddress());
 
-	cmdList->Dispatch(256, 1, 1);
-
-	CopyResource();
+	cmdList->Dispatch(vertices.size() / 256 + 1, 1, 1);
 }
 
 void  ModelMesh::DrawBgin()

@@ -40,9 +40,11 @@ private:
 	AliceMathF::Matrix4 globalInverseTransform;
 	char PADING[4]{};
 
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
+	static Microsoft::WRL::ComPtr<ID3D12Device> device;
+	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
 	Material* modelMaterialData;
+
+	bool animeFlag = false;
 
 public:
 
@@ -60,6 +62,8 @@ public:
 	/// </summary>
 	/// <param name="filePath">オブジェクトまでのファイルパス</param>
 	void Create(const char* filePath, bool smoothing, bool inverseU = false, bool inverseV = false, bool animeFlag = false);
+
+	static void CommonInitialize();
 
 private:
 
