@@ -22,6 +22,7 @@
 #include"FbxLoader.h"
 #include"Model.h"
 #include "CinemaCamera.h"
+#include"UserCamera.h"
 
 class GameScene
 {
@@ -55,6 +56,8 @@ private:
 	float lns = 70.0f;
 
 	float fram = 0.0f;
+
+	UserCamera* userCamera = nullptr;
 
 public:
 

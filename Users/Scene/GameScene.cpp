@@ -50,6 +50,9 @@ void GameScene::Initialize()
 
 	fbxAnim = std::make_unique<fbxAnimation>();
 	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FBX","test");
+
+	userCamera = new UserCamera(1280, 640);
+
 }
 
 void GameScene::Update()
@@ -111,6 +114,10 @@ void GameScene::Update()
 	}
 
 	camera->MovePosition(move);
+
+	userCamera->Update();
+	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
+	camera->SetUp(userCamera->GetUp());
 
 	trans.TransUpdate(camera.get());
 
