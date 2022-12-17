@@ -59,7 +59,7 @@ void GameScene::Update()
 {
 	AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
 
-	fram += 0.03f;
+	fram += 0.02f;
 	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
 	//model->BlendShapeUpdate(fram);
 
