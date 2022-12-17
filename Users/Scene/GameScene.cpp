@@ -46,10 +46,10 @@ void GameScene::Initialize()
 	model->SetBlendModel({ modelHandle1,modelHandle2 });
 	FbxModel = std::make_unique<fbxModel>();
 	FbxModel->Initialize();
-	FbxModel->Create("Resources/FoldPlane",false,false,true,false);
+	FbxModel->Create("Resources/FoldBox",false,false,true,false);
 
 	fbxAnim = std::make_unique<fbxAnimation>();
-	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FoldPlane","test");
+	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FoldBox","test");
 
 	userCamera = new UserCamera(1280, 640);
 
