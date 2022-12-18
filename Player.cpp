@@ -20,6 +20,7 @@ void Player::Update(Camera* camera) {
 
 	PlayerJump();
 	PlayerMove();
+	
 	worldTransform_.TransUpdate(camera);
 }
 

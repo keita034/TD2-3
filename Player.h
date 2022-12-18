@@ -41,6 +41,9 @@ public:
 	/// </summary>
 	void PlayerMove();
 
+
+	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
+
 private:
 
 	Transform worldTransform_;

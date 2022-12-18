@@ -51,6 +51,8 @@ void GameScene::Initialize()
 	fbxAnim = std::make_unique<fbxAnimation>();
 	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FBX","test");
 
+	player = new Player(modelHandle1);
+	player->Initialise();
 	userCamera = new UserCamera(1280, 640);
 
 }
@@ -61,6 +63,7 @@ void GameScene::Update()
 
 	fram += 0.03f;
 	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
+	player->Update(camera.get());
 	//model->BlendShapeUpdate(fram);
 
 	if (input->KeepPush(DIK_W))
@@ -115,9 +118,26 @@ void GameScene::Update()
 
 	camera->MovePosition(move);
 
+	if (input->TriggerPush(DIK_SPACE)) {
+		if (cameraType == 0) {
+			cameraType = 1;
+		}
+		else {
+			cameraType = 0;
+		}
+	}
+
+	userCamera->SetCameraType(cameraType);
+	userCamera->SetCameraPosition(player->GetPlayerPos());
 	userCamera->Update();
-	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
-	camera->SetUp(userCamera->GetUp());
+	if (cameraType == 0) {
+		camera->SetEye(camera->GetTarget() + userCamera->GetEye());
+		camera->SetUp(userCamera->GetUp());
+	}
+	else {
+		camera->SetEye(userCamera->GetEye());
+		camera->SetTarget(userCamera->GetTarget());
+	}
 
 	trans.TransUpdate(camera.get());
 
@@ -140,6 +160,9 @@ void GameScene::Draw()
 	//model->Draw(&trans);
 
 	//sprite->Draw(trans);
+
+	player->Draw();
+
 }
 
 GameScene* GameScene::GetInstance()

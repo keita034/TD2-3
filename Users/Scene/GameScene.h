@@ -23,6 +23,7 @@
 #include"Model.h"
 #include "CinemaCamera.h"
 #include"UserCamera.h"
+#include"Player.h"
 
 class GameScene
 {
@@ -53,11 +54,14 @@ private:
 	uint32_t modelHandle1 = 0u;
 	uint32_t modelHandle2 = 0u;
 
+	Player* player = nullptr;
+
 	float lns = 70.0f;
 
 	float fram = 0.0f;
 
 	UserCamera* userCamera = nullptr;
+	int cameraType = 0;
 
 public:
 

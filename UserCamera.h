@@ -3,6 +3,7 @@
 #include "Matrix4.h"
 #include"Vector2.h"
 #include"Input.h"
+#include "Transform.h"
 
 class UserCamera {
 
@@ -14,12 +15,20 @@ public:
 
 	void Update();
 
+	void MouseRotation();
+
+	void LabyrinthCamera();
+
 	void MultiplyMatrix(const AliceMathF::Matrix4& matrix);
 
 	AliceMathF::Vector3 Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m);
 
 	AliceMathF::Vector3 GetEye() { return vTargetEye; }
 	AliceMathF::Vector3 GetUp() { return vUp; }
+	AliceMathF::Vector3 GetTarget() { return target; }
+
+	void SetCameraType(int x) { cameraType = x; }
+	void SetCameraPosition(AliceMathF::Vector3 pos) { playerPos = pos; }
 
 private:
 	// ÉJÉÅÉâíçéãì_Ç‹Ç≈ÇÃãóó£
@@ -37,7 +46,15 @@ private:
 
 	AliceMathF::Vector3 vTargetEye;
 	AliceMathF::Vector3 vUp;
+	AliceMathF::Vector3 playerPos;
+	AliceMathF::Vector3 target;
 
+	int cameraType = 0;
 
+	int winWidth = 0;
+	int winHeight = 0;
+	AliceMathF::Vector2 MouseMove;
+	AliceMathF::Vector2 mouseMoved;
+	Transform worldTransform_;
 
 };
