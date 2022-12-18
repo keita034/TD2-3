@@ -22,9 +22,7 @@
 #include"FbxLoader.h"
 #include"Model.h"
 #include "CinemaCamera.h"
-
-#include "Stage.h"
-#include"Player.h"
+#include"UserCamera.h"
 
 class GameScene
 {
@@ -38,17 +36,28 @@ private:
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
 
 	std::unique_ptr<CinemaCamera> camera;
-	std::unique_ptr<GameCamera> gameCamera_;
+
+	uint32_t modelHandle = 0u;
 
 	std::unique_ptr<Model> model;
-	uint32_t modelHandl;
-	Transform modelTrans;
 
-	std::unique_ptr<Stage> stage_;
-	uint32_t stageModelHandle_;
-	Transform stageModelTrans_;
+	std::unique_ptr<fbxModel> FbxModel;
 
-	Player* player_ = nullptr;
+	std::unique_ptr<fbxAnimation> fbxAnim;
+
+	Transform trans;
+
+	std::unique_ptr<Sprite2D> sprite;
+	uint32_t spriteHandle = 0u;
+
+	uint32_t modelHandle1 = 0u;
+	uint32_t modelHandle2 = 0u;
+
+	float lns = 70.0f;
+
+	float fram = 0.0f;
+
+	UserCamera* userCamera = nullptr;
 
 public:
 
@@ -69,6 +78,9 @@ public:
 	/// ï`âÊ
 	/// </summary>
 	void Draw();
+
+	//ÉQÉbÉ^Å[
+	static GameScene* GetInstance();
 
 private:
 

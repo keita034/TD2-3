@@ -2,13 +2,11 @@
 #include"FbxLoader.h"
 
 std::shared_ptr<ComputeRelation> fbxModel::computeRelation;
-
+Microsoft::WRL::ComPtr<ID3D12Device> fbxModel::device;
+Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> fbxModel::cmdList;
 
 void fbxModel::Initialize()
 {
-	device = DirectX12Core::GetInstance()->GetDevice();
-	cmdList = DirectX12Core::GetInstance()->GetCommandList();
-
 	postureMatBuff = std::make_unique<ConstantBuffer>();
 
 	postureMatBuff->Create(sizeof(AliceMathF::Matrix4));
@@ -39,18 +37,31 @@ void fbxModel::Draw(Transform* transform, Material* material)
 		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
 		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		if (meshes[i].node)
+		if (animeFlag)
 		{
-			postureMatBuff->Update(&meshes[i].node->globalTransform);
+			AliceMathF::Matrix4 identity = AliceMathF::MakeIdentity();
+			postureMatBuff->Update(&identity);
 		}
+		else
+		{
+			if (meshes[i].node)
+			{
+				postureMatBuff->Update(&meshes[i].node->globalTransform);
+			}
+		}
+
 
 		cmdList->SetGraphicsRootConstantBufferView(3, postureMatBuff->GetAddress());
 		meshes[i].Draw(cmdList.Get(), transform, light);
 	}
+
+	animeFlag = false;
 }
 
 void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 {
+	animeFlag = true;
+
 	AliceMathF::Matrix4 mxIdentity = AliceMathF::MakeIdentity();
 	aiNode* pNode = mScene->mRootNode;
 	aiAnimation* pAnimation = animation->mAnimation->mAnimations[0];
@@ -73,7 +84,7 @@ void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name].matrix;
 		}
 
-		mesh.FillVertex();
+		mesh.Update(computeRelation.get(), cmdList.Get());
 	}
 
 
@@ -90,39 +101,40 @@ void fbxModel::Create(const char* filePath, bool smoothing, bool inverseU, bool 
 	{
 		meshes[i].CreateBuffer();
 	}
+}
 
-	//計算シェーダー初期化
-	//クラス共通で一回しか初期化しない
-	if (!computeRelation)
-	{
-		//初期化
-		computeRelation = std::make_shared<ComputeRelation>();
+void fbxModel::CommonInitialize()
+{
+	device = DirectX12Core::GetInstance()->GetDevice();
+	cmdList = DirectX12Core::GetInstance()->GetCommandList();
 
-		//ルートシグネチャの初期化
-		computeRelation->rootSignature = std::make_unique<RootSignature>();
-		//ComputeShader用
-		computeRelation->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	//初期化
+	computeRelation = std::make_shared<ComputeRelation>();
 
-		computeRelation->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-		//計算された頂点データ用
-		computeRelation->rootSignature->Add(RootSignature::RangeType::UAV, 0);//u0
-		//生成
-		computeRelation->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+	//ルートシグネチャの初期化
+	computeRelation->rootSignature = std::make_unique<RootSignature>();
+	//ComputeShader用
+	computeRelation->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 
-		//シェーダーの初期化
-		computeRelation->computeShader = std::make_unique<Shader>();
-		//シェーダー読み込み
-		computeRelation->computeShader->Create("Resources/Shaders/3D/Model/GpuSkinningCS.hlsl", "main", "cs_5_0", Shader::ShaderType::CS);
+	computeRelation->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+	//計算された頂点データ用
+	computeRelation->rootSignature->Add(RootSignature::RangeType::UAV, 0);//u0
+	//生成
+	computeRelation->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
-		//パイプラインステート初期化
-		computeRelation->computePipelineState = std::make_shared<ComputePipelineState>();
-		//シェーダーをセット
-		computeRelation->computePipelineState->SetShader(*computeRelation->computeShader->GetShader());
-		//ルートシグネチャのセット
-		computeRelation->computePipelineState->SetRootSignature(computeRelation->rootSignature.get());
-		//パイプラインステートの生成
-		computeRelation->computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
-	}
+	//シェーダーの初期化
+	computeRelation->computeShader = std::make_unique<Shader>();
+	//シェーダー読み込み
+	computeRelation->computeShader->Create("Resources/Shaders/3D/Model/GpuSkinningCS.hlsl", "main", "cs_5_0", Shader::ShaderType::CS);
+
+	//パイプラインステート初期化
+	computeRelation->computePipelineState = std::make_shared<ComputePipelineState>();
+	//シェーダーをセット
+	computeRelation->computePipelineState->SetShader(*computeRelation->computeShader->GetShader());
+	//ルートシグネチャのセット
+	computeRelation->computePipelineState->SetRootSignature(computeRelation->rootSignature.get());
+	//パイプラインステートの生成
+	computeRelation->computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 }
 
 void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
@@ -136,10 +148,6 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 	std::string strNodeName(pNode->mName.data);
 
 	const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
-
-	DirectX::XMMATRIX tmp100 = AliceMathF::MakeIdentity();
-	DirectX::XMMATRIX tmp101 = AliceMathF::MakeIdentity();
-	DirectX::XMMATRIX tmp102 = AliceMathF::MakeIdentity();
 
 	if (pNodeAnim)
 	{
@@ -161,23 +169,10 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 		mxTranslationM.MakeTranslation(vTranslation);
 
 		mxNodeTransformation = mxScaling.MatrixMultiply(mxRotationM).MatrixMultiply(mxTranslationM);
-
-		tmp100 = mxScaling;
-		tmp101 = mxRotationM;
-		tmp102 = mxTranslationM;
-
-
 	}
 
 	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation.MatrixMultiply(mxParentTransform);
 
-	DirectX::XMMATRIX tmp;
-	DirectX::XMMATRIX tmp2;
-	DirectX::XMMATRIX tmp3 = tmp100 * tmp101 * tmp102;
-	DirectX::XMMATRIX tmp4;
-	DirectX::XMMATRIX tmp5 = globalInverseTransform;
-
-	UINT nBoneIndex = 0;
 	AliceMathF::Matrix4 offsetMatirx;
 	AliceMathF::Matrix4 matirx;
 	if (mesh->bones.find(strNodeName) != mesh->bones.end())
@@ -189,10 +184,6 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 			MatrixMultiply(globalInverseTransform);
 
 		mesh->bones[strNodeName].matrix = matirx;
-
-		tmp = offsetMatirx;
-		tmp2 = tmp3 * mxParentTransform;
-		tmp4 = tmp * tmp2 * tmp5;
 
 	}
 
@@ -254,7 +245,6 @@ bool fbxModel::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, UIN
 
 	for (UINT i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
 	{
-		// ﾑﾏｸﾐｶﾏﾊｱｼ腟ickﾊﾇｷﾚﾁｽｸﾘｼ・｡ﾖｮｼ・
 		if ((AnimationTime >= (float)pNodeAnim->mScalingKeys[i].mTime)
 			&& (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime))
 		{

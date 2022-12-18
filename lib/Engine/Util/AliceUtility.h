@@ -3,6 +3,9 @@
 #include"AliceMathUtility.h"
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
+#include"ComputePipelineState.h"
+#include"RootSignature.h"
+#include"Shader.h"
 
 struct TextureData
 {
@@ -179,4 +182,25 @@ enum class BlendMode
 	AX_BLENDMODE_MAX,//ブレンド種類数
 
 	AX_BLENDMODE_CUSTOM = -1,
+};
+
+//コンピュートシェーダー関連(クラス共通)
+struct ComputeRelation
+{
+	ComputeRelation() = default;
+	~ComputeRelation() = default;
+
+	//パイプラインステート
+	std::shared_ptr<ComputePipelineState> computePipelineState;
+	//ルートシグネチャ
+	std::unique_ptr<RootSignature> rootSignature;
+
+	std::unique_ptr<RootSignature> rootSignature1;
+	//シェーダー
+	std::unique_ptr<Shader> computeShader;
+
+private:
+	//コピーコンストラクタ・代入演算子削除
+	ComputeRelation& operator=(const ComputeRelation&) = delete;
+	ComputeRelation(const ComputeRelation&) = delete;
 };

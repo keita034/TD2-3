@@ -56,13 +56,15 @@ void FbxLoader::LoadModel(fbxModel* model, const std::string& modelDirectory, bo
 	{
 		assert(0);
 	}
-
-	UINT32 nodeNum = 0;
-	GetNodeNum(model->mScene->mRootNode, nodeNum);
-	model->nodes.reserve(nodeNum);
-	model->globalInverseTransform = model->mScene->mRootNode->mTransformation.Transpose();
-	// ルートノードから順に解析してモデルに流し込む
-	PraseNodeRecurive(model, model->mScene->mRootNode);
+	else
+	{
+		UINT32 nodeNum = 0;
+		GetNodeNum(model->mScene->mRootNode, nodeNum);
+		model->nodes.reserve(nodeNum);
+		model->globalInverseTransform = model->mScene->mRootNode->mTransformation.Transpose();
+		// ルートノードから順に解析してモデルに流し込む
+		PraseNodeRecurive(model, model->mScene->mRootNode);
+	}
 
 	//PrintModelData(model);
 }
@@ -327,14 +329,6 @@ void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 		//頂点のウェイトから最も大きい4つを選択
 		auto& weightList = weightLists[j];
 
-		////大証皮革用のラムダ式を指定して降順にソート
-		//weightList.sort(
-		//	[](auto const& lhs, auto const& rhs)
-		//	{
-		//		//左の要素の方が大きければrue、そうでなければfalse
-		//		return lhs.weight > rhs.weight;
-		//	});
-
 		size_t weightArrayIndex = 0;
 		//降順ソート済みのウェイトリストから
 
@@ -347,15 +341,6 @@ void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 			//4つに達したら修了
 			if (++weightArrayIndex >= MAX_BONE_INDICES)
 			{
-				float weight = 0.0f;
-				//2番目以降のウェイトを合計
-				for (size_t k = 0; k < MAX_BONE_INDICES; k++)
-				{
-					weight += vertices[j].boneWeight[k];
-				}
-
-				//合計で1.0f(100%)になるように調整
-				//vertices[j].boneWeight[0] += 1.0f - weight;
 				break;
 			}
 

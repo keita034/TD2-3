@@ -98,7 +98,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CinemaCamera.h" />
     <ClInclude Include="lib\Engine\2D\Button.h" />
     <ClInclude Include="lib\Engine\2D\Cursor.h" />
     <ClInclude Include="lib\Engine\2D\Mesh.h" />
@@ -107,6 +106,7 @@
     <ClInclude Include="lib\Engine\2D\Particle\ParticleEmitter.h" />
     <ClInclude Include="lib\Engine\2D\Particle\RainParticle.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\PostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h" />
     <ClInclude Include="lib\Engine\2D\Sprite\Sprite.h" />
     <ClInclude Include="lib\Engine\2D\Sprite\Sprite2D.h" />
     <ClInclude Include="lib\Engine\2D\Sprite\Sprite3D.h" />
@@ -121,6 +121,7 @@
     <ClInclude Include="lib\Engine\3D\Transform.h" />
     <ClInclude Include="lib\Engine\Audio\AudioManager.h" />
     <ClInclude Include="lib\Engine\Camera\Camera.h" />
+    <ClInclude Include="lib\Engine\Camera\CinemaCamera.h" />
     <ClInclude Include="lib\Engine\Collision\Collision.h" />
     <ClInclude Include="lib\Engine\Collision\CollisionPrimitive.h" />
     <ClInclude Include="lib\Engine\Core\ComputePipelineState.h" />
@@ -158,9 +159,9 @@
     <ClInclude Include="lib\Engine\Util\AliceFunctionUtility.h" />
     <ClInclude Include="lib\Engine\Util\AliceUtility.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="UserCamera.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +255,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
@@ -287,10 +294,14 @@
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\PhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -312,7 +323,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CinemaCamera.cpp" />
     <ClCompile Include="lib\Engine\2D\Button.cpp" />
     <ClCompile Include="lib\Engine\2D\Cursor.cpp" />
     <ClCompile Include="lib\Engine\2D\Mesh.cpp" />
@@ -321,6 +331,7 @@
     <ClCompile Include="lib\Engine\2D\Particle\ParticleEmitter.cpp" />
     <ClCompile Include="lib\Engine\2D\Particle\RainParticle.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\PostEffect.cpp" />
+    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectManager.cpp" />
     <ClCompile Include="lib\Engine\2D\Sprite\Sprite.cpp" />
     <ClCompile Include="lib\Engine\2D\Sprite\Sprite2D.cpp" />
     <ClCompile Include="lib\Engine\2D\Sprite\Sprite3D.cpp" />
@@ -335,6 +346,7 @@
     <ClCompile Include="lib\Engine\3D\Transform.cpp" />
     <ClCompile Include="lib\Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="lib\Engine\Camera\Camera.cpp" />
+    <ClCompile Include="lib\Engine\Camera\CinemaCamera.cpp" />
     <ClCompile Include="lib\Engine\Collision\Collision.cpp" />
     <ClCompile Include="lib\Engine\Collision\CollisionPrimitive.cpp" />
     <ClCompile Include="lib\Engine\Core\ComputePipelineState.cpp" />
@@ -372,8 +384,8 @@
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="UserCamera.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

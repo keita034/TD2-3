@@ -220,8 +220,6 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float2のTEXCOORD
 	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
-	{ "BONEINDEX",	0, DXGI_FORMAT_R32G32B32A32_UINT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  },
-	{ "BONEWEIGHT",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	//ルートシグネチャ設定
@@ -230,10 +228,14 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 4);//b3
 	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+
+	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+
 	//生成
 	DEFAULT_FBX_MATERIAL->Initialize();
 }
@@ -631,4 +633,64 @@ Material* DefaultMaterial::CreateDefaultSprite3DBlend(BlendMode mode, Shader* ve
 	material->Initialize();
 
 	return material;
+}
+
+D3D12_BLEND_DESC DefaultMaterial::CreateBlend(BlendMode mode)
+{
+	D3D12_BLEND_DESC blend = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+
+	switch (mode)
+	{
+	case BlendMode::AX_BLENDMODE_NOBLEND:
+
+		break;
+	case BlendMode::AX_BLENDMODE_ALPHA:
+		blend.AlphaToCoverageEnable = true;
+		blend.IndependentBlendEnable = false;
+		for (int i = 0; i < _countof(blend.RenderTarget); ++i)
+		{
+			//見やすくするため変数化
+			auto rt = blend.RenderTarget[i];
+			rt.BlendEnable = true;
+			rt.LogicOpEnable = false;
+			rt.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+			rt.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+			rt.BlendOp = D3D12_BLEND_OP_ADD;
+			rt.SrcBlendAlpha = D3D12_BLEND_SRC_ALPHA;
+			rt.DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
+			rt.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+			rt.LogicOp = D3D12_LOGIC_OP_NOOP;
+			rt.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		}
+		break;
+	case BlendMode::AX_BLENDMODE_ADD:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		break;
+	case BlendMode::AX_BLENDMODE_SUB:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;// デストからソースを減算
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		break;
+	case BlendMode::AX_BLENDMODE_MULA:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+		break;
+	case BlendMode::AX_BLENDMODE_INVSRC:
+		blend.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		blend.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;// 1.0f-デストカラーの値
+		blend.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;// 使わない
+		break;
+	case BlendMode::AX_BLENDMODE_MAX:
+		break;
+	case BlendMode::AX_BLENDMODE_CUSTOM:
+		break;
+	default:
+		break;
+	}
+
+	return blend;
 }

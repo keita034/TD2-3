@@ -11,7 +11,7 @@ void PrimitiveModel::Create(ModelShape shape, ModelData* data)
 		data->maxVert = cubeMaxVert;
 
 		//頂点バッファ・インデックス生成
-		data->vertexBuffer = std::make_unique<VertexBuffer>();
+		data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
 		data->vertexBuffer->Create(data->maxVert,sizeof(PosNormalUv));
 
 		data->indexBuffer = std::make_unique<IndexBuffer>();
@@ -24,7 +24,7 @@ void PrimitiveModel::Create(ModelShape shape, ModelData* data)
 		data->maxVert = sphereMaxVert;
 
 		//頂点バッファ・インデックス生成
-		data->vertexBuffer = std::make_unique<VertexBuffer>();
+		data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
 		data->vertexBuffer->Create(data->maxVert, sizeof(PosNormalUv));
 
 		data->indexBuffer = std::make_unique<IndexBuffer>();
@@ -41,7 +41,7 @@ void PrimitiveModel::Create(ModelShape shape, ModelData* data)
 		data->maxVert = cylinderMaxVert;
 
 		//頂点バッファ・インデックス生成
-		data->vertexBuffer = std::make_unique<VertexBuffer>();
+		data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
 		data->vertexBuffer->Create(data->maxVert, sizeof(PosNormalUv));
 
 		data->indexBuffer = std::make_unique<IndexBuffer>();
@@ -55,7 +55,7 @@ void PrimitiveModel::Create(ModelShape shape, ModelData* data)
 		data->maxVert = coneMaxVert;
 
 		//頂点バッファ・インデックス生成
-		data->vertexBuffer = std::make_unique<VertexBuffer>();
+		data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
 		data->vertexBuffer->Create(data->maxVert, sizeof(PosNormalUv));
 
 		data->indexBuffer = std::make_unique<IndexBuffer>();

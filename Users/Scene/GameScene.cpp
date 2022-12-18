@@ -22,55 +22,128 @@ void GameScene::Initialize()
 	Model::SetLight(light.get());
 
 	camera = std::make_unique<CinemaCamera>();
+//	camera->SetEye({ -27.0000000f, 226.199310f, -241.000000f });
+//	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
-	gameCamera_ = std::make_unique<GameCamera>();
-	gameCamera_->SetEye({ 0.0f,50.0f,-70.0f });
-	gameCamera_->Initialize(UpdateProjMatrixFunc_Perspective);
-
-	modelHandl = Model::CreateObjModel("Resources/Player");
-	stageModelHandle_ = Model::CreateObjModel("Resources/Stage");
-
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(stageModelHandle_);
+	modelHandle = Model::CreateObjModel("Resources/cube");
 
 	model = std::make_unique<Model>();
-	model->SetModel(modelHandl);
+	model->SetModel(modelHandle);
 
-	//プレーヤー作成
-	player_ = new Player(modelHandl);
-	player_->Initialise();
 
-	modelTrans.Initialize();
-	stageModelTrans_.Initialize();
+	spriteHandle = TextureManager::Load("Resources/col.png");
+	sprite.reset(Sprite::Create2DSprite(spriteHandle));
+	sprite->SetSize({ (float)WindowsApp::GetWindowsSize().width, (float)WindowsApp::GetWindowsSize().height });
+	//trans.translation = { WindowsApp::GetWindowsSize().width / 2.0f,WindowsApp::GetWindowsSize().height / 2.0f ,0 };
+	//trans.translation = { 0,0,0 };
+	trans.scale = {0.01f,0.01f,0.01f };
+	trans.Initialize();
+
+	modelHandle1 = Model::CreateObjModel("Resources/cube2");
+	modelHandle2 = Model::CreateObjModel("Resources/cube3");
+
+	model->SetBlendModel({ modelHandle1,modelHandle2 });
+	FbxModel = std::make_unique<fbxModel>();
+	FbxModel->Initialize();
+	FbxModel->Create("Resources/FoldBox",false,false,true,false);
+
+	fbxAnim = std::make_unique<fbxAnimation>();
+	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FoldBox","test");
+
+	userCamera = new UserCamera(1280, 640);
+
 }
 
 void GameScene::Update()
 {
-	stage_->Update(gameCamera_.get());
-	modelTrans.TransUpdate(gameCamera_.get());
-	player_->Update(gameCamera_.get());
+	AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
 
-#pragma region カメラ位置(デバック用)
-	// デバック用:1で真上から,2で斜め上から,3で真横から
-	if (input->TriggerPush(DIK_1))
+	fram += 0.02f;
+	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
+	//model->BlendShapeUpdate(fram);
+
+	if (input->KeepPush(DIK_W))
 	{
-		gameCamera_->SetEye({ 0.0f,100.0f,-1.0f });
+		move += {0.0f, 0.0f, 1.0f};
 	}
-	else if (input->TriggerPush(DIK_2))
+	if (input->KeepPush(DIK_S))
 	{
-		gameCamera_->SetEye({ 0.0f,50.0f,-70.0f });
+		move -= {0.0f, 0.0f, 1.0f};
 	}
-	else if (input->TriggerPush(DIK_3))
+
+	if (input->KeepPush(DIK_A))
 	{
-		gameCamera_->SetEye({ 0.0f,0.0f,-100.0f });
+		move += {1.0f, 0.0f, 0.0f};
 	}
-#pragma endregion
+	if (input->KeepPush(DIK_D))
+	{
+		move -= {1.0f, 0.0f, 0.0f};
+	}
+
+	if (input->KeepPush(DIK_Z))
+	{
+		move += {0.0f, 1.0f, 0.0f};
+		camera->MoveTarget({ 0.0f, 1.0f, 0.0f });
+	}
+	if (input->KeepPush(DIK_X))
+	{
+		move -= {0.0f, 1.0f, 0.0f};
+		camera->MoveTarget({ 0.0f, -1.0f, 0.0f });
+	}
+
+	if (input->KeepPush(DIK_UP))
+	{
+		move += {0.0f, 1.0f, 0.0f};
+	}
+	if (input->KeepPush(DIK_DOWN))
+	{
+		move -= {0.0f, 1.0f, 0.0f};
+	}
+
+	if (input->KeepPush(DIK_I))
+	{
+		lns += 0.1f;
+		camera->SetFocalLength(lns);
+	}
+	if (input->KeepPush(DIK_K))
+	{
+		lns -= 0.1f;
+		camera->SetFocalLength(lns);
+
+	}
+
+	camera->MovePosition(move);
+
+	userCamera->Update();
+	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
+	camera->SetUp(userCamera->GetUp());
+
+	trans.TransUpdate(camera.get());
+
+	//trans.GetWorldViewpojCamera()->matWorld =
+	//{
+	//	1.50888f,0.0f,0.0f ,0.0f
+	//	,0.0f, 2.40228f,-0.099317f,-0.0993071f,
+	//	0.0f,0.239748f,0.995156f,0.995057f,
+	//0.0f,-24.0707,101.402f,101.492 };
+	//trans.Update();
+
+	//fram += 0.01f;
+
+
 }
 
 void GameScene::Draw()
 {
-	stage_->Draw();
-	//model->Draw(&modelTrans);
-	player_->Draw();
+	FbxModel->Draw(&trans);
+	//model->Draw(&trans);
+
+	//sprite->Draw(trans);
+}
+
+GameScene* GameScene::GetInstance()
+{
+	static GameScene instance;
+	return &instance;
 }

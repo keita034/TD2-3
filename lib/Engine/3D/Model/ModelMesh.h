@@ -1,5 +1,6 @@
 #pragma once
 #include "ErrorException.h"
+#include"AliceUtility.h"
 #include "Model.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -56,8 +57,6 @@ struct PosNormUvTangeCol
 	AliceMathF::Vector2 uv; // uv座標
 	AliceMathF::Vector3 tangent; // 接空間
 	AliceMathF::Vector4 color; // 頂点色
-	std::array<UINT, MAX_BONE_INDICES> boneIndex;	// ボーンの番号
-	std::array<float, MAX_BONE_INDICES> boneWeight;	// ボーンの重み
 };
 
 struct PosNormSkin
@@ -102,27 +101,6 @@ struct BoneData
 {
 	//ボーンデータ
 	std::array<AliceMathF::Matrix4, MAX_BONES> boneMat;
-};
-
-//コンピュートシェーダー関連(クラス共通)
-struct ComputeRelation
-{
-	ComputeRelation() = default;
-	~ComputeRelation() = default;
-
-	//パイプラインステート
-	std::shared_ptr<ComputePipelineState> computePipelineState;
-	//ルートシグネチャ
-	std::unique_ptr<RootSignature> rootSignature;
-
-	std::unique_ptr<RootSignature> rootSignature1;
-	//シェーダー
-	std::unique_ptr<Shader> computeShader;
-
-private:
-	//コピーコンストラクタ・代入演算子削除
-	ComputeRelation& operator=(const ComputeRelation&) = delete;
-	ComputeRelation(const ComputeRelation&) = delete;
 };
 
 class ModelMesh
@@ -199,10 +177,6 @@ public:
 	/// </summary>
 	void CreateBuffer();
 
-	void UpdateBoneMatrix(Node* aiNode, AliceMathF::Matrix4 matrix);
-
-	void UpdateBoneMatrix(aiNode* aiNode, AliceMathF::Matrix4 matrix);
-
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -210,18 +184,8 @@ public:
 
 	void DrawBgin();
 
-	void Update(ComputeRelation* computeRelation);
-
-	void BoneTransform(float frame, std::vector<AliceMathF::Matrix4>& transforms, const fbxAnimation* animation, const AliceMathF::Matrix4& inverseTransform);
+	void Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandList* cmdList);
 
 	void FillVertex();
 private:
-
-	void GetSkinData(SkinData& data);
-
-	void FillComputeMatrix();
-
-
-
-	void CopyResource();
 };

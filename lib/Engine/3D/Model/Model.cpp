@@ -8,6 +8,7 @@ Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> Model::cmdList;
 std::vector<std::string>Model::filePaths;
 std::unordered_map<std::string, std::unique_ptr<ModelData>> Model::modelDatas;
 uint32_t Model::modelCount;
+ComputeRelation Model::computeRelation;
 
 AliceMathF::Matrix4& Model::GetMatWorld()
 {
@@ -32,6 +33,19 @@ void Model::SetLight(Light* light_)
 void Model::SetModel(uint32_t modelHandle)
 {
 	modelData = modelDatas[filePaths[modelHandle]].get();
+}
+
+void Model::SetBlendModel(const std::vector<uint32_t>& models)
+{
+	for (size_t i = 0; i < models.size(); i++)
+	{
+		blendModels.push_back(modelDatas[filePaths[models[i]]].get());
+	}
+}
+
+void Model::ClearBlendModel()
+{
+	blendModels.clear();
 }
 
 uint32_t Model::CreatePrimitiveModel(ModelShape type)
@@ -137,6 +151,8 @@ void Model::Draw(Transform* transform, Material* material)
 {
 	assert(modelData);
 
+	modelData->vertexBuffer->Transition(D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_GENERIC_READ);
+
 	if (!material)
 	{
 		modelData->modelMaterialData = DefaultMaterial::GetDefaultMaterial()->DEFAULT_TEXTURE_MATERIAL.get();
@@ -175,6 +191,56 @@ void Model::Draw(Transform* transform, Material* material)
 
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(modelData->maxIndex, 1, 0, 0, 0);
+
+	modelData->vertexBuffer->Transition(D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+}
+
+void Model::BlendShapeUpdate(float& t)
+{
+	if (t > 1.0f)
+	{
+		t = 0.0000000001f;
+	}
+
+	float length = static_cast<float>(blendModels.size());
+	float progress = (length) * t;
+	float index = std::floor(progress);
+	float weight = progress - index;
+
+	modelData->csTime->Update(&weight);
+
+	if (index <= 0.0f)
+	{
+		modelData->csInputVer->Update(modelData->vertices.data());
+
+	}
+	else
+	{
+		modelData->csInputVer->Update(blendModels[index-1]->vertices.data());
+
+	}
+
+	modelData->csInputBlendVer->Update(blendModels[index]->vertices.data());
+
+	//デスクプリタヒープをセット
+	ID3D12DescriptorHeap* descriptorHeaps[] = {
+		DirectX12Core::GetInstance()->GetDescriptorHeap()->GetHeap(),
+	};
+	cmdList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	//ルートシグネチャをセット
+	cmdList->SetComputeRootSignature(computeRelation.rootSignature->GetRootSignature());
+	//パイプラインステートをセット
+	cmdList->SetPipelineState(computeRelation.computePipelineState->GetPipelineState());
+
+	cmdList->SetComputeRootDescriptorTable(0, modelData->csInputBlendVer->GetAddress());
+	cmdList->SetComputeRootDescriptorTable(1, modelData->csInputVer->GetAddress());
+
+	cmdList->SetComputeRootConstantBufferView(2, modelData->csTime->GetAddress());
+
+	cmdList->SetComputeRootDescriptorTable(3, modelData->vertexBuffer->GetAddress());
+
+	cmdList->Dispatch(modelData->vertices.size(), 1, 1);
 }
 
 void Model::EffectDraw(Transform* transform, float velocity, Material* material)
@@ -230,6 +296,34 @@ void Model::CommonInitialize()
 	device = DirectX12Core::GetInstance()->GetDevice();
 	cmdList = DirectX12Core::GetInstance()->GetCommandList();
 
+	//初期化
+
+	//ルートシグネチャの初期化
+	computeRelation.rootSignature = std::make_unique<RootSignature>();
+	//ComputeShader用
+	computeRelation.rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+
+	computeRelation.rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
+
+	computeRelation.rootSignature->Add(RootSignature::RootType::CBV, 0);//c0
+	//計算された頂点データ用
+	computeRelation.rootSignature->Add(RootSignature::RangeType::UAV, 0);//u0
+	//生成
+	computeRelation.rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+	//シェーダーの初期化
+	computeRelation.computeShader = std::make_unique<Shader>();
+	//シェーダー読み込み
+	computeRelation.computeShader->Create("Resources/Shaders/3D/Model/BlendShapeCS.hlsl", "main", "cs_5_0", Shader::ShaderType::CS);
+
+	//パイプラインステート初期化
+	computeRelation.computePipelineState = std::make_shared<ComputePipelineState>();
+	//シェーダーをセット
+	computeRelation.computePipelineState->SetShader(*computeRelation.computeShader->GetShader());
+	//ルートシグネチャのセット
+	computeRelation.computePipelineState->SetRootSignature(computeRelation.rootSignature.get());
+	//パイプラインステートの生成
+	computeRelation.computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 	filePaths.resize(maxModel);
 }
