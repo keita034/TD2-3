@@ -28,6 +28,18 @@ void fbxModel::Draw(Transform* transform, Material* material)
 
 	for (size_t i = 0; i < meshes.size(); i++)
 	{
+
+		if (!IsAnime && vertexInitialize)
+		{
+			if (i == meshes.size() - 1)
+			{
+				vertexInitialize = false;
+			}
+
+			meshes[i].InitializeVertex();
+
+		}
+
 		meshes[i].DrawBgin();
 
 		// プリミティブ形状の設定コマンド
@@ -37,7 +49,7 @@ void fbxModel::Draw(Transform* transform, Material* material)
 		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
 		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		if (animeFlag)
+		if (IsAnime)
 		{
 			AliceMathF::Matrix4 identity = AliceMathF::MakeIdentity();
 			postureMatBuff->Update(&identity);
@@ -55,20 +67,20 @@ void fbxModel::Draw(Transform* transform, Material* material)
 		meshes[i].Draw(cmdList.Get(), transform, light);
 	}
 
-	animeFlag = false;
+	IsAnime = false;
 }
 
 void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 {
-	animeFlag = true;
+	IsAnime = true;
+
+	vertexInitialize = true;
 
 	AliceMathF::Matrix4 mxIdentity = AliceMathF::MakeIdentity();
 	aiNode* pNode = mScene->mRootNode;
 	aiAnimation* pAnimation = animation->mAnimation->mAnimations[0];
 
-	FLOAT TicksPerSecond = (FLOAT)(pAnimation->mTicksPerSecond != 0
-		? pAnimation->mTicksPerSecond
-		: 25.0f);
+	FLOAT TicksPerSecond = (FLOAT)(pAnimation->mTicksPerSecond != 0 ? pAnimation->mTicksPerSecond : 25.0f);
 
 	FLOAT TimeInTicks = frame * TicksPerSecond;
 	FLOAT AnimationTime = fmod(TimeInTicks, (FLOAT)pAnimation->mDuration);
@@ -135,6 +147,82 @@ void fbxModel::CommonInitialize()
 	computeRelation->computePipelineState->SetRootSignature(computeRelation->rootSignature.get());
 	//パイプラインステートの生成
 	computeRelation->computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+}
+
+bool fbxModel::TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData)
+{
+	//メッシュの中からマテリアルを探す
+	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
+		{
+			return p.material.name == materialName;
+		});
+
+	if (materialItr != meshes.end())
+	{
+		//マテリアルの中からテクスチャ探す
+		auto textureItr = std::find_if(materialItr->textures.begin(), materialItr->textures.end(), [&](TextureData* p)
+			{
+				return p->path == textureName;
+			});
+
+		if (textureItr != materialItr->textures.end())
+		{
+			*textureItr = textureData;
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool fbxModel::TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData)
+{
+	//メッシュの中からマテリアルを探す
+	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
+		{
+			return p.material.name == materialName;
+		});
+
+	if (materialItr != meshes.end())
+	{
+		//マテリアルの中からテクスチャ探す
+		
+			materialItr->textures[textureIndex] = textureData;
+
+			return true;
+	}
+
+	return false;
+}
+
+bool fbxModel::FlipUV(const std::string& materialName, bool inverseU, bool inverseV)
+{
+	//メッシュの中からマテリアルを探す
+	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
+		{
+			return p.material.name == materialName;
+		});
+
+	if (materialItr != meshes.end())
+	{
+
+		for (PosNormUvTangeColSkin& vertice : materialItr->vertices)
+		{
+			if (inverseU)
+			{
+				vertice.uv.x *= -1.0f;
+			}
+
+			if (inverseV)
+			{
+				vertice.uv.y *= -1.0f;
+			}
+		}
+
+		materialItr->vertexBuffer->Update(materialItr->vertices.data());
+	}
+	return false;
 }
 
 void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
@@ -295,7 +383,7 @@ bool fbxModel::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim, UI
 
 	for (UINT i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
 	{
-		// ﾑﾏｸﾐｶﾏﾊｱｼ腟ickﾊﾇｷﾚﾁｽｸﾘｼ・｡ﾖｮｼ・
+
 		if ((AnimationTime >= (float)pNodeAnim->mRotationKeys[i].mTime)
 			&& (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime))
 		{

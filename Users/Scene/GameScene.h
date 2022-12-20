@@ -23,6 +23,7 @@
 #include"Model.h"
 #include "CinemaCamera.h"
 #include"UserCamera.h"
+#include "Stage.h"
 
 class GameScene
 {
@@ -37,27 +38,9 @@ private:
 
 	std::unique_ptr<CinemaCamera> camera;
 
-	uint32_t modelHandle = 0u;
-
-	std::unique_ptr<Model> model;
-
-	std::unique_ptr<fbxModel> FbxModel;
-
-	std::unique_ptr<fbxAnimation> fbxAnim;
-
-	Transform trans;
-
-	std::unique_ptr<Sprite2D> sprite;
-	uint32_t spriteHandle = 0u;
-
-	uint32_t modelHandle1 = 0u;
-	uint32_t modelHandle2 = 0u;
-
-	float lns = 70.0f;
-
-	float fram = 0.0f;
-
 	UserCamera* userCamera = nullptr;
+
+	std::unique_ptr<Stage> stage;
 
 public:
 

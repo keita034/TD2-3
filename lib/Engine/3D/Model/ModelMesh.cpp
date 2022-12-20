@@ -86,7 +86,6 @@ void ModelMesh::CreateBuffer()
 void ModelMesh::FillVertex()
 {
 
-
 	computeInputBuff->Update(vertices.data());
 
 	BoneData data;
@@ -97,6 +96,21 @@ void ModelMesh::FillVertex()
 	}
 
 	constBoneBuffer->Update(data.boneMat.data());
+}
+
+void ModelMesh::InitializeVertex()
+{
+	for (size_t i = 0; i < vertices.size(); ++i)
+	{
+
+		vertice[i].position = vertices[i].position;
+		vertice[i].normal = vertices[i].normal;
+		vertice[i].uv = vertices[i].uv;
+		vertice[i].tangent = vertices[i].tangent;
+		vertice[i].color = vertices[i].color;
+	}
+
+	vertexBuffer->Update(vertice.data());
 }
 
 void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, Light* light)
@@ -150,7 +164,7 @@ void ModelMesh::Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandLi
 
 	cmdList->SetComputeRootDescriptorTable(2, vertexBuffer->GetAddress());
 
-	cmdList->Dispatch(vertices.size() / 256 + 1, 1, 1);
+	cmdList->Dispatch(static_cast<UINT>(vertices.size() / 256 +1), 1, 1);
 }
 
 void  ModelMesh::DrawBgin()
