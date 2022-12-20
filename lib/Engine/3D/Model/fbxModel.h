@@ -44,7 +44,9 @@ private:
 	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
 	Material* modelMaterialData;
 
-	bool animeFlag = false;
+	bool IsAnime = false;
+
+	bool vertexInitialize = false;
 
 public:
 
@@ -64,6 +66,12 @@ public:
 	void Create(const char* filePath, bool smoothing, bool inverseU = false, bool inverseV = false, bool animeFlag = false);
 
 	static void CommonInitialize();
+
+	bool TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData);
+
+	bool TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData);
+
+	bool FlipUV(const std::string& materialName,bool inverseU = false, bool inverseV = false);
 
 private:
 

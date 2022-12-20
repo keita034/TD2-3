@@ -259,6 +259,10 @@ void FbxLoader::ParseMaterial(fbxModel* model, aiMesh* mesh, aiMaterial* materia
 	material->Get(AI_MATKEY_COLOR_DIFFUSE, specular);
 	modelMesh.material.specular = AliceMathF::Vector3(specular.r, specular.g, specular.b);
 
+	aiString str;
+	material->Get(AI_MATKEY_NAME,str);
+	modelMesh.material.name = str.C_Str();
+
 	// ディフューズマップ
 	std::vector<TextureData*> diffuseMaps = LoadMatrixerialTextures(material, aiTextureType_DIFFUSE, "Diffuse", model->mScene);
 	// 法線マップ

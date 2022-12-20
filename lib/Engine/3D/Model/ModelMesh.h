@@ -187,5 +187,8 @@ public:
 	void Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandList* cmdList);
 
 	void FillVertex();
+
+	void InitializeVertex();
+
 private:
 };
