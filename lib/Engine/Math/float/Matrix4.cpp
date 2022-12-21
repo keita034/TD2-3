@@ -129,7 +129,7 @@ namespace AliceMathF
 		{
 			//最大の絶対値を注目対角成分の絶対値と仮定
 			float max = std::fabs(sweep[i][i]);
-			int maxIndex = i;
+			size_t maxIndex = i;
 
 			//i列目が最大の絶対値となる行を探す
 			for (size_t j = i + 1; j < 4; j++)
@@ -297,9 +297,9 @@ namespace AliceMathF
 	Matrix4 Matrix4::Transpose()
 	{
 		Matrix4 tmp(*this);
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = i; j < 4; j++)
+			for (size_t j = i; j < 4; j++)
 			{
 				float f = tmp.m[i][j];
 				tmp.m[i][j] = tmp.m[j][i];

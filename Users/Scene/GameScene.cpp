@@ -43,16 +43,34 @@ void GameScene::Update()
 	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
 	camera->SetUp(userCamera->GetUp());
 
-	if (Input::GetInstance()->TriggerPush(DIK_SPACE))
+	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
 	{
-		stage->FieldPlaneFoldStart(Top, FoldIndex::Beside);
-
+		stage->FieldPlaneFoldStart(Left, FoldIndex::Beside);
 	}
 
 	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
 	{
-		stage->FieldPlaneFoldStart(TopToCenterLeft, FoldIndex::Surface);
+		stage->FieldPlaneFoldStart(Left, FoldIndex::Vertical);
+	}
 
+	if (Input::GetInstance()->TriggerPush(DIK_RIGHT))
+	{
+		stage->FieldPlaneFoldStart(Top, FoldIndex::Beside);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_LEFT))
+	{
+		stage->FieldPlaneFoldStart(Top, FoldIndex::Vertical);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_UP))
+	{
+		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Beside);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_DOWN))
+	{
+		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Vertical);
 	}
 
 	stage->Update(camera.get());

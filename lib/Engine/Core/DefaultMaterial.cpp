@@ -79,6 +79,8 @@ void DefaultMaterial::CreateDefaultTextureMaterial()
 	DEFAULT_TEXTURE_MATERIAL->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
 	DEFAULT_TEXTURE_MATERIAL->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
+	DEFAULT_TEXTURE_MATERIAL->cullMode = D3D12_CULL_MODE_BACK;
+
 	//生成
 	DEFAULT_TEXTURE_MATERIAL->Initialize();
 }
@@ -235,7 +237,7 @@ void DefaultMaterial::CreateDefaultFbxMaterial()
 
 	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-
+	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_NONE;
 	//生成
 	DEFAULT_FBX_MATERIAL->Initialize();
 }

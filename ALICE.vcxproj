@@ -66,7 +66,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)Users\Scene;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Camera;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)Users\Object\Player;$(ProjectDir)Users\Object;$(ProjectDir)lib\Engine\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,7 +87,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
