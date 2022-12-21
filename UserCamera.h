@@ -23,7 +23,7 @@ public:
 
 private:
 	// ƒJƒƒ‰’‹“_‚Ü‚Å‚Ì‹——£
-	float distance_ = 50;
+	float distance_ = 200;
 	AliceMathF::Vector2 mousePos = { 0.0f,0.0f };
 	AliceMathF::Vector2 oldMousePos = { 0.0f,0.0f };
 	Input* input_ = nullptr;

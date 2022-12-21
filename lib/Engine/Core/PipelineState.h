@@ -35,8 +35,9 @@ private:
 	
 	//プリミティブ形状
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	char PADING2[4];
+	
 
+	D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK;
 public:
 
 	/// <summary>
@@ -99,6 +100,12 @@ public:
 	/// </summary>
 	/// <param name="type">プリミティブ形状</param>
 	void SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type);
+
+	/// <summary>
+	/// カリングモードをセット
+	/// </summary>
+	/// <param name="model">モード</param>
+	void SetCullMode(D3D12_CULL_MODE model);
 
 	/// <summary>
 	/// パイプラインステートを生成

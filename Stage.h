@@ -108,6 +108,9 @@ struct FieldElement
 	uint32_t surfacePartsModelHandle;
 	//ƒ[ƒ‹ƒh•ÏŠ·
 	Transform surfacePartsModelTrans;
+	bool isDraw = true;
+
+	void Draw();
 };
 
 class Stage

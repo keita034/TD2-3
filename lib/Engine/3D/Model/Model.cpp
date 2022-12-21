@@ -147,7 +147,7 @@ uint32_t Model::CreateObjModel(const std::string& filePath, bool smoothing)
 	}
 }
 
-void Model::Draw(Transform* transform, Material* material)
+void Model::Draw(Transform& transform, Material* material)
 {
 	assert(modelData);
 
@@ -179,7 +179,7 @@ void Model::Draw(Transform* transform, Material* material)
 	cmdList->IASetIndexBuffer(&ibView);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, transform->GetconstBuff()->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, transform.GetconstBuff()->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(1, modelData->constBuffMaterial->GetAddress());
 	light->SetConstBufferView(cmdList.Get(), 2);
 
@@ -217,11 +217,11 @@ void Model::BlendShapeUpdate(float& t)
 	}
 	else
 	{
-		modelData->csInputVer->Update(blendModels[index-1]->vertices.data());
+		modelData->csInputVer->Update(blendModels[static_cast<size_t>(index - 1.0f)]->vertices.data());
 
 	}
 
-	modelData->csInputBlendVer->Update(blendModels[index]->vertices.data());
+	modelData->csInputBlendVer->Update(blendModels[static_cast<size_t>(index)]->vertices.data());
 
 	//デスクプリタヒープをセット
 	ID3D12DescriptorHeap* descriptorHeaps[] = {
@@ -240,7 +240,7 @@ void Model::BlendShapeUpdate(float& t)
 
 	cmdList->SetComputeRootDescriptorTable(3, modelData->vertexBuffer->GetAddress());
 
-	cmdList->Dispatch(modelData->vertices.size(), 1, 1);
+	cmdList->Dispatch(static_cast<UINT>(modelData->vertices.size()), 1, 1);
 }
 
 void Model::EffectDraw(Transform* transform, float velocity, Material* material)
@@ -289,6 +289,44 @@ void Model::EffectDraw(Transform* transform, float velocity, Material* material)
 
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(modelData->maxIndex, 1, 0, 0, 0);
+}
+
+bool Model::RotationUV(float angle)
+{
+	AliceMathF::Matrix3 mat;
+	mat.MakeRotation(angle);
+
+	for (PosNormalUv& vertice : modelData->vertices)
+	{
+		vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
+	}
+
+	modelData->vertexBuffer->Update(modelData->vertices.data());
+
+	return true;
+}
+
+void Model::SetTexture(uint32_t handle)
+{
+	modelData->textureData = TextureManager::GetTextureData(handle);
+}
+
+void Model::FlipUV(bool inverseU, bool inverseV)
+{
+	for (PosNormalUv& vertice : modelData->vertices)
+	{
+		if (inverseU)
+		{
+			vertice.uv.x = 1.0f - vertice.uv.x;
+		}
+
+		if (inverseV)
+		{
+			vertice.uv.y = 1.0f - vertice.uv.y;
+		}
+	}
+
+	modelData->vertexBuffer->Update(modelData->vertices.data());
 }
 
 void Model::CommonInitialize()

@@ -49,6 +49,8 @@ void Material::Initialize()
 	//プリミティブ形状を設定
 	pipelineState->SetPrimitiveType(primitiveType);
 
+	pipelineState->SetCullMode(cullMode);
+
 	//生成
 	if (!pipelineState->Create())
 	{

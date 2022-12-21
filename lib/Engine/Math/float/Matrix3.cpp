@@ -105,7 +105,7 @@ namespace AliceMathF
 		{
 			//最大の絶対値を注目対角成分の絶対値と仮定
 			float max = std::fabs(sweep[i][i]);
-			int maxIndex = i;
+			size_t maxIndex = i;
 
 			//i列目が最大の絶対値となる行を探す
 			for (size_t j = i + 1; j < 3; j++)

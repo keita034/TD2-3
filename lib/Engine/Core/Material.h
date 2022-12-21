@@ -41,6 +41,10 @@ public:
 	char PADING[3]{};
 
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+	D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK;
+	char PADING2[4]{};
+
 public:
 
 	/// <summary>
