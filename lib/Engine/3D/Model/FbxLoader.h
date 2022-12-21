@@ -36,6 +36,8 @@ private:
 		aiProcess_JoinIdenticalVertices|//インデックスを生成
 		aiProcess_LimitBoneWeights;//各頂点が影響を受けるボーンを4に制限
 
+	char PAGING[4]{};
+
 	//const UINT ASSIMP_LOAD_FLAG_DEFAULT =
 	//	aiProcess_Triangulate | //三角面化
 	//	aiProcess_GenSmoothNormals | //スムージングベクトル生成

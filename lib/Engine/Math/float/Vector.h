@@ -1,7 +1,8 @@
 #pragma once
-#include"Vector2.h"
-#include"Vector3.h"
 #include"Vector4.h"
+#include"Vector3.h"
+#include"Vector2.h"
+#include"Matrix3.h"
 #include"Matrix4.h"
 
 namespace AliceMathF
@@ -30,6 +31,14 @@ namespace AliceMathF
 	/// <param name="mat">行列</param>
 	/// <returns>計算された値</returns>
 	Vector3 Vec3Mat4Mul(const Vector3& vec, const Matrix4& mat);
+
+	/// <summary>
+	/// ベクトルと行列の掛け算
+	/// </summary>
+	/// <param name="vec">ベクトル</param>
+	/// <param name="mat">行列</param>
+	/// <returns>計算された値</returns>
+	Vector2 Vec2Mat3Mul(const Vector2& vec, const Matrix3& mat);
 
 	/// <summary>
 	/// ベクトルと行列の掛け算(W除算)

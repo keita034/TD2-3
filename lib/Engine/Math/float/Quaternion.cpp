@@ -34,7 +34,7 @@ namespace AliceMathF
 		}
 		else
 		{
-			int i = 0;
+			size_t i = 0;
 			if (m.m[0][0] <= m.m[1][1])
 			{
 				i = 1;

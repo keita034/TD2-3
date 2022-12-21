@@ -225,6 +225,30 @@ bool fbxModel::FlipUV(const std::string& materialName, bool inverseU, bool inver
 	return false;
 }
 
+bool fbxModel::rotationUV(const std::string& materialName, float angle)
+{
+	//メッシュの中からマテリアルを探す
+	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
+		{
+			return p.material.name == materialName;
+		});
+
+	if (materialItr != meshes.end())
+	{
+
+		AliceMathF::Matrix3 mat;
+		mat.MakeRotation(angle);
+
+		for (PosNormUvTangeColSkin& vertice : materialItr->vertices)
+		{
+				vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
+		}
+
+		materialItr->vertexBuffer->Update(materialItr->vertices.data());
+	}
+	return false;
+}
+
 void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
 {
 	AliceMathF::Matrix4 mxNodeTransformation = AliceMathF::MakeIdentity();

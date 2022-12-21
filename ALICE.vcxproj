@@ -150,6 +150,8 @@
     <ClInclude Include="lib\Engine\Math\AliceMathUtility.h" />
     <ClInclude Include="lib\Engine\Math\double\AliceMath.h" />
     <ClInclude Include="lib\Engine\Math\float\AliceMathF.h" />
+    <ClInclude Include="lib\Engine\Math\float\Matrix.h" />
+    <ClInclude Include="lib\Engine\Math\float\Matrix3.h" />
     <ClInclude Include="lib\Engine\Math\float\Matrix4.h" />
     <ClInclude Include="lib\Engine\Math\float\Quaternion.h" />
     <ClInclude Include="lib\Engine\Math\float\Vector.h" />
@@ -374,6 +376,8 @@
     <ClCompile Include="lib\Engine\Math\AliceMathUtility.cpp" />
     <ClCompile Include="lib\Engine\Math\double\AliceMath.cpp" />
     <ClCompile Include="lib\Engine\Math\float\AliceMathF.cpp" />
+    <ClCompile Include="lib\Engine\Math\float\Matrix.cpp" />
+    <ClCompile Include="lib\Engine\Math\float\Matrix3.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Matrix4.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Quaternion.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Vector.cpp" />
