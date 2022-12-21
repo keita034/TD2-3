@@ -112,9 +112,9 @@ namespace AliceMathF
 		//戻り値用
 		Matrix4 retMat;
 
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				//weepの左側に逆行列を求める行列をセット
 				sweep[i][j] = mat->m[i][j];
@@ -125,14 +125,14 @@ namespace AliceMathF
 		}
 
 		//全ての列の対角成分に対する繰り返し
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
 			//最大の絶対値を注目対角成分の絶対値と仮定
 			float max = std::fabs(sweep[i][i]);
 			int maxIndex = i;
 
 			//i列目が最大の絶対値となる行を探す
-			for (int j = i + 1; j < 4; j++)
+			for (size_t j = i + 1; j < 4; j++)
 			{
 				if (std::fabs(sweep[j][i]) > max)
 				{
@@ -150,7 +150,7 @@ namespace AliceMathF
 			//操作(1):i行目とmaxIndex行目を入れ替える
 			if (i != maxIndex)
 			{
-				for (int j = 0; j < 8; j++)
+				for (size_t j = 0; j < 8; j++)
 				{
 					float tmp = sweep[maxIndex][j];
 					sweep[maxIndex][j] = sweep[i][j];
@@ -162,14 +162,14 @@ namespace AliceMathF
 			constTimes = 1 / sweep[i][i];
 
 			//操作(2):p行目をa倍する
-			for (int j = 0; j < 8; j++)
+			for (size_t j = 0; j < 8; j++)
 			{
 				//これによりsweep[i][i]が1になる
 				sweep[i][j] *= constTimes;
 			}
 
 			//操作(3)によりi行目以外の行のi列目を0にする
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				if (j == i)
 				{
@@ -180,7 +180,7 @@ namespace AliceMathF
 				//i行目に掛ける値を求める
 				constTimes = -sweep[j][i];
 
-				for (int k = 0; k < 8; k++)
+				for (size_t k = 0; k < 8; k++)
 				{
 					//j行目にi行目をa倍した行を足す
 					//これによりsweep[j][i]が0になる
@@ -190,9 +190,9 @@ namespace AliceMathF
 		}
 
 		//sweepの右半分がmatの逆行列
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				retMat.m[i][j] = sweep[i][4 + j];
 			}
@@ -203,9 +203,9 @@ namespace AliceMathF
 
 	Matrix4::Matrix4(const DirectX::XMMATRIX& Matrix4)
 	{
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				m[i][j] = Matrix4.r[i].m128_f32[j];
 			}
@@ -356,9 +356,9 @@ namespace AliceMathF
 
 	Matrix4& Matrix4::operator=(const Matrix4& _m)
 	{
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				m[i][j] = _m.m[i][j];
 			}
@@ -369,9 +369,9 @@ namespace AliceMathF
 
 	const Matrix4& Matrix4::operator=(Matrix4& _m)
 	{
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				m[i][j] = _m.m[i][j];
 			}
@@ -382,9 +382,9 @@ namespace AliceMathF
 
 	Matrix4& Matrix4::operator+=(const Matrix4& mat)
 	{
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				m[i][j] += mat.m[i][j];
 			}
@@ -395,9 +395,9 @@ namespace AliceMathF
 
 	Matrix4& Matrix4::operator-=(const Matrix4& mat)
 	{
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				m[i][j] -= mat.m[i][j];
 			}
@@ -410,12 +410,12 @@ namespace AliceMathF
 	{
 		Matrix4 temp(*this);
 
-		for (int i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (size_t j = 0; j < 4; j++)
 			{
 				double f = 0.0;
-				for (int k = 0; k < 4; k++)
+				for (size_t k = 0; k < 4; k++)
 				{
 					f += (double)temp.m[i][k] * (double)mat.m[k][j];
 

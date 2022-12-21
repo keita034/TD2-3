@@ -51,7 +51,7 @@ void GameScene::Update()
 
 	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
 	{
-		stage->FieldPlaneFoldStart(Top, FoldIndex::Vertical);
+		stage->FieldPlaneFoldStart(TopToCenterLeft, FoldIndex::Surface);
 
 	}
 
