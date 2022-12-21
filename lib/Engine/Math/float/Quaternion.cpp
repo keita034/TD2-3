@@ -44,8 +44,8 @@ namespace AliceMathF
 				i = 2;
 			}
 
-			int j = (i + 1) % 3;
-			int k = (j + 1) % 3;
+			size_t j = (i + 1) % 3;
+			size_t k = (j + 1) % 3;
 
 			tr = m.m[i][i] - m.m[j][k] - m.m[k][k] + 1.0f;
 

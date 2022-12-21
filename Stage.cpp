@@ -31,7 +31,7 @@ void Stage::Initialize()
 	fieldPlaneTrans_.translation = { 0,-10,0 };
 
 	//è„
-	int32_t handl;
+	uint32_t handl;
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
 	field[Top][LeftTop] = { TextureManager::GetTextureData(handl),Field::a };
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map02.png");
