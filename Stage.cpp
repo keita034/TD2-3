@@ -33,7 +33,8 @@ void Stage::Initialize()
 
 	uint32_t handl;
 
-	//上
+#pragma region 上
+
 	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
 	field[Top][LeftTop] = { TextureManager::GetTextureData(handl),Field::a };
@@ -89,8 +90,10 @@ void Stage::Initialize()
 	field[Top][RightBottom].surfacePartsModel = std::make_unique<Model>();
 	field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
 	field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
+#pragma endregion
 
-	//左
+#pragma region 左
+
 	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map05.png");
 	field[Left][LeftTop] = { TextureManager::GetTextureData(handl),Field::e };
@@ -150,8 +153,10 @@ void Stage::Initialize()
 	field[Left][RightBottom].surfacePartsModel = std::make_unique<Model>();
 	field[Left][RightBottom].surfacePartsModel->SetModel(field[Left][RightBottom].surfacePartsModelHandle);
 	field[Left][RightBottom].surfacePartsModel->SetTexture(handl);
+#pragma endregion
 
-	//真ん中左
+#pragma region 真ん中左
+
 	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map09.png");
 	field[CenterLeft][LeftTop] = { TextureManager::GetTextureData(handl),Field::i };
@@ -211,49 +216,212 @@ void Stage::Initialize()
 	field[CenterLeft][RightBottom].surfacePartsModel = std::make_unique<Model>();
 	field[CenterLeft][RightBottom].surfacePartsModel->SetModel(field[CenterLeft][RightBottom].surfacePartsModelHandle);
 	field[CenterLeft][RightBottom].surfacePartsModel->SetTexture(handl);
+#pragma endregion
 
-	//真ん中右
+#pragma region 真ん中右
+
+	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map013.png");
 	field[CenterRight][LeftTop] = { TextureManager::GetTextureData(handl),Field::n };
+
+	field[CenterRight][LeftTop].surfacePartsModelTrans.Initialize();
+	field[CenterRight][LeftTop].surfacePartsModelTrans.translation = { 40.0f,10.0f,-20.0f };
+	field[CenterRight][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[CenterRight][LeftTop].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f ,270.0f * AliceMathF::Deg2Rad };
+
+	field[CenterRight][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map013");
+
+	field[CenterRight][LeftTop].surfacePartsModel = std::make_unique<Model>();
+	field[CenterRight][LeftTop].surfacePartsModel->SetModel(field[CenterRight][LeftTop].surfacePartsModelHandle);
+	field[CenterRight][LeftTop].surfacePartsModel->SetTexture(handl);
+
+	//右上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map014.png");
 	field[CenterRight][RightTop] = { TextureManager::GetTextureData(handl),Field::m };
+
+	field[CenterRight][RightTop].surfacePartsModelTrans.Initialize();
+	field[CenterRight][RightTop].surfacePartsModelTrans.translation = { 40.0f,10.0f,20.0f };
+	field[CenterRight][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[CenterRight][RightTop].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f ,270.0f * AliceMathF::Deg2Rad };
+
+	field[CenterRight][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map014");
+
+	field[CenterRight][RightTop].surfacePartsModel = std::make_unique<Model>();
+	field[CenterRight][RightTop].surfacePartsModel->SetModel(field[CenterRight][RightTop].surfacePartsModelHandle);
+	field[CenterRight][RightTop].surfacePartsModel->SetTexture(handl);
+
+	//左下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map015.png");
 	field[CenterRight][LeftBottom] = { TextureManager::GetTextureData(handl),Field::o };
+
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.Initialize();
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.translation = { 40.0f,-30.0f,-20.0f };
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f ,270.0f * AliceMathF::Deg2Rad };
+
+	field[CenterRight][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map015");
+
+	field[CenterRight][LeftBottom].surfacePartsModel = std::make_unique<Model>();
+	field[CenterRight][LeftBottom].surfacePartsModel->SetModel(field[CenterRight][LeftBottom].surfacePartsModelHandle);
+	field[CenterRight][LeftBottom].surfacePartsModel->SetTexture(handl);
+
+	//右下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map016.png");
 	field[CenterRight][RightBottom] = { TextureManager::GetTextureData(handl),Field::p };
 
-	//右
+	field[CenterRight][RightBottom].surfacePartsModelTrans.Initialize();
+	field[CenterRight][RightBottom].surfacePartsModelTrans.translation = { 40.0f,-30.0f,20.0f };
+	field[CenterRight][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[CenterRight][RightBottom].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f ,270.0f * AliceMathF::Deg2Rad };
+
+	field[CenterRight][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map016");
+
+	field[CenterRight][RightBottom].surfacePartsModel = std::make_unique<Model>();
+	field[CenterRight][RightBottom].surfacePartsModel->SetModel(field[CenterRight][RightBottom].surfacePartsModelHandle);
+	field[CenterRight][RightBottom].surfacePartsModel->SetTexture(handl);
+
+#pragma endregion
+
+#pragma region 右
+
+	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map017.png");
 	field[Right][LeftTop] = { TextureManager::GetTextureData(handl),Field::r };
+
+	field[Right][LeftTop].surfacePartsModelTrans.Initialize();
+	field[Right][LeftTop].surfacePartsModelTrans.translation = { 20.0f,10.0f,40.0f };
+	field[Right][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[Right][LeftTop].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+
+	field[Right][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map017");
+
+	field[Right][LeftTop].surfacePartsModel = std::make_unique<Model>();
+	field[Right][LeftTop].surfacePartsModel->SetModel(field[Right][LeftTop].surfacePartsModelHandle);
+	field[Right][LeftTop].surfacePartsModel->SetTexture(handl);
+
+	//右上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map018.png");
 	field[Right][RightTop] = { TextureManager::GetTextureData(handl),Field::s };
+
+	field[Right][RightTop].surfacePartsModelTrans.Initialize();
+	field[Right][RightTop].surfacePartsModelTrans.translation = { -20.0f,10.0f,40.0f };
+	field[Right][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[Right][RightTop].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+
+	field[Right][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map018");
+
+	field[Right][RightTop].surfacePartsModel = std::make_unique<Model>();
+	field[Right][RightTop].surfacePartsModel->SetModel(field[Right][RightTop].surfacePartsModelHandle);
+	field[Right][RightTop].surfacePartsModel->SetTexture(handl);
+
+	//左下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map019.png");
 	field[Right][LeftBottom] = { TextureManager::GetTextureData(handl),Field::t };
+
+	field[Right][LeftBottom].surfacePartsModelTrans.Initialize();
+	field[Right][LeftBottom].surfacePartsModelTrans.translation = { 20.0f,-30.0f,40.0f };
+	field[Right][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[Right][LeftBottom].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+
+	field[Right][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map019");
+
+	field[Right][LeftBottom].surfacePartsModel = std::make_unique<Model>();
+	field[Right][LeftBottom].surfacePartsModel->SetModel(field[Right][LeftBottom].surfacePartsModelHandle);
+	field[Right][LeftBottom].surfacePartsModel->SetTexture(handl);
+
+	//右下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map020.png");
 	field[Right][RightBottom] = { TextureManager::GetTextureData(handl),Field::u };
 
-	//下
+	field[Right][RightBottom].surfacePartsModelTrans.Initialize();
+	field[Right][RightBottom].surfacePartsModelTrans.translation = { -20.0f,-30.0f,40.0f };
+	field[Right][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+	field[Right][RightBottom].surfacePartsModelTrans.rotation = { -90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+
+	field[Right][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map020");
+
+	field[Right][RightBottom].surfacePartsModel = std::make_unique<Model>();
+	field[Right][RightBottom].surfacePartsModel->SetModel(field[Right][RightBottom].surfacePartsModelHandle);
+	field[Right][RightBottom].surfacePartsModel->SetTexture(handl);
+
+#pragma endregion
+
+#pragma region 下
+
+	//左上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map021.png");
 	field[Bottom][LeftTop] = { TextureManager::GetTextureData(handl),Field::v };
+
+	field[Bottom][LeftTop].surfacePartsModelTrans.Initialize();
+	field[Bottom][LeftTop].surfacePartsModelTrans.translation = { 20.0f,-50.0f,20.0f };
+	field[Bottom][LeftTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+	field[Bottom][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+
+	field[Bottom][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map021");
+
+	field[Bottom][LeftTop].surfacePartsModel = std::make_unique<Model>();
+	field[Bottom][LeftTop].surfacePartsModel->SetModel(field[Bottom][LeftTop].surfacePartsModelHandle);
+	field[Bottom][LeftTop].surfacePartsModel->SetTexture(handl);
+
+	//右上
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map022.png");
 	field[Bottom][RightTop] = { TextureManager::GetTextureData(handl),Field::w };
+
+	field[Bottom][RightTop].surfacePartsModelTrans.Initialize();
+	field[Bottom][RightTop].surfacePartsModelTrans.translation = { -20.0f,-50.0f,20.0f };
+	field[Bottom][RightTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f};
+	field[Bottom][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+
+	field[Bottom][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map022");
+
+	field[Bottom][RightTop].surfacePartsModel = std::make_unique<Model>();
+	field[Bottom][RightTop].surfacePartsModel->SetModel(field[Bottom][RightTop].surfacePartsModelHandle);
+	field[Bottom][RightTop].surfacePartsModel->SetTexture(handl);
+
+	//左下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map023.png");
 	field[Bottom][LeftBottom] = { TextureManager::GetTextureData(handl),Field::x };
+
+	field[Bottom][LeftBottom].surfacePartsModelTrans.Initialize();
+	field[Bottom][LeftBottom].surfacePartsModelTrans.translation = { 20.0f,-50.0f,-20.0f };
+	field[Bottom][LeftBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+	field[Bottom][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+
+	field[Bottom][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map023");
+
+	field[Bottom][LeftBottom].surfacePartsModel = std::make_unique<Model>();
+	field[Bottom][LeftBottom].surfacePartsModel->SetModel(field[Bottom][LeftBottom].surfacePartsModelHandle);
+	field[Bottom][LeftBottom].surfacePartsModel->SetTexture(handl);
+
+	//右下
 	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map024.png");
 	field[Bottom][RightBottom] = { TextureManager::GetTextureData(handl),Field::y };
+
+	field[Bottom][RightBottom].surfacePartsModelTrans.Initialize();
+	field[Bottom][RightBottom].surfacePartsModelTrans.translation = { -20.0f,-50.0f,-20.0f };
+	field[Bottom][RightBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
+	field[Bottom][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+
+	field[Bottom][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map024");
+
+	field[Bottom][RightBottom].surfacePartsModel = std::make_unique<Model>();
+	field[Bottom][RightBottom].surfacePartsModel->SetModel(field[Bottom][RightBottom].surfacePartsModelHandle);
+	field[Bottom][RightBottom].surfacePartsModel->SetTexture(handl);
+
+#pragma endregion
 
 	//verticalFoldFbxmodel_->TransTexture("Map02.005", 0, field[CenterLeft][LeftTop].textureData);
 	//verticalFoldFbxmodel_->TransTexture("Map04.005", 0, field[CenterLeft][RightTop].textureData);
 	//verticalFoldFbxmodel_->TransTexture("Map01.005", 0, field[CenterLeft][LeftBottom].textureData);
 	//verticalFoldFbxmodel_->TransTexture("Map03.005", 0, field[CenterLeft][RightBottom].textureData);
 
-	besideFoldFbxmodel_->TransTexture("Map01.005", 0, field[CenterLeft][LeftTop].textureData);
+	/*besideFoldFbxmodel_->TransTexture("Map01.005", 0, field[CenterLeft][LeftTop].textureData);
 	besideFoldFbxmodel_->TransTexture("Map02.005", 0, field[CenterLeft][RightTop].textureData);
 	besideFoldFbxmodel_->TransTexture("Map03.005", 0, field[CenterLeft][LeftBottom].textureData);
 	besideFoldFbxmodel_->TransTexture("Map04.005", 0, field[CenterLeft][RightBottom].textureData);
 
-	fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
-	fieldPlaneTrans_.translation = { 0.0f,-9.4f,-40.0f };
+	fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
+	fieldPlaneTrans_.translation = { -0.0f,-50.0f,0.0f };*/
 }
 
 void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
@@ -299,10 +467,22 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 			break;
 
 		case CenterRight:
+
+			fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,0.0f };
+			fieldPlaneTrans_.translation = { 40.0f,-10.0f,0.0f };
+
 			break;
+
 		case Right:
+
+			fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,0.0f ,0.0f };
+			fieldPlaneTrans_.translation = { 0.0f,-10.0f,40.0f };
+
 			break;
+
 		case Bottom:
+			fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
+			fieldPlaneTrans_.translation = { -0.0f,-50.0f,0.0f };
 			break;
 		default:
 			break;
@@ -338,18 +518,29 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 			break;
 
 		case CenterLeft:
+
 			fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
-
-
 			fieldPlaneTrans_.translation = { -0.0f,-10.0f,-40.0f };
 
 			break;
 
 		case CenterRight:
+
+			fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,0.0f,-90.0f * AliceMathF::Deg2Rad };
+			fieldPlaneTrans_.translation = { 40.0f,-10.0f,0.0f };
+
 			break;
+
 		case Right:
+
+			fieldPlaneTrans_.rotation = { 0.0f,90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
+			fieldPlaneTrans_.translation = { 0.0f,-10.0f,40.0f };
+
 			break;
+
 		case Bottom:
+			fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
+			fieldPlaneTrans_.translation = { -0.0f,-50.0f,0.0f };
 			break;
 		default:
 			break;
@@ -440,7 +631,7 @@ void Stage::FieldPlaneFold()
 	switch (foldDirection)
 	{
 	case FoldIndex::Vertical://縦
-			//1番と3番を入れ替える
+		//1番と3番を入れ替える
 		transform1 = field[FieldSurfaceIndex][RightTop].surfacePartsModelTrans;
 		transform2 = field[FieldSurfaceIndex][RightBottom].surfacePartsModelTrans;
 		element = std::move(field[FieldSurfaceIndex][RightTop]);
@@ -471,33 +662,33 @@ void Stage::FieldPlaneFold()
 		break;
 	case FoldIndex::Beside://横
 
-			//1番と2番を入れ替える
-			transform1 = field[FieldSurfaceIndex][RightTop].surfacePartsModelTrans;
-			transform2 = field[FieldSurfaceIndex][LeftTop].surfacePartsModelTrans;
-			element = std::move(field[FieldSurfaceIndex][RightTop]);
+		//1番と2番を入れ替える
+		transform1 = field[FieldSurfaceIndex][RightTop].surfacePartsModelTrans;
+		transform2 = field[FieldSurfaceIndex][LeftTop].surfacePartsModelTrans;
+		element = std::move(field[FieldSurfaceIndex][RightTop]);
 
-			besideFoldFbxmodel_->TransTexture("Map02.005", element.textureData->path.c_str(), field[FieldSurfaceIndex][LeftTop].textureData);
-			besideFoldFbxmodel_->TransTexture("Map01.005", field[FieldSurfaceIndex][LeftTop].textureData->path.c_str(), element.textureData);
+		besideFoldFbxmodel_->TransTexture("Map02.005", element.textureData->path.c_str(), field[FieldSurfaceIndex][LeftTop].textureData);
+		besideFoldFbxmodel_->TransTexture("Map01.005", field[FieldSurfaceIndex][LeftTop].textureData->path.c_str(), element.textureData);
 
-			field[FieldSurfaceIndex][RightTop] = std::move(field[FieldSurfaceIndex][LeftTop]);
-			field[FieldSurfaceIndex][RightTop].surfacePartsModelTrans = transform1;
+		field[FieldSurfaceIndex][RightTop] = std::move(field[FieldSurfaceIndex][LeftTop]);
+		field[FieldSurfaceIndex][RightTop].surfacePartsModelTrans = transform1;
 
-			field[FieldSurfaceIndex][LeftTop] = std::move(element);
-			field[FieldSurfaceIndex][LeftTop].surfacePartsModelTrans = transform2;
+		field[FieldSurfaceIndex][LeftTop] = std::move(element);
+		field[FieldSurfaceIndex][LeftTop].surfacePartsModelTrans = transform2;
 
-			//3番と4番を入れ替える
-			transform1 = field[FieldSurfaceIndex][RightBottom].surfacePartsModelTrans;
-			transform2 = field[FieldSurfaceIndex][LeftBottom].surfacePartsModelTrans;
-			element = std::move(field[FieldSurfaceIndex][RightBottom]);
+		//3番と4番を入れ替える
+		transform1 = field[FieldSurfaceIndex][RightBottom].surfacePartsModelTrans;
+		transform2 = field[FieldSurfaceIndex][LeftBottom].surfacePartsModelTrans;
+		element = std::move(field[FieldSurfaceIndex][RightBottom]);
 
-			besideFoldFbxmodel_->TransTexture("Map04.005", element.textureData->path.c_str(), field[FieldSurfaceIndex][LeftBottom].textureData);
-			besideFoldFbxmodel_->TransTexture("Map03.005", field[FieldSurfaceIndex][LeftBottom].textureData->path.c_str(), element.textureData);
+		besideFoldFbxmodel_->TransTexture("Map04.005", element.textureData->path.c_str(), field[FieldSurfaceIndex][LeftBottom].textureData);
+		besideFoldFbxmodel_->TransTexture("Map03.005", field[FieldSurfaceIndex][LeftBottom].textureData->path.c_str(), element.textureData);
 
-			field[FieldSurfaceIndex][RightBottom] = std::move(field[FieldSurfaceIndex][LeftBottom]);
-			field[FieldSurfaceIndex][RightBottom].surfacePartsModelTrans = transform1;
+		field[FieldSurfaceIndex][RightBottom] = std::move(field[FieldSurfaceIndex][LeftBottom]);
+		field[FieldSurfaceIndex][RightBottom].surfacePartsModelTrans = transform1;
 
-			field[FieldSurfaceIndex][LeftBottom] = std::move(element);
-			field[FieldSurfaceIndex][LeftBottom].surfacePartsModelTrans = transform2;
+		field[FieldSurfaceIndex][LeftBottom] = std::move(element);
+		field[FieldSurfaceIndex][LeftBottom].surfacePartsModelTrans = transform2;
 
 		break;
 
@@ -596,35 +787,36 @@ void Stage::FieldPlaneFold()
 void Stage::Update(Camera* camera)
 {
 
-	if (Input::GetInstance()->TriggerPush(DIK_A))
-	{
-		fieldPlaneTrans_.rotation.x += 90.0f * AliceMathF::Deg2Rad;
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_S))
-	{
-		fieldPlaneTrans_.rotation.x -= 90.0f * AliceMathF::Deg2Rad;
+	//if (Input::GetInstance()->TriggerPush(DIK_A))
+	//{
+	//	fieldPlaneTrans_.rotation.x += 90.0f * AliceMathF::Deg2Rad;
+	//}
+	//if (Input::GetInstance()->TriggerPush(DIK_S))
+	//{
+	//	fieldPlaneTrans_.rotation.x -= 90.0f * AliceMathF::Deg2Rad;
 
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_D))
-	{
-		fieldPlaneTrans_.rotation.y += 90.0f * AliceMathF::Deg2Rad;
+	//}
+	//if (Input::GetInstance()->TriggerPush(DIK_D))
+	//{
+	//	fieldPlaneTrans_.rotation.y += 90.0f * AliceMathF::Deg2Rad;
 
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_F))
-	{
-		fieldPlaneTrans_.rotation.y -= 90.0f * AliceMathF::Deg2Rad;
+	//}
+	//if (Input::GetInstance()->TriggerPush(DIK_F))
+	//{
+	//	fieldPlaneTrans_.rotation.y -= 90.0f * AliceMathF::Deg2Rad;
 
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_G))
-	{
-		fieldPlaneTrans_.rotation.z += 90.0f * AliceMathF::Deg2Rad;
+	//}
+	//if (Input::GetInstance()->TriggerPush(DIK_G))
+	//{
+	//	fieldPlaneTrans_.rotation.z += 90.0f * AliceMathF::Deg2Rad;
 
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_H))
-	{
-		fieldPlaneTrans_.rotation.z -= 90.0f * AliceMathF::Deg2Rad;
+	//}
+	//if (Input::GetInstance()->TriggerPush(DIK_H))
+	//{
+	//	fieldPlaneTrans_.rotation.z -= 90.0f * AliceMathF::Deg2Rad;
 
-	}
+	//}
+
 	if (fieldPlaneDrawFlag)
 	{
 		switch (foldDirection)
@@ -701,42 +893,30 @@ void Stage::Update(Camera* camera)
 	}
 
 	fieldPlaneTrans_.TransUpdate(camera);
-	field[Top][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[Top][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[Top][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-	field[Top][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
-	field[Left][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[Left][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[Left][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-	field[Left][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-
-	field[CenterLeft][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[CenterLeft][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-	field[CenterLeft][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-	field[CenterLeft][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
+	for (size_t i = 0; i < field.size(); i++)
+	{
+		for (size_t j = 0; j < field[Top].size(); j++)
+		{
+			field[i][j].surfacePartsModelTrans.TransUpdate(camera);
+		}
+	}
 }
 
 void Stage::Draw()
 {
 
-	field[Top][LeftTop].Draw();
-	field[Top][RightTop].Draw();
-	field[Top][LeftBottom].Draw();
-	field[Top][RightBottom].Draw();
-
-	field[Left][LeftTop].Draw();
-	field[Left][RightTop].Draw();
-	field[Left][LeftBottom].Draw();
-	field[Left][RightBottom].Draw();
-
+	for (size_t i = 0; i < field.size(); i++)
+	{
+		for (size_t j = 0; j < field[Top].size(); j++)
+		{
+			field[i][j].Draw();
+		}
+	}
 
 	if (!Input::GetInstance()->KeepPush(DIK_E))
 	{
-		field[CenterLeft][LeftTop].Draw();
-		field[CenterLeft][RightTop].Draw();
-		field[CenterLeft][LeftBottom].Draw();
-		field[CenterLeft][RightBottom].Draw();
+
 	}
 
 	if (fieldPlaneDrawFlag)
@@ -757,7 +937,8 @@ void Stage::Draw()
 		}
 	}
 
-
+	//verticalFoldFbxmodel_->Draw(&fieldPlaneTrans_);
+	//besideFoldFbxmodel_->Draw(&fieldPlaneTrans_);
 }
 
 void FieldElement::Draw()
