@@ -315,12 +315,6 @@
     <ClInclude Include="lib\Engine\3D\3DMesh.h">
       <Filter>Engine\ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="CinemaCamera.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PostEffectManager.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
@@ -328,6 +322,21 @@
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="UserCamera.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionTypes.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCollider.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -432,6 +441,7 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl" />
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl" />
+    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp">
@@ -609,12 +619,6 @@
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp">
       <Filter>Engine\ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="CinemaCamera.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PostEffectManager.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
@@ -623,6 +627,12 @@
     </ClCompile>
     <ClCompile Include="UserCamera.cpp">
       <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectManager.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Camera\CinemaCamera.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

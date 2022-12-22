@@ -5,6 +5,7 @@
 #include"Input.h"
 #include"Vector3.h"
 
+#include"CollisionInfo.h"
 
 class Player {
 
@@ -15,21 +16,23 @@ public:
 	/// <param name="modelHandl">モデルハンドル</param>
 	Player(uint32_t modelHandl);
 
+	virtual ~Player();
+
 	/// <summary>
 	/// リセットした時の初期化処理
 	/// </summary>
-	void Initialise();
+	virtual void Initialise();
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="camera"></param>
-	void Update(Camera* camera);
+	virtual void Update(Camera* camera);
 
 	/// <summary>
 	/// 実際の描画
 	/// </summary>
-	void Draw();
+	virtual void Draw();
 
 	/// <summary>
 	/// プレイヤーのジャンプ
@@ -43,6 +46,18 @@ public:
 
 
 	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
+
+	void SetCollider(BaseCollider* collider);
+
+	virtual void OnCollision(const CollisionInfo& info){}
+
+protected:
+	//クラス名(デバック用)
+	const char* name = nullptr;
+
+	//コライダー
+	BaseCollider* collider = nullptr;
+
 
 private:
 

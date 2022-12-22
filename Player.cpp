@@ -10,9 +10,16 @@ Player::Player(uint32_t modelHandl) {
 	worldTransform_.Initialize();
 }
 
+Player::~Player() {
+	if (collider) {
+		delete collider;
+	}
+}
+
 void Player::Initialise(){
 
-	
+	//クラス名の文字列を取得
+	name = typeid(*this).name();
 
 }
 
@@ -22,6 +29,12 @@ void Player::Update(Camera* camera) {
 	PlayerMove();
 	
 	worldTransform_.TransUpdate(camera);
+
+	//当たり判定更新
+	if (collider) {
+		collider->Update();
+	}
+
 }
 
 void Player::PlayerJump() {
