@@ -40,6 +40,13 @@ private:
 	// 回転行列
 	AliceMathF::Matrix4 matRot;
 
+	float fTheta = 4.57f;//カメラ横方向角度
+	float fDelta = 0.43f;//カメラ縦方向角度
+
+	float mousepoint_a;//マウス位置
+	float mousepoint_b;//マウス位置
+	bool dirty = false;
+
 	// スケーリング
 	float scaleX_ = 1.0f;
 	float scaleY_ = 1.0f;

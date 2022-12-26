@@ -53,7 +53,7 @@ void GameScene::Initialize()
 
 	player = new Player(modelHandle1);
 	player->Initialise();
-	userCamera = new UserCamera(1280, 640);
+	userCamera = new UserCamera(1280, 720);
 
 }
 
@@ -66,7 +66,7 @@ void GameScene::Update()
 	player->Update(camera.get());
 	//model->BlendShapeUpdate(fram);
 
-	if (input->KeepPush(DIK_W))
+	/*if (input->KeepPush(DIK_W))
 	{
 		move += {0.0f, 0.0f, 1.0f};
 	}
@@ -116,7 +116,7 @@ void GameScene::Update()
 
 	}
 
-	camera->MovePosition(move);
+	camera->MovePosition(move);*/
 
 	if (input->TriggerPush(DIK_SPACE)) {
 		if (cameraType == 0) {
@@ -131,6 +131,10 @@ void GameScene::Update()
 	userCamera->SetCameraPosition(player->GetPlayerPos());
 	userCamera->Update();
 	if (cameraType == 0) {
+
+		camera->SetTarget(AliceMathF::Vector3(0.0f,0.0f,0.0f));
+		p = camera->GetTarget();
+		p = userCamera->GetEye();
 		camera->SetEye(camera->GetTarget() + userCamera->GetEye());
 		camera->SetUp(userCamera->GetUp());
 	}
@@ -139,6 +143,10 @@ void GameScene::Update()
 		camera->SetTarget(userCamera->GetTarget());
 	}
 
+
+	p = camera->GetEye();
+	
+	camera->Update();
 	trans.TransUpdate(camera.get());
 
 	//trans.GetWorldViewpojCamera()->matWorld =

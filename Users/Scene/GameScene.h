@@ -63,6 +63,7 @@ private:
 	UserCamera* userCamera = nullptr;
 	int cameraType = 0;
 
+	AliceMathF::Vector3 p;
 public:
 
 	GameScene();

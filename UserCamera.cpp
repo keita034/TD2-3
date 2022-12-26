@@ -43,7 +43,7 @@ void UserCamera::Update() {
 
 	switch (cameraType){
 	case 0:
-		//vTargetEye = { 0.0f, 0.0f, -distance_ };
+		
 		MouseRotation();
 
 		break;
@@ -69,25 +69,34 @@ void UserCamera::MouseRotation(){
 	AliceMathF::Vector2 mouseMovement = mousePos - oldMousePos;
 
 	// マウスの左ボタンが押されていたらカメラを回転させる
-	if (input_->MouseButtonInput(MouseButton::LEFT))
-	{
-		float dy = mouseMovement.x * scaleY_;
-		float dx = mouseMovement.y * scaleX_;
+	if (input_->MouseButtonInput(MouseButton::LEFT)){
 
-		angleX = -dx * AliceMathF::AX_PI;
-		angleY = -dy * AliceMathF::AX_PI;
 		dirty = true;
 	}
 
 	if (dirty) {
-		// 追加回転分の回転行列を生成
-		AliceMathF::Matrix4 matRotNew;
-		matRotNew.MakeRotationX(-angleX);
-		matRotNew.MakeRotationY(-angleY);
 
-		MultiplyMatrix(matRotNew);
+		fTheta -= (mousePos.x - oldMousePos.x) * 0.003f;//カメラ横方向角度変更
+
+		if (fDelta + (mousePos.y - oldMousePos.y) * 0.003f >= AliceMathF::AX_PI / 2.0f - 0.0001f)
+		{
+			fDelta = AliceMathF::AX_PI / 2.0f - 0.0001f;//カメラ縦方向角度変更
+		}
+		else if (fDelta + (mousePos.y - oldMousePos.y) * 0.003f <= -AliceMathF::AX_PI / 2.0f + 0.0001f)
+		{
+			fDelta = -AliceMathF::AX_PI / 2.0f + 0.0001f;//カメラ縦方向角度変更
+		}
+		else
+		{
+			fDelta += (mousePos.y - oldMousePos.y) * 0.003f;//カメラ縦方向角度変更
+		}
+
 	}
 
+	//カメラ位置決定
+	vTargetEye.x = distance_ * cos(fDelta) * cos(fTheta);
+	vTargetEye.y = distance_ * sin(fDelta);
+	vTargetEye.z = distance_ * cos(fDelta) * sin(fTheta);
 }
 
 void UserCamera::LabyrinthCamera(){
@@ -147,7 +156,7 @@ void UserCamera::LabyrinthCamera(){
 void UserCamera::MultiplyMatrix(const AliceMathF::Matrix4& matrix) {
 	// 累積の回転行列を合成
 	matRot = matrix * matRot;
-
+	
 	// 注視点から視点へのベクトルと、上方向ベクトル
 	vTargetEye = { 0.0f, 0.0f, -distance_ };
 	vUp = { 0.0f, 1.0f, 0.0f };
