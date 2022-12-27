@@ -64,4 +64,6 @@ private:
 	AliceMathF::Vector2 mouseMoved;
 	Transform worldTransform_;
 
+	float playerCameraDistance = 5.0f;
+
 };

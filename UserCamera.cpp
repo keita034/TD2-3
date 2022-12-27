@@ -135,7 +135,7 @@ void UserCamera::LabyrinthCamera(){
 	//マウスの移動量を取得
 	MouseMove = AliceMathF::Vector2(0, 0);
 	MouseMove = (AliceMathF::Vector2(mousePosition.y, mousePosition.x) - AliceMathF::Vector2(windowWH.y, windowWH.x));//座標軸で回転している関係でこうなる(XとYが入れ替え)
-	mouseMoved += AliceMathF::Vector2(MouseMove.x, MouseMove.y) / 1000;
+	mouseMoved += AliceMathF::Vector2(MouseMove.x, MouseMove.y) / 500;
 	SetCursorPos(xPos_absolute, yPos_absolute);
 
 	AliceMathF::Vector3 rotation = AliceMathF::Vector3(mouseMoved.x, mouseMoved.y, 0);
@@ -145,12 +145,13 @@ void UserCamera::LabyrinthCamera(){
 	cameraRot.MakeRotation(rotation);
 
 	//ワールド前方ベクトル
-	AliceMathF::Vector3 forward(0, 0, 1);
+	AliceMathF::Vector3 forward(0, 0, playerCameraDistance);
 	//レールカメラの回転を反映
 	forward = Vector3Transform(forward, cameraRot);
 
-	target = (playerPos + AliceMathF::Vector3(0, 4, -10)) + forward;
-	vTargetEye = playerPos + AliceMathF::Vector3(0, 4, -10);
+	target = playerPos;
+	vTargetEye = playerPos + (forward * 5);
+	vTargetEye.y = -vTargetEye.y;
 }
 
 void UserCamera::MultiplyMatrix(const AliceMathF::Matrix4& matrix) {
@@ -163,7 +164,6 @@ void UserCamera::MultiplyMatrix(const AliceMathF::Matrix4& matrix) {
 
 	// ベクトルを回転
 	vTargetEye = Vector3Transform(vTargetEye, matRot);
-	vUp = Vector3Transform(vUp, matRot);
 
 }
 
