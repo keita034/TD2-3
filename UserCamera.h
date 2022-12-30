@@ -26,6 +26,8 @@ public:
 	AliceMathF::Vector3 GetEye() { return vTargetEye; }
 	AliceMathF::Vector3 GetUp() { return vUp; }
 	AliceMathF::Vector3 GetTarget() { return target; }
+	AliceMathF::Matrix4 GetCameraRot() { return this->CameraRot; }
+
 
 	void SetCameraType(int x) { cameraType = x; }
 	void SetCameraPosition(AliceMathF::Vector3 pos) { playerPos = pos; }
@@ -64,6 +66,7 @@ private:
 	AliceMathF::Vector2 mouseMoved;
 	Transform worldTransform_;
 
-	float playerCameraDistance = 5.0f;
+	AliceMathF::Matrix4 CameraRot;
+	float playerCameraDistance = 6.0f;
 
 };

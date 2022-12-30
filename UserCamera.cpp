@@ -43,11 +43,14 @@ void UserCamera::Update() {
 
 	switch (cameraType){
 	case 0:
-		
+		// マウスカーソルの表示
+		ShowCursor(TRUE);
 		MouseRotation();
 
 		break;
 	case 1:
+		// マウスカーソルの表示
+		ShowCursor(FALSE);
 		vUp = { 0.0f,1.0f,0.0f };
 		LabyrinthCamera();
 
@@ -67,6 +70,7 @@ void UserCamera::MouseRotation(){
 	float angleY = 0;
 
 	AliceMathF::Vector2 mouseMovement = mousePos - oldMousePos;
+
 
 	// マウスの左ボタンが押されていたらカメラを回転させる
 	if (input_->MouseButtonInput(MouseButton::LEFT)){
@@ -100,9 +104,6 @@ void UserCamera::MouseRotation(){
 }
 
 void UserCamera::LabyrinthCamera(){
-
-	// マウスカーソルの表示
-	ShowCursor(FALSE);
 
 	//カメラの回転ベクトル
 	AliceMathF::Vector3 rotat = { 0, 0, 0 };
@@ -144,13 +145,15 @@ void UserCamera::LabyrinthCamera(){
 
 	cameraRot.MakeRotation(rotation);
 
+	CameraRot = cameraRot;
+
 	//ワールド前方ベクトル
 	AliceMathF::Vector3 forward(0, 0, playerCameraDistance);
 	//レールカメラの回転を反映
 	forward = Vector3Transform(forward, cameraRot);
 
 	target = playerPos;
-	vTargetEye = playerPos + (forward * 5);
+	vTargetEye = playerPos + (forward * playerCameraDistance);
 	vTargetEye.y = -vTargetEye.y;
 }
 

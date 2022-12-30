@@ -53,21 +53,35 @@ void Player::PlayerMove() {
 	AliceMathF::Vector3 playerMovement = { 0,0,0 };
 
 	if (input_->KeepPush(DIK_W)) {
-		playerMovement.z = playerSpeed;
-	}
-	if (input_->KeepPush(DIK_A)) {
-		playerMovement.x = -playerSpeed;
-	}
-	if (input_->KeepPush(DIK_S)) {
 		playerMovement.z = -playerSpeed;
 	}
-	if (input_->KeepPush(DIK_D)) {
+	if (input_->KeepPush(DIK_A)) {
 		playerMovement.x = playerSpeed;
 	}
+	if (input_->KeepPush(DIK_S)) {
+		playerMovement.z = playerSpeed;
+	}
+	if (input_->KeepPush(DIK_D)) {
+		playerMovement.x = -playerSpeed;
+	}
+
+	playerMovement = Vector3Transform(playerMovement, CameraRot);
+	playerMovement.y = 0;
 	worldTransform_.translation += playerMovement;
 }
 
 void Player::Draw() {
 
 	model->Draw(&worldTransform_);
+}
+
+AliceMathF::Vector3 Player::Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m) {
+
+	AliceMathF::Vector3 result{
+		  v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + m.m[3][0],
+		  v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + m.m[3][1],
+		  v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + m.m[3][2]
+	};
+
+	return result;
 }

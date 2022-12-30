@@ -63,6 +63,9 @@ void GameScene::Update()
 
 	fram += 0.03f;
 	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
+	if (cameraType == 1) {
+		player->SetCameraRot(userCamera->GetCameraRot());
+	}
 	player->Update(camera.get());
 	//model->BlendShapeUpdate(fram);
 

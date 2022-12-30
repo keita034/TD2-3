@@ -41,8 +41,11 @@ public:
 	/// </summary>
 	void PlayerMove();
 
+	AliceMathF::Vector3 Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m);
 
 	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
+
+	void SetCameraRot(AliceMathF::Matrix4 camera) { CameraRot = camera; }
 
 private:
 
@@ -55,5 +58,7 @@ private:
 	float gravity = 9.0f;
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
+
+	AliceMathF::Matrix4 CameraRot;
 	
 };
