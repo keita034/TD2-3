@@ -74,6 +74,10 @@ public:
 	bool FlipUV(const std::string& materialName,bool inverseU = false, bool inverseV = false);
 
 	bool rotationUV(const std::string& materialName, float angle);
+
+	void InitializeVertex();
+
+
 private:
 
 	void ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform);

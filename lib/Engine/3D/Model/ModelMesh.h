@@ -168,6 +168,8 @@ public:
 
 	BoneData bonedata;
 
+	bool dirtyFlag;
+
 	ModelMesh() = default;
 	~ModelMesh() = default;
 public:
@@ -189,6 +191,8 @@ public:
 	void FillVertex();
 
 	void InitializeVertex();
+
+	void InitializeVertexPos();
 
 private:
 };

@@ -336,6 +336,18 @@
     <ClInclude Include="lib\Engine\Math\float\Matrix3.h">
       <Filter>Engine\ヘッダー ファイル\Math\float</Filter>
     </ClInclude>
+    <ClInclude Include="VerticalFold.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldConstant.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BesideFold.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFold.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -636,6 +648,15 @@
     </ClCompile>
     <ClCompile Include="lib\Engine\Math\float\Matrix3.cpp">
       <Filter>Engine\ソース ファイル\Math\float</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalFold.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BesideFold.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFold.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
