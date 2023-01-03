@@ -9,7 +9,7 @@ namespace AliceMathF
 	class Matrix4
 	{
 	public:
-		float m[4][4];
+		std::array<std::array<float, 4>, 4>m;
 
 		/// <summary>
 		/// コンストラクタ

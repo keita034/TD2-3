@@ -20,6 +20,7 @@ private:
 
 public:
 
+	float GetAnimeMaxflame();
 
 private:
 

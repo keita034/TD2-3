@@ -68,5 +68,5 @@ void Player::PlayerMove() {
 
 void Player::Draw() {
 
-	model->Draw(&worldTransform_);
+	model->Draw(worldTransform_);
 }

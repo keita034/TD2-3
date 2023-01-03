@@ -1,5 +1,6 @@
 #include "Vector.h"
 #include"AliceMathUtility.h"
+
 namespace AliceMathF
 {
 	const Vector4 operator+(const Vector3& v1, const Vector4& v2)
@@ -38,6 +39,18 @@ namespace AliceMathF
 		retVec.y = vec.x * mat.m[0][1] + vec.y * mat.m[1][1] + vec.z * mat.m[2][1];
 
 		retVec.z = vec.x * mat.m[0][2] + vec.y * mat.m[1][2] + vec.z * mat.m[2][2];
+
+		return retVec;
+	}
+
+	Vector2 Vec2Mat3Mul(const Vector2& vec, const Matrix3& mat)
+	{
+		Vector2 retVec = {};
+
+		retVec.x = vec.x * mat.m[0][0] + vec.y * mat.m[1][0] + 1.0f * mat.m[2][0];
+
+		retVec.y = vec.x * mat.m[0][1] + vec.y * mat.m[1][1] + 1.0f * mat.m[2][1];
+
 
 		return retVec;
 	}

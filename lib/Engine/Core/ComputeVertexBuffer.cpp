@@ -57,6 +57,8 @@ void ComputeVertexBuffer::Create(size_t length, size_t singleSize, const void* d
 	handl.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateUAV(uavDesc, vertexBuffer.Get());
 
 	isValid = true;
+
+	vertexBuffer->Unmap(0, nullptr);
 }
 
 void ComputeVertexBuffer::Update(void* data)
@@ -66,8 +68,18 @@ void ComputeVertexBuffer::Update(void* data)
 		return;
 	}
 
+	HRESULT result = vertexBuffer->Map(0, nullptr, &bufferMappedPtr);
+
+	if (FAILED(result))
+	{
+		printf("頂点バッファマッピングに失敗");
+		return;
+	}
+
 	// 頂点データをマッピング先に設定
 	memcpy(bufferMappedPtr, data, vertexBufferView.SizeInBytes);
+
+	vertexBuffer->Unmap(0, nullptr);
 }
 
 D3D12_VERTEX_BUFFER_VIEW ComputeVertexBuffer::GetView() const

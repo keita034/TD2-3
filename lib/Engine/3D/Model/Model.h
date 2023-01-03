@@ -152,11 +152,17 @@ public:
 	Model() = default;
 	~Model() = default;
 
-	void Draw(Transform* transform, Material* material = nullptr);
+	void Draw(Transform& transform , Material* material = nullptr);
 
 	void BlendShapeUpdate(float& t);
 
 	void EffectDraw(Transform* transform, float velocity, Material* material = nullptr);
+
+	bool RotationUV(float angle);
+
+	void SetTexture(uint32_t handle);
+
+	void FlipUV(bool inverseU = false, bool inverseV = false);
 
 	static uint32_t CreatePrimitiveModel(ModelShape type);
 

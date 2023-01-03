@@ -1,20 +1,33 @@
 #pragma once
-#include <memory>
+#include"ErrorException.h"
 #include "Model.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "fbxModel.h"
+#include "VerticalFold.h"
+#include"FieldConstant.h"
+#include"BesideFold.h"
+#include"SurfaceFold.h"
 
 class Stage
 {
 private:
-	// ワールド変換データ
-	Transform mainStageTrans_;
-	Transform foldStageTrans_;
-	// モデル
-	std::unique_ptr<Model> mainStageModel_;
-	std::unique_ptr<Model> foldStageModel_;
-	uint32_t mainStageHandle_;
-	uint32_t foldStageHandle_;
+
+	//どこの面を畳むか
+	FieldIndex FieldSurfaceIndex;
+
+	//どの方向に畳むのか
+	FoldIndex foldDirection;
+
+	bool fieldPlaneDrawFlag = false;
+
+	std::array<std::array<FieldElement, 4>, 6> field;
+
+	std::unique_ptr<VerticalFold> verticalFold_;
+
+	std::unique_ptr<BesideFold> besideFold_;
+
+	std::unique_ptr<SurfaceFold> surfaceFold_;
 
 public:
 	Stage() = default;
@@ -23,7 +36,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(uint32_t& model);
+	void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -35,8 +48,12 @@ public:
 	/// </summary>
 	void Draw();
 
-	/// <summary>
-	/// 畳む基本動作
-	/// </summary>
-	void InitializeFold(uint32_t& model);
+	void FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex);
+
+private:
+
+	// コピーコンストラクタを禁止
+	Stage(const Stage& p) = delete;
+	// コピー代入演算子を禁止
+	void operator=(const Stage& p) = delete;
 };

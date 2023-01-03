@@ -26,113 +26,82 @@ void GameScene::Initialize()
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
-	modelHandle = Model::CreateObjModel("Resources/cube");
+	userCamera = new UserCamera(1280, 640);
 
-	model = std::make_unique<Model>();
-	model->SetModel(modelHandle);
+	stage = std::make_unique<Stage>();
 
-
-	spriteHandle = TextureManager::Load("Resources/col.png");
-	sprite.reset(Sprite::Create2DSprite(spriteHandle));
-	sprite->SetSize({ (float)WindowsApp::GetWindowsSize().width, (float)WindowsApp::GetWindowsSize().height });
-	//trans.translation = { WindowsApp::GetWindowsSize().width / 2.0f,WindowsApp::GetWindowsSize().height / 2.0f ,0 };
-	trans.translation = { 0,0,0 };
-	//trans.scale = {0.01f,0.01f,0.01f };
-	trans.Initialize();
-
-	modelHandle1 = Model::CreateObjModel("Resources/cube2");
-	modelHandle2 = Model::CreateObjModel("Resources/cube3");
-
-	model->SetBlendModel({ modelHandle1,modelHandle2 });
-	FbxModel = std::make_unique<fbxModel>();
-	FbxModel->Initialize();
-	FbxModel->Create("Resources/FBX",false,false,true,false);
-
-	fbxAnim = std::make_unique<fbxAnimation>();
-	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FBX","test");
+	stage->Initialize();
 }
 
 void GameScene::Update()
 {
 	AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
 
-	fram += 0.03f;
-	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
-	//model->BlendShapeUpdate(fram);
-
-	if (input->KeepPush(DIK_W))
-	{
-		move += {0.0f, 0.0f, 1.0f};
-	}
-	if (input->KeepPush(DIK_S))
-	{
-		move -= {0.0f, 0.0f, 1.0f};
-	}
-
-	if (input->KeepPush(DIK_A))
-	{
-		move += {1.0f, 0.0f, 0.0f};
-	}
-	if (input->KeepPush(DIK_D))
-	{
-		move -= {1.0f, 0.0f, 0.0f};
-	}
-
-	if (input->KeepPush(DIK_Z))
-	{
-		move += {0.0f, 1.0f, 0.0f};
-		camera->MoveTarget({ 0.0f, 1.0f, 0.0f });
-	}
-	if (input->KeepPush(DIK_X))
-	{
-		move -= {0.0f, 1.0f, 0.0f};
-		camera->MoveTarget({ 0.0f, -1.0f, 0.0f });
-	}
-
-	if (input->KeepPush(DIK_UP))
-	{
-		move += {0.0f, 1.0f, 0.0f};
-	}
-	if (input->KeepPush(DIK_DOWN))
-	{
-		move -= {0.0f, 1.0f, 0.0f};
-	}
-
-	if (input->KeepPush(DIK_I))
-	{
-		lns += 0.1f;
-		camera->SetFocalLength(lns);
-	}
-	if (input->KeepPush(DIK_K))
-	{
-		lns -= 0.1f;
-		camera->SetFocalLength(lns);
-
-	}
-
 	camera->MovePosition(move);
 
-	trans.TransUpdate(camera.get());
+	userCamera->Update();
+	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
+	camera->SetUp(userCamera->GetUp());
 
-	//trans.GetWorldViewpojCamera()->matWorld =
-	//{
-	//	1.50888f,0.0f,0.0f ,0.0f
-	//	,0.0f, 2.40228f,-0.099317f,-0.0993071f,
-	//	0.0f,0.239748f,0.995156f,0.995057f,
-	//0.0f,-24.0707,101.402f,101.492 };
-	//trans.Update();
+	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
+	{
+		stage->FieldPlaneFoldStart(Left, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
+	{
+		stage->FieldPlaneFoldStart(Left, FoldIndex::Vertical);
+	}
 
-	//fram += 0.01f;
+	if (Input::GetInstance()->TriggerPush(DIK_RIGHT))
+	{
+		stage->FieldPlaneFoldStart(Top, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_LEFT))
+	{
+		stage->FieldPlaneFoldStart(Top, FoldIndex::Vertical);
+	}
 
+	if (Input::GetInstance()->TriggerPush(DIK_UP))
+	{
+		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_DOWN))
+	{
+		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Vertical);
+	}
 
+	if (Input::GetInstance()->TriggerPush(DIK_Z))
+	{
+		stage->FieldPlaneFoldStart(CenterRight, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_X))
+	{
+		stage->FieldPlaneFoldStart(CenterRight, FoldIndex::Vertical);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_C))
+	{
+		stage->FieldPlaneFoldStart(Right, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_V))
+	{
+		stage->FieldPlaneFoldStart(Right, FoldIndex::Vertical);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_B))
+	{
+		stage->FieldPlaneFoldStart(Bottom, FoldIndex::Beside);
+	}
+	if (Input::GetInstance()->TriggerPush(DIK_N))
+	{
+		stage->FieldPlaneFoldStart(Bottom, FoldIndex::Vertical);
+	}
+	stage->Update(camera.get());
 }
 
 void GameScene::Draw()
 {
-	FbxModel->Draw(&trans);
-	//model->Draw(&trans);
-
-	//sprite->Draw(trans);
+	stage->Draw();
 }
 
 GameScene* GameScene::GetInstance()

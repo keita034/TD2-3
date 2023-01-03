@@ -66,7 +66,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)Users\Scene;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Camera;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)Users\Object\Player;$(ProjectDir)Users\Object;$(ProjectDir)lib\Engine\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,7 +87,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,6 +98,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BesideFold.h" />
+    <ClInclude Include="FieldConstant.h" />
     <ClInclude Include="lib\Engine\2D\Button.h" />
     <ClInclude Include="lib\Engine\2D\Cursor.h" />
     <ClInclude Include="lib\Engine\2D\Mesh.h" />
@@ -150,6 +152,8 @@
     <ClInclude Include="lib\Engine\Math\AliceMathUtility.h" />
     <ClInclude Include="lib\Engine\Math\double\AliceMath.h" />
     <ClInclude Include="lib\Engine\Math\float\AliceMathF.h" />
+    <ClInclude Include="lib\Engine\Math\float\Matrix.h" />
+    <ClInclude Include="lib\Engine\Math\float\Matrix3.h" />
     <ClInclude Include="lib\Engine\Math\float\Matrix4.h" />
     <ClInclude Include="lib\Engine\Math\float\Quaternion.h" />
     <ClInclude Include="lib\Engine\Math\float\Vector.h" />
@@ -161,8 +165,10 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="SurfaceFold.h" />
     <ClInclude Include="UserCamera.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
+    <ClInclude Include="VerticalFold.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc" />
@@ -323,6 +329,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BesideFold.cpp" />
     <ClCompile Include="lib\Engine\2D\Button.cpp" />
     <ClCompile Include="lib\Engine\2D\Cursor.cpp" />
     <ClCompile Include="lib\Engine\2D\Mesh.cpp" />
@@ -374,6 +381,8 @@
     <ClCompile Include="lib\Engine\Math\AliceMathUtility.cpp" />
     <ClCompile Include="lib\Engine\Math\double\AliceMath.cpp" />
     <ClCompile Include="lib\Engine\Math\float\AliceMathF.cpp" />
+    <ClCompile Include="lib\Engine\Math\float\Matrix.cpp" />
+    <ClCompile Include="lib\Engine\Math\float\Matrix3.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Matrix4.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Quaternion.cpp" />
     <ClCompile Include="lib\Engine\Math\float\Vector.cpp" />
@@ -385,8 +394,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="SurfaceFold.cpp" />
     <ClCompile Include="UserCamera.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
+    <ClCompile Include="VerticalFold.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

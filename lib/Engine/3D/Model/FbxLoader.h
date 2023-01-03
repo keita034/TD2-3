@@ -33,9 +33,10 @@ private:
 		aiProcess_RemoveRedundantMaterials| //冗長なマテリアルを削除
 		aiProcess_OptimizeMeshes| //メッシュ数を最適化
 		aiProcess_MakeLeftHanded| //ノードを左手座標系に
-		aiProcess_GenBoundingBoxes| //AABBを生成
 		aiProcess_JoinIdenticalVertices|//インデックスを生成
 		aiProcess_LimitBoneWeights;//各頂点が影響を受けるボーンを4に制限
+
+	char PAGING[4]{};
 
 	//const UINT ASSIMP_LOAD_FLAG_DEFAULT =
 	//	aiProcess_Triangulate | //三角面化

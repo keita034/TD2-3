@@ -35,7 +35,7 @@ bool PipelineState::Create()
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
+	pipelineDesc.RasterizerState.CullMode = cullMode; // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -85,6 +85,11 @@ void PipelineState::SetDomainShader(D3D12_SHADER_BYTECODE* pDsByte)
 void PipelineState::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type)
 {
 	primitiveType = type;
+}
+
+void PipelineState::SetCullMode(D3D12_CULL_MODE model)
+{
+	cullMode = model;
 }
 
 ID3D12PipelineState* PipelineState::GetPipelineState()

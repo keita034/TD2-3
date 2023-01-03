@@ -168,6 +168,8 @@ public:
 
 	BoneData bonedata;
 
+	bool dirtyFlag;
+
 	ModelMesh() = default;
 	~ModelMesh() = default;
 public:
@@ -187,5 +189,10 @@ public:
 	void Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandList* cmdList);
 
 	void FillVertex();
+
+	void InitializeVertex();
+
+	void InitializeVertexPos();
+
 private:
 };

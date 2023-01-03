@@ -34,7 +34,7 @@ namespace AliceMathF
 		}
 		else
 		{
-			int i = 0;
+			size_t i = 0;
 			if (m.m[0][0] <= m.m[1][1])
 			{
 				i = 1;
@@ -44,8 +44,8 @@ namespace AliceMathF
 				i = 2;
 			}
 
-			int j = (i + 1) % 3;
-			int k = (j + 1) % 3;
+			size_t j = (i + 1) % 3;
+			size_t k = (j + 1) % 3;
 
 			tr = m.m[i][i] - m.m[j][k] - m.m[k][k] + 1.0f;
 

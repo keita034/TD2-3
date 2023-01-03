@@ -73,10 +73,11 @@ void main(uint3 DTid : SV_DispatchThreadID)
     outputData.pos += boneWeight * mul(m, input[DTid.x].pos);
     outputData.normal += boneWeight * mul((float3x3) m, input[DTid.x].normal);
  
-    outputData.uv = input[DTid.x].uv;
-    outputData.tangent = input[DTid.x].tangent;
-    outputData.color = input[DTid.x].color;
+    //outputData.uv = input[DTid.x].uv;
+    //outputData.tangent = input[DTid.x].tangent;
+    //outputData.color = input[DTid.x].color;
     
-    output[DTid.x] = outputData;
+    output[DTid.x].pos = outputData.pos;
+    output[DTid.x].normal = outputData.normal;
 
 }
