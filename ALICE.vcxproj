@@ -134,6 +134,7 @@
     <ClInclude Include="lib\Engine\Core\DirectX12Core.h" />
     <ClInclude Include="lib\Engine\Core\ErrorException.h" />
     <ClInclude Include="lib\Engine\Core\FPS.h" />
+    <ClInclude Include="lib\Engine\Core\GameMain.h" />
     <ClInclude Include="lib\Engine\Core\IndexBuffer.h" />
     <ClInclude Include="lib\Engine\Core\Material.h" />
     <ClInclude Include="lib\Engine\Core\PipelineState.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="lib\Engine\Core\DescriptorHeap.cpp" />
     <ClCompile Include="lib\Engine\Core\DirectX12Core.cpp" />
     <ClCompile Include="lib\Engine\Core\FPS.cpp" />
+    <ClCompile Include="lib\Engine\Core\GameMain.cpp" />
     <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\Material.cpp" />
     <ClCompile Include="lib\Engine\Core\PipelineState.cpp" />
