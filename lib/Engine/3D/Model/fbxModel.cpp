@@ -36,7 +36,7 @@ void fbxModel::Draw(Transform* transform, Material* material)
 				vertexInitialize = false;
 			}
 
-			meshes[i].InitializeVertex();
+			meshes[i].InitializeVertexPos();
 
 		}
 
@@ -85,7 +85,7 @@ void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 	FLOAT TimeInTicks = frame * TicksPerSecond;
 	FLOAT AnimationTime = fmod(TimeInTicks, (FLOAT)pAnimation->mDuration);
 
-	for (ModelMesh mesh : meshes)
+	for (ModelMesh& mesh : meshes)
 	{
 		ReadNodeHeirarchy(&mesh, pAnimation, AnimationTime, pNode, mxIdentity);
 
@@ -220,6 +220,7 @@ bool fbxModel::FlipUV(const std::string& materialName, bool inverseU, bool inver
 			}
 		}
 
+		materialItr->dirtyFlag = true;
 		materialItr->vertexBuffer->Update(materialItr->vertices.data());
 	}
 	return false;
@@ -239,14 +240,28 @@ bool fbxModel::rotationUV(const std::string& materialName, float angle)
 		AliceMathF::Matrix3 mat;
 		mat.MakeRotation(angle);
 
-		for (PosNormUvTangeColSkin& vertice : materialItr->vertices)
+		for (PosNormUvTangeCol& vertice : materialItr->vertice)
 		{
-				vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
+			vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
 		}
 
-		materialItr->vertexBuffer->Update(materialItr->vertices.data());
+		materialItr->vertexBuffer->Update(materialItr->vertice.data());
+
+		materialItr->dirtyFlag = true;
 	}
 	return false;
+}
+
+void fbxModel::InitializeVertex()
+{
+	for (ModelMesh& mesh : meshes)
+	{
+		if (mesh.dirtyFlag)
+		{
+			mesh.InitializeVertex();
+			mesh.dirtyFlag = false;
+		}
+	}
 }
 
 void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)

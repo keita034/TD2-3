@@ -113,6 +113,17 @@ void ModelMesh::InitializeVertex()
 	vertexBuffer->Update(vertice.data());
 }
 
+void ModelMesh::InitializeVertexPos()
+{
+	for (size_t i = 0; i < vertices.size(); ++i)
+	{
+		vertice[i].position = vertices[i].position;
+		vertice[i].normal = vertices[i].normal;
+	}
+
+	vertexBuffer->Update(vertice.data());
+}
+
 void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, Light* light)
 {
 	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
