@@ -43,59 +43,21 @@ void GameScene::Update()
 	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
 	camera->SetUp(userCamera->GetUp());
 
-	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
-	{
-		stage->FieldPlaneFoldStart(Left, FoldIndex::Beside);
-	}
 	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
 	{
-		stage->FieldPlaneFoldStart(Left, FoldIndex::Vertical);
+		stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
 	}
 
-	if (Input::GetInstance()->TriggerPush(DIK_RIGHT))
+	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
 	{
-		stage->FieldPlaneFoldStart(Top, FoldIndex::Beside);
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_LEFT))
-	{
-		stage->FieldPlaneFoldStart(Top, FoldIndex::Vertical);
-	}
-
-	if (Input::GetInstance()->TriggerPush(DIK_UP))
-	{
-		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Beside);
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_DOWN))
-	{
-		stage->FieldPlaneFoldStart(CenterLeft, FoldIndex::Vertical);
+		stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
 	}
 
 	if (Input::GetInstance()->TriggerPush(DIK_Z))
 	{
-		stage->FieldPlaneFoldStart(CenterRight, FoldIndex::Beside);
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_X))
-	{
-		stage->FieldPlaneFoldStart(CenterRight, FoldIndex::Vertical);
+		stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
 	}
 
-	if (Input::GetInstance()->TriggerPush(DIK_C))
-	{
-		stage->FieldPlaneFoldStart(Right, FoldIndex::Beside);
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_V))
-	{
-		stage->FieldPlaneFoldStart(Right, FoldIndex::Vertical);
-	}
-
-	if (Input::GetInstance()->TriggerPush(DIK_B))
-	{
-		stage->FieldPlaneFoldStart(Bottom, FoldIndex::Beside);
-	}
-	if (Input::GetInstance()->TriggerPush(DIK_N))
-	{
-		stage->FieldPlaneFoldStart(Bottom, FoldIndex::Vertical);
-	}
 	stage->Update(camera.get());
 }
 
