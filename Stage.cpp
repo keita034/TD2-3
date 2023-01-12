@@ -22,7 +22,7 @@ void Stage::Initialize()
 		standardAngle_ = 90.0f;
 
 		//ç∂è„
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map03.png");
 		field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
 		field[Top][LeftTop].field = Field::a;
 
@@ -39,7 +39,7 @@ void Stage::Initialize()
 		field[Top][LeftTop].surfacePartsModel->SetTexture(handl);
 
 		//âEè„
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map02.png");
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
 		field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
 		field[Top][RightTop].field = Field::b;
 
@@ -56,7 +56,7 @@ void Stage::Initialize()
 		field[Top][RightTop].surfacePartsModel->SetTexture(handl);
 
 		//ç∂â∫
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map03.png");
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map04.png");
 		field[Top][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 		field[Top][LeftBottom].field = Field::c;
 
@@ -73,7 +73,7 @@ void Stage::Initialize()
 		field[Top][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 		//âEâ∫Å@
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map04.png");
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map02.png");
 		field[Top][RightBottom].textureData = TextureManager::GetTextureData(handl);
 		field[Top][RightBottom].field = Field::d;
 
