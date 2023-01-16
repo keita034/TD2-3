@@ -15,7 +15,7 @@ void SurfaceFold::Initialize()
 	fieldPlaneTrans_.translation = { 0,-10,0 };
 }
 
-void SurfaceFold::Start(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex)
+void SurfaceFold::Start(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, float standardAngle)
 {
 	surfaceFoldFbxmodel_->InitializeVertex();
 
@@ -26,7 +26,7 @@ void SurfaceFold::Start(std::array<std::array<FieldElement, 4>, 6>& field, Field
 	case TopToCenterRight:
 	case TopToRight:
 
-		StartTopTo(field, fieldIndex);
+		StartTopTo(field, fieldIndex, standardAngle);
 
 		break;
 
@@ -231,16 +231,24 @@ void SurfaceFold::Draw()
 	surfaceFoldFbxmodel_->Draw(&fieldPlaneTrans_);
 }
 
-void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex)
+void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, float standardAngle)
 {
 	field[Top][LeftTop].isDraw = false;
 	field[Top][RightTop].isDraw = false;
 	field[Top][LeftBottom].isDraw = false;
 	field[Top][RightBottom].isDraw = false;
 
+	float angle;
+
 	switch (fieldIndex)
 	{
+
+#pragma region 上と左
+
 	case TopToLeft:
+
+		//回転
+		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][LeftTop].textureData);
@@ -249,10 +257,10 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Top][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Top][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Top][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Top][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Top][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Left][LeftTop].textureData);
@@ -260,8 +268,11 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Left][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Left][RightBottom].textureData);
 
-		//回転
-		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
+		//下のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map05", (-90 - field[Left][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (-90 - field[Left][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (-90 - field[Left][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (-90 - field[Left][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		field[Left][LeftTop].isDraw = false;
 		field[Left][RightTop].isDraw = false;
@@ -269,7 +280,9 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		field[Left][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
+#pragma region 上と真ん中左
 	case TopToCenterLeft:
 
 		//テクスチャをセット
@@ -278,11 +291,23 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Top][RightBottom].textureData);
 
+		//上のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Top][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Top][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Top][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Top][RightBottom].angle_) * AliceMathF::Deg2Rad);
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[CenterLeft][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterLeft][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterLeft][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[CenterLeft][RightBottom].textureData);
+
+		//下のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map05", (-field[CenterRight][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (-field[CenterRight][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (-field[CenterRight][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (-field[CenterRight][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		//回転
 		fieldPlaneTrans_.rotation = { 0.0f,180.0f * AliceMathF::Deg2Rad,0.0f };
@@ -293,6 +318,9 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		field[CenterLeft][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region  上と真ん中右
 
 	case TopToCenterRight:
 
@@ -303,16 +331,22 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (90.0f + field[Top][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (90.0f + field[Top][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (90.0f + field[Top][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (90.0f + field[Top][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[CenterRight][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterRight][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterRight][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[CenterRight][RightBottom].textureData);
+
+		//下のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[CenterRight][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[CenterRight][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[CenterRight][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[CenterRight][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 0.0f,90.0f * AliceMathF::Deg2Rad,0.0f };
 
@@ -322,6 +356,9 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		field[CenterRight][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 上と右
 
 	case TopToRight:
 
@@ -332,10 +369,10 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Top][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (-180 + field[Top][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (-180 + field[Top][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (-180 + field[Top][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (-180 + field[Top][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Right][LeftTop].textureData);
@@ -343,12 +380,20 @@ void SurfaceFold::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, 
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Right][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Right][RightBottom].textureData);
 
+		//下のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Right][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Right][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Right][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Right][RightBottom].angle_) * AliceMathF::Deg2Rad);
+
 		fieldPlaneTrans_.rotation = { 0.0f,0.0f,0.0f };
 
 		field[Right][LeftTop].isDraw = false;
 		field[Right][RightTop].isDraw = false;
 		field[Right][LeftBottom].isDraw = false;
 		field[Right][RightBottom].isDraw = false;
+
+#pragma endregion
 
 		break;
 	default:
@@ -361,6 +406,8 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
@@ -368,6 +415,10 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 		//3番と5番を入れ替える
 		transform1 = field[Top][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftTop].angle_;
+		angle2 = field[Left][LeftTop].angle_;
+
 		element = std::move(field[Top][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][LeftTop].textureData);
@@ -375,13 +426,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftTop] = std::move(field[Left][LeftTop]);
 		field[Top][LeftTop].surfacePartsModelTrans = transform1;
+		field[Top][LeftTop].angle_ = angle1;
 
 		field[Left][LeftTop] = std::move(element);
 		field[Left][LeftTop].surfacePartsModelTrans = transform2;
+		field[Left][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftBottom].angle_;
+		angle2 = field[Left][RightTop].angle_;
+
 		element = std::move(field[Top][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][RightTop].textureData);
@@ -389,13 +446,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftBottom] = std::move(field[Left][RightTop]);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Top][LeftBottom].angle_ = angle1;
 
 		field[Left][RightTop] = std::move(element);
 		field[Left][RightTop].surfacePartsModelTrans = transform2;
+		field[Left][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightTop].angle_;
+		angle2 = field[Left][LeftBottom].angle_;
+
 		element = std::move(field[Top][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][LeftBottom].textureData);
@@ -403,13 +466,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightTop] = std::move(field[Left][LeftBottom]);
 		field[Top][RightTop].surfacePartsModelTrans = transform1;
+		field[Top][RightTop].angle_ = angle1;
 
 		field[Left][LeftBottom] = std::move(element);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Left][LeftBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightBottom].angle_;
+		angle2 = field[Left][RightBottom].angle_;
+
 		element = std::move(field[Top][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][RightBottom].textureData);
@@ -417,9 +486,11 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightBottom] = std::move(field[Left][RightBottom]);
 		field[Top][RightBottom].surfacePartsModelTrans = transform1;
+		field[Top][RightBottom].angle_ = angle1;
 
 		field[Left][RightBottom] = std::move(element);
 		field[Left][RightBottom].surfacePartsModelTrans = transform2;
+		field[Left][RightBottom].angle_ = angle2;
 
 		break;
 
@@ -428,6 +499,10 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 		//1番と7番を入れ替える
 		transform1 = field[Top][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftTop].angle_;
+		angle2 = field[CenterLeft][LeftBottom].angle_;
+
 		element = std::move(field[Top][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterLeft][LeftBottom].textureData);
@@ -435,13 +510,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftTop] = std::move(field[CenterLeft][LeftBottom]);
 		field[Top][LeftTop].surfacePartsModelTrans = transform1;
+		field[Top][LeftTop].angle_ = angle1;
 
 		field[CenterLeft][LeftBottom] = std::move(element);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightTop].angle_;
+		angle2 = field[CenterLeft][RightBottom].angle_;
+
 		element = std::move(field[Top][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterLeft][RightBottom].textureData);
@@ -449,27 +530,40 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightTop] = std::move(field[CenterLeft][RightBottom]);
 		field[Top][RightTop].surfacePartsModelTrans = transform1;
+		field[Top][RightTop].angle_ = angle1;
 
 		field[CenterLeft][RightBottom] = std::move(element);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftBottom].angle_;
+		angle2 = field[CenterLeft][LeftTop].angle_;
+
 		element = std::move(field[Top][LeftBottom]);
+
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, element.textureData);
 
 		field[Top][LeftBottom] = std::move(field[CenterLeft][LeftTop]);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Top][LeftBottom].angle_ = angle1;
 
 		field[CenterLeft][LeftTop] = std::move(element);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightBottom].angle_;
+		angle2 = field[CenterLeft][RightTop].angle_;
+
 		element = std::move(field[Top][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][RightTop].textureData);
@@ -477,9 +571,11 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightBottom] = std::move(field[CenterLeft][RightTop]);
 		field[Top][RightBottom].surfacePartsModelTrans = transform1;
+		field[Top][RightBottom].angle_ = angle1;
 
 		field[CenterLeft][RightTop] = std::move(element);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightTop].angle_ = angle2;
 
 		break;
 
@@ -488,6 +584,10 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 		//2番と8番を入れ替える
 		transform1 = field[Top][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftTop].angle_;
+		angle2 = field[CenterRight][RightBottom].angle_;
+
 		element = std::move(field[Top][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterRight][RightBottom].textureData);
@@ -495,13 +595,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftTop] = std::move(field[CenterRight][RightBottom]);
 		field[Top][LeftTop].surfacePartsModelTrans = transform1;
+		field[Top][LeftTop].angle_ = angle1;
 
 		field[CenterRight][RightBottom] = std::move(element);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightBottom].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightTop].angle_;
+		angle2 = field[CenterRight][RightTop].angle_;
+
 		element = std::move(field[Top][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterRight][RightTop].textureData);
@@ -509,13 +615,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightTop] = std::move(field[CenterRight][RightTop]);
 		field[Top][RightTop].surfacePartsModelTrans = transform1;
+		field[Top][RightTop].angle_ = angle1;
 
 		field[CenterRight][RightTop] = std::move(element);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightTop].angle_ = angle2;
 
 		//1番と5番を入れ替える
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftBottom].angle_;
+		angle2 = field[CenterRight][LeftBottom].angle_;
+
 		element = std::move(field[Top][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterRight][LeftBottom].textureData);
@@ -523,13 +635,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftBottom] = std::move(field[CenterRight][LeftBottom]);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Top][LeftBottom].angle_ = angle1;
 
 		field[CenterRight][LeftBottom] = std::move(element);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftBottom].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightBottom].angle_;
+		angle2 = field[CenterRight][LeftTop].angle_;
+
 		element = std::move(field[Top][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][LeftTop].textureData);
@@ -537,9 +655,11 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightBottom] = std::move(field[CenterRight][LeftTop]);
 		field[Top][RightBottom].surfacePartsModelTrans = transform1;
+		field[Top][RightBottom].angle_ = angle1;
 
 		field[CenterRight][LeftTop] = std::move(element);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftTop].angle_ = angle2;
 
 		break;
 
@@ -548,6 +668,10 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 		//4番と6番を入れ替える
 		transform1 = field[Top][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Right][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftTop].angle_;
+		angle2 = field[Right][RightTop].angle_;
+
 		element = std::move(field[Top][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Right][RightTop].textureData);
@@ -555,13 +679,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftTop] = std::move(field[Right][RightTop]);
 		field[Top][LeftTop].surfacePartsModelTrans = transform1;
+		field[Top][LeftTop].angle_ = angle1;
 
 		field[Right][RightTop] = std::move(element);
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
+		field[Right][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightTop].angle_;
+		angle2 = field[Right][LeftTop].angle_;
+
 		element = std::move(field[Top][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][LeftTop].textureData);
@@ -569,13 +699,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightTop] = std::move(field[Right][LeftTop]);
 		field[Top][RightTop].surfacePartsModelTrans = transform1;
+		field[Top][RightTop].angle_ = angle1;
 
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
+		field[Right][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Right][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][LeftBottom].angle_;
+		angle2 = field[Right][RightBottom].angle_;
+
 		element = std::move(field[Top][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Right][RightBottom].textureData);
@@ -583,13 +719,19 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][LeftBottom] = std::move(field[Right][RightBottom]);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Top][LeftBottom].angle_ = angle1;
 
 		field[Right][RightBottom] = std::move(element);
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
+		field[Right][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Top][RightBottom].angle_;
+		angle2 = field[Right][LeftBottom].angle_;
+
 		element = std::move(field[Top][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Right][LeftBottom].textureData);
@@ -597,9 +739,11 @@ void SurfaceFold::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 		field[Top][RightBottom] = std::move(field[Right][LeftBottom]);
 		field[Top][RightBottom].surfacePartsModelTrans = transform1;
+		field[Top][RightBottom].angle_ = angle1;
 
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Right][LeftBottom].angle_ = angle2;
 
 		break;
 
@@ -667,7 +811,11 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 
 	switch (fieldIndex)
 	{
+#pragma region 左と上
 	case LeftToTop:
+
+		//回転角
+		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][LeftTop].textureData);
@@ -676,10 +824,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Left][LeftTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Left][RightTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Left][LeftBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Left][RightBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Top][LeftTop].textureData);
@@ -688,13 +836,11 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Top][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Top][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Top][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Top][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Top][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
-		//回転角
-		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
 		field[Top][LeftTop].isDraw = false;
 		field[Top][RightTop].isDraw = false;
@@ -702,7 +848,13 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		field[Top][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 左と真ん中左
+
 	case LeftToCenterLeft:
+		//回転角
+		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][LeftTop].textureData);
@@ -711,10 +863,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Left][LeftTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Left][RightTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Left][LeftBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Left][RightBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterLeft][LeftTop].textureData);
@@ -723,13 +875,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterLeft][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
-
-		//回転角
-		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[CenterLeft][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[CenterLeft][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[CenterLeft][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[CenterLeft][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		field[CenterLeft][LeftTop].isDraw = false;
 		field[CenterLeft][RightTop].isDraw = false;
@@ -737,8 +886,14 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		field[CenterLeft][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
+#pragma region 左と右
 	case LeftToRight:
+
+		//回転角
+		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][RightTop].textureData);
@@ -746,10 +901,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Left][LeftTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Left][RightTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Left][LeftBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Left][RightBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Right][LeftTop].textureData);
@@ -758,13 +913,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Right][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
-
-		//回転角
-		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Right][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Right][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Right][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Right][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		field[Right][LeftTop].isDraw = false;
 		field[Right][RightTop].isDraw = false;
@@ -772,14 +924,26 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		field[Right][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 左と下
 
 	case LeftToBottom:
+
+		//回転角
+		fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
+
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][RightBottom].textureData);
+
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Left][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Left][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Left][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Left][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Bottom][LeftTop].textureData);
@@ -788,13 +952,10 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Bottom][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
-
-		//回転角
-		fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[Bottom][LeftTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[Bottom][RightTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[Bottom][LeftBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[Bottom][RightBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
 
 		field[Bottom][LeftTop].isDraw = false;
 		field[Bottom][RightTop].isDraw = false;
@@ -802,6 +963,7 @@ void SurfaceFold::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field,
 		field[Bottom][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -813,14 +975,21 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
+#pragma region 左と上
 
 	case LeftToTop:
 		//4番と6番を入れ替える
 		transform1 = field[Left][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Top][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftTop].angle_;
+		angle2 = field[Top][LeftTop].angle_;
+
 		element = std::move(field[Left][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Top][LeftTop].textureData);
@@ -828,13 +997,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftTop] = std::move(field[Top][LeftTop]);
 		field[Left][LeftTop].surfacePartsModelTrans = transform1;
+		field[Left][LeftTop].angle_ = angle1;
 
 		field[Top][LeftTop] = std::move(element);
 		field[Top][LeftTop].surfacePartsModelTrans = transform2;
+		field[Top][LeftTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Top][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightTop].angle_;
+		angle2 = field[Top][LeftBottom].angle_;
+
 		element = std::move(field[Left][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][LeftBottom].textureData);
@@ -842,13 +1017,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightTop] = std::move(field[Top][LeftBottom]);
 		field[Left][RightTop].surfacePartsModelTrans = transform1;
+		field[Left][RightTop].angle_ = angle1;
 
 		field[Top][LeftBottom] = std::move(element);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Top][LeftBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Top][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftBottom].angle_;
+		angle2 = field[Top][RightTop].angle_;
+
 		element = std::move(field[Left][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Top][RightTop].textureData);
@@ -856,13 +1037,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftBottom] = std::move(field[Top][RightTop]);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Left][LeftBottom].angle_ = angle1;
 
 		field[Top][RightTop] = std::move(element);
 		field[Top][RightTop].surfacePartsModelTrans = transform2;
+		field[Top][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Top][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightBottom].angle_;
+		angle2 = field[Top][RightBottom].angle_;
+
 		element = std::move(field[Left][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Top][RightBottom].textureData);
@@ -870,17 +1057,26 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightBottom] = std::move(field[Top][RightBottom]);
 		field[Left][RightBottom].surfacePartsModelTrans = transform1;
+		field[Left][RightBottom].angle_ = angle1;
 
 		field[Top][RightBottom] = std::move(element);
 		field[Top][RightBottom].surfacePartsModelTrans = transform2;
+		field[Top][RightBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 左と真ん中左
 
 	case LeftToCenterLeft:
 
 		//2番と8番を入れ替える
 		transform1 = field[Left][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftTop].angle_;
+		angle2 = field[CenterLeft][RightTop].angle_;
+
 		element = std::move(field[Left][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterLeft][RightTop].textureData);
@@ -888,13 +1084,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftTop] = std::move(field[CenterLeft][RightTop]);
 		field[Left][LeftTop].surfacePartsModelTrans = transform1;
+		field[Left][LeftTop].angle_ = angle1;
 
 		field[CenterLeft][RightTop] = std::move(element);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightTop].angle_;
+		angle2 = field[CenterLeft][LeftTop].angle_;
+
 		element = std::move(field[Left][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][LeftTop].textureData);
@@ -902,13 +1104,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightTop] = std::move(field[CenterLeft][LeftTop]);
 		field[Left][RightTop].surfacePartsModelTrans = transform1;
+		field[Left][RightTop].angle_ = angle1;
 
 		field[CenterLeft][LeftTop] = std::move(element);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftBottom].angle_;
+		angle2 = field[CenterLeft][RightBottom].angle_;
+
 		element = std::move(field[Left][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterLeft][RightBottom].textureData);
@@ -916,13 +1124,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftBottom] = std::move(field[CenterLeft][RightBottom]);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Left][LeftBottom].angle_ = angle1;
 
 		field[CenterLeft][RightBottom] = std::move(element);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightBottom].angle_;
+		angle2 = field[CenterLeft][LeftBottom].angle_;
+
 		element = std::move(field[Left][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][LeftBottom].textureData);
@@ -930,17 +1144,26 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightBottom] = std::move(field[CenterLeft][LeftBottom]);
 		field[Left][RightBottom].surfacePartsModelTrans = transform1;
+		field[Left][RightBottom].angle_ = angle1;
 
 		field[CenterLeft][LeftBottom] = std::move(element);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftBottom].angle_ = angle2;
+
 
 		break;
+#pragma endregion
 
+#pragma region 真ん中左
 	case LeftToRight:
 
 		//3番と5番を入れ替える
 		transform1 = field[Left][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Right][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftTop].angle_;
+		angle2 = field[Right][RightTop].angle_;
+
 		element = std::move(field[Left][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][RightTop].textureData);
@@ -948,13 +1171,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftTop] = std::move(field[Right][RightTop]);
 		field[Left][LeftTop].surfacePartsModelTrans = transform1;
+		field[Left][LeftTop].angle_ = angle1;
 
 		field[Right][RightTop] = std::move(element);
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
+		field[Right][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightTop].angle_;
+		angle2 = field[Right][LeftTop].angle_;
+
 		element = std::move(field[Left][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Right][LeftTop].textureData);
@@ -962,13 +1191,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightTop] = std::move(field[Right][LeftTop]);
 		field[Left][RightTop].surfacePartsModelTrans = transform1;
+		field[Left][RightTop].angle_ = angle1;
 
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
+		field[Right][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Right][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftBottom].angle_;
+		angle2 = field[Right][RightBottom].angle_;
+
 		element = std::move(field[Left][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Right][RightBottom].textureData);
@@ -976,13 +1211,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftBottom] = std::move(field[Right][RightBottom]);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Left][LeftBottom].angle_ = angle1;
 
 		field[Right][RightBottom] = std::move(element);
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
+		field[Right][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightBottom].angle_;
+		angle2 = field[Right][LeftBottom].angle_;
+
 		element = std::move(field[Left][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Right][LeftBottom].textureData);
@@ -990,17 +1231,26 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightBottom] = std::move(field[Right][LeftBottom]);
 		field[Left][RightBottom].surfacePartsModelTrans = transform1;
+		field[Left][RightBottom].angle_ = angle1;
 
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Right][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 左と下
 
 	case LeftToBottom:
 
 		//1番と7番を入れ替える
 		transform1 = field[Left][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftTop].angle_;
+		angle2 = field[Bottom][LeftTop].angle_;
+
 		element = std::move(field[Left][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Bottom][LeftTop].textureData);
@@ -1008,13 +1258,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftTop] = std::move(field[Bottom][LeftTop]);
 		field[Left][LeftTop].surfacePartsModelTrans = transform1;
+		field[Left][LeftTop].angle_ = angle1;
 
 		field[Bottom][LeftTop] = std::move(element);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightTop].angle_;
+		angle2 = field[Bottom][LeftBottom].angle_;
+
 		element = std::move(field[Left][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][LeftBottom].textureData);
@@ -1022,13 +1278,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightTop] = std::move(field[Bottom][LeftBottom]);
 		field[Left][RightTop].surfacePartsModelTrans = transform1;
+		field[Left][RightTop].angle_ = angle1;
 
 		field[Bottom][LeftBottom] = std::move(element);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Left][LeftBottom].angle_;
+		angle2 = field[Bottom][RightTop].angle_;
+
 		element = std::move(field[Left][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][RightTop].textureData);
@@ -1036,13 +1298,19 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][LeftBottom] = std::move(field[Bottom][RightTop]);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Left][LeftBottom].angle_ = angle1;
 
 		field[Bottom][RightTop] = std::move(element);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform2;
+		field[Bottom][RightTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Left][RightBottom].angle_;
+		angle2 = field[Bottom][RightBottom].angle_;
+
 		element = std::move(field[Left][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][RightBottom].textureData);
@@ -1050,11 +1318,14 @@ void SurfaceFold::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 		field[Left][RightBottom] = std::move(field[Bottom][RightBottom]);
 		field[Left][RightBottom].surfacePartsModelTrans = transform1;
+		field[Left][RightBottom].angle_ = angle1;
 
 		field[Bottom][RightBottom] = std::move(element);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][RightBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -1118,7 +1389,11 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 
 	switch (fieldIndex)
 	{
+#pragma region 真ん中左と上
+
 	case CenterLeftToTop:
+
+		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][LeftTop].textureData);
@@ -1127,10 +1402,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterLeft][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterLeft][LeftTop].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterLeft][RightTop].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterLeft][LeftBottom].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterLeft][RightBottom].angle_ + 180.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Top][LeftTop].textureData);
@@ -1139,12 +1414,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Top][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
-
-		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Top][LeftTop].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Top][RightTop].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Top][LeftBottom].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Top][RightBottom].angle_ - 180.0f) * AliceMathF::Deg2Rad);
 
 		field[Top][LeftTop].isDraw = false;
 		field[Top][RightTop].isDraw = false;
@@ -1152,6 +1425,9 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		field[Top][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と左
 	case CenterLeftToLeft:
 
 		//テクスチャをセット
@@ -1161,10 +1437,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterLeft][RightBottom].textureData);
 
 		////上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterLeft][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterLeft][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterLeft][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterLeft][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Left][LeftTop].textureData);
@@ -1173,10 +1449,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Left][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (180.0f - field[Left][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (180.0f - field[Left][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (180.0f - field[Left][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (180.0f - field[Left][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 0.0f,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1186,6 +1462,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		field[Left][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と真ん中右
+
 	case CenterLeftToCenterRight:
 
 		//テクスチャをセット
@@ -1195,10 +1475,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][RightBottom].textureData);
 
 		////上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterLeft][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterLeft][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterLeft][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterLeft][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterRight][LeftTop].textureData);
@@ -1207,10 +1487,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterRight][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (90.0f + field[CenterRight][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (90.0f + field[CenterRight][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (90.0f + field[CenterRight][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (90.0f + field[CenterRight][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1220,6 +1500,9 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		field[CenterRight][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と下
 	case CenterLeftToBottom:
 
 		//テクスチャをセット
@@ -1228,6 +1511,11 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][RightBottom].textureData);
 
+		surfaceFoldFbxmodel_->rotationUV("Map01", (180.0f - field[CenterLeft][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (180.0f - field[CenterLeft][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (180.0f - field[CenterLeft][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (180.0f - field[CenterLeft][RightBottom].angle_) * AliceMathF::Deg2Rad);
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Bottom][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Bottom][RightTop].textureData);
@@ -1235,10 +1523,10 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Bottom][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Bottom][LeftTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Bottom][RightTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Bottom][LeftBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Bottom][RightBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1248,6 +1536,7 @@ void SurfaceFold::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& 
 		field[Bottom][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -1259,14 +1548,23 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
+
+#pragma region 真ん中左と上
+
 	case CenterLeftToTop:
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Top][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftTop].angle_;
+		angle2 = field[Top][LeftBottom].angle_;
+
 		element = std::move(field[CenterLeft][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Top][LeftBottom].textureData);
@@ -1274,13 +1572,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftTop] = std::move(field[Top][LeftBottom]);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftTop].angle_ = angle1;
 
 		field[Top][LeftBottom] = std::move(element);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Top][LeftBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterLeft][RightTop].surfacePartsModelTrans;
 		transform2 = field[Top][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightTop].angle_;
+		angle2 = field[Top][RightBottom].angle_;
+
 		element = std::move(field[CenterLeft][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][RightBottom].textureData);
@@ -1288,13 +1592,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightTop] = std::move(field[Top][RightBottom]);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightTop].angle_ = angle1;
 
 		field[Top][RightBottom] = std::move(element);
 		field[Top][RightBottom].surfacePartsModelTrans = transform2;
+		field[Top][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Top][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftBottom].angle_;
+		angle2 = field[Top][LeftTop].angle_;
+
 		element = std::move(field[CenterLeft][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Top][LeftTop].textureData);
@@ -1302,9 +1612,11 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftBottom] = std::move(field[Top][LeftTop]);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftBottom].angle_ = angle1;
 
 		field[Top][LeftTop] = std::move(element);
 		field[Top][LeftTop].surfacePartsModelTrans = transform2;
+		field[Top][LeftTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
@@ -1316,17 +1628,26 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightBottom] = std::move(field[Top][RightTop]);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightBottom].angle_ = angle1;
 
 		field[Top][RightTop] = std::move(element);
 		field[Top][RightTop].surfacePartsModelTrans = transform2;
+		field[Top][RightTop].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と左
 
 	case CenterLeftToLeft:
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Left][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftTop].angle_;
+		angle2 = field[Left][RightTop].angle_;
+
 		element = std::move(field[CenterLeft][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][RightTop].textureData);
@@ -1334,13 +1655,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftTop] = std::move(field[Left][RightTop]);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftTop].angle_ = angle1;
 
 		field[Left][RightTop] = std::move(element);
 		field[Left][RightTop].surfacePartsModelTrans = transform2;
+		field[Left][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterLeft][RightTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightTop].angle_;
+		angle2 = field[Left][LeftTop].angle_;
+
 		element = std::move(field[CenterLeft][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][LeftTop].textureData);
@@ -1348,13 +1675,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightTop] = std::move(field[Left][LeftTop]);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightTop].angle_ = angle1;
 
 		field[Left][LeftTop] = std::move(element);
 		field[Left][LeftTop].surfacePartsModelTrans = transform2;
+		field[Left][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftBottom].angle_;
+		angle2 = field[Left][RightBottom].angle_;
+
 		element = std::move(field[CenterLeft][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][RightBottom].textureData);
@@ -1362,13 +1695,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftBottom] = std::move(field[Left][RightBottom]);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftBottom].angle_ = angle1;
 
 		field[Left][RightBottom] = std::move(element);
 		field[Left][RightBottom].surfacePartsModelTrans = transform2;
+		field[Left][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Left][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightBottom].angle_;
+		angle2 = field[Left][LeftBottom].angle_;
+
 		element = std::move(field[CenterLeft][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][LeftBottom].textureData);
@@ -1376,15 +1715,25 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightBottom] = std::move(field[Left][LeftBottom]);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightBottom].angle_ = angle1;
 
 		field[Left][LeftBottom] = std::move(element);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Left][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と真ん中右
+
 	case CenterLeftToCenterRight:
 		//3番と5番を入れ替える
 		transform1 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftTop].angle_;
+		angle2 = field[CenterRight][RightTop].angle_;
+
 		element = std::move(field[CenterLeft][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterRight][RightTop].textureData);
@@ -1392,13 +1741,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftTop] = std::move(field[CenterRight][RightTop]);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftTop].angle_ = angle1;
 
 		field[CenterRight][RightTop] = std::move(element);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterLeft][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightTop].angle_;
+		angle2 = field[CenterRight][LeftTop].angle_;
+
 		element = std::move(field[CenterLeft][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterRight][LeftTop].textureData);
@@ -1406,13 +1761,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightTop] = std::move(field[CenterRight][LeftTop]);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightTop].angle_ = angle1;
 
 		field[CenterRight][LeftTop] = std::move(element);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftBottom].angle_;
+		angle2 = field[CenterRight][RightBottom].angle_;
+
 		element = std::move(field[CenterLeft][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterRight][RightBottom].textureData);
@@ -1420,13 +1781,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftBottom] = std::move(field[CenterRight][RightBottom]);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftBottom].angle_ = angle1;
 
 		field[CenterRight][RightBottom] = std::move(element);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightBottom].angle_;
+		angle2 = field[CenterRight][LeftBottom].angle_;
+
 		element = std::move(field[CenterLeft][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][LeftBottom].textureData);
@@ -1434,16 +1801,25 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightBottom] = std::move(field[CenterRight][LeftBottom]);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightBottom].angle_ = angle1;
 
 		field[CenterRight][LeftBottom] = std::move(element);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中左と下
 	case CenterLeftToBottom:
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftTop].angle_;
+		angle2 = field[Bottom][RightTop].angle_;
+
 		element = std::move(field[CenterLeft][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Bottom][RightTop].textureData);
@@ -1451,13 +1827,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftTop] = std::move(field[Bottom][RightTop]);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftTop].angle_ = angle1;
 
 		field[Bottom][RightTop] = std::move(element);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform2;
+		field[Bottom][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterLeft][RightTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightTop].angle_;
+		angle2 = field[Bottom][LeftTop].angle_;
+
 		element = std::move(field[CenterLeft][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][LeftTop].textureData);
@@ -1465,13 +1847,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightTop] = std::move(field[Bottom][LeftTop]);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightTop].angle_ = angle1;
 
 		field[Bottom][LeftTop] = std::move(element);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftTop].angle_ = angle2;
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][LeftBottom].angle_;
+		angle2 = field[Bottom][RightBottom].angle_;
+
 		element = std::move(field[CenterLeft][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][RightBottom].textureData);
@@ -1479,13 +1867,19 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][LeftBottom] = std::move(field[Bottom][RightBottom]);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][LeftBottom].angle_ = angle1;
 
 		field[Bottom][RightBottom] = std::move(element);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterLeft][RightBottom].angle_;
+		angle2 = field[Bottom][LeftBottom].angle_;
+
 		element = std::move(field[CenterLeft][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][LeftBottom].textureData);
@@ -1493,11 +1887,15 @@ void SurfaceFold::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>
 
 		field[CenterLeft][RightBottom] = std::move(field[Bottom][LeftBottom]);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterLeft][RightBottom].angle_ = angle1;
 
 		field[Bottom][LeftBottom] = std::move(element);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
 	default:
 		break;
 	}
@@ -1562,7 +1960,7 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 
 	switch (fieldIndex)
 	{
-
+#pragma region 真ん中右と上
 	case CenterRightToTop:
 
 		//テクスチャをセット
@@ -1572,10 +1970,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterRight][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterRight][LeftTop].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterRight][RightTop].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterRight][LeftBottom].angle_ - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterRight][RightBottom].angle_ - 180.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Top][LeftTop].textureData);
@@ -1584,10 +1982,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Top][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Top][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Top][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Top][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Top][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1597,6 +1995,9 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Top][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中右と真ん中左
 
 	case CenterRightToCenterLeft:
 
@@ -1607,10 +2008,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterRight][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterRight][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterRight][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterRight][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterRight][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterLeft][LeftTop].textureData);
@@ -1619,10 +2020,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterLeft][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[CenterLeft][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[CenterLeft][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[CenterLeft][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[CenterLeft][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1632,6 +2033,9 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[CenterLeft][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中右と右
 
 	case CenterRightToRight:
 
@@ -1642,10 +2046,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterRight][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterRight][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterRight][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterRight][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Right][LeftTop].textureData);
@@ -1654,10 +2058,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Right][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Right][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Right][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Right][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Right][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1667,7 +2071,9 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Right][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
+#pragma region 真ん中右と下
 	case CenterRightToBottom:
 
 		//テクスチャをセット
@@ -1676,6 +2082,11 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterRight][RightBottom].textureData);
 
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[CenterRight][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[CenterRight][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[CenterRight][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[CenterRight][RightBottom].angle_) * AliceMathF::Deg2Rad);
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Bottom][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Bottom][RightTop].textureData);
@@ -1683,10 +2094,10 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Bottom][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (-90.0f - field[Bottom][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (-90.0f - field[Bottom][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (-90.0f - field[Bottom][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (-90.0f - field[Bottom][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -1696,6 +2107,7 @@ void SurfaceFold::StartCenterRightTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Bottom][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -1707,14 +2119,21 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
+#pragma region 真ん中右と上
 	case CenterRightToTop:
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterRight][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Top][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftTop].angle_;
+		angle2 = field[Top][RightBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Top][RightBottom].textureData);
@@ -1722,13 +2141,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftTop] = std::move(field[Top][RightBottom]);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftTop].angle_ = angle1;
 
 		field[Top][RightBottom] = std::move(element);
 		field[Top][RightBottom].surfacePartsModelTrans = transform2;
+		field[Top][RightBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterRight][RightTop].surfacePartsModelTrans;
 		transform2 = field[Top][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightTop].angle_;
+		angle2 = field[Top][RightTop].angle_;
+
 		element = std::move(field[CenterRight][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][RightTop].textureData);
@@ -1736,13 +2161,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightTop] = std::move(field[Top][RightTop]);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightTop].angle_ = angle1;
 
 		field[Top][RightTop] = std::move(element);
 		field[Top][RightTop].surfacePartsModelTrans = transform2;
+		field[Top][RightTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Top][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftBottom].angle_;
+		angle2 = field[Top][LeftBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Top][LeftBottom].textureData);
@@ -1750,13 +2181,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftBottom] = std::move(field[Top][LeftBottom]);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftBottom].angle_ = angle1;
 
 		field[Top][LeftBottom] = std::move(element);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Top][LeftBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterRight][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Top][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightBottom].angle_;
+		angle2 = field[Top][LeftTop].angle_;
+
 		element = std::move(field[CenterRight][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Top][LeftTop].textureData);
@@ -1764,17 +2201,25 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightBottom] = std::move(field[Top][LeftTop]);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightBottom].angle_ = angle1;
 
 		field[Top][LeftTop] = std::move(element);
 		field[Top][LeftTop].surfacePartsModelTrans = transform2;
+		field[Top][LeftTop].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 真ん中右と真ん中左
 	case CenterRightToCenterLeft:
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterRight][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftTop].angle_;
+		angle2 = field[CenterLeft][RightTop].angle_;
+
 		element = std::move(field[CenterRight][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][RightTop].textureData);
@@ -1782,13 +2227,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftTop] = std::move(field[CenterLeft][RightTop]);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftTop].angle_ = angle1;
 
 		field[CenterLeft][RightTop] = std::move(element);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterRight][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightTop].angle_;
+		angle2 = field[CenterLeft][LeftTop].angle_;
+
 		element = std::move(field[CenterRight][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterLeft][LeftTop].textureData);
@@ -1796,13 +2247,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightTop] = std::move(field[CenterLeft][LeftTop]);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightTop].angle_ = angle1;
 
 		field[CenterLeft][LeftTop] = std::move(element);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftBottom].angle_;
+		angle2 = field[CenterLeft][RightBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][RightBottom].textureData);
@@ -1810,13 +2267,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftBottom] = std::move(field[CenterLeft][RightBottom]);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftBottom].angle_ = angle1;
 
 		field[CenterLeft][RightBottom] = std::move(element);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterRight][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightBottom].angle_;
+		angle2 = field[CenterLeft][LeftBottom].angle_;
+
 		element = std::move(field[CenterRight][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterLeft][LeftBottom].textureData);
@@ -1824,17 +2287,26 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightBottom] = std::move(field[CenterLeft][LeftBottom]);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightBottom].angle_ = angle1;
 
 		field[CenterLeft][LeftBottom] = std::move(element);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
+
+#pragma region 真ん中右と右
 
 	case CenterRightToRight:
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterRight][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Right][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftTop].angle_;
+		angle2 = field[Right][RightTop].angle_;
+
 		element = std::move(field[CenterRight][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Right][RightTop].textureData);
@@ -1842,13 +2314,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftTop] = std::move(field[Right][RightTop]);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftTop].angle_ = angle1;
 
 		field[Right][RightTop] = std::move(element);
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
+		field[Right][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterRight][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightTop].angle_;
+		angle2 = field[Right][LeftTop].angle_;
+
 		element = std::move(field[CenterRight][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Right][LeftTop].textureData);
@@ -1856,13 +2334,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightTop] = std::move(field[Right][LeftTop]);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightTop].angle_ = angle1;
 
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
+		field[Right][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Right][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftBottom].angle_;
+		angle2 = field[Right][RightBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Right][RightBottom].textureData);
@@ -1870,13 +2354,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftBottom] = std::move(field[Right][RightBottom]);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftBottom].angle_ = angle1;
 
 		field[Right][RightBottom] = std::move(element);
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
+		field[Right][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterRight][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightBottom].angle_;
+		angle2 = field[Right][LeftBottom].angle_;
+
 		element = std::move(field[CenterRight][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][LeftBottom].textureData);
@@ -1884,17 +2374,25 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightBottom] = std::move(field[Right][LeftBottom]);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightBottom].angle_ = angle1;
 
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Right][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 真ん中右と下
 	case CenterRightToBottom:
 
 		//4番と6番を入れ替える
 		transform1 = field[CenterRight][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftTop].angle_;
+		angle2 = field[Bottom][RightBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Bottom][RightBottom].textureData);
@@ -1902,13 +2400,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftTop] = std::move(field[Bottom][RightBottom]);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftTop].angle_ = angle1;
 
 		field[Bottom][RightBottom] = std::move(element);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][RightBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[CenterRight][RightTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightTop].angle_;
+		angle2 = field[Bottom][RightTop].angle_;
+
 		element = std::move(field[CenterRight][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][RightTop].textureData);
@@ -1916,13 +2420,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightTop] = std::move(field[Bottom][RightTop]);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightTop].angle_ = angle1;
 
 		field[Bottom][RightTop] = std::move(element);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform2;
+		field[Bottom][RightTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][LeftBottom].angle_;
+		angle2 = field[Bottom][LeftBottom].angle_;
+
 		element = std::move(field[CenterRight][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][LeftBottom].textureData);
@@ -1930,13 +2440,19 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][LeftBottom] = std::move(field[Bottom][LeftBottom]);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][LeftBottom].angle_ = angle1;
 
 		field[Bottom][LeftBottom] = std::move(element);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[CenterRight][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[CenterRight][RightBottom].angle_;
+		angle2 = field[Bottom][LeftTop].angle_;
+
 		element = std::move(field[CenterRight][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][LeftTop].textureData);
@@ -1944,11 +2460,14 @@ void SurfaceFold::ReplaceCenterRightTo(std::array<std::array<FieldElement, 4>, 6
 
 		field[CenterRight][RightBottom] = std::move(field[Bottom][LeftTop]);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform1;
+		field[CenterRight][RightBottom].angle_ = angle1;
 
 		field[Bottom][LeftTop] = std::move(element);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftTop].angle_ = angle2;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -2008,7 +2527,7 @@ void SurfaceFold::EndCenterRightTo(std::array<std::array<FieldElement, 4>, 6>& f
 
 void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex)
 {
-	
+
 	field[Right][LeftTop].isDraw = false;
 	field[Right][RightTop].isDraw = false;
 	field[Right][LeftBottom].isDraw = false;
@@ -2016,6 +2535,8 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 
 	switch (fieldIndex)
 	{
+
+#pragma region 右と上
 	case RightToTop:
 
 		//テクスチャをセット
@@ -2025,16 +2546,21 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Right][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Right][LeftTop].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Right][RightTop].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Right][LeftBottom].angle_ + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Right][RightBottom].angle_ + 180.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Top][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Top][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Top][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Top][RightBottom].textureData);
+
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Top][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Top][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Top][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Top][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { -90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -2044,7 +2570,9 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		field[Top][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
+#pragma region 右と下
 	case RightToLeft:
 
 		//テクスチャをセット
@@ -2054,10 +2582,10 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Right][LeftTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Right][RightTop].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Right][LeftBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Right][RightBottom].angle_ + 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Left][LeftTop].textureData);
@@ -2066,10 +2594,10 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Left][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map06", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map07", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[Left][LeftTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[Left][RightTop].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[Left][LeftBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[Left][RightBottom].angle_ * -1.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -2079,7 +2607,9 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		field[Left][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
+#pragma region 右と真ん中右
 	case RightToCenterRight:
 
 		//テクスチャをセット
@@ -2089,10 +2619,10 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Right][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Right][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Right][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Right][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Right][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterRight][LeftTop].textureData);
@@ -2101,10 +2631,10 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[CenterRight][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", (field[CenterRight][LeftTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", (field[CenterRight][RightTop].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", (field[CenterRight][LeftBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", (field[CenterRight][RightBottom].angle_ - 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 0.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -2114,6 +2644,9 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		field[CenterRight][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 右と下
 
 	case RightToBottom:
 
@@ -2123,11 +2656,21 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Right][RightBottom].textureData);
 
+		surfaceFoldFbxmodel_->rotationUV("Map01", (field[Right][LeftTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", (field[Right][RightTop].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", (field[Right][LeftBottom].angle_) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", (field[Right][RightBottom].angle_) * AliceMathF::Deg2Rad);
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Bottom][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map06", 0, field[Bottom][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[Bottom][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Bottom][RightBottom].textureData);
+
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[Bottom][LeftTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[Bottom][RightTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[Bottom][LeftBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[Bottom][RightBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad };
 
@@ -2137,6 +2680,7 @@ void SurfaceFold::StartRightTo(std::array<std::array<FieldElement, 4>, 6>& field
 		field[Bottom][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -2148,14 +2692,21 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
+#pragma region 右と上
 	case RightToTop:
 
 		//4番と6番を入れ替える
 		transform1 = field[Right][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Top][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftTop].angle_;
+		angle2 = field[Top][RightTop].angle_;
+
 		element = std::move(field[Right][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Top][RightTop].textureData);
@@ -2163,13 +2714,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftTop] = std::move(field[Top][RightTop]);
 		field[Right][LeftTop].surfacePartsModelTrans = transform1;
+		field[Right][LeftTop].angle_ = angle1;
 
 		field[Top][RightTop] = std::move(element);
 		field[Top][RightTop].surfacePartsModelTrans = transform2;
+		field[Top][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Right][RightTop].surfacePartsModelTrans;
 		transform2 = field[Top][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightTop].angle_;
+		angle2 = field[Top][LeftTop].angle_;
+
 		element = std::move(field[Right][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Top][LeftTop].textureData);
@@ -2177,13 +2734,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightTop] = std::move(field[Top][LeftTop]);
 		field[Right][RightTop].surfacePartsModelTrans = transform1;
+		field[Right][RightTop].angle_ = angle1;
 
 		field[Top][LeftTop] = std::move(element);
 		field[Top][LeftTop].surfacePartsModelTrans = transform2;
+		field[Top][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Right][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Top][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftBottom].angle_;
+		angle2 = field[Top][RightBottom].angle_;
+
 		element = std::move(field[Right][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Top][RightBottom].textureData);
@@ -2191,13 +2754,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftBottom] = std::move(field[Top][RightBottom]);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Right][LeftBottom].angle_ = angle1;
 
 		field[Top][RightBottom] = std::move(element);
 		field[Top][RightBottom].surfacePartsModelTrans = transform2;
+		field[Top][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Right][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Top][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightBottom].angle_;
+		angle2 = field[Top][LeftBottom].angle_;
+
 		element = std::move(field[Right][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Top][LeftBottom].textureData);
@@ -2205,17 +2774,25 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightBottom] = std::move(field[Top][LeftBottom]);
 		field[Right][RightBottom].surfacePartsModelTrans = transform1;
+		field[Right][RightBottom].angle_ = angle1;
 
 		field[Top][LeftBottom] = std::move(element);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Top][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 右と下
 	case RightToLeft:
 
 		//4番と6番を入れ替える
 		transform1 = field[Right][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Left][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftTop].angle_;
+		angle2 = field[Left][RightTop].angle_;
+
 		element = std::move(field[Right][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][RightTop].textureData);
@@ -2223,13 +2800,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftTop] = std::move(field[Left][RightTop]);
 		field[Right][LeftTop].surfacePartsModelTrans = transform1;
+		field[Right][LeftTop].angle_ = angle1;
 
 		field[Left][RightTop] = std::move(element);
 		field[Left][RightTop].surfacePartsModelTrans = transform2;
+		field[Left][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Right][RightTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightTop].angle_;
+		angle2 = field[Left][LeftTop].angle_;
+
 		element = std::move(field[Right][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][LeftTop].textureData);
@@ -2237,13 +2820,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightTop] = std::move(field[Left][LeftTop]);
 		field[Right][RightTop].surfacePartsModelTrans = transform1;
+		field[Right][RightTop].angle_ = angle1;
 
 		field[Left][LeftTop] = std::move(element);
 		field[Left][LeftTop].surfacePartsModelTrans = transform2;
+		field[Left][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Right][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftBottom].angle_;
+		angle2 = field[Left][RightBottom].angle_;
+
 		element = std::move(field[Right][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][RightBottom].textureData);
@@ -2251,13 +2840,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftBottom] = std::move(field[Left][RightBottom]);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Right][LeftBottom].angle_ = angle1;
 
 		field[Left][RightBottom] = std::move(element);
 		field[Left][RightBottom].surfacePartsModelTrans = transform2;
+		field[Left][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Right][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Left][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightBottom].angle_;
+		angle2 = field[Left][LeftBottom].angle_;
+
 		element = std::move(field[Right][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][LeftBottom].textureData);
@@ -2265,17 +2860,25 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightBottom] = std::move(field[Left][LeftBottom]);
 		field[Right][RightBottom].surfacePartsModelTrans = transform1;
+		field[Right][RightBottom].angle_ = angle1;
 
 		field[Left][LeftBottom] = std::move(element);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Left][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 右と真ん中右
 	case RightToCenterRight:
 
 		//4番と6番を入れ替える
 		transform1 = field[Right][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftTop].angle_;
+		angle2 = field[CenterRight][RightTop].angle_;
+
 		element = std::move(field[Right][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][RightTop].textureData);
@@ -2283,13 +2886,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftTop] = std::move(field[CenterRight][RightTop]);
 		field[Right][LeftTop].surfacePartsModelTrans = transform1;
+		field[Right][LeftTop].angle_ = angle1;
 
 		field[CenterRight][RightTop] = std::move(element);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Right][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightTop].angle_;
+		angle2 = field[CenterRight][LeftTop].angle_;
+
 		element = std::move(field[Right][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterRight][LeftTop].textureData);
@@ -2297,13 +2906,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightTop] = std::move(field[CenterRight][LeftTop]);
 		field[Right][RightTop].surfacePartsModelTrans = transform1;
+		field[Right][RightTop].angle_ = angle1;
 
 		field[CenterRight][LeftTop] = std::move(element);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Right][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftBottom].angle_;
+		angle2 = field[CenterRight][RightBottom].angle_;
+
 		element = std::move(field[Right][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterRight][RightBottom].textureData);
@@ -2311,13 +2926,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftBottom] = std::move(field[CenterRight][RightBottom]);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Right][LeftBottom].angle_ = angle1;
 
 		field[CenterRight][RightBottom] = std::move(element);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Right][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightBottom].angle_;
+		angle2 = field[CenterRight][LeftBottom].angle_;
+
 		element = std::move(field[Right][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterRight][LeftBottom].textureData);
@@ -2325,17 +2946,25 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightBottom] = std::move(field[CenterRight][LeftBottom]);
 		field[Right][RightBottom].surfacePartsModelTrans = transform1;
+		field[Right][RightBottom].angle_ = angle1;
 
 		field[CenterRight][LeftBottom] = std::move(element);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 右と下
 	case RightToBottom:
 
 		//4番と6番を入れ替える
 		transform1 = field[Right][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftTop].angle_;
+		angle2 = field[Bottom][LeftBottom].angle_;
+
 		element = std::move(field[Right][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Bottom][LeftBottom].textureData);
@@ -2343,13 +2972,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftTop] = std::move(field[Bottom][LeftBottom]);
 		field[Right][LeftTop].surfacePartsModelTrans = transform1;
+		field[Right][LeftTop].angle_ = angle1;
 
 		field[Bottom][LeftBottom] = std::move(element);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Right][RightTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightTop].angle_;
+		angle2 = field[Bottom][RightBottom].angle_;
+
 		element = std::move(field[Right][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][RightBottom].textureData);
@@ -2357,13 +2992,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightTop] = std::move(field[Bottom][RightBottom]);
 		field[Right][RightTop].surfacePartsModelTrans = transform1;
+		field[Right][RightTop].angle_ = angle1;
 
 		field[Bottom][RightBottom] = std::move(element);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform2;
+		field[Bottom][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Right][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][LeftBottom].angle_;
+		angle2 = field[Bottom][LeftTop].angle_;
+
 		element = std::move(field[Right][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][LeftTop].textureData);
@@ -2371,13 +3012,19 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][LeftBottom] = std::move(field[Bottom][LeftTop]);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Right][LeftBottom].angle_ = angle1;
 
 		field[Bottom][LeftTop] = std::move(element);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform2;
+		field[Bottom][LeftTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Right][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Right][RightBottom].angle_;
+		angle2 = field[Bottom][RightTop].angle_;
+
 		element = std::move(field[Right][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][RightTop].textureData);
@@ -2385,11 +3032,14 @@ void SurfaceFold::ReplaceRightTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 		field[Right][RightBottom] = std::move(field[Bottom][RightTop]);
 		field[Right][RightBottom].surfacePartsModelTrans = transform1;
+		field[Right][RightBottom].angle_ = angle1;
 
 		field[Bottom][RightTop] = std::move(element);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform2;
+		field[Bottom][RightTop].angle_ = angle2;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -2455,6 +3105,7 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 
 	switch (fieldIndex)
 	{
+#pragma region 下と左
 	case BottomToLeft:
 
 		//テクスチャをセット
@@ -2464,10 +3115,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][RightBottom].textureData);
 
 		////上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Bottom][LeftTop].angle_ * -1.0f) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Bottom][RightTop].angle_ * -1.0f) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Bottom][LeftBottom].angle_ * -1.0f) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Bottom][RightBottom].angle_ * -1.0f) - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Left][LeftTop].textureData);
@@ -2476,10 +3127,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Left][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[Left][LeftTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[Left][RightTop].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[Left][LeftBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[Left][RightBottom].angle_ * -1.0f) + 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
 
@@ -2489,6 +3140,9 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		field[Left][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 下と真ん中左
 
 	case BottomToCenterLeft:
 
@@ -2498,6 +3152,12 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][RightBottom].textureData);
 
+		//下のUV回転
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Bottom][LeftTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Bottom][RightTop].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Bottom][LeftBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Bottom][RightBottom].angle_ * -1.0f) - 180.0f) * AliceMathF::Deg2Rad);
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[CenterLeft][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map07", 0, field[CenterLeft][RightTop].textureData);
@@ -2505,10 +3165,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[CenterLeft][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[CenterLeft][LeftTop].angle_) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[CenterLeft][RightTop].angle_) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[CenterLeft][LeftBottom].angle_) - 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[CenterLeft][RightBottom].angle_) - 180.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
 
@@ -2518,6 +3178,9 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		field[CenterLeft][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 下と真ん中右
 
 	case BottomToCenterRight:
 
@@ -2528,10 +3191,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", -90.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", -90.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Bottom][LeftTop].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Bottom][RightTop].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Bottom][LeftBottom].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Bottom][RightBottom].angle_) - 90.0f) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[CenterRight][LeftTop].textureData);
@@ -2540,10 +3203,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[CenterRight][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[CenterRight][LeftTop].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[CenterRight][RightTop].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[CenterRight][LeftBottom].angle_) - 90.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[CenterRight][RightBottom].angle_) - 90.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,-90.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
 
@@ -2553,19 +3216,22 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		field[CenterRight][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
+
+#pragma region 下と右
 	case BottomToRight:
 
-			//テクスチャをセット
+		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Bottom][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Bottom][RightTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Bottom][LeftBottom].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Bottom][RightBottom].textureData);
 
 		//上のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map03", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map01", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map04", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map02", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map03", ((field[Bottom][LeftTop].angle_ * -1.0f))* AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map01", ((field[Bottom][RightTop].angle_ * -1.0f))* AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map04", ((field[Bottom][LeftBottom].angle_ * -1.0f))* AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map02", ((field[Bottom][RightBottom].angle_ * -1.0f)) * AliceMathF::Deg2Rad);
 
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Map08", 0, field[Right][LeftTop].textureData);
@@ -2574,10 +3240,10 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		surfaceFoldFbxmodel_->TransTexture("Map05", 0, field[Right][RightBottom].textureData);
 
 		//下のUV回転
-		surfaceFoldFbxmodel_->rotationUV("Map07", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map05", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map08", 180.0f * AliceMathF::Deg2Rad);
-		surfaceFoldFbxmodel_->rotationUV("Map06", 180.0f * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map07", ((field[Right][LeftTop].angle_) + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map05", ((field[Right][RightTop].angle_) + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map08", ((field[Right][LeftBottom].angle_) + 180.0f) * AliceMathF::Deg2Rad);
+		surfaceFoldFbxmodel_->rotationUV("Map06", ((field[Right][RightBottom].angle_) + 180.0f) * AliceMathF::Deg2Rad);
 
 		fieldPlaneTrans_.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad,0.0f * AliceMathF::Deg2Rad };
 
@@ -2587,6 +3253,7 @@ void SurfaceFold::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& fiel
 		field[Right][RightBottom].isDraw = false;
 
 		break;
+#pragma endregion
 
 	default:
 		break;
@@ -2599,14 +3266,21 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 	FieldElement element;
 	Transform transform1;
 	Transform transform2;
+	float angle1 = 0.0f;
+	float angle2 = 0.0f;
 
 	switch (fieldIndex)
 	{
+#pragma region 下と左
 	case BottomToLeft:
 
 		//4番と6番を入れ替える
 		transform1 = field[Bottom][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftTop].angle_;
+		angle2 = field[Left][LeftTop].angle_;
+
 		element = std::move(field[Bottom][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Left][LeftTop].textureData);
@@ -2614,13 +3288,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftTop] = std::move(field[Left][LeftTop]);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftTop].angle_ = angle1;
 
 		field[Left][LeftTop] = std::move(element);
 		field[Left][LeftTop].surfacePartsModelTrans = transform2;
+		field[Left][LeftTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Bottom][RightTop].surfacePartsModelTrans;
 		transform2 = field[Left][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightTop].angle_;
+		angle2 = field[Left][LeftBottom].angle_;
+
 		element = std::move(field[Bottom][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Left][LeftBottom].textureData);
@@ -2628,13 +3308,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightTop] = std::move(field[Left][LeftBottom]);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform1;
+		field[Bottom][RightTop].angle_ = angle1;
 
 		field[Left][LeftBottom] = std::move(element);
 		field[Left][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Left][LeftBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Bottom][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftBottom].angle_;
+		angle2 = field[Left][RightTop].angle_;
+
 		element = std::move(field[Bottom][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Left][RightTop].textureData);
@@ -2642,13 +3328,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftBottom] = std::move(field[Left][RightTop]);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftBottom].angle_ = angle1;
 
 		field[Left][RightTop] = std::move(element);
 		field[Left][RightTop].surfacePartsModelTrans = transform2;
+		field[Left][RightTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Bottom][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightBottom].angle_;
+		angle2 = field[Left][RightBottom].angle_;
+
 		element = std::move(field[Bottom][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Left][RightBottom].textureData);
@@ -2656,17 +3348,26 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightBottom] = std::move(field[Left][RightBottom]);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][RightBottom].angle_ = angle1;
 
 		field[Left][RightBottom] = std::move(element);
 		field[Left][RightBottom].surfacePartsModelTrans = transform2;
+		field[Left][RightBottom].angle_ = angle2;
 
 		break;
 
+#pragma endregion
+
+#pragma region 下と真ん中左
 	case BottomToCenterLeft:
 
 		//4番と6番を入れ替える
 		transform1 = field[Bottom][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftTop].angle_;
+		angle2 = field[CenterLeft][RightTop].angle_;
+
 		element = std::move(field[Bottom][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterLeft][RightTop].textureData);
@@ -2674,13 +3375,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftTop] = std::move(field[CenterLeft][RightTop]);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftTop].angle_ = angle1;
 
 		field[CenterLeft][RightTop] = std::move(element);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightTop].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Bottom][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightTop].angle_;
+		angle2 = field[CenterLeft][LeftTop].angle_;
+
 		element = std::move(field[Bottom][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterLeft][LeftTop].textureData);
@@ -2688,13 +3395,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightTop] = std::move(field[CenterLeft][LeftTop]);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform1;
+		field[Bottom][RightTop].angle_ = angle1;
 
 		field[CenterLeft][LeftTop] = std::move(element);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Bottom][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftBottom].angle_;
+		angle2 = field[CenterLeft][RightBottom].angle_;
+
 		element = std::move(field[Bottom][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterLeft][RightBottom].textureData);
@@ -2702,13 +3415,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftBottom] = std::move(field[CenterLeft][RightBottom]);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftBottom].angle_ = angle1;
 
 		field[CenterLeft][RightBottom] = std::move(element);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][RightBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Bottom][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightBottom].angle_;
+		angle2 = field[CenterLeft][LeftBottom].angle_;
+
 		element = std::move(field[Bottom][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterLeft][LeftBottom].textureData);
@@ -2716,17 +3435,25 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightBottom] = std::move(field[CenterLeft][LeftBottom]);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][RightBottom].angle_ = angle1;
 
 		field[CenterLeft][LeftBottom] = std::move(element);
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterLeft][LeftBottom].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 下と真ん中右
 	case BottomToCenterRight:
 
 		//4番と6番を入れ替える
 		transform1 = field[Bottom][LeftTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftTop].angle_;
+		angle2 = field[CenterRight][RightBottom].angle_;
+
 		element = std::move(field[Bottom][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[CenterRight][RightBottom].textureData);
@@ -2734,13 +3461,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftTop] = std::move(field[CenterRight][RightBottom]);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftTop].angle_ = angle1;
 
 		field[CenterRight][RightBottom] = std::move(element);
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Bottom][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightTop].angle_;
+		angle2 = field[CenterRight][RightTop].angle_;
+
 		element = std::move(field[Bottom][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[CenterRight][RightTop].textureData);
@@ -2748,13 +3481,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightTop] = std::move(field[CenterRight][RightTop]);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform1;
+		field[Bottom][RightTop].angle_ = angle1;
 
 		field[CenterRight][RightTop] = std::move(element);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][RightTop].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Bottom][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftBottom].angle_;
+		angle2 = field[CenterRight][LeftBottom].angle_;
+
 		element = std::move(field[Bottom][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[CenterRight][LeftBottom].textureData);
@@ -2762,13 +3501,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftBottom] = std::move(field[CenterRight][LeftBottom]);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftBottom].angle_ = angle1;
 
 		field[CenterRight][LeftBottom] = std::move(element);
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftBottom].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Bottom][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightBottom].angle_;
+		angle2 = field[CenterRight][LeftTop].angle_;
+
 		element = std::move(field[Bottom][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[CenterRight][LeftTop].textureData);
@@ -2776,17 +3521,25 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightBottom] = std::move(field[CenterRight][LeftTop]);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][RightBottom].angle_ = angle1;
 
 		field[CenterRight][LeftTop] = std::move(element);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform2;
+		field[CenterRight][LeftTop].angle_ = angle2;
 
 		break;
+#pragma endregion
 
+#pragma region 下と右
 	case BottomToRight:
 
 		//4番と6番を入れ替える
 		transform1 = field[Bottom][LeftTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftTop].angle_;
+		angle2 = field[Right][LeftBottom].angle_;
+
 		element = std::move(field[Bottom][LeftTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map04", 0, field[Right][LeftBottom].textureData);
@@ -2794,13 +3547,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftTop] = std::move(field[Right][LeftBottom]);
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftTop].angle_ = angle1;
 
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
+		field[Right][LeftBottom].angle_ = angle2;
 
 		//3番と5番を入れ替える
 		transform1 = field[Bottom][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][RightBottom].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightTop].angle_;
+		angle2 = field[Right][RightBottom].angle_;
+
 		element = std::move(field[Bottom][RightTop]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map03", 0, field[Right][RightBottom].textureData);
@@ -2808,13 +3567,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightTop] = std::move(field[Right][RightBottom]);
 		field[Bottom][RightTop].surfacePartsModelTrans = transform1;
+		field[Bottom][RightTop].angle_ = angle1;
 
 		field[Right][RightBottom] = std::move(element);
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
+		field[Right][RightBottom].angle_ = angle2;
 
 		//2番と8番を入れ替える
 		transform1 = field[Bottom][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][LeftBottom].angle_;
+		angle2 = field[Right][LeftTop].angle_;
+
 		element = std::move(field[Bottom][LeftBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map02", 0, field[Right][LeftTop].textureData);
@@ -2822,13 +3587,19 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][LeftBottom] = std::move(field[Right][LeftTop]);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][LeftBottom].angle_ = angle1;
 
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
+		field[Right][LeftTop].angle_ = angle2;
 
 		//1番と7番を入れ替える
 		transform1 = field[Bottom][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][RightTop].surfacePartsModelTrans;
+
+		angle1 = field[Bottom][RightBottom].angle_;
+		angle2 = field[Right][RightTop].angle_;
+
 		element = std::move(field[Bottom][RightBottom]);
 
 		surfaceFoldFbxmodel_->TransTexture("Map01", 0, field[Right][RightTop].textureData);
@@ -2836,11 +3607,14 @@ void SurfaceFold::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& fi
 
 		field[Bottom][RightBottom] = std::move(field[Right][RightTop]);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform1;
+		field[Bottom][RightBottom].angle_ = angle1;
 
 		field[Right][RightTop] = std::move(element);
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
+		field[Right][RightTop].angle_ = angle2;
 
 		break;
+#pragma endregion
 
 	default:
 		break;

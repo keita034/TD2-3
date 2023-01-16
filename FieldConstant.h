@@ -104,6 +104,8 @@ struct FieldElement
 	uint32_t surfacePartsModelHandle;
 	//ƒ[ƒ‹ƒh•ÏŠ·
 	Transform surfacePartsModelTrans;
+	//
+	float angle_;
 	//¯•Ê—p
 	Field field;
 	//•`‰æ‚·‚é‚©

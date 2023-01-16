@@ -29,6 +29,9 @@ private:
 
 	std::unique_ptr<SurfaceFold> surfaceFold_;
 
+	//Šî€‚ÌŠp“x
+	float standardAngle_;
+
 public:
 	Stage() = default;
 	~Stage() = default;

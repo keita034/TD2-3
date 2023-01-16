@@ -29,7 +29,7 @@ public:
 	/// </summary>
 	void Initialize();
 
-	void Start(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex);
+	void Start(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, float standardAngle);
 
 	/// <summary>
 	/// çXêV
@@ -43,7 +43,7 @@ public:
 	/// </summary>
 	void Draw();
 
-	void StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex);
+	void StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, float standardAngle);
 	void ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex);
 	void EndTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex);
 
