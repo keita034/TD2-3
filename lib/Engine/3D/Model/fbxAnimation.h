@@ -22,6 +22,8 @@ public:
 
 	float GetAnimeMaxflame();
 
+	float GetTickTimes(float frame);
+
 private:
 
 
