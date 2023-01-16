@@ -30,7 +30,7 @@ void Stage::Initialize()
 		field[Top][LeftTop].surfacePartsModelTrans.translation = { -20.0f,30.0f,20.0f };
 		field[Top][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Top][LeftTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][LeftTop].angle_ = -standardAngle_;
+		field[Top][LeftTop].angle_ = standardAngle_;
 
 		field[Top][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
 
@@ -47,7 +47,7 @@ void Stage::Initialize()
 		field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
 		field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][RightTop].angle_ = -standardAngle_;
+		field[Top][RightTop].angle_ = standardAngle_;
 
 		field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
 
@@ -64,7 +64,7 @@ void Stage::Initialize()
 		field[Top][LeftBottom].surfacePartsModelTrans.translation = { -20.0f,30.0f,-20.0f };
 		field[Top][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Top][LeftBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][LeftBottom].angle_ = -standardAngle_;
+		field[Top][LeftBottom].angle_ = standardAngle_;
 
 		field[Top][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map03");
 
@@ -81,7 +81,7 @@ void Stage::Initialize()
 		field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
 		field[Top][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][RightBottom].angle_ = -standardAngle_;
+		field[Top][RightBottom].angle_ = standardAngle_;
 
 		field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map04");
 
@@ -100,13 +100,13 @@ void Stage::Initialize()
 		//左上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map05.png");
 		field[Left][LeftTop].textureData = TextureManager::GetTextureData(handl);
-		field[Top][LeftTop].field = Field::e;
+		field[Left][LeftTop].field = Field::e;
 
 		field[Left][LeftTop].surfacePartsModelTrans.Initialize();
 		field[Left][LeftTop].surfacePartsModelTrans.translation = { -40.0f,10.0f,20.0f };
 		field[Left][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Left][LeftTop].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
-		field[Left][LeftTop].angle_ = -(angle);
+		field[Left][LeftTop].angle_ = (angle);
 
 		field[Left][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map05");
 
@@ -123,7 +123,7 @@ void Stage::Initialize()
 		field[Left][RightTop].surfacePartsModelTrans.translation = { -40.0f,10.0f,-20.0f };
 		field[Left][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Left][RightTop].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
-		field[Left][RightTop].angle_ = -(angle);
+		field[Left][RightTop].angle_ = (angle);
 
 		field[Left][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map06");
 
@@ -140,7 +140,7 @@ void Stage::Initialize()
 		field[Left][LeftBottom].surfacePartsModelTrans.translation = { -40.0f,-30.0f,20.0f };
 		field[Left][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Left][LeftBottom].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
-		field[Left][LeftBottom].angle_ = -(angle);
+		field[Left][LeftBottom].angle_ = (angle);
 
 		field[Left][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map07");
 
@@ -157,7 +157,7 @@ void Stage::Initialize()
 		field[Left][RightBottom].surfacePartsModelTrans.translation = { -40.0f,-30.0f,-20.0f };
 		field[Left][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[Left][RightBottom].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
-		field[Left][RightBottom].angle_ = -(angle);
+		field[Left][RightBottom].angle_ = (angle);
 
 		field[Left][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map08");
 
@@ -171,7 +171,7 @@ void Stage::Initialize()
 #pragma region 真ん中左
 
 	{
-		float angle = 0;
+		float angle = -90.0f;
 
 		//左上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map09.png");
@@ -187,7 +187,7 @@ void Stage::Initialize()
 			-((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad,
 			-angle * AliceMathF::Deg2Rad
 		};
-		field[CenterLeft][LeftTop].angle_ = -angle;
+		field[CenterLeft][LeftTop].angle_ = angle;
 
 		field[CenterLeft][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map09");
 
@@ -209,7 +209,7 @@ void Stage::Initialize()
 			-((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad,
 			-angle * AliceMathF::Deg2Rad
 		};
-		field[CenterLeft][RightTop].angle_ = -angle;
+		field[CenterLeft][RightTop].angle_ = angle;
 
 		field[CenterLeft][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map010");
 
@@ -231,7 +231,7 @@ void Stage::Initialize()
 			-((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad,
 			-angle * AliceMathF::Deg2Rad
 		};
-		field[CenterLeft][LeftBottom].angle_ = -angle;
+		field[CenterLeft][LeftBottom].angle_ = angle;
 
 		field[CenterLeft][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map011");
 
@@ -253,7 +253,7 @@ void Stage::Initialize()
 			-((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad,
 			-angle * AliceMathF::Deg2Rad
 		};
-		field[CenterLeft][RightBottom].angle_ = -angle;
+		field[CenterLeft][RightBottom].angle_ = angle;
 
 		field[CenterLeft][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map012");
 
@@ -267,7 +267,7 @@ void Stage::Initialize()
 #pragma region 真ん中右
 
 	{
-		float angle = 0;
+		float angle = -90.0f;
 
 		//左上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map013.png");
@@ -278,7 +278,7 @@ void Stage::Initialize()
 		field[CenterRight][LeftTop].surfacePartsModelTrans.translation = { 40.0f,10.0f,-20.0f };
 		field[CenterRight][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[CenterRight][LeftTop].surfacePartsModelTrans.rotation = { (angle+-90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
-		field[CenterRight][LeftTop].angle_ = -angle;
+		field[CenterRight][LeftTop].angle_ = angle;
 
 		field[CenterRight][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map013");
 
@@ -295,7 +295,7 @@ void Stage::Initialize()
 		field[CenterRight][RightTop].surfacePartsModelTrans.translation = { 40.0f,10.0f,20.0f };
 		field[CenterRight][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[CenterRight][RightTop].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
-		field[CenterRight][RightTop].angle_ = -angle;
+		field[CenterRight][RightTop].angle_ = angle;
 
 		field[CenterRight][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map014");
 
@@ -312,7 +312,7 @@ void Stage::Initialize()
 		field[CenterRight][LeftBottom].surfacePartsModelTrans.translation = { 40.0f,-30.0f,-20.0f };
 		field[CenterRight][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[CenterRight][LeftBottom].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
-		field[CenterRight][LeftBottom].angle_ = -angle;
+		field[CenterRight][LeftBottom].angle_ = angle;
 
 		field[CenterRight][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map015");
 
@@ -329,7 +329,7 @@ void Stage::Initialize()
 		field[CenterRight][RightBottom].surfacePartsModelTrans.translation = { 40.0f,-30.0f,20.0f };
 		field[CenterRight][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
 		field[CenterRight][RightBottom].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
-		field[CenterRight][RightBottom].angle_ = -angle;
+		field[CenterRight][RightBottom].angle_ = angle;
 
 		field[CenterRight][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map016");
 
@@ -342,7 +342,7 @@ void Stage::Initialize()
 
 #pragma region 右
 	{
-		float angle = 0.0f;
+		float angle = 90.0f;
 
 		//左上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map017.png");
@@ -358,7 +358,7 @@ void Stage::Initialize()
 			(angle - 180.0f) * AliceMathF::Deg2Rad,
 			((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad
 		};
-		field[Right][LeftTop].angle_ = -angle;
+		field[Right][LeftTop].angle_ = angle;
 
 		field[Right][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map017");
 
@@ -380,7 +380,7 @@ void Stage::Initialize()
 			(angle - 180.0f) * AliceMathF::Deg2Rad,
 			((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad
 		};
-		field[Right][RightTop].angle_ = -angle;
+		field[Right][RightTop].angle_ = angle;
 
 		field[Right][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map018");
 
@@ -402,7 +402,7 @@ void Stage::Initialize()
 			(angle - 180.0f) * AliceMathF::Deg2Rad,
 			((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad
 		};
-		field[Right][LeftBottom].angle_ = -angle;
+		field[Right][LeftBottom].angle_ = angle;
 
 		field[Right][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map019");
 
@@ -424,7 +424,7 @@ void Stage::Initialize()
 			(angle - 180.0f) * AliceMathF::Deg2Rad,
 			((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad
 		};
-		field[Right][RightBottom].angle_ = -angle;
+		field[Right][RightBottom].angle_ = angle;
 
 		field[Right][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map020");
 
@@ -435,75 +435,76 @@ void Stage::Initialize()
 #pragma endregion
 
 #pragma region 下
+	{
+		float angle = 0.0f;
+		//左上
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map021.png");
+		field[Bottom][LeftTop].textureData = TextureManager::GetTextureData(handl);
+		field[Bottom][LeftTop].field = Field::v;
 
-	//左上
-	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map021.png");
-	field[Bottom][LeftTop].textureData = TextureManager::GetTextureData(handl);
-	field[Bottom][LeftTop].field = Field::v;
+		field[Bottom][LeftTop].surfacePartsModelTrans.Initialize();
+		field[Bottom][LeftTop].surfacePartsModelTrans.translation = { 20.0f,-50.0f,20.0f };
+		field[Bottom][LeftTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,angle * AliceMathF::Deg2Rad ,0.0f };
+		field[Bottom][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+		field[Bottom][LeftTop].angle_ = angle;
 
-	field[Bottom][LeftTop].surfacePartsModelTrans.Initialize();
-	field[Bottom][LeftTop].surfacePartsModelTrans.translation = { 20.0f,-50.0f,20.0f };
-	field[Bottom][LeftTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
-	field[Bottom][LeftTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
-	field[Bottom][LeftTop].angle_ = 180.0f;
+		field[Bottom][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map021");
 
-	field[Bottom][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map021");
+		field[Bottom][LeftTop].surfacePartsModel = std::make_unique<Model>();
+		field[Bottom][LeftTop].surfacePartsModel->SetModel(field[Bottom][LeftTop].surfacePartsModelHandle);
+		field[Bottom][LeftTop].surfacePartsModel->SetTexture(handl);
 
-	field[Bottom][LeftTop].surfacePartsModel = std::make_unique<Model>();
-	field[Bottom][LeftTop].surfacePartsModel->SetModel(field[Bottom][LeftTop].surfacePartsModelHandle);
-	field[Bottom][LeftTop].surfacePartsModel->SetTexture(handl);
+		//右上
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map022.png");
+		field[Bottom][RightTop].textureData = TextureManager::GetTextureData(handl);
+		field[Bottom][RightTop].field = Field::w;
 
-	//右上
-	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map022.png");
-	field[Bottom][RightTop].textureData = TextureManager::GetTextureData(handl);
-	field[Bottom][RightTop].field = Field::w;
+		field[Bottom][RightTop].surfacePartsModelTrans.Initialize();
+		field[Bottom][RightTop].surfacePartsModelTrans.translation = { -20.0f,-50.0f,20.0f };
+		field[Bottom][RightTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,angle * AliceMathF::Deg2Rad ,0.0f };
+		field[Bottom][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+		field[Bottom][RightTop].angle_ = angle;
 
-	field[Bottom][RightTop].surfacePartsModelTrans.Initialize();
-	field[Bottom][RightTop].surfacePartsModelTrans.translation = { -20.0f,-50.0f,20.0f };
-	field[Bottom][RightTop].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
-	field[Bottom][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
-	field[Bottom][RightTop].angle_ = 180.0f;
+		field[Bottom][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map022");
 
-	field[Bottom][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map022");
+		field[Bottom][RightTop].surfacePartsModel = std::make_unique<Model>();
+		field[Bottom][RightTop].surfacePartsModel->SetModel(field[Bottom][RightTop].surfacePartsModelHandle);
+		field[Bottom][RightTop].surfacePartsModel->SetTexture(handl);
 
-	field[Bottom][RightTop].surfacePartsModel = std::make_unique<Model>();
-	field[Bottom][RightTop].surfacePartsModel->SetModel(field[Bottom][RightTop].surfacePartsModelHandle);
-	field[Bottom][RightTop].surfacePartsModel->SetTexture(handl);
+		//左下
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map023.png");
+		field[Bottom][LeftBottom].textureData = TextureManager::GetTextureData(handl);
+		field[Bottom][LeftBottom].field = Field::x;
 
-	//左下
-	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map023.png");
-	field[Bottom][LeftBottom].textureData = TextureManager::GetTextureData(handl);
-	field[Bottom][LeftBottom].field = Field::x;
+		field[Bottom][LeftBottom].surfacePartsModelTrans.Initialize();
+		field[Bottom][LeftBottom].surfacePartsModelTrans.translation = { 20.0f,-50.0f,-20.0f };
+		field[Bottom][LeftBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,angle * AliceMathF::Deg2Rad ,0.0f };
+		field[Bottom][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+		field[Bottom][LeftBottom].angle_ = angle;
 
-	field[Bottom][LeftBottom].surfacePartsModelTrans.Initialize();
-	field[Bottom][LeftBottom].surfacePartsModelTrans.translation = { 20.0f,-50.0f,-20.0f };
-	field[Bottom][LeftBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
-	field[Bottom][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
-	field[Bottom][LeftBottom].angle_ = 180.0f;
+		field[Bottom][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map023");
 
-	field[Bottom][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map023");
+		field[Bottom][LeftBottom].surfacePartsModel = std::make_unique<Model>();
+		field[Bottom][LeftBottom].surfacePartsModel->SetModel(field[Bottom][LeftBottom].surfacePartsModelHandle);
+		field[Bottom][LeftBottom].surfacePartsModel->SetTexture(handl);
 
-	field[Bottom][LeftBottom].surfacePartsModel = std::make_unique<Model>();
-	field[Bottom][LeftBottom].surfacePartsModel->SetModel(field[Bottom][LeftBottom].surfacePartsModelHandle);
-	field[Bottom][LeftBottom].surfacePartsModel->SetTexture(handl);
+		//右下
+		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map024.png");
+		field[Bottom][RightBottom].textureData = TextureManager::GetTextureData(handl);
+		field[Bottom][RightBottom].field = Field::y;
 
-	//右下
-	handl = TextureManager::Load("Resources/FoldPlaneImg\\Map024.png");
-	field[Bottom][RightBottom].textureData = TextureManager::GetTextureData(handl);
-	field[Bottom][RightBottom].field = Field::y;
+		field[Bottom][RightBottom].surfacePartsModelTrans.Initialize();
+		field[Bottom][RightBottom].surfacePartsModelTrans.translation = { -20.0f,-50.0f,-20.0f };
+		field[Bottom][RightBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,angle * AliceMathF::Deg2Rad ,0.0f };
+		field[Bottom][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+		field[Bottom][RightBottom].angle_ = angle;
 
-	field[Bottom][RightBottom].surfacePartsModelTrans.Initialize();
-	field[Bottom][RightBottom].surfacePartsModelTrans.translation = { -20.0f,-50.0f,-20.0f };
-	field[Bottom][RightBottom].surfacePartsModelTrans.rotation = { 180.0f * AliceMathF::Deg2Rad,180.0f * AliceMathF::Deg2Rad ,0.0f };
-	field[Bottom][RightBottom].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
-	field[Bottom][RightBottom].angle_ = 180.0f;
+		field[Bottom][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map024");
 
-	field[Bottom][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map024");
-
-	field[Bottom][RightBottom].surfacePartsModel = std::make_unique<Model>();
-	field[Bottom][RightBottom].surfacePartsModel->SetModel(field[Bottom][RightBottom].surfacePartsModelHandle);
-	field[Bottom][RightBottom].surfacePartsModel->SetTexture(handl);
-
+		field[Bottom][RightBottom].surfacePartsModel = std::make_unique<Model>();
+		field[Bottom][RightBottom].surfacePartsModel->SetModel(field[Bottom][RightBottom].surfacePartsModelHandle);
+		field[Bottom][RightBottom].surfacePartsModel->SetTexture(handl);
+	}
 #pragma endregion
 
 }
