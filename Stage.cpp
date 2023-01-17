@@ -28,7 +28,7 @@ void Stage::Initialize()
 
 		field[Top][RightTop].surfacePartsModelTrans.Initialize();
 		field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
-		field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,1.0f,40.0f };
+		field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 		field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 		field[Top][RightTop].angle_ = standardAngle_;
 
