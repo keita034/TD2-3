@@ -1,10 +1,14 @@
-#pragma once
+я╗┐#pragma once
+
 /// <summary>
-/// П╒У╦Ф╗ТшК╓ШAЧpВ╠М^ТшЛ`
+/// шбЭчкБхИдхоЪчФищЦвщАгуБохЮЛхоЪч╛й
 /// </summary>
+
 enum CollisionShapeType
 {
-	SHAPE_UNKNOWN = -1,//ЦвТшЛ`
+	SHAPE_UNKNOWN = -1, // цЬкшинхоЪ
 
-	COLLISIONSHAPE_SPHERE,//Тe
+	COLLISIONSHAPE_SPHERE, // чРГ
+
+	COLLISIONSHAPE_MESH,//уГбуГГуВ╖уГе
 };

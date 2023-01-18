@@ -1,86 +1,87 @@
-#include"Player.h"
+#include "Player.h"
 
-Player::Player(uint32_t modelHandl) {
+#include "Input.h"
+#include"2d/DebugText.h"
+#include"SphereCollider.h"
+#include"3d/ParticleManager.h"
 
-	model = std::make_unique<Model>();
-	model->SetModel(modelHandl);
+using namespace DirectX;
 
-	input_ = Input::GetInstance();
-
-	worldTransform_.Initialize();
-}
-
-Player::~Player() {
-	if (collider) {
-		delete collider;
+Player* Player::Create(Model* model)
+{
+	Player* instance = new Player();
+	if (instance == nullptr) {
+		return nullptr;
 	}
+
+	if (!instance->Initialize()) {
+		delete instance;
+		assert(0);
+	}
+	if (model) {
+		instance->SetModel(model);
+	}
+	return instance;
 }
 
-void Player::Initialise(){
+bool Player::Initialize()
+{
+	if (!Object3d::Initialize()) {
+		return false;
+	}
 
-	//クラス名の文字列を取得
-	name = typeid(*this).name();
+	float radius = 0.6f;
+
+	SetCollider(new SphereCollider(DirectX::XMVECTOR({ 0,radius,0,0 }), radius));
+
+	return true;
 
 }
 
-void Player::Update(Camera* camera) {
+void Player::Update()
+{
+	Input* input = Input::GetInstance();
 
-	PlayerJump();
-	PlayerMove();
+	if (input->PushKey(DIK_A)) {
+		rotation.y -= 2.0f;
+	}
+	if (input->PushKey(DIK_D)) {
+		rotation.y += 2.0f;
+	}
+
+	XMVECTOR move = { 0,0,0.1f,0 };
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	move = XMVector3TransformNormal(move, matRot);
+
+	if (input->PushKey(DIK_S)) {
+		position.x -= move.m128_f32[0];
+		position.y -= move.m128_f32[1];
+		position.z -= move.m128_f32[2];
+	}
+	if (input->PushKey(DIK_W)) {
+		position.x += move.m128_f32[0];
+		position.y += move.m128_f32[1];
+		position.z += move.m128_f32[2];
+	}
+
+	Object3d::Update();
+
+}
+
+void Player::OnCollision(const CollisionInfo& info)
+{
 	
-	worldTransform_.TransUpdate(camera);
+	DebugText::GetInstance()->Printf("Collision detected");
 
-	//当たり判定更新
-	if (collider) {
-		collider->Update();
+	for (int i = 0; i < 1; ++i) {
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		ParticleManager::GetInstance()->Add(10, XMFLOAT3(info.inter.m128_f32), vel, XMFLOAT3(), 0.0f, 1.0f);
 	}
 
-}
-
-void Player::PlayerJump() {
-
-	//スペース押されたらジャンプ
-	if (input_->TriggerPush(DIK_SPACE)) {
-		jumpFlag = 1;
-	}
-	//ジャンプしてる時の処理
-	if (jumpFlag == 1) {
-		//ジャンプフレーム
-		jumpFrame++;
-		playerJumpSpeed = 1.3f - gravity * (static_cast<float>(jumpFrame) / 100.0f);
-		worldTransform_.translation.y += playerJumpSpeed;
-	}
-
-	//0から下にいかないように
-	if (worldTransform_.translation.y < 0) {
-		playerJumpSpeed = 0;
-		jumpFrame = 0;
-		worldTransform_.translation.y = 0;
-		jumpFlag = 0;
-	}
-
-}
-
-void Player::PlayerMove() {
-
-	AliceMathF::Vector3 playerMovement = { 0,0,0 };
-
-	if (input_->KeepPush(DIK_W)) {
-		playerMovement.z = playerSpeed;
-	}
-	if (input_->KeepPush(DIK_A)) {
-		playerMovement.x = -playerSpeed;
-	}
-	if (input_->KeepPush(DIK_S)) {
-		playerMovement.z = -playerSpeed;
-	}
-	if (input_->KeepPush(DIK_D)) {
-		playerMovement.x = playerSpeed;
-	}
-	worldTransform_.translation += playerMovement;
-}
-
-void Player::Draw() {
-
-	model->Draw(&worldTransform_);
 }

@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include "CollisionTypes.h"
 #include "CollisionInfo.h"
-#include "Player.h"
+#include "Object3d.h"
 
 /// <summary>
-/// ƒRƒ‰ƒCƒ_[Šî’êƒNƒ‰ƒX
+/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŸºåº•ã‚¯ãƒ©ã‚¹
 /// </summary>
 class BaseCollider
 {
@@ -13,32 +13,32 @@ public:
 	BaseCollider() = default;
 	virtual ~BaseCollider() = default;
 
-	inline void SetObject(Player* player) {
-		this->player = player;
+	inline void SetObject(Object3d* object) {
+		this->object3d = object;
 	}
 
-	inline Player* GetObject3d() {
-		return player;
+	inline Object3d* GetObject3d() {
+		return object3d;
 	}
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	virtual void Update() = 0;
 
 	inline CollisionShapeType GetShapeType() { return shapeType; }
 	
 	/// <summary>
-	/// Õ“ËƒR[ƒ‹ƒoƒbƒNŠÖ”
+	/// è¡çªæ™‚ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	/// </summary>
-	/// <param name="info">Õ“Ëî•ñ</param>
+	/// <param name="info">è¡çªæƒ…å ±</param>
 	inline void OnCollision(const CollisionInfo& info) {
-		player->OnCollision(info);
+		object3d->OnCollision(info);
 	}
 
 protected:
-	Player* player = nullptr;
-	// Œ`óƒ^ƒCƒv
+	Object3d* object3d = nullptr;
+	// å½¢çŠ¶ã‚¿ã‚¤ãƒ—
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 };
 
