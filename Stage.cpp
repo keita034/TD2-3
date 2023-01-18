@@ -536,35 +536,35 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 		break;
 	}
 
-	fieldPlaneDrawFlag = true;
+	//fieldPlaneDrawFlag = true;
 }
 
 void Stage::Update(Camera* camera)
 {
-	if (fieldPlaneDrawFlag)
+	//if (fieldPlaneDrawFlag)
 	{
-		switch (foldDirection)
-		{
-		case FoldIndex::Vertical://c
+		//switch (foldDirection)
+		//{
+		//case FoldIndex::Vertical://c
 
-			verticalFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-			break;
+		//	verticalFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
+		//	break;
 
-		case FoldIndex::Beside://‰¡
+		//case FoldIndex::Beside://‰¡
 
-			besideFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
+		//	besideFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
 
-			break;
+		//	break;
 
-		case FoldIndex::Surface:
+		//case FoldIndex::Surface:
 
 			surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
 
-			break;
+			///break;
 
-		default:
-			break;
-		}
+		//default:
+			//break;
+		//}
 
 	}
 

@@ -348,6 +348,24 @@
     <ClInclude Include="SurfaceFold.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="SurfaceFoldTop2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldLeft2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldCenterLeft2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldRight2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldCenterRight2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldBottom2.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -656,6 +674,24 @@
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceFold.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldTop2.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldLeft2.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldCenterLeft2.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldRight2.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldCenterRight2.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldBottom2.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
