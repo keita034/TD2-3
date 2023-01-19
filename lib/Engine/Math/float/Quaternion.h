@@ -1,77 +1,84 @@
 #pragma once
+#include"ErrorException.h"
+#include"Vector4.h"
 #include"Vector3.h"
 #include"Matrix4.h"
-
-class Quaternion
+namespace AliceMathF
 {
-public:
-	float x;
-	float y;
-	float z;
-	float w;
+	class Quaternion
+	{
+	public:
+		float x;
+		float y;
+		float z;
+		float w;
 
-	//クオータニオンを作成
+		//クオータニオンを作成
 
-	//成分を指定して クォータニオンを作成
-	Quaternion(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f);
+		//成分を指定して クォータニオンを作成
+		Quaternion(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f);
 
-	//任意軸まわりの回転の指定からクォータニオンを作成
-	Quaternion(const Vector3& v, float angle);
+		//任意軸まわりの回転の指定からクォータニオンを作成
+		Quaternion(const Vector3& v, float angle);
 
-	//回転行列からクォータニオンを作成
-	Quaternion(const Matrix4& m);
+		//回転行列からクォータニオンを作成
+		Quaternion(const Matrix4& m);
 
-	//ベクトルからベクトルの角度
-	Quaternion(const Vector3& u, const Vector3& v);
+		Quaternion(const aiQuaternion& q);
 
-	//内積を求める
-	float Dot(const Quaternion& q)const;
+		Quaternion(const Vector4& v);
 
-	//ノルムを求める
-	float Norm()const;
+		//ベクトルからベクトルの角度
+		Quaternion(const Vector3& u, const Vector3& v);
 
-	//正規化する
-	Quaternion Normalize() const;
+		//内積を求める
+		float Dot(const Quaternion& q)const;
 
-	//単位クオータニオン
-	Quaternion Identity() const;
+		//ノルムを求める
+		float Norm()const;
 
-	// 共役クオータニオン
-	Quaternion Conjugate() const;
+		//正規化する
+		Quaternion Normalize() const;
 
-	// 逆クオータニオン
-	Quaternion Inverse() const;
+		//単位クオータニオン
+		Quaternion Identity() const;
 
-	//クオータニオン球面線形補間
-	Quaternion Slerp(const Quaternion& q, float t);
+		// 共役クオータニオン
+		Quaternion Conjugate() const;
 
-	//クオータニオン線形補間
-	Quaternion Lerp(const Quaternion& q, float t);
+		// 逆クオータニオン
+		Quaternion Inverse() const;
 
-	//クオータニオンから回転行列を求める
-	Matrix4 Rotate();
+		//クオータニオン球面線形補間
+		Quaternion Slerp(const Quaternion& q, float t);
 
-	//回転軸の算出
-	Vector3 GetAxis();
+		//クオータニオン線形補間
+		Quaternion Lerp(const Quaternion& q, float t);
 
-	//オイラー角に変換
-	Vector3 GetEulerAngles();
+		//クオータニオンから回転行列を求める
+		Matrix4 Rotate();
 
-	//オイラー角からクオータニオンに変換
-	void SeTEuler(const Vector3& rot);
+		//回転軸の算出
+		Vector3 GetAxis();
 
-	//単項演算子オーバーロード
-	Quaternion operator + ();
-	Quaternion operator - ()const;
+		//オイラー角に変換
+		Vector3 GetEulerAngles();
 
-	//代入演算子オーバーロード
-	Quaternion& operator += (const Quaternion& q);
-	Quaternion& operator -= (const Quaternion& q);
-	Quaternion& operator *= (float s);
-	Quaternion& operator /= (float s);
-	Quaternion& operator *= (const Quaternion& q);
+		//オイラー角からクオータニオンに変換
+		void SeTEuler(const Vector3& rot);
 
-};
+		//単項演算子オーバーロード
+		Quaternion operator + ();
+		Quaternion operator - ()const;
+
+		//代入演算子オーバーロード
+		Quaternion& operator += (const Quaternion& q);
+		Quaternion& operator -= (const Quaternion& q);
+		Quaternion& operator *= (float s);
+		Quaternion& operator /= (float s);
+		Quaternion& operator *= (const Quaternion& q);
+
+	};
 
 //2項演算子オーバーロード
 const Quaternion operator + (const Quaternion& q1, const Quaternion& q2);
@@ -81,3 +88,6 @@ const Quaternion operator * (const Quaternion& q, float s);
 const Quaternion operator * (float s, const Quaternion& q);
 const Quaternion operator / (const Quaternion& q, float s);
 const Vector3 operator*(Quaternion q, Vector3 vec);
+
+void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t);
+}
