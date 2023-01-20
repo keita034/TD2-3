@@ -78,7 +78,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 
 	// モデル読み込み
 	modelSkydome = Model::CreateFromOBJ("skydome");
-	modelGround = Model::CreateFromOBJ("ground");
+	modelGround = Model::CreateFromOBJ("Wall");
 	modelFighter = Model::CreateFromOBJ("chr_sword", true);
 	modelSphere = Model::CreateFromOBJ("sphere", true);
 
@@ -93,7 +93,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	objSphere = Object3d::Create(modelSphere);
 
 	objFighter->SetPosition({ +1, 0, -2});
-	objSphere->SetPosition({ -1, 1, 5 });
+	objSphere->SetPosition({ -10, 1, 5 });
 
 	objSphere->SetCollider(new SphereCollider);
 
@@ -108,7 +108,7 @@ void GameScene::Update()
 	// パーティクル生成
 	//CreateParticles();
 
-	Ray ray;
+	/*Ray ray;
 	ray.start = { 10.0f,0.5f,0.0f,1 };
 	ray.dir = { 0,-1,0,0 };
 	RaycastHit raycastHit;
@@ -127,7 +127,7 @@ void GameScene::Update()
 			ParticleManager::GetInstance()->Add(10, XMFLOAT3(raycastHit.inter.m128_f32), vel, XMFLOAT3(), 0.0f, 1.0f);
 		}
 
-	}
+	}*/
 
 
 	lightGroup->Update();
@@ -154,6 +154,8 @@ void GameScene::Update()
 	//}
 
 	objSkydome->Update();
+	objGround->SetRotation({ 0,0,0 });
+	objGround->SetScale({ 1.0f,2.0f,1.0f });
 	objGround->Update();
 	objFighter->Update();
 	objSphere->Update();

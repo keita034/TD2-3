@@ -1,11 +1,13 @@
 ﻿#include "Object3d.h"
+#include "BaseCollider.h"
+#include "CollisionManager.h"
+
 #include <d3dcompiler.h>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include "BaseCollider.h"
-#include "CollisionManager.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace DirectX;
@@ -21,7 +23,7 @@ Object3d::PipelineSet Object3d::pipelineSet;
 Camera* Object3d::camera = nullptr;
 LightGroup* Object3d::lightGroup = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device * device, Camera* camera)
+void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 {
 	// 再初期化チェック
 	assert(!Object3d::device);
@@ -191,7 +193,7 @@ void Object3d::CreateGraphicsPipeline()
 	}
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList * cmdList)
+void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
 	assert(Object3d::cmdList == nullptr);
@@ -209,7 +211,7 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
-Object3d * Object3d::Create(Model* model)
+Object3d* Object3d::Create(Model* model)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
@@ -250,7 +252,7 @@ bool Object3d::Initialize()
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff)&~0xff),
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffB0));
@@ -263,37 +265,8 @@ void Object3d::Update()
 	assert(camera);
 
 	HRESULT result;
-	XMMATRIX matScale, matRot, matTrans;
 
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
-
-	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
-
-	if (isBillboard) {
-		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
-
-		matWorld = XMMatrixIdentity();
-		matWorld *= matScale; // ワールド行列にスケーリングを反映
-		matWorld *= matRot; // ワールド行列に回転を反映
-		matWorld *= matBillboard;
-		matWorld *= matTrans; // ワールド行列に平行移動を反映
-	}
-
-	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
+	UpdateWorldMatrix();
 
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
@@ -306,10 +279,10 @@ void Object3d::Update()
 	constMap->cameraPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
 
+	// 当たり判定更新
 	if (collider) {
 		collider->Update();
 	}
-
 }
 
 void Object3d::Draw()
@@ -337,6 +310,44 @@ void Object3d::Draw()
 	model->Draw(cmdList);
 }
 
+void Object3d::UpdateWorldMatrix()
+{
+	assert(camera);
+
+	XMMATRIX matScale, matRot, matTrans;
+
+	// スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	// ワールド行列の合成
+	if (isBillboard && camera) {
+		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
+
+		matWorld = XMMatrixIdentity();
+		matWorld *= matScale; // ワールド行列にスケーリングを反映
+		matWorld *= matRot; // ワールド行列に回転を反映
+		matWorld *= matBillboard;
+		matWorld *= matTrans; // ワールド行列に平行移動を反映
+	}
+	else {
+		matWorld = XMMatrixIdentity(); // 変形をリセット
+		matWorld *= matScale; // ワールド行列にスケーリングを反映
+		matWorld *= matRot; // ワールド行列に回転を反映
+		matWorld *= matTrans; // ワールド行列に平行移動を反映
+	}
+
+	// 親オブジェクトがあれば
+	if (parent != nullptr) {
+		// 親オブジェクトのワールド行列を掛ける
+		matWorld *= parent->matWorld;
+	}
+}
+
 void Object3d::SetCollider(BaseCollider* collider)
 {
 	collider->SetObject(this);
@@ -344,6 +355,7 @@ void Object3d::SetCollider(BaseCollider* collider)
 	// コリジョンマネージャに追加
 	CollisionManager::GetInstance()->AddCollider(collider);
 
+	UpdateWorldMatrix();
 	collider->Update();
 }
 

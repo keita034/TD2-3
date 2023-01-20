@@ -12,5 +12,10 @@ public:
 
 	void OnCollision(const CollisionInfo& info)override;
 
+private:
+	//接地フラグ
+	bool onGround = true;
+	//落下ベクトル
+	DirectX::XMVECTOR fallV;
 
 };

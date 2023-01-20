@@ -6,6 +6,7 @@
 #include "RaycastHit.h"
 
 #include<d3d12.h>
+#include "QueryCallback.h"
 
 class BaseCollider;
 
@@ -26,6 +27,12 @@ public://メンバ関数
 	void CheckAllCollisions();
 
 	bool Raycast(const Ray& ray, RaycastHit* hitInfo = nullptr, float maxDistance = D3D12_FLOAT32_MAX);
+
+
+	//レイキャストオーバーロード
+	bool Raycast(const Ray& ray, unsigned short attribute, RaycastHit* hitInfo = nullptr, float maxDistance = D3D12_FLOAT32_MAX);
+
+	void QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute = (unsigned short)0xffffffff);
 
 private:
 	CollisionManager() = default;

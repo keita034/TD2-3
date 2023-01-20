@@ -194,9 +194,11 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="CollisionTypes.h" />
+    <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="QueryCallback.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="SphereCollider.h" />

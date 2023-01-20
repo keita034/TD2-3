@@ -12,7 +12,6 @@
 #include "LightGroup.h"
 #include "CollisionInfo.h"
 
-
 class BaseCollider;
 
 /// <summary>
@@ -133,6 +132,11 @@ public: // メンバ関数
 	virtual void Draw();
 
 	/// <summary>
+	/// 行列の更新
+	/// </summary>
+	void UpdateWorldMatrix();
+
+	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
@@ -194,6 +198,10 @@ public: // メンバ関数
 	/// <returns></returns>
 	XMFLOAT3 GetWorldPosition();
 
+	/// <summary>
+	/// モデルを取得
+	/// </summary>
+	/// <returns>モデル</returns>
 	inline Model* GetModel() { return model; }
 
 protected: // メンバ変数

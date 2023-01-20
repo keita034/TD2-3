@@ -1,5 +1,7 @@
 #pragma once
 #include "Object3d.h"
+#include "CollisionAttribute.h"
+
 class TouchableObject :
 	public Object3d
 {

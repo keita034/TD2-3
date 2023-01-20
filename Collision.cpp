@@ -127,7 +127,7 @@ bool Collision::CheckSphere2Plane(Sphere& sphere, Plane& plane, DirectX::XMVECTO
 	return true;
 }
 
-bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter){
+bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter, DirectX::XMVECTOR* reject){
 
 	XMVECTOR p;
 
@@ -142,6 +142,14 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	if (inter) {
 		*inter = p;
 	}
+
+	if (reject) {
+		float ds = XMVector3Dot(sphere.center, triangle.normal).m128_f32[0];
+		float dt = XMVector3Dot(triangle.p0, triangle.normal).m128_f32[0];
+		float rejectLen = dt - ds + sphere.radius;
+		*reject = triangle.normal * rejectLen;
+	}
+
 	return true;
 }
 

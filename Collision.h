@@ -43,7 +43,10 @@ public:
 	/// <param name="inter">交点（三角形上の最近接点）</param>
 	/// <param name="reject">排斥ベクトル（出力用）</param>
 	/// <returns>交差しているか否か</returns>
-	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter = nullptr);
+	//static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter = nullptr);
+	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter = nullptr, DirectX::XMVECTOR* reject = nullptr);
+
+
 
 	///// <summary>
 	///// 球と法線付き三角形の当たり判定
