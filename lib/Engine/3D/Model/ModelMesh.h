@@ -194,5 +194,17 @@ public:
 
 	void InitializeVertexPos();
 
+	/// <summary>
+	/// 頂点座標を取得
+	/// </summary>
+	/// <returns>頂点座標配列</returns>
+	const std::vector<PosNormUvTangeCol>GetVertices();
+
+	/// <summary>
+	/// インデックスを取得
+	/// </summary>
+	/// <returns>インデックス座標配列</returns>
+	const std::vector<uint32_t>GetIndices();
+
 private:
 };

@@ -264,6 +264,11 @@ void fbxModel::InitializeVertex()
 	}
 }
 
+const std::vector<ModelMesh>& fbxModel::GetMeshs()
+{
+	return meshes;
+}
+
 void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
 {
 	AliceMathF::Matrix4 mxNodeTransformation = AliceMathF::MakeIdentity();

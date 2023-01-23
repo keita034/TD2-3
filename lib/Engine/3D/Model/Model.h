@@ -13,6 +13,8 @@
 #include"IndexBuffer.h"
 #include"StructuredBuffer.h"
 
+class BaseCollider;
+
 enum class ModelShape
 {
 	Cube,//—§•û‘Ì
@@ -116,7 +118,6 @@ protected:
 
 	std::vector<ModelData*> blendModels;
 
-
 public:
 
 	/// <summary>
@@ -167,7 +168,7 @@ public:
 	static uint32_t CreatePrimitiveModel(ModelShape type);
 
 	static uint32_t CreateObjModel(const std::string& filePath, bool smoothing = false);
-
+	
 	static void CommonInitialize();
 
 private:

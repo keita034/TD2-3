@@ -77,6 +77,55 @@ namespace AliceMathF
 		Vector3 temp = v1.Cross(v2);
 		return { temp.x,temp.y,temp.z,0.0f };
 	}
+	float Vector4::Vector3Length() const
+	{
+		float len = Vector3LengthSquared();
+		return Sqrt(len);
+	}
+
+	float Vector4::Vector3LengthSquared() const
+	{
+		return Vector3Dot(*this);
+	}
+
+	Vector4 Vector4::Vector3Normalization() const
+	{
+		Vector4 tmp(*this);
+
+		float len = Vector3Length();
+		if (len != 0)
+		{
+			return tmp /= len;
+
+		}
+
+		return tmp;
+	}
+
+	Vector4& Vector4::Vector3Normal()
+	{
+		float len = Vector3Length();
+		if (len != 0)
+		{
+			return *this /= len;
+
+		}
+
+		return *this;
+	}
+
+	float Vector4::Vector3Dot(const Vector4& v) const
+	{
+		return x * v.x + y * v.y + z * v.z;
+	}
+
+	Vector4 Vector4::Vector3Cross(const Vector4& v) const
+	{
+		Vector3 v1 = { x,y,z };
+		Vector3 v2 = { v.x,v.y,v.z };
+		Vector3 temp = v1.Cross(v2);
+		return { temp.x,temp.y,temp.z,w };
+	}
 
 	Vector4 Vector4::operator+() const
 	{

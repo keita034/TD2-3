@@ -77,6 +77,7 @@ public:
 
 	void InitializeVertex();
 
+	const std::vector<ModelMesh>& GetMeshs();
 
 private:
 

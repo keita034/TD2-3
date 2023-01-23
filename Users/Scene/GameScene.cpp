@@ -48,6 +48,16 @@ void GameScene::Update()
 		stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
 	}
 
+	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
+	{
+		stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_Z))
+	{
+		stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
+	}
+
 	stage->Update(camera.get());
 }
 
