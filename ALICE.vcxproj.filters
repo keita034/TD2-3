@@ -402,6 +402,9 @@
     <ClInclude Include="lib\Engine\Collision\BaseCollider.h">
       <Filter>Engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\TouchableObject.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -748,6 +751,9 @@
       <Filter>Engine\ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="lib\Engine\Collision\CollisionManager.cpp">
+      <Filter>Engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Collision\TouchableObject.cpp">
       <Filter>Engine\ソース ファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>

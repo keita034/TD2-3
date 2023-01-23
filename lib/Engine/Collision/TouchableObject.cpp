@@ -2,7 +2,7 @@
 #include "MeshCollider.h"
 #include "CollisionAttribute.h"
 
-TouchableObject* TouchableObject::Create(Model* model)
+TouchableObject* TouchableObject::Create(uint32_t modelHandle, Transform* transform)
 {
 	// オブジェクトのインスタンスを生成
 	TouchableObject* instance = new TouchableObject();
@@ -11,7 +11,7 @@ TouchableObject* TouchableObject::Create(Model* model)
 	}
 
 	// 初期化
-	if (!instance->Initialize(model)) {
+	if (!instance->Initialize(modelHandle, transform)) {
 		delete instance;
 		assert(0);
 	}
@@ -19,19 +19,15 @@ TouchableObject* TouchableObject::Create(Model* model)
 	return instance;
 }
 
-bool TouchableObject::Initialize(Model* model)
+bool TouchableObject::Initialize(uint32_t modelHandle, Transform* transform)
 {
-	if (!Object3d::Initialize())
-	{
-		return false;
-	}
-
-	SetModel(model);
+	trans = transform;
+	SetModel(modelHandle);
 
 	// コライダーの追加
 	MeshCollider* collider = new MeshCollider;
-	SetCollider(collider);
-	collider->ConstructTriangles(model);
+	trans->SetCollider(collider);
+	collider->ConstructTriangles(this);
 	collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 	return true;
