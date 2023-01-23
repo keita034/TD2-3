@@ -28,6 +28,13 @@ namespace AliceMathF
 		float Dot(const Vector4& v)const;//内積を求める
 		Vector4 Cross(const Vector4& v)const;//外積を求める
 
+		float Vector3Length()const;//ノルムを求める
+		float Vector3LengthSquared()const;
+		Vector4 Vector3Normalization()const;//正規化する
+		Vector4& Vector3Normal();//正規化する
+		float Vector3Dot(const Vector4& v)const;//内積を求める
+		Vector4 Vector3Cross(const Vector4& v)const;//外積を求める
+
 		//単項演算子オーバーロード
 		Vector4 operator+() const;
 		Vector4 operator-() const;

@@ -324,12 +324,6 @@
     <ClInclude Include="UserCamera.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="lib\Engine\Math\float\Matrix.h">
       <Filter>Engine\ヘッダー ファイル\Math</Filter>
     </ClInclude>
@@ -347,6 +341,42 @@
     </ClInclude>
     <ClInclude Include="SurfaceFold.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
+      <Filter>Engine\ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\GameMain.h">
+      <Filter>Engine\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\SphereCollider.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\QueryCallback.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\RaycastHit.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\MeshCollider.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\CollisionTypes.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\CollisionManager.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\CollisionInfo.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\CollisionAttribute.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Collision\BaseCollider.h">
+      <Filter>Engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -657,6 +687,18 @@
     </ClCompile>
     <ClCompile Include="SurfaceFold.cpp">
       <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\GameMain.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Collision\SphereCollider.cpp">
+      <Filter>Engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Collision\MeshCollider.cpp">
+      <Filter>Engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Collision\CollisionManager.cpp">
+      <Filter>Engine\ソース ファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

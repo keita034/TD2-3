@@ -124,6 +124,16 @@ void ModelMesh::InitializeVertexPos()
 	vertexBuffer->Update(vertice.data());
 }
 
+const std::vector<PosNormUvTangeCol> ModelMesh::GetVertices()
+{
+	return vertice;
+}
+
+const std::vector<uint32_t> ModelMesh::GetIndices()
+{
+	return indices;
+}
+
 void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList, Transform* transform, Light* light)
 {
 	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();

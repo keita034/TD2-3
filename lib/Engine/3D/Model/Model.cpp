@@ -1,6 +1,8 @@
 #include "Model.h"
 #include"PrimitiveModel.h"
 #include"objModel.h"
+#include "BaseCollider.h"
+#include "CollisionManager.h"
 
 Light* Model::light = nullptr;
 Microsoft::WRL::ComPtr<ID3D12Device> Model::device;
@@ -48,6 +50,15 @@ void Model::ClearBlendModel()
 	blendModels.clear();
 }
 
+void Model::SetCollider(BaseCollider* collider)
+{
+	this->collider = collider;
+	// コリジョンマネージャに追加
+	CollisionManager::GetInstance()->AddCollider(collider);
+
+	UpdateWorldMatrix();
+	collider->Update(matWorld);
+}
 uint32_t Model::CreatePrimitiveModel(ModelShape type)
 {
 	std::string path;
