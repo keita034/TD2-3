@@ -50,15 +50,6 @@ void Model::ClearBlendModel()
 	blendModels.clear();
 }
 
-void Model::SetCollider(BaseCollider* collider)
-{
-	this->collider = collider;
-	// コリジョンマネージャに追加
-	CollisionManager::GetInstance()->AddCollider(collider);
-
-	UpdateWorldMatrix();
-	collider->Update(matWorld);
-}
 uint32_t Model::CreatePrimitiveModel(ModelShape type)
 {
 	std::string path;
