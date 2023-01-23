@@ -2,6 +2,7 @@
 
 #include "CollisionTypes.h"
 #include "CollisionInfo.h"
+#include"AliceMathUtility.h"
 
 /// <summary>
 /// コライダー基底クラス
@@ -17,7 +18,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update(DirectX::XMMATRIX worldPos) = 0;
+	virtual void Update(const AliceMathF::Matrix4& worldPos) = 0;
 
 	inline CollisionShapeType GetShapeType() { return shapeType; }
 

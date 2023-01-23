@@ -8,7 +8,7 @@ struct RaycastHit{
 
 	BaseCollider* collider = nullptr; 
 
-	DirectX::XMVECTOR inter;
+	AliceMathF::Vector4 inter;
 
 	float distance = 0.0f;
 

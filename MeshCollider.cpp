@@ -51,17 +51,18 @@ void MeshCollider::ConstructTriangles(Model* model)
 	}
 }
 
-void MeshCollider::Update(DirectX::XMMATRIX worldPos)
+void MeshCollider::Update(const AliceMathF::Matrix4& worldPos)
 {
-	invMatWorld = XMMatrixInverse(nullptr, XMMatrixIdentity());
+	AliceMathF::Matrix4 tmp = AliceMathF::MakeIdentity();
+	invMatWorld = AliceMathF::MakeInverse(&tmp);
 }
 
-bool MeshCollider::CheckCollisionSphere(const Sphere& sphere, DirectX::XMVECTOR* inter,DirectX::XMVECTOR* reject)
+bool MeshCollider::CheckCollisionSphere(const Sphere& sphere, AliceMathF::Vector4* inter, AliceMathF::Vector4* reject)
 {
 	// オブジェクトのローカル座標系での球を得る（半径はXスケールを参照)
 	Sphere localSphere;
-	localSphere.center = XMVector3Transform(sphere.center, invMatWorld);
-	localSphere.radius *= XMVector3Length(invMatWorld.r[0]).m128_f32[0];
+	localSphere.center = AliceMathF::Vec4Mat4Mul( sphere.center, invMatWorld);
+	localSphere.radius *= AliceMathF::Vector4(invMatWorld.m[0][0], invMatWorld.m[0][1], invMatWorld.m[0][2], invMatWorld.m[0][3]).Vector3Length();
 
 	std::vector<Triangle>::const_iterator it = triangles.cbegin();
 
@@ -70,14 +71,14 @@ bool MeshCollider::CheckCollisionSphere(const Sphere& sphere, DirectX::XMVECTOR*
 
 		if (Collision::CheckSphere2Triangle(localSphere, triangle, inter,reject)) {
 			if (inter) {
-				const XMMATRIX& matWorld = XMMatrixIdentity();
+				const AliceMathF::Matrix4& matWorld = XMMatrixIdentity();
 
-				*inter = XMVector3Transform(*inter, matWorld);
+				*inter = AliceMathF::Vec4Mat4Mul(*inter, matWorld);
 			}
 			if (reject) {
-				const XMMATRIX& matWorld = XMMatrixIdentity();
+				const AliceMathF::Matrix4& matWorld = XMMatrixIdentity();
 				//ワールド座標系で排斥ベクトルに変換
-				*reject = XMVector3TransformNormal(*reject, matWorld);
+				*reject = AliceMathF::Vec4Mat4Mul(*reject, matWorld);
 			}
 			return true;
 		}
@@ -86,29 +87,29 @@ bool MeshCollider::CheckCollisionSphere(const Sphere& sphere, DirectX::XMVECTOR*
 	return false;
 }
 
-bool MeshCollider::CheckCollisionRay(const Ray& ray, float* distance, DirectX::XMVECTOR* inter)
+bool MeshCollider::CheckCollisionRay(const Ray& ray, float* distance, AliceMathF::Vector4* inter)
 {
 	// オブジェクトのローカル座標系でのレイを得る
 	Ray localRay;
-	localRay.start = XMVector3Transform(ray.start, invMatWorld);
-	localRay.dir = XMVector3TransformNormal(ray.dir, invMatWorld);
+	localRay.start = AliceMathF::Vec4Mat4Mul(ray.start, invMatWorld);
+	localRay.dir = AliceMathF::Vec4Mat4Mul(ray.dir, invMatWorld).Vector3Normal();
 
 	std::vector<Triangle>::const_iterator it = triangles.cbegin();
 
 	for (; it != triangles.cend(); ++it) {
 		const Triangle& triangle = *it;
 
-		XMVECTOR tempInter;
+		AliceMathF::Vector4 tempInter;
 
 		if (Collision::CheckRay2Triangle(localRay, triangle, nullptr, &tempInter)) {
 
-			const XMMATRIX& matWorld = XMMatrixIdentity();
+			const AliceMathF::Matrix4& matWorld = AliceMathF::MakeIdentity();
 
-			tempInter = XMVector3Transform(tempInter, matWorld);
+			tempInter = AliceMathF::Vec4Mat4Mul(tempInter, matWorld);
 
 			if (distance) {
-				XMVECTOR sub = tempInter - ray.start;
-				*distance = XMVector3Dot(sub, ray.dir).m128_f32[0];
+				AliceMathF::Vector4 sub = tempInter - ray.start;
+				*distance = sub.Vector3Dot(ray.dir);
 			}
 
 			if (inter) {

@@ -6,6 +6,8 @@
 #include "CollisionManager.h"
 #include "CollisionAttribute.h"
 
+#include"AliceMathUtility.h"
+
 using namespace DirectX;
 
 Player* Player::Create(Model* model)
@@ -38,7 +40,7 @@ bool Player::Initialize()
 
 	// コライダーの追加
 	float radius = 0.6f;
-	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
+	SetCollider(new SphereCollider(AliceMathF::Vector4 ({ 0,radius,0,0 }), radius));
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 
 	return true;
@@ -113,10 +115,10 @@ void Player::Update()
 		// 衝突時コールバック関数
 		bool OnQueryHit(const QueryHit& info) {
 
-			const XMVECTOR up = { 0,1,0,0 };
+			const AliceMathF::Vector4 up = { 0,1,0,0 };
 
-			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
-			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
+			AliceMathF::Vector4 rejectDir = info.reject.Vector3Normalization();
+			float cos = rejectDir.Vector3Dot(up);
 
 			// 地面判定しきい値
 			const float threshold = cosf(XMConvertToRadians(30.0f));
@@ -130,17 +132,17 @@ void Player::Update()
 		}
 
 		Sphere* sphere = nullptr;
-		DirectX::XMVECTOR move = {};
+		AliceMathF::Vector4 move = {};
 	};
 
 	PlayerQueryCallback callback(sphereCollider);
 
 	// 球と地形の交差を全検索
-	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE,&matWorld);
+	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
 	// 交差による排斥分動かす
-	position.x += callback.move.m128_f32[0];
-	position.y += callback.move.m128_f32[1];
-	position.z += callback.move.m128_f32[2];
+	position.x += callback.move.x;
+	position.y += callback.move.y;
+	position.z += callback.move.z;
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	collider->Update(matWorld);
@@ -150,7 +152,7 @@ void Player::Update()
 		// 球の上端から球の下端までのレイキャスト
 		Ray Groundray;
 		Groundray.start = sphereCollider->center;
-		Groundray.start.m128_f32[1] += sphereCollider->GetRadius();
+		Groundray.start.y += sphereCollider->GetRadius();
 		Groundray.dir = { 0,-1,0,0 };
 		RaycastHit raycastHit;
 
@@ -159,7 +161,7 @@ void Player::Update()
 			// スムーズに坂を下る為の吸着距離
 			const float adsDistance = 0.2f;
 			// 接地を維持
-			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance,&matWorld)) {
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
 				onGround = true;
 				position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
 			}
@@ -171,7 +173,7 @@ void Player::Update()
 		}
 		// 落下状態
 		else if (fallV.m128_f32[1] <= 0.0f) {
-			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f, &matWorld)) {
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
 				// 着地
 				onGround = true;
 				position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
@@ -183,14 +185,14 @@ void Player::Update()
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.m128_f32[1] += sphereCollider->GetRadius();
+		wall.start.y += sphereCollider->GetRadius();
 		wall.dir = { 0,0,1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
 
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius(), &matWorld)) {
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
 			position.z += (wallRaycastHit.distance - sphereCollider->GetRadius());
 		}
 
@@ -200,14 +202,14 @@ void Player::Update()
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.m128_f32[1] += sphereCollider->GetRadius();
+		wall.start.y += sphereCollider->GetRadius();
 		wall.dir = { 1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
 
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius() ,&matWorld)) {
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
 			position.x += (wallRaycastHit.distance - sphereCollider->GetRadius());
 		}
 
@@ -217,14 +219,14 @@ void Player::Update()
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.m128_f32[1] += sphereCollider->GetRadius();
+		wall.start.y += sphereCollider->GetRadius();
 		wall.dir = { -1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
 
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius(), &matWorld)) {
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
 			position.x -= (wallRaycastHit.distance - sphereCollider->GetRadius());
 		}
 

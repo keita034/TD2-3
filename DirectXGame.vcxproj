@@ -120,7 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>2d;3d;audio;base;camera;input;scene;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>2d;3d;audio;base;camera;input;scene;$(ProjectDir);Math\float;Math\double;Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -137,7 +138,8 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>2d;3d;audio;base;camera;input;scene;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>2d;3d;audio;base;camera;input;scene;$(ProjectDir);Math\float;Math\double;Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -166,6 +168,15 @@
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math\AliceMathUtility.cpp" />
+    <ClCompile Include="Math\double\AliceMath.cpp" />
+    <ClCompile Include="Math\float\AliceMathF.cpp" />
+    <ClCompile Include="Math\float\Matrix4.cpp" />
+    <ClCompile Include="Math\float\Quaternion.cpp" />
+    <ClCompile Include="Math\float\Vector.cpp" />
+    <ClCompile Include="Math\float\Vector2.cpp" />
+    <ClCompile Include="Math\float\Vector3.cpp" />
+    <ClCompile Include="Math\float\Vector4.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -185,6 +196,7 @@
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="base\DirectXCommon.h" />
+    <ClInclude Include="base\ErrorException.h" />
     <ClInclude Include="base\SafeDelete.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="camera\Camera.h" />
@@ -196,6 +208,15 @@
     <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Math\AliceMathUtility.h" />
+    <ClInclude Include="Math\double\AliceMath.h" />
+    <ClInclude Include="Math\float\AliceMathF.h" />
+    <ClInclude Include="Math\float\Matrix4.h" />
+    <ClInclude Include="Math\float\Quaternion.h" />
+    <ClInclude Include="Math\float\Vector.h" />
+    <ClInclude Include="Math\float\Vector2.h" />
+    <ClInclude Include="Math\float\Vector3.h" />
+    <ClInclude Include="Math\float\Vector4.h" />
     <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="QueryCallback.h" />

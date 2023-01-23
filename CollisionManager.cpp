@@ -11,7 +11,7 @@ CollisionManager* CollisionManager::GetInstance()
 	return &instance;
 }
 
-void CollisionManager::CheckAllCollisions(DirectX::XMMATRIX PlayerMatWorldPos)
+void CollisionManager::CheckAllCollisions(AliceMathF::Matrix4 PlayerMatWorldPos)
 {
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;
@@ -30,7 +30,7 @@ void CollisionManager::CheckAllCollisions(DirectX::XMMATRIX PlayerMatWorldPos)
 				colB->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 				Sphere* SphereA = dynamic_cast<Sphere*>(colA);
 				Sphere* SphereB = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
+				AliceMathF::Vector4 inter;
 				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
 					
 				}
@@ -39,7 +39,7 @@ void CollisionManager::CheckAllCollisions(DirectX::XMMATRIX PlayerMatWorldPos)
 				colB->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
 				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
+				AliceMathF::Vector4 inter;
 				if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 					
 				}
@@ -48,7 +48,7 @@ void CollisionManager::CheckAllCollisions(DirectX::XMMATRIX PlayerMatWorldPos)
 				colB->GetShapeType() == COLLISIONSHAPE_MESH) {
 				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
 				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
+				AliceMathF::Vector4 inter;
 				if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
 					
 				}
@@ -57,18 +57,18 @@ void CollisionManager::CheckAllCollisions(DirectX::XMMATRIX PlayerMatWorldPos)
 	}
 }
 
-bool CollisionManager::Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance, DirectX::XMMATRIX* MatWorldPos)
+bool CollisionManager::Raycast(const Ray& ray, RaycastHit* hitInfo, float maxDistance)
 {
-	return Raycast(ray, 0xffff, hitInfo, maxDistance, MatWorldPos);
+	return Raycast(ray, 0xffff, hitInfo, maxDistance);
 }
 
-bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, RaycastHit* hitInfo, float maxDistance,DirectX::XMMATRIX* MatWorldPos)
+bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, RaycastHit* hitInfo, float maxDistance)
 {
 	bool result = false;
 	std::forward_list<BaseCollider*>::iterator it;
 	std::forward_list<BaseCollider*>::iterator it_hit;
 	float distance = maxDistance;
-	XMVECTOR inter;
+	AliceMathF::Vector4 inter;
 
 	// 全てのコライダーと総当りチェック
 	it = colliders.begin();
@@ -84,7 +84,7 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 			Sphere* sphere = dynamic_cast<Sphere*>(colA);
 
 			float tempDistance;
-			XMVECTOR tempInter;
+			AliceMathF::Vector4 tempInter;
 
 			if (!Collision::CheckRay2Sphere(ray, *sphere, &tempDistance, &tempInter)) continue;
 			if (tempDistance >= distance) continue;
@@ -98,7 +98,7 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 			MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
 
 			float tempDistance;
-			DirectX::XMVECTOR tempInter;
+			AliceMathF::Vector4 tempInter;
 			/// <summary>
 			/// //たぶんここ
 			/// </summary>
@@ -127,7 +127,7 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 	return result;
 }
 
-void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute,XMMATRIX* worldPos)
+void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute, AliceMathF::Matrix4* worldPos)
 {
 	assert(callback);
 
@@ -147,8 +147,8 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 		if (col->GetShapeType() == COLLISIONSHAPE_SPHERE) {
 			Sphere* sphereB = dynamic_cast<Sphere*>(col);
 
-			XMVECTOR tempInter;
-			XMVECTOR tempReject;
+			AliceMathF::Vector4 tempInter;
+			AliceMathF::Vector4 tempReject;
 			if (!Collision::CheckSphere2Sphere(sphere, *sphereB, &tempInter, &tempReject)) continue;
 
 			// 交差情報をセット
@@ -167,8 +167,8 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 		else if (col->GetShapeType() == COLLISIONSHAPE_MESH) {
 			MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(col);
 
-			XMVECTOR tempInter;
-			XMVECTOR tempReject;
+			AliceMathF::Vector4 tempInter;
+			AliceMathF::Vector4 tempReject;
 			if (!meshCollider->CheckCollisionSphere(sphere, &tempInter, &tempReject)) continue;
 
 			// 交差情報をセット

@@ -5,17 +5,17 @@
 /// </summary>
 
 
-#include<DirectXMath.h>
+#include"AliceMathUtility.h"
 
 struct Sphere {
-	DirectX::XMVECTOR center = { 0,0,0,1 };
+	AliceMathF::Vector4 center = { 0,0,0,1 };
 
 	float radius = 1.0f;
 
 };
 
 struct Plane {
-	DirectX::XMVECTOR normal = { 0,1,0,0 };
+	AliceMathF::Vector4 normal = { 0,1,0,0 };
 
 	float distance = 0.0f;
 
@@ -23,11 +23,11 @@ struct Plane {
 
 class Triangle {
 public:
-	DirectX::XMVECTOR p0;
-	DirectX::XMVECTOR p1;
-	DirectX::XMVECTOR p2;
+	AliceMathF::Vector4 p0;
+	AliceMathF::Vector4 p1;
+	AliceMathF::Vector4 p2;
 
-	DirectX::XMVECTOR normal;
+	AliceMathF::Vector4 normal;
 
 	void ComputeNormal();
 
@@ -35,9 +35,9 @@ public:
 
 struct Ray
 {
-	DirectX::XMVECTOR start = { 0,0,0,1 };
+	AliceMathF::Vector4 start = { 0,0,0,1 };
 
-	DirectX::XMVECTOR dir = { 1,0,0,0 };
+	AliceMathF::Vector4 dir = { 1,0,0,0 };
 
 };
 

@@ -2,6 +2,8 @@
 
 #include<DirectXMath.h>
 
+#include"AliceMathUtility.h"
+
 class Object3d;
 class BaseCollider;
 
@@ -15,9 +17,9 @@ struct QueryHit
 	// 衝突相手のコライダー
 	BaseCollider* collider = nullptr;
 	// 衝突点
-	DirectX::XMVECTOR inter;
+	AliceMathF::Vector4 inter;
 	// 排斥ベクトル
-	DirectX::XMVECTOR reject;
+	AliceMathF::Vector4 reject;
 };
 
 /// <summary>
