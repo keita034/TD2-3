@@ -176,6 +176,12 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="SurfaceFold.h" />
+    <ClInclude Include="SurfaceFoldBottom2.h" />
+    <ClInclude Include="SurfaceFoldCenterLeft2.h" />
+    <ClInclude Include="SurfaceFoldCenterRight2.h" />
+    <ClInclude Include="SurfaceFoldLeft2.h" />
+    <ClInclude Include="SurfaceFoldRight2.h" />
+    <ClInclude Include="SurfaceFoldTop2.h" />
     <ClInclude Include="UserCamera.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
     <ClInclude Include="VerticalFold.h" />
@@ -409,6 +415,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="SurfaceFold.cpp" />
+    <ClCompile Include="SurfaceFoldBottom2.cpp" />
+    <ClCompile Include="SurfaceFoldCenterLeft2.cpp" />
+    <ClCompile Include="SurfaceFoldCenterRight2.cpp" />
+    <ClCompile Include="SurfaceFoldLeft2.cpp" />
+    <ClCompile Include="SurfaceFoldRight2.cpp" />
+    <ClCompile Include="SurfaceFoldTop2.cpp" />
     <ClCompile Include="UserCamera.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
     <ClCompile Include="VerticalFold.cpp" />

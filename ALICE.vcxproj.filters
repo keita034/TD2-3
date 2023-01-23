@@ -330,17 +330,41 @@
     <ClInclude Include="lib\Engine\Math\float\Matrix3.h">
       <Filter>Engine\ヘッダー ファイル\Math\float</Filter>
     </ClInclude>
-    <ClInclude Include="VerticalFold.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="BesideFold.h">
+      <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="FieldConstant.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BesideFold.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="SurfaceFold.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldBottom2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldCenterLeft2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldCenterRight2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldLeft2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldTop2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceFoldRight2.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalFold.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
+      <Filter>Engine\ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
       <Filter>Engine\ヘッダー ファイル\Camera</Filter>
@@ -415,7 +439,9 @@
     <None Include="Resources\Shaders\2D\RainParticle.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </None>
-    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli" />
+    <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\2D\SpritePS.hlsl">
@@ -478,9 +504,15 @@
     <FxCompile Include="Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl" />
-    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl" />
-    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl" />
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimpleVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp">
@@ -667,12 +699,6 @@
     <ClCompile Include="UserCamera.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectManager.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\Engine\Camera\CinemaCamera.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="lib\Engine\Math\float\Matrix.cpp">
       <Filter>Engine\ソース ファイル\Math\float</Filter>
     </ClCompile>
@@ -680,13 +706,37 @@
       <Filter>Engine\ソース ファイル\Math\float</Filter>
     </ClCompile>
     <ClCompile Include="VerticalFold.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BesideFold.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+    <ClCompile Include="SurfaceFoldTop2.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldRight2.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldCenterRight2.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldLeft2.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldCenterLeft2.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceFoldBottom2.cpp">
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceFold.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BesideFold.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectManager.cpp">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Camera\CinemaCamera.cpp">
+      <Filter>Engine\ソース ファイル\Camera</Filter>
     </ClCompile>
     <ClCompile Include="lib\Engine\Core\GameMain.cpp">
       <Filter>Engine\ソース ファイル</Filter>
