@@ -26,11 +26,18 @@ void GameScene::Initialize()
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
-	userCamera = new UserCamera(1280, 640);
+	userCamera = new UserCamera(1280, 720);
 
 	stage = std::make_unique<Stage>();
 
 	stage->Initialize();
+
+	modelHandle1 = Model::CreateObjModel("Resources/F-15");
+
+	player = new Player(modelHandle1);
+	player->Initialise();
+
+
 }
 
 void GameScene::Update()
@@ -59,11 +66,15 @@ void GameScene::Update()
 	}
 
 	stage->Update(camera.get());
+
+	player->Update(camera.get());
 }
 
 void GameScene::Draw()
 {
 	stage->Draw();
+
+	player->Draw();
 }
 
 GameScene* GameScene::GetInstance()

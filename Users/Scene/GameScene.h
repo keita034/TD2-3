@@ -24,6 +24,7 @@
 #include "CinemaCamera.h"
 #include"UserCamera.h"
 #include "Stage.h"
+#include"Player.h"
 
 class GameScene
 {
@@ -41,6 +42,9 @@ private:
 	UserCamera* userCamera = nullptr;
 
 	std::unique_ptr<Stage> stage;
+
+	uint32_t modelHandle1 = 0u;
+	Player* player = nullptr;
 
 public:
 

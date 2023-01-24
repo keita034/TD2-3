@@ -1,4 +1,7 @@
 #include"Player.h"
+#include "SphereCollider.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
 
 Player::Player(uint32_t modelHandl) {
 
@@ -8,43 +11,50 @@ Player::Player(uint32_t modelHandl) {
 	input_ = Input::GetInstance();
 
 	worldTransform_.Initialize();
+
+	// コライダーの追加
+	float radius = 0.6f;
+	worldTransform_.SetCollider(new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius));
+	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
 
 void Player::Initialise(){
 
-	
+	worldTransform_.translation = { 0,50,0 };
+
 
 }
 
 void Player::Update(Camera* camera) {
 
-	PlayerJump();
+	PlayerJump(camera);
 	PlayerMove();
 	worldTransform_.TransUpdate(camera);
 }
 
-void Player::PlayerJump() {
+void Player::PlayerJump(Camera* camera) {
 
-	//スペース押されたらジャンプ
-	if (input_->TriggerPush(DIK_SPACE)) {
-		jumpFlag = 1;
+	// 落下処理
+	if (!onGround) {
+		// 下向き加速度
+		const float fallAcc = -0.01f;
+		const float fallVYMin = -0.5f;
+		// 加速
+		fallV.y = max(fallV.y + fallAcc, fallVYMin);
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
 	}
-	//ジャンプしてる時の処理
-	if (jumpFlag == 1) {
-		//ジャンプフレーム
-		jumpFrame++;
-		playerJumpSpeed = 1.3f - gravity * (static_cast<float>(jumpFrame) / 100.0f);
-		worldTransform_.translation.y += playerJumpSpeed;
+	// ジャンプ操作
+	else if (input_->KeepPush(DIK_SPACE)) {
+		onGround = false;
+		const float jumpVYFist = 0.2f;
+		fallV = { 0, jumpVYFist, 0, 0 };
 	}
 
-	//0から下にいかないように
-	if (worldTransform_.translation.y < 0) {
-		playerJumpSpeed = 0;
-		jumpFrame = 0;
-		worldTransform_.translation.y = 0;
-		jumpFlag = 0;
-	}
-
+	worldTransform_.TransUpdate(camera);
+	collider->Update(worldTransform_.matWorld);
 }
 
 void Player::PlayerMove() {
@@ -64,6 +74,93 @@ void Player::PlayerMove() {
 		playerMovement.x = playerSpeed;
 	}
 	worldTransform_.translation += playerMovement;
+}
+
+void Player::PlayerCollider(Camera* camera)
+{
+
+	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
+	assert(sphereCollider);
+
+	sphereCollider->SetRadius(0.5f);
+
+	// クエリーコールバッククラス
+	class PlayerQueryCallback : public QueryCallback
+	{
+	public:
+		PlayerQueryCallback(Sphere* sphere) : sphere(sphere) {};
+
+		// 衝突時コールバック関数
+		bool OnQueryHit(const QueryHit& info) {
+
+			const AliceMathF::Vector4 up = { 0,1,0,0 };
+
+			AliceMathF::Vector4 rejectDir = info.reject;
+			rejectDir.Normalization();
+			rejectDir.Dot(up);
+			float cos = rejectDir.y;
+
+			// 地面判定しきい値
+			const float threshold = cosf(DirectX::XMConvertToRadians(30.0f));
+
+			if (-threshold < cos && cos < threshold) {
+				sphere->center += info.reject;
+				move += info.reject;
+			}
+
+			return true;
+		}
+
+		Sphere* sphere = nullptr;
+		AliceMathF::Vector4 move = {};
+	};
+
+	PlayerQueryCallback callback(sphereCollider);
+
+	// 球と地形の交差を全検索
+	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE, &worldTransform_.matWorld);
+	// 交差による排斥分動かす
+	worldTransform_.translation.x += callback.move.x;
+	worldTransform_.translation.y += callback.move.y;
+	worldTransform_.translation.z += callback.move.z;
+	// ワールド行列更新
+	worldTransform_.TransUpdate(camera);
+	collider->Update(worldTransform_.matWorld);
+
+	//地面メッシュコライダー
+	{
+		// 球の上端から球の下端までのレイキャスト
+		Ray Groundray;
+		Groundray.start = sphereCollider->center;
+		Groundray.start.y += sphereCollider->GetRadius();
+		Groundray.dir = { 0,-1,0,0 };
+		RaycastHit raycastHit;
+
+		// 接地状態
+		if (onGround) {
+			// スムーズに坂を下る為の吸着距離
+			const float adsDistance = 0.2f;
+			// 接地を維持
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
+				onGround = true;
+				worldTransform_.translation.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+			}
+			// 地面がないので落下
+			else {
+				onGround = false;
+				fallV = {};
+			}
+		}
+		// 落下状態
+		else if (fallV.y <= 0.0f) {
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
+				// 着地
+				onGround = true;
+				worldTransform_.translation.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+			}
+		}
+	}
+
 }
 
 void Player::Draw() {

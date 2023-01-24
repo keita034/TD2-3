@@ -4,7 +4,7 @@
 #include"Model.h"
 #include"Input.h"
 #include"Vector3.h"
-
+#include"BaseCollider.h"
 
 class Player {
 
@@ -34,12 +34,17 @@ public:
 	/// <summary>
 	/// プレイヤーのジャンプ
 	/// </summary>
-	void PlayerJump();
+	void PlayerJump(Camera* camera);
 
 	/// <summary>
 	/// プレイヤーの移動
 	/// </summary>
 	void PlayerMove();
+
+	/// <summary>
+	/// プレイヤーの当たり判定
+	/// </summary>
+	void PlayerCollider(Camera* camera);
 
 private:
 
@@ -53,4 +58,9 @@ private:
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
 	
+	// コライダー
+	BaseCollider* collider = nullptr;
+
+	bool onGround = false;
+	AliceMathF::Vector4 fallV;
 };
