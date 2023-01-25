@@ -22,6 +22,8 @@ void GameScene::Initialize()
 	//モデルにライトをセット
 	Model::SetLight(light.get());
 
+	collisionManager = CollisionManager::GetInstance();
+
 	camera = std::make_unique<CinemaCamera>();
 //	camera->SetEye({ -27.0000000f, 226.199310f, -241.000000f });
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
@@ -31,19 +33,18 @@ void GameScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 
-	stage->Initialize();
+	stage->Initialize(camera.get());
 
 	modelHandle1 = Model::CreateObjModel("Resources/F-15");
 
 	player = new Player(modelHandle1);
 	player->Initialise();
 
-	collisionManager = CollisionManager::GetInstance();
 
 	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
-	ground = new Ground();
-	ground->Initialise(modelHandle2);
+	//ground = new Ground();
+	//ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
@@ -75,7 +76,7 @@ void GameScene::Update()
 
 	player->Update(camera.get());
 
-	ground->Update(camera.get());
+	//ground->Update(camera.get());
 
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollisions();
@@ -83,11 +84,11 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	//stage->Draw();
+	stage->Draw();
 
 	player->Draw();
 
-	ground->Draw();
+	//ground->Draw();
 }
 
 GameScene* GameScene::GetInstance()

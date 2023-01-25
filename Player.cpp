@@ -28,7 +28,7 @@ Player::Player(uint32_t modelHandl) {
 
 void Player::Initialise(){
 
-	worldTransform_.translation = { 0,50,0 };
+	worldTransform_.translation = { 20,100,20 };
 
 
 }

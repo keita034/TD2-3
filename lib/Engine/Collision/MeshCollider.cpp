@@ -2,7 +2,7 @@
 #include "Collision.h"
 
 using namespace DirectX;
-void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model)
+void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model,AliceMathF::Vector3 ModelPos)
 {
 	triangles.clear();
 
@@ -25,21 +25,21 @@ void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model)
 			int idx2 = indices[i * 3 + 2];
 
 			tri.p0 = {
-				vertices[idx0].pos.x,
-				vertices[idx0].pos.y,
-				vertices[idx0].pos.z,
+				vertices[idx0].pos.x + ModelPos.x,
+				vertices[idx0].pos.y + ModelPos.y,
+				vertices[idx0].pos.z + ModelPos.z,
 				1 };
 
 			tri.p1 = {
-				vertices[idx1].pos.x,
-				vertices[idx1].pos.y,
-				vertices[idx1].pos.z,
+				vertices[idx1].pos.x + ModelPos.x,
+				vertices[idx1].pos.y + ModelPos.y,
+				vertices[idx1].pos.z + ModelPos.z,
 				1 };
 
 			tri.p2 = {
-				vertices[idx2].pos.x,
-				vertices[idx2].pos.y,
-				vertices[idx2].pos.z,
+				vertices[idx2].pos.x + ModelPos.x,
+				vertices[idx2].pos.y + ModelPos.y,
+				vertices[idx2].pos.z + ModelPos.z,
 				1 };
 
 			tri.ComputeNormal();

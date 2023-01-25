@@ -6,7 +6,7 @@
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
 
-void Stage::Initialize()
+void Stage::Initialize(Camera* camera)
 {
 	besideFold_ = std::make_unique<BesideFold>();
 	besideFold_->Initialize();
@@ -24,103 +24,120 @@ void Stage::Initialize()
 	{
 		standardAngle_ = 90.0f;
 
-		// コライダーの追加
-		// コリジョンマネージャに追加
-		CollisionManager::GetInstance()->AddCollider(collider);
 
-		//左上
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
-		field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
-		field[Top][RightTop].field = Field::b;
+		{
+			//左上
+			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
+			field[Top][RightTop].field = Field::b;
 
-		field[Top][RightTop].surfacePartsModelTrans.Initialize();
-		field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
-		field[Top][RightTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-		field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][RightTop].angle_ = standardAngle_;
+			field[Top][RightTop].surfacePartsModelTrans.Initialize();
+			field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
+			field[Top][RightTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
+			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][RightTop].angle_ = standardAngle_;
 
-		field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
+			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
 
-		field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
-		field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
-		field[Top][RightTop].surfacePartsModel->SetTexture(handl);
+			field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
+			field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
+			field[Top][RightTop].surfacePartsModel->SetTexture(handl);
+
+			field[Top][RightTop].surfacePartsModelTrans.TransUpdate(camera);
+
+			// コライダーの追加
+			MeshCollider* collider = new MeshCollider;
+			SetCollider(collider,0, Top, RightTop);
+			collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][RightTop].surfacePartsModelTrans));
+			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+		}
+
+		{
+
+			//右上
+			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			field[Top][RightBottom].textureData = TextureManager::GetTextureData(handl);
+			field[Top][RightBottom].field = Field::d;
+
+			field[Top][RightBottom].surfacePartsModelTrans.Initialize();
+			field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
+			field[Top][RightBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
+			field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][RightBottom].angle_ = standardAngle_;
+
+			field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
+
+			field[Top][RightBottom].surfacePartsModel = std::make_unique<Model>();
+			field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
+			field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
+
+			
+
+			field[Top][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
+			// コライダーの追加
+			MeshCollider* collider = new MeshCollider;
+			SetCollider(collider,1,Top, RightBottom);
+			collider->ConstructTriangles(field[Top][RightBottom].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][RightBottom].surfacePartsModelTrans));
+			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+
+		}
 
 
-		collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel);
-		collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+		{
+
+			//左下
+			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
+			field[Top][LeftTop].field = Field::a;
+
+			field[Top][LeftTop].surfacePartsModelTrans.Initialize();
+			field[Top][LeftTop].surfacePartsModelTrans.translation = { -20.0f,30.0f,20.0f };
+			field[Top][LeftTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
+			field[Top][LeftTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][LeftTop].angle_ = standardAngle_;
+
+			field[Top][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map03");
+
+			field[Top][LeftTop].surfacePartsModel = std::make_unique<Model>();
+			field[Top][LeftTop].surfacePartsModel->SetModel(field[Top][LeftTop].surfacePartsModelHandle);
+			field[Top][LeftTop].surfacePartsModel->SetTexture(handl);
 
 
+			field[Top][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
+			// コライダーの追加
+			MeshCollider* collider = new MeshCollider;
+			SetCollider(collider,2, Top, LeftTop);
+			collider->ConstructTriangles(field[Top][LeftTop].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][LeftTop].surfacePartsModelTrans));
+			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+		}
 
-		// コリジョンマネージャに追加
-		CollisionManager::GetInstance()->AddCollider(collider2);
+		{
 
-		//右上
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
-		field[Top][RightBottom].textureData = TextureManager::GetTextureData(handl);
-		field[Top][RightBottom].field = Field::d;
+			//右下　
+			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			field[Top][LeftBottom].textureData = TextureManager::GetTextureData(handl);
+			field[Top][LeftBottom].field = Field::c;
 
-		field[Top][RightBottom].surfacePartsModelTrans.Initialize();
-		field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
-		field[Top][RightBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-		field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][RightBottom].angle_ = standardAngle_;
+			field[Top][LeftBottom].surfacePartsModelTrans.Initialize();
+			field[Top][LeftBottom].surfacePartsModelTrans.translation = { -20.0f,30.0f,-20.0f };
+			field[Top][LeftBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
+			field[Top][LeftBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][LeftBottom].angle_ = standardAngle_;
 
-		field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
+			field[Top][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map04");
 
-		field[Top][RightBottom].surfacePartsModel = std::make_unique<Model>();
-		field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
-		field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
-
-		collider2->ConstructTriangles(field[Top][RightBottom].surfacePartsModel);
-		collider2->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			field[Top][LeftBottom].surfacePartsModel = std::make_unique<Model>();
+			field[Top][LeftBottom].surfacePartsModel->SetModel(field[Top][LeftBottom].surfacePartsModelHandle);
+			field[Top][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 
-
-		// コリジョンマネージャに追加
-		CollisionManager::GetInstance()->AddCollider(collider3);
-
-		//左下
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
-		field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
-		field[Top][LeftTop].field = Field::a;
-
-		field[Top][LeftTop].surfacePartsModelTrans.Initialize();
-		field[Top][LeftTop].surfacePartsModelTrans.translation = { -20.0f,30.0f,20.0f };
-		field[Top][LeftTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-		field[Top][LeftTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][LeftTop].angle_ = standardAngle_;
-
-		field[Top][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map03");
-
-		field[Top][LeftTop].surfacePartsModel = std::make_unique<Model>();
-		field[Top][LeftTop].surfacePartsModel->SetModel(field[Top][LeftTop].surfacePartsModelHandle);
-		field[Top][LeftTop].surfacePartsModel->SetTexture(handl);
-
-		collider3->ConstructTriangles(field[Top][LeftTop].surfacePartsModel);
-		collider3->SetAttribute(COLLISION_ATTR_LANDSHAPE);
-
-		// コリジョンマネージャに追加
-		CollisionManager::GetInstance()->AddCollider(collider4);
-
-		//右下　
-		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
-		field[Top][LeftBottom].textureData = TextureManager::GetTextureData(handl);
-		field[Top][LeftBottom].field = Field::c;
-
-		field[Top][LeftBottom].surfacePartsModelTrans.Initialize();
-		field[Top][LeftBottom].surfacePartsModelTrans.translation = { -20.0f,30.0f,-20.0f };
-		field[Top][LeftBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-		field[Top][LeftBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-		field[Top][LeftBottom].angle_ = standardAngle_;
-
-		field[Top][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map04");
-
-		field[Top][LeftBottom].surfacePartsModel = std::make_unique<Model>();
-		field[Top][LeftBottom].surfacePartsModel->SetModel(field[Top][LeftBottom].surfacePartsModelHandle);
-		field[Top][LeftBottom].surfacePartsModel->SetTexture(handl);
-
-		collider4->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel);
-		collider4->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			field[Top][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
+			// コライダーの追加
+			MeshCollider* collider = new MeshCollider;
+			SetCollider(collider, 3, Top, LeftBottom);
+			collider->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][LeftBottom].surfacePartsModelTrans));
+			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+		}
 	}
 
 #pragma endregion
@@ -237,7 +254,7 @@ void Stage::Initialize()
 		field[CenterLeft][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 		field[CenterLeft][RightTop].surfacePartsModelTrans.rotation =
 		{
-			(AliceMathF::Abs(angle) - 90.0f)* AliceMathF::Deg2Rad,
+			(AliceMathF::Abs(angle) - 90.0f) * AliceMathF::Deg2Rad,
 			-((int)angle / 180 * 180 + angle / 180.0f * -180.0f) * AliceMathF::Deg2Rad,
 			-angle * AliceMathF::Deg2Rad
 		};
@@ -309,7 +326,7 @@ void Stage::Initialize()
 		field[CenterRight][LeftTop].surfacePartsModelTrans.Initialize();
 		field[CenterRight][LeftTop].surfacePartsModelTrans.translation = { 40.0f,10.0f,-20.0f };
 		field[CenterRight][LeftTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
-		field[CenterRight][LeftTop].surfacePartsModelTrans.rotation = { (angle+-90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
+		field[CenterRight][LeftTop].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
 		field[CenterRight][LeftTop].angle_ = angle;
 
 		field[CenterRight][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map013");
@@ -428,7 +445,7 @@ void Stage::Initialize()
 		field[Right][LeftBottom].surfacePartsModelTrans.Initialize();
 		field[Right][LeftBottom].surfacePartsModelTrans.translation = { 20.0f,-30.0f,40.0f };
 		field[Right][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
-		field[Right][LeftBottom].surfacePartsModelTrans.rotation = 
+		field[Right][LeftBottom].surfacePartsModelTrans.rotation =
 		{
 			(AliceMathF::Abs(angle) - 90.0f) * AliceMathF::Deg2Rad,
 			(angle - 180.0f) * AliceMathF::Deg2Rad,
@@ -590,13 +607,13 @@ void Stage::Update(Camera* camera)
 
 		//case FoldIndex::Surface:
 
-			surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
+		surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
 
-			///break;
+		///break;
 
-		//default:
-			//break;
-		//}
+	//default:
+		//break;
+	//}
 
 	}
 
@@ -605,9 +622,19 @@ void Stage::Update(Camera* camera)
 		for (size_t j = 0; j < field[Top].size(); j++)
 		{
 			field[i][j].surfacePartsModelTrans.TransUpdate(camera);
-			collider->Update(field[i][j].surfacePartsModelTrans.matWorld);
+
 		}
 	}
+
+	// 当たり判定更新
+	for (int i = 0; i < 26; i++) {
+		if (collider[i]) {
+			collider[i]->Update(field[Top][RightTop].surfacePartsModelTrans.matWorld);
+		}
+	}
+	
+
+
 }
 
 void Stage::Draw()
@@ -650,3 +677,11 @@ void Stage::Draw()
 }
 
 
+void Stage::SetCollider(BaseCollider* collider,int x, FieldIndex fieldIndex, FieldElementIndex fieldElementIndex)
+{
+	this->collider[x] = collider;
+	// コリジョンマネージャに追加
+	CollisionManager::GetInstance()->AddCollider(collider);
+
+	collider->Update(field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+}

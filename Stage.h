@@ -33,12 +33,8 @@ private:
 	//基準の角度
 	float standardAngle_;
 
-	// コライダーの追加
-	MeshCollider* collider = new MeshCollider;
-	MeshCollider* collider2 = new MeshCollider;
-	MeshCollider* collider3 = new MeshCollider;
-	MeshCollider* collider4 = new MeshCollider;
-	MeshCollider* collider5 = new MeshCollider;
+	BaseCollider* collider[26];
+
 
 
 public:
@@ -48,7 +44,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Camera* camera);
 
 	/// <summary>
 	/// 更新
@@ -61,6 +57,8 @@ public:
 	void Draw();
 
 	void FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex);
+
+	void SetCollider(BaseCollider* collider,int x ,FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
 
 private:
 

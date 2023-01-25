@@ -56,7 +56,7 @@ private:
 	CollisionManager* collisionManager = nullptr;
 
 	uint32_t modelHandle2 = 0u;
-	Ground* ground = nullptr;
+	//Ground* ground = nullptr;
 
 public:
 
