@@ -24,7 +24,18 @@ private:
 	size_t countUAV = 0;
 	size_t countCBV = 0;
 
+	UINT incrementSize;
+
+	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE	startGpuHandle;
+
 public:
+
+	struct DescriptorHeapViewHandle
+	{
+		D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle;
+		D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle;
+	};
 
 	/// <summary>
 	/// 初期化
@@ -40,6 +51,11 @@ public:
 	UINT64 CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Resource* resource);
 
 	/// <summary>
+	/// シェーダーリソースビュー追加
+	/// </summary>
+	DescriptorHeapViewHandle AddSRV();
+
+	/// <summary>
 	/// アンオーダーアクセスビュー生成
 	/// </summary>
 	/// <param name="desc">アンオーダーアクセスビューデスク</param>
@@ -48,11 +64,21 @@ public:
 	UINT64 CreateUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC& desc, ID3D12Resource* resource);
 
 	/// <summary>
+	/// アンオーダーアクセスビュー追加
+	/// </summary>
+	DescriptorHeapViewHandle AddUAV();
+
+	/// <summary>
 	/// コンストバッファビュー生成
 	/// </summary>
 	/// <param name="desc">コンストバッファビューデスク</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
 	UINT64 CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc);
+
+	/// <summary>
+	/// コンストバッファビュー追加
+	/// </summary>
+	DescriptorHeapViewHandle AddCBV();
 
 	/// <summary>
 	/// デスクプリタヒープを取得

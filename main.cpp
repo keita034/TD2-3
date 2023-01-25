@@ -1,3 +1,4 @@
+#include"AliceFramework.h"
 #include"GameMain.h"
 
 #ifdef _DEBUG
@@ -10,11 +11,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
 #endif
 
-	GameMain* gameMain = nullptr;
+	std::unique_ptr<AliceFramework>game = std::make_unique<GameMain>();
 
-	gameMain = new GameMain();
+	game->Run();
 
-	gameMain->Initialize();
-
-	return gameMain->Ran();
+	return 0;
 }

@@ -98,8 +98,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractSceneFactory.h" />
+    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BesideFold.h" />
     <ClInclude Include="FieldConstant.h" />
+    <ClInclude Include="AliceFramework.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="lib\Engine\2D\Button.h" />
     <ClInclude Include="lib\Engine\2D\Cursor.h" />
     <ClInclude Include="lib\Engine\2D\Mesh.h" />
@@ -175,6 +179,8 @@
     <ClInclude Include="lib\Engine\Util\AliceUtility.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneFactrory.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="SurfaceFold.h" />
     <ClInclude Include="SurfaceFoldBottom2.h" />
@@ -183,6 +189,7 @@
     <ClInclude Include="SurfaceFoldLeft2.h" />
     <ClInclude Include="SurfaceFoldRight2.h" />
     <ClInclude Include="SurfaceFoldTop2.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UserCamera.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
     <ClInclude Include="VerticalFold.h" />
@@ -346,7 +353,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractSceneFactory.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BesideFold.cpp" />
+    <ClCompile Include="AliceFramework.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="lib\Engine\2D\Button.cpp" />
     <ClCompile Include="lib\Engine\2D\Cursor.cpp" />
     <ClCompile Include="lib\Engine\2D\Mesh.cpp" />
@@ -415,6 +426,8 @@
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneFactrory.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="SurfaceFold.cpp" />
     <ClCompile Include="SurfaceFoldBottom2.cpp" />
@@ -423,6 +436,7 @@
     <ClCompile Include="SurfaceFoldLeft2.cpp" />
     <ClCompile Include="SurfaceFoldRight2.cpp" />
     <ClCompile Include="SurfaceFoldTop2.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UserCamera.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
     <ClCompile Include="VerticalFold.cpp" />

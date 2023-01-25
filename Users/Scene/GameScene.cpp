@@ -66,8 +66,6 @@ void GameScene::Draw()
 	stage->Draw();
 }
 
-GameScene* GameScene::GetInstance()
+void GameScene::Finalize()
 {
-	static GameScene instance;
-	return &instance;
 }

@@ -131,6 +131,12 @@ public:
 	/// <param name="afterState">変えたい状態</param>
 	void Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
+	/// <summary>
+	/// バックバッファの数を取得
+	/// </summary>
+	/// <returns>バックバッファの数</returns>
+	size_t GetBackBufferCount() const;
+
 private:
 
 	//DXGIまわり初期化

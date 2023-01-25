@@ -75,6 +75,11 @@ void DirectX12Core::Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES b
 	commandList->ResourceBarrier(1, &barrier);
 }
 
+size_t DirectX12Core::GetBackBufferCount() const
+{
+	return backBuffers.size();
+}
+
 HRESULT DirectX12Core::InitializeDXGIDevice()
 {
 	//‘Î‰žƒŒƒxƒ‹‚Ì”z—ñ

@@ -5,44 +5,15 @@
 
 
 //自作.h
-#include"WindowsApp.h"
-#include"Input.h"
-#include"Controller.h"
-#include"DirectX12Core.h"
-#include"Mesh.h"
-#include"3DMesh.h"
-#include"Camera.h"
 #include"GameScene.h"
-#include"FPS.h"
-#include"TextureManager.h"
-#include"DefaultMaterial.h"
-#include"AudioManager.h"
-#include"FbxLoader.h"
 #include"PostEffect.h"
+#include"AliceFramework.h"
 
-class GameMain
+class GameMain : public AliceFramework
 {
 private:
 
-	WindowsApp* windowsApp = nullptr;
-
-	DirectX12Core* directX12Core = nullptr;
-
-	Mesh* mesh = nullptr;
-
-	Mesh3D* mesh3D = nullptr;
-
-	TextureManager* textureManager = nullptr;
-
-	AudioManager* audioManager = nullptr;
-
-	Input* input = nullptr;
-
-	FPS* fps = nullptr;
-
 	std::unique_ptr<PostEffect> postEffect;
-
-	GameScene* gameScene = nullptr;
 
 	bool post = true;
 
@@ -51,17 +22,22 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	static void DebugInitialize();
+	void Initialize() override;
 
 	/// <summary>
-	/// 初期化
+	/// 終了
 	/// </summary>
-	void Initialize();
+	void Finalize() override;
 
 	/// <summary>
-	/// 更新
+	/// 毎フレーム更新
 	/// </summary>
-	int Ran();
+	void Update() override;;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw() override;;
 
 };
 

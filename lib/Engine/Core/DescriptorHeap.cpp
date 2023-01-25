@@ -15,6 +15,11 @@ void DescriptorHeap::Initialize()
 	HRESULT result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(result));
 
+	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	//SRVヒープの先頭ハンドルを取得
+	startCpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	startGpuHandle = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 }
 
 UINT64 DescriptorHeap::CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Resource* resource)
@@ -25,20 +30,36 @@ UINT64 DescriptorHeap::CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Re
 	}
 
 	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle =descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-
-	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle{};
+	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle{};
 
 	//ハンドルのポインタずらし
-	cpuHandle.ptr += static_cast<UINT64>(countSRV) * incrementSize;
-	gpuHandle.ptr += static_cast<UINT64>(countSRV) * incrementSize;
+	cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(countSRV) * incrementSize);
+	gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(countSRV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(resource, &desc, cpuHandle);
 	countSRV++;
 
 	return gpuHandle.ptr;
+}
+
+DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddSRV()
+{
+	if (countSRV > maxSRV)
+	{
+		assert(0);
+	}
+
+	DescriptorHeapViewHandle handle{};
+
+	//ハンドルのポインタずらし
+	handle.cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(countSRV) * incrementSize);
+	handle.gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(countSRV) * incrementSize);
+
+	countSRV++;
+
+	return handle;
 }
 
 UINT64 DescriptorHeap::CreateUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC& desc, ID3D12Resource* resource)
@@ -49,20 +70,37 @@ UINT64 DescriptorHeap::CreateUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC& desc, ID3D12R
 	}
 
 	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-
-	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle{};
+	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle{};
 
 	//ハンドルのポインタずらし
-	cpuHandle.ptr += static_cast<UINT64>(maxSRV + countUAV) * incrementSize;
-	gpuHandle.ptr += static_cast<UINT64>(maxSRV + countUAV) * incrementSize;
+	cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
+	gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateUnorderedAccessView(resource, nullptr, &desc, cpuHandle);
 
 	countUAV++;
+
 	return gpuHandle.ptr;
+}
+
+DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddUAV()
+{
+	if (countUAV > maxUAV)
+	{
+		assert(0);
+	}
+
+	DescriptorHeapViewHandle handle{};
+
+	//ハンドルのポインタずらし
+	handle.cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
+	handle.gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
+
+	countUAV++;
+
+	return handle;
 }
 
 UINT64 DescriptorHeap::CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc)
@@ -73,14 +111,12 @@ UINT64 DescriptorHeap::CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc)
 	}
 
 	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-
-	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	D3D12_CPU_DESCRIPTOR_HANDLE	cpuHandle{};
+	D3D12_GPU_DESCRIPTOR_HANDLE	gpuHandle{};
 
 	//ハンドルのポインタずらし
-	cpuHandle.ptr += static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize;
-	gpuHandle.ptr += static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize;
+	cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize);
+	gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateConstantBufferView(&desc, cpuHandle);
@@ -88,6 +124,24 @@ UINT64 DescriptorHeap::CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc)
 	countCBV++;
 
 	return gpuHandle.ptr;
+}
+
+DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddCBV()
+{
+	if (countCBV > maxCBV)
+	{
+		assert(0);
+	}
+
+	DescriptorHeapViewHandle handle{};
+
+	//ハンドルのポインタずらし
+	handle.cpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize);
+	handle.gpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize);
+
+	countCBV++;
+
+	return handle;
 }
 
 ID3D12DescriptorHeap* DescriptorHeap::GetHeap()

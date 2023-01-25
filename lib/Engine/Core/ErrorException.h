@@ -49,6 +49,9 @@
 #include<forward_list>
 #include<fstream>
 #include<iterator>
+#include<imgui.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
 #include<memory>
 #include<mmsystem.h>
 #include<sstream>
