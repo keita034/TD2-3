@@ -28,7 +28,7 @@ void Stage::Initialize()
 
 		field[Top][RightTop].surfacePartsModelTrans.Initialize();
 		field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
-		field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
+		field[Top][RightTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
 		field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 		field[Top][RightTop].angle_ = standardAngle_;
 
@@ -45,7 +45,7 @@ void Stage::Initialize()
 
 		field[Top][RightBottom].surfacePartsModelTrans.Initialize();
 		field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
-		field[Top][RightBottom].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
+		field[Top][RightBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
 		field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 		field[Top][RightBottom].angle_ = standardAngle_;
 
@@ -62,7 +62,7 @@ void Stage::Initialize()
 
 		field[Top][LeftTop].surfacePartsModelTrans.Initialize();
 		field[Top][LeftTop].surfacePartsModelTrans.translation = { -20.0f,30.0f,20.0f };
-		field[Top][LeftTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
+		field[Top][LeftTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
 		field[Top][LeftTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 		field[Top][LeftTop].angle_ = standardAngle_;
 
@@ -79,7 +79,7 @@ void Stage::Initialize()
 
 		field[Top][LeftBottom].surfacePartsModelTrans.Initialize();
 		field[Top][LeftBottom].surfacePartsModelTrans.translation = { -20.0f,30.0f,-20.0f };
-		field[Top][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
+		field[Top][LeftBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
 		field[Top][LeftBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 		field[Top][LeftBottom].angle_ = standardAngle_;
 
