@@ -14,7 +14,15 @@ Player::Player(uint32_t modelHandl) {
 
 	// コライダーの追加
 	float radius = 0.6f;
-	worldTransform_.SetCollider(new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius));
+	//worldTransform_.SetCollider(new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius));
+
+	// コリジョンマネージャに追加
+	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
+	CollisionManager::GetInstance()->AddCollider(collider);
+
+
+
+	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
 
@@ -28,6 +36,7 @@ void Player::Initialise(){
 void Player::Update(Camera* camera) {
 
 	PlayerJump(camera);
+	PlayerCollider(camera);
 	PlayerMove();
 	worldTransform_.TransUpdate(camera);
 }
@@ -47,9 +56,9 @@ void Player::PlayerJump(Camera* camera) {
 		worldTransform_.translation.z += fallV.z;
 	}
 	// ジャンプ操作
-	else if (input_->KeepPush(DIK_SPACE)) {
+	else if (input_->TriggerPush(DIK_SPACE)) {
 		onGround = false;
-		const float jumpVYFist = 0.2f;
+		const float jumpVYFist = 1.2f;
 		fallV = { 0, jumpVYFist, 0, 0 };
 	}
 
@@ -159,6 +168,75 @@ void Player::PlayerCollider(Camera* camera)
 				worldTransform_.translation.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
 			}
 		}
+	}
+
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = sphereCollider->center;
+		wall.start.y += sphereCollider->GetRadius();
+		wall.dir = { 0,0,1,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
+			worldTransform_.translation.z += (wallRaycastHit.distance - sphereCollider->GetRadius());
+		}
+
+	}
+
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = sphereCollider->center;
+		wall.start.y += sphereCollider->GetRadius();
+		wall.dir = { 0,0,-1,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
+			worldTransform_.translation.z -= (wallRaycastHit.distance - sphereCollider->GetRadius());
+		}
+
+	}
+
+
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = sphereCollider->center;
+		wall.start.y += sphereCollider->GetRadius();
+		wall.dir = { 1,0,0,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
+			worldTransform_.translation.x += (wallRaycastHit.distance - sphereCollider->GetRadius());
+		}
+
+	}
+
+	{
+		//横メッシュコライダー
+		Ray wall;
+		wall.start = sphereCollider->center;
+		wall.start.y += sphereCollider->GetRadius();
+		wall.dir = { -1,0,0,0 };
+		RaycastHit wallRaycastHit;
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
+
+		// 接地を維持
+		if (CollisionManager::GetInstance()->Raycast(wall, COLLISION_ATTR_LANDSHAPE, &wallRaycastHit, sphereCollider->GetRadius())) {
+			worldTransform_.translation.x -= (wallRaycastHit.distance - sphereCollider->GetRadius());
+		}
+
 	}
 
 }

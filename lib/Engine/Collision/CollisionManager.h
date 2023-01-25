@@ -23,7 +23,7 @@ public://ƒƒ“ƒoŠÖ”
 		colliders.remove(collide);
 	}
 
-	void CheckAllCollisions(AliceMathF::Matrix4 PlayerMatWorldPos);
+	void CheckAllCollisions();
 
 	bool Raycast(const Ray& ray, RaycastHit* hitInfo = nullptr, float maxDistance = D3D12_FLOAT32_MAX);
 

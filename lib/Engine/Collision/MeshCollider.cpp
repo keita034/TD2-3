@@ -2,7 +2,7 @@
 #include "Collision.h"
 
 using namespace DirectX;
-void MeshCollider::ConstructTriangles(Model* model)
+void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model)
 {
 	triangles.clear();
 

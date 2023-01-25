@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include"CollisionManager.h"
 
 GameScene::GameScene()
 {
@@ -37,7 +38,12 @@ void GameScene::Initialize()
 	player = new Player(modelHandle1);
 	player->Initialise();
 
+	collisionManager = CollisionManager::GetInstance();
 
+	modelHandle2 = Model::CreateObjModel("Resources/Wall");
+
+	ground = new Ground();
+	ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
@@ -68,13 +74,20 @@ void GameScene::Update()
 	stage->Update(camera.get());
 
 	player->Update(camera.get());
+
+	ground->Update(camera.get());
+
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollisions();
 }
 
 void GameScene::Draw()
 {
-	stage->Draw();
+	//stage->Draw();
 
 	player->Draw();
+
+	ground->Draw();
 }
 
 GameScene* GameScene::GetInstance()

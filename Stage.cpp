@@ -2,6 +2,9 @@
 #include"FbxLoader.h"
 #include"Input.h"
 #include"TextureManager.h"
+#include "MeshCollider.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
 
 void Stage::Initialize()
 {
@@ -21,6 +24,10 @@ void Stage::Initialize()
 	{
 		standardAngle_ = 90.0f;
 
+		// コライダーの追加
+		// コリジョンマネージャに追加
+		CollisionManager::GetInstance()->AddCollider(collider);
+
 		//左上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
 		field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -37,6 +44,15 @@ void Stage::Initialize()
 		field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
 		field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
 		field[Top][RightTop].surfacePartsModel->SetTexture(handl);
+
+
+		collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel);
+		collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+
+
+
+		// コリジョンマネージャに追加
+		CollisionManager::GetInstance()->AddCollider(collider2);
 
 		//右上
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
@@ -55,6 +71,14 @@ void Stage::Initialize()
 		field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
 		field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
 
+		collider2->ConstructTriangles(field[Top][RightBottom].surfacePartsModel);
+		collider2->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+
+
+
+		// コリジョンマネージャに追加
+		CollisionManager::GetInstance()->AddCollider(collider3);
+
 		//左下
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
 		field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -71,6 +95,12 @@ void Stage::Initialize()
 		field[Top][LeftTop].surfacePartsModel = std::make_unique<Model>();
 		field[Top][LeftTop].surfacePartsModel->SetModel(field[Top][LeftTop].surfacePartsModelHandle);
 		field[Top][LeftTop].surfacePartsModel->SetTexture(handl);
+
+		collider3->ConstructTriangles(field[Top][LeftTop].surfacePartsModel);
+		collider3->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+
+		// コリジョンマネージャに追加
+		CollisionManager::GetInstance()->AddCollider(collider4);
 
 		//右下　
 		handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
@@ -89,6 +119,8 @@ void Stage::Initialize()
 		field[Top][LeftBottom].surfacePartsModel->SetModel(field[Top][LeftBottom].surfacePartsModelHandle);
 		field[Top][LeftBottom].surfacePartsModel->SetTexture(handl);
 
+		collider4->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel);
+		collider4->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 	}
 
 #pragma endregion
@@ -573,6 +605,7 @@ void Stage::Update(Camera* camera)
 		for (size_t j = 0; j < field[Top].size(); j++)
 		{
 			field[i][j].surfacePartsModelTrans.TransUpdate(camera);
+			collider->Update(field[i][j].surfacePartsModelTrans.matWorld);
 		}
 	}
 }

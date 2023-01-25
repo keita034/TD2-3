@@ -61,6 +61,6 @@ private:
 	// コライダー
 	BaseCollider* collider = nullptr;
 
-	bool onGround = false;
+	bool onGround = true;
 	AliceMathF::Vector4 fallV;
 };

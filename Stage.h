@@ -8,6 +8,7 @@
 #include"FieldConstant.h"
 #include"BesideFold.h"
 #include"SurfaceFold.h"
+#include"MeshCollider.h"
 
 class Stage
 {
@@ -31,6 +32,14 @@ private:
 
 	//基準の角度
 	float standardAngle_;
+
+	// コライダーの追加
+	MeshCollider* collider = new MeshCollider;
+	MeshCollider* collider2 = new MeshCollider;
+	MeshCollider* collider3 = new MeshCollider;
+	MeshCollider* collider4 = new MeshCollider;
+	MeshCollider* collider5 = new MeshCollider;
+
 
 public:
 	Stage() = default;

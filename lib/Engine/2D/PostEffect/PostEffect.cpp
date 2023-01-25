@@ -7,7 +7,7 @@
 #include"DefaultMaterial.h"
 #include"Input.h"
 
-const float PostEffect::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
+const float PostEffect::clearColor[4] = { 0.5f,0.5f,0.5f,0.0f };
 
 void PostEffect::PostInitialize()
 {

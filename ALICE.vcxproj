@@ -100,6 +100,7 @@
   <ItemGroup>
     <ClInclude Include="BesideFold.h" />
     <ClInclude Include="FieldConstant.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="lib\Engine\2D\Button.h" />
     <ClInclude Include="lib\Engine\2D\Cursor.h" />
     <ClInclude Include="lib\Engine\2D\Mesh.h" />
@@ -347,6 +348,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BesideFold.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="lib\Engine\2D\Button.cpp" />
     <ClCompile Include="lib\Engine\2D\Cursor.cpp" />
     <ClCompile Include="lib\Engine\2D\Mesh.cpp" />
