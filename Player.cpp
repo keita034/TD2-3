@@ -145,10 +145,10 @@ void Player::PlayerCollider(Camera* camera)
 		Groundray.dir = { 0,-1,0,0 };
 		RaycastHit raycastHit;
 
+		// スムーズに坂を下る為の吸着距離
+		const float adsDistance = 0.2f;
 		// 接地状態
 		if (onGround) {
-			// スムーズに坂を下る為の吸着距離
-			const float adsDistance = 0.2f;
 			// 接地を維持
 			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
 				onGround = true;
@@ -162,7 +162,7 @@ void Player::PlayerCollider(Camera* camera)
 		}
 		// 落下状態
 		else if (fallV.y <= 0.0f) {
-			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
+			if (CollisionManager::GetInstance()->Raycast(Groundray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
 				// 着地
 				onGround = true;
 				worldTransform_.translation.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);

@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 三角形の配列を構築する
 	/// </summary>
-	void ConstructTriangles(std::unique_ptr<Model>& model, AliceMathF::Vector3 ModelPos);
+	void ConstructTriangles(std::unique_ptr<Model>& model, AliceMathF::Matrix4 matWorld);
 	void ConstructTriangles(fbxModel* model);
 
 	/// <summary>

@@ -34,8 +34,8 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightTop].surfacePartsModelTrans.Initialize();
 			field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
 			field[Top][RightTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-			//field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-			//field[Top][RightTop].angle_ = standardAngle_;
+			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][RightTop].angle_ = standardAngle_;
 
 			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
 
@@ -48,7 +48,7 @@ void Stage::Initialize(Camera* camera)
 			// コライダーの追加
 			MeshCollider* collider = new MeshCollider;
 			SetCollider(collider,0, Top, RightTop);
-			collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][RightTop].surfacePartsModelTrans));
+			collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel, field[Top][RightTop].surfacePartsModelTrans.matWorld);
 			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
@@ -62,8 +62,8 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightBottom].surfacePartsModelTrans.Initialize();
 			field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
 			field[Top][RightBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-			//field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-			//field[Top][RightBottom].angle_ = standardAngle_;
+			field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			field[Top][RightBottom].angle_ = standardAngle_;
 
 			field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
 
@@ -77,7 +77,7 @@ void Stage::Initialize(Camera* camera)
 			// コライダーの追加
 			MeshCollider* collider = new MeshCollider;
 			SetCollider(collider,1,Top, RightBottom);
-			collider->ConstructTriangles(field[Top][RightBottom].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][RightBottom].surfacePartsModelTrans));
+			collider->ConstructTriangles(field[Top][RightBottom].surfacePartsModel, field[Top][RightBottom].surfacePartsModelTrans.matWorld);
 			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 		}
@@ -107,7 +107,7 @@ void Stage::Initialize(Camera* camera)
 			// コライダーの追加
 			MeshCollider* collider = new MeshCollider;
 			SetCollider(collider,2, Top, LeftTop);
-			collider->ConstructTriangles(field[Top][LeftTop].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][LeftTop].surfacePartsModelTrans));
+			collider->ConstructTriangles(field[Top][LeftTop].surfacePartsModel, field[Top][LeftTop].surfacePartsModelTrans.matWorld);
 			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
@@ -135,7 +135,7 @@ void Stage::Initialize(Camera* camera)
 			// コライダーの追加
 			MeshCollider* collider = new MeshCollider;
 			SetCollider(collider, 3, Top, LeftBottom);
-			collider->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel, AliceMathF::GetWorldPosition(field[Top][LeftBottom].surfacePartsModelTrans));
+			collider->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel, field[Top][LeftBottom].surfacePartsModelTrans.matWorld);
 			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
