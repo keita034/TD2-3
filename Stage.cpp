@@ -34,8 +34,8 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightTop].surfacePartsModelTrans.Initialize();
 			field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
 			field[Top][RightTop].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-			field[Top][RightTop].angle_ = standardAngle_;
+			//field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			//field[Top][RightTop].angle_ = standardAngle_;
 
 			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
 
@@ -62,8 +62,8 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightBottom].surfacePartsModelTrans.Initialize();
 			field[Top][RightBottom].surfacePartsModelTrans.translation = { 20.0f,30.0f,-20.0f };
 			field[Top][RightBottom].surfacePartsModelTrans.scale = { 1.0f,1.0f,1.0f };
-			field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
-			field[Top][RightBottom].angle_ = standardAngle_;
+			//field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
+			//field[Top][RightBottom].angle_ = standardAngle_;
 
 			field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
 
