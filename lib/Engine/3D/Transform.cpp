@@ -1,7 +1,5 @@
 #include "Transform.h"
 #include"DirectX12Core.h"
-#include "BaseCollider.h"
-#include "CollisionManager.h"
 
 AliceMathF::Matrix4 Transform::defaultProjectionMat = { 1.3579f, 0.0f, 0.0f, 0.0f, 0.0f, 2.4142f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0001f, 1.0f, 0.0f, 0.0f, -0.1000f, 0.0f};
 
@@ -44,16 +42,6 @@ void Transform::Initialize()
 	Update();
 }
 
-void Transform::SetCollider(BaseCollider* collider)
-{
-	this->collider = collider;
-	// コリジョンマネージャに追加
-	CollisionManager::GetInstance()->AddCollider(collider);
-
-	MakeWorldMatrix();
-	collider->Update(matWorld);
-}
-
 void Transform::TransUpdate(Camera* camera)
 {
 	AliceMathF::Matrix4 matScale, matRot, matTrans;
@@ -89,11 +77,6 @@ void Transform::Update()
 {
 	constBuff->Update(&constBuffMap);
 
-	// 当たり判定更新
-	if (collider)
-	{
-		collider->Update(matWorld);
-	}
 }
 
 void Transform::MakeWorldMatrix()

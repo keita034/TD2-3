@@ -89,7 +89,6 @@ bool WindowsApp::MessageWindow()
 	//×ボタンで終了メッセージが来たらゲームループを抜ける
 	if (massege.message == WM_QUIT)
 	{
-		//DirectX12Core::GetInstance()->GetDevice()->Re
 		return false;
 	}
 	return true;

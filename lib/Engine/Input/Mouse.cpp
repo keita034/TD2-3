@@ -40,7 +40,7 @@ bool Mouse::MouseButtonTrigger(MouseButton button)
 
 bool Mouse::MouseButtonInput(MouseButton button)
 {
-	return static_cast<bool>(mouseState.rgbButtons[button]);
+	return (bool)(mouseState.rgbButtons[button]);
 }
 
 bool Mouse::MouseButtonOffTrigger(MouseButton button)

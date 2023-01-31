@@ -16,7 +16,7 @@ private:
 public:
 
 	RainParticle() = default;
-	~RainParticle() = default;
+	~RainParticle();
 
 	//‰Šú‰»
 	virtual void Initialize()override;

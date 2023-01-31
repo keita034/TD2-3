@@ -30,6 +30,8 @@ struct TextureData
 
 	uint32_t textureHandle;
 
+	~TextureData();
+
 private:
 	char PADING[4]{};
 };
@@ -187,8 +189,8 @@ enum class BlendMode
 //コンピュートシェーダー関連(クラス共通)
 struct ComputeRelation
 {
-	ComputeRelation() = default;
-	~ComputeRelation() = default;
+	ComputeRelation();
+	~ComputeRelation();
 
 	//パイプラインステート
 	std::shared_ptr<ComputePipelineState> computePipelineState;

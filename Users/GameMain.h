@@ -6,16 +6,11 @@
 
 //é©çÏ.h
 #include"GameScene.h"
-#include"PostEffect.h"
 #include"AliceFramework.h"
 
 class GameMain : public AliceFramework
 {
 private:
-
-	std::unique_ptr<PostEffect> postEffect;
-
-	bool post = true;
 
 public:
 

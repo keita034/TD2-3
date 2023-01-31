@@ -48,7 +48,7 @@ public:
 private:
 
 	DefaultMaterial() = default;
-	~DefaultMaterial() = default;
+	~DefaultMaterial();
 
 	 void CreateDefaultTexture();
 

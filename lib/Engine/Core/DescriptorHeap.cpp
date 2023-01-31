@@ -4,6 +4,7 @@
 void DescriptorHeap::Initialize()
 {
 	device = DirectX12Core::GetInstance()->GetDevice();
+	HRESULT result = 0;
 
 	// デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
@@ -12,7 +13,7 @@ void DescriptorHeap::Initialize()
 	srvHeapDesc.NumDescriptors = static_cast<UINT>(maxSRV + maxUAV + maxCBV);
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	HRESULT result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
+	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(result));
 
 	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);

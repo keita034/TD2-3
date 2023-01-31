@@ -57,8 +57,8 @@ protected:
 
 public:
 
-	Sprite()= default;
-	virtual ~Sprite() = default;
+	Sprite();
+	virtual ~Sprite();
 
 	//‰Šú‰»
 	virtual void Initialize(uint32_t handle) = 0;

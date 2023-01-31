@@ -44,6 +44,11 @@ public:
 	void CreateUAV(size_t length, size_t singleSize, const void* data = nullptr);
 
 	/// <summary>
+	/// アンオーダーアクセスビューを生成
+	/// </summary>
+	void CreateUAV(CD3DX12_RESOURCE_DESC * texresDesc);
+
+	/// <summary>
 	/// バッファ生成に成功したかを返す
 	/// </summary>
 	bool IsValid();
@@ -52,7 +57,7 @@ public:
 	/// バッファのGPU上のアドレスを返す
 	/// </summary>
 	/// <returns>バッファのGPU上のアドレス</returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetAddress() const;
+	D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress();
 
 	/// <summary>
 	/// 定数バッファビューを返す

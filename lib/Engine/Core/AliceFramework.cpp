@@ -51,6 +51,10 @@ void AliceFramework::Initialize()
 	imGuiManager->Initialize(windowsApp, directX12Core);
 	
 	sceneManager = SceneManager::GetInstance();
+
+	postEffectManager = PostEffectManager::GetInstance();
+
+	postEffectManager->Initialize();
 	//‚»‚Ì‘¼‰Šú‰»‚±‚±‚Ü‚Å
 }
 
@@ -72,7 +76,6 @@ void AliceFramework::Finalize()
 void AliceFramework::Update()
 {
 	fps->FpsControlBegin();
-
 	//€”õˆ—
 	mesh->DrawReset();
 	mesh3D->DrawReset();
@@ -81,14 +84,44 @@ void AliceFramework::Update()
 	audioManager->Update();
 
 	imGuiManager->Bigin();
-	imGuiManager->End();
 
 	sceneManager->Update();
+
+	imGuiManager->End();
 }
 
 void AliceFramework::PostUpdate()
 {
 	fps->FpsControlEnd();
+}
+
+void AliceFramework::Draw()
+{
+	if (postEffectManager->IsAalid())
+	{
+		//•`‰æˆ—
+		postEffectManager->PreDrawScen();
+
+		sceneManager->Draw();
+
+		postEffectManager->PostDrawScen();
+
+		directX12Core->BeginDraw();//•`‰æ€”õ
+		postEffectManager->PostDraw();
+		imGuiManager->Draw();
+		//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚Ü‚Å
+		directX12Core->EndDraw();//•`‰æŒãˆ—
+	}
+	else
+	{
+		directX12Core->BeginDraw();//•`‰æ€”õ
+
+		sceneManager->Draw();
+
+		imGuiManager->Draw();
+
+		directX12Core->EndDraw();//•`‰æŒãˆ—
+	}
 }
 
 bool AliceFramework::IsEndRequst()
@@ -106,6 +139,8 @@ void AliceFramework::Run()
 	{
 		//XVˆ—
 		Update();
+
+
 
 		if (IsEndRequst())
 		{

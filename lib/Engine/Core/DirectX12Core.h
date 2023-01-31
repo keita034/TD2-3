@@ -165,7 +165,7 @@ private:
 
 	//コンストラクタ・デストラクタ
 	DirectX12Core() = default;
-	~DirectX12Core() = default;
+	~DirectX12Core();
 
 	//コピーコンストラクタ・代入演算子削除
 	DirectX12Core& operator=(const DirectX12Core&) = delete;

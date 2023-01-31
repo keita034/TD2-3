@@ -2,6 +2,10 @@
 #include"DefaultMaterial.h"
 #include"DirectX12Core.h"
 
+BasicParticle::~BasicParticle()
+{
+}
+
 void BasicParticle::Initialize()
 {
 	device = DirectX12Core::GetInstance()->GetDevice();

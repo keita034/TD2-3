@@ -51,6 +51,14 @@ void Sprite::CreatVertexIndexBuffer()
 	indexBuffer->Create(6);
 }
 
+Sprite::Sprite()
+{
+}
+
+Sprite::~Sprite()
+{
+}
+
 void Sprite::SetAnchorPoint(const AliceMathF::Vector2& point)
 {
 	anchorPoint = point;

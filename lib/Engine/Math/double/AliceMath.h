@@ -1,293 +1,293 @@
-#pragma once
+ï»¿#pragma once
 #include"ErrorException.h"
 
 namespace AliceMath
 {
-#pragma region ’è”
+#pragma region å®šæ•°
 #pragma warning(push)
 #pragma warning(disable: 5264)
-	// ƒÎ
+	// Ï€
 	constexpr double AX_PI = 3.141592654;
 
-	//ƒÎ/2
+	//Ï€/2
 	constexpr double AX_PIHalf = 3.141592654 / 2.0;
 
-	// 2ƒÎ
+	// 2Ï€
 	constexpr double AX_2PI = 6.283185307;
 
-	//ƒÃ
+	//Îµ
 	constexpr double EPSILON = 2.2204460492503131E-16;
 
-	//“x‚©‚çƒ‰ƒWƒAƒ“‚É•ÏŠ·‚·‚é’è”
+	//åº¦ã‹ã‚‰ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›ã™ã‚‹å®šæ•°
 	constexpr double Deg2Rad = AX_PI / 180.0f;
 
-	//ƒ‰ƒWƒAƒ“‚©‚ç“x‚É•ÏŠ·‚·‚é’è”
+	//ãƒ©ã‚¸ã‚¢ãƒ³ã‹ã‚‰åº¦ã«å¤‰æ›ã™ã‚‹å®šæ•°
 	constexpr double Rad2Deg = 57.29578;
 #pragma warning(pop)
 
-#pragma endregion ’è”
+#pragma endregion å®šæ•°
 
-#pragma region sin,cos,tanŠÖ”
+#pragma region sin,cos,tané–¢æ•°
 
-#pragma region sinŠÖ”	
+#pragma region siné–¢æ•°	
 
-	//sinŠÖ”
+	//siné–¢æ•°
 	double Sin(double sin);
 
-	//asinŠÖ”
+	//asiné–¢æ•°
 	double Asin(double sin);
 
-#pragma endregion sinŠÖ”
+#pragma endregion siné–¢æ•°
 
-#pragma region cosŠÖ”
+#pragma region cosé–¢æ•°
 
-	//cosŠÖ”
+	//cosé–¢æ•°
 	double Cos(double cos);
 
-	//cosŠÖ”
+	//cosé–¢æ•°
 	double Acos(double cos);
 
-#pragma endregion cosŠÖ”
+#pragma endregion cosé–¢æ•°
 
-#pragma region tanŠÖ”
+#pragma region tané–¢æ•°
 
-	//tanŠÖ”
+	//tané–¢æ•°
 	double Tan(double tan);
 
-	//atanŠÖ”
+	//atané–¢æ•°
 	double Atan(double tan);
 
-	//atanŠÖ”
+	//atané–¢æ•°
 	double Atan2(float y, float x);
 
-#pragma endregion tanŠÖ”
+#pragma endregion tané–¢æ•°
 
 	/// <summary>
-	/// SinACos‚ğ—¼•ûo‚·
+	/// Sinã€Cosã‚’ä¸¡æ–¹å‡ºã™
 	/// </summary>
-	/// <param name="sin_"> : sin‚ÌŒ‹‰Ê‚ğ‘ã“ü‚·‚é</param>
-	/// <param name="cos_"> : cos‚ÌŒ‹‰Ê‚ğ‘ã“ü‚·‚é</param>
-	/// <param name="angle"> : ƒ‰ƒWƒAƒ“Šp</param>
+	/// <param name="sin_"> : sinã®çµæœã‚’ä»£å…¥ã™ã‚‹</param>
+	/// <param name="cos_"> : cosã®çµæœã‚’ä»£å…¥ã™ã‚‹</param>
+	/// <param name="angle"> : ãƒ©ã‚¸ã‚¢ãƒ³è§’</param>
 	void SinCos(double& sin_, double& cos_, double angle);
 
-#pragma endregion sin,cos,tanŠÖ”
+#pragma endregion sin,cos,tané–¢æ•°
 
-#pragma region Šp“x•ÏŠ·
+#pragma region è§’åº¦å¤‰æ›
 
 	/// <summary>
-	/// “x”–@‚©‚çƒ‰ƒWƒAƒ“•ÏŠ·
+	/// åº¦æ•°æ³•ã‹ã‚‰ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
 	/// </summary>
-	/// <param name="angle"> : Šp“x</param>
+	/// <param name="angle"> : è§’åº¦</param>
 	double ChangeRadians(const double& angle);
 
 	/// <summary>
-	/// ƒ‰ƒWƒAƒ“‚©‚ç“x”–@•ÏŠ·
+	/// ãƒ©ã‚¸ã‚¢ãƒ³ã‹ã‚‰åº¦æ•°æ³•å¤‰æ›
 	/// </summary>
-	/// <param name="angle"> : Šp“x</param>
+	/// <param name="angle"> : è§’åº¦</param>
 	double ChangeDira(const double& angle);
 
-#pragma endregion Šp“x•ÏŠ·
+#pragma endregion è§’åº¦å¤‰æ›
 
-#pragma region sqrtŠÖ”
+#pragma region sqrté–¢æ•°
 
-	//sqrtŠÖ”
+	//sqrté–¢æ•°
 	double Sqrt(double sqrt);
 
-#pragma endregion sqrtŠÖ”
+#pragma endregion sqrté–¢æ•°
 
-#pragma region powŠÖ”
+#pragma region powé–¢æ•°
 
-	//powŠÖ”
+	//powé–¢æ•°
 	double Pow(double pow, double powNum);
 
-	//powŠÖ”(long double)
+	//powé–¢æ•°(long double)
 	long double PowLD(long double pow, long double powNum);
 
-#pragma endregion powŠÖ”
+#pragma endregion powé–¢æ•°
 
-#pragma region expŠÖ”
+#pragma region expé–¢æ•°
 
-	//expŠÖ”
+	//expé–¢æ•°
 	double Exp(double exp);
 
-#pragma endregion expŠÖ”
+#pragma endregion expé–¢æ•°
 
-#pragma region logŠÖ”
+#pragma region logé–¢æ•°
 
-	//logŠÖ”
+	//logé–¢æ•°
 	double Log(double log);
 
-	//log10ŠÖ”
+	//log10é–¢æ•°
 	double Log10(double log);
 
-#pragma endregion logŠÖ”
+#pragma endregion logé–¢æ•°
 
-#pragma region â‘Î’l‚ÌŒvZ
+#pragma region çµ¶å¯¾å€¤ã®è¨ˆç®—
 
-	//â‘Î’l‚ÌŒvZ
+	//çµ¶å¯¾å€¤ã®è¨ˆç®—
 	double Abs(double abs);
 
-	//â‘Î’l‚ÌŒvZ(long double)
+	//çµ¶å¯¾å€¤ã®è¨ˆç®—(long double)
 	long double AbsLD(long double abs);
 
-#pragma endregion â‘Î’l‚ÌŒvZ
+#pragma endregion çµ¶å¯¾å€¤ã®è¨ˆç®—
 
-#pragma region ceilŠÖ”
+#pragma region ceilé–¢æ•°
 
-	//ceilŠÖ”
+	//ceilé–¢æ•°
 	double Ceil(double ceil);
 
-	//ceilŠÖ”
+	//ceilé–¢æ•°
 	long double CeilLD(long double ceil);
 
-#pragma endregion ceilŠÖ”
+#pragma endregion ceilé–¢æ•°
 
-#pragma region floorŠÖ”
+#pragma region flooré–¢æ•°
 
-	//floorŠÖ”
+	//flooré–¢æ•°
 	double Floor(double floor);
 
-	//floorŠÖ”
+	//flooré–¢æ•°
 	long double FloorLD(long double floor);
 
-#pragma endregion floorŠÖ”
+#pragma endregion flooré–¢æ•°
 
-#pragma region roundŠÖ”
+#pragma region roundé–¢æ•°
 
-	//roundŠÖ”
+	//roundé–¢æ•°
 	double Round(double round);
 
-	//roundŠÖ”
+	//roundé–¢æ•°
 	long double RoundLD(long double round);
 
-#pragma endregion roundŠÖ”
+#pragma endregion roundé–¢æ•°
 
 	/// <summary>
-	/// ’l‚Ì•„†‚ğ•Ô‚·
+	/// å€¤ã®ç¬¦å·ã‚’è¿”ã™
 	/// </summary>
-	/// <returns>’l‚ª³‚©0‚Ìê‡‚Í1‚ğA•‰‚Ìê‡‚Í-1‚ğ•Ô‚·</returns>
+	/// <returns>å€¤ãŒæ­£ã‹0ã®å ´åˆã¯1ã‚’ã€è² ã®å ´åˆã¯-1ã‚’è¿”ã™</returns>
 	double Sign(double sign);
 
 	/// <summary>
-	/// ’l‚ğ”ÍˆÍ“à‚É”[‚ß‚é
+	/// å€¤ã‚’ç¯„å›²å†…ã«ç´ã‚ã‚‹
 	/// </summary>
-	/// <param name="Value">’l</param>
-	/// <param name="low">Å’á’l</param>
-	/// <param name="high">Å‚’l</param>
+	/// <param name="Value">å€¤</param>
+	/// <param name="low">æœ€ä½å€¤</param>
+	/// <param name="high">æœ€é«˜å€¤</param>
 	double Clamp(double Value, const double low, const double high);
 
 	/// <summary>
-	/// 0‚Æ1‚ÌŠÔ‚É’l‚ğ”[‚ßA‚»‚Ì’l‚ğ•Ô‚·
+	/// 0ã¨1ã®é–“ã«å€¤ã‚’ç´ã‚ã€ãã®å€¤ã‚’è¿”ã™
 	/// </summary>
-	/// <param name="Value">’l</param>
+	/// <param name="Value">å€¤</param>
 	double Clamp01(double Value);
 
 	/// <summary>
-	/// üŒ`•âŠÔ(0`1)
+	/// ç·šå½¢è£œé–“(0ï½1)
 	/// </summary>
-	/// <param name="a">ŠJn’l</param>
-	/// <param name="b">I—¹’l</param>
-	/// <param name="t">•âŠÔ’l</param>
-	/// <returns>•âŠÔ‚³‚ê‚½’l</returns>
+	/// <param name="a">é–‹å§‹å€¤</param>
+	/// <param name="b">çµ‚äº†å€¤</param>
+	/// <param name="t">è£œé–“å€¤</param>
+	/// <returns>è£œé–“ã•ã‚ŒãŸå€¤</returns>
 	double Lerp(double a, double b, double t);
 
 	/// <summary>
-	/// üŒ`•âŠÔ(0`)
+	/// ç·šå½¢è£œé–“(0ï½)
 	/// </summary>
-	/// <param name="a">ŠJn’l</param>
-	/// <param name="b">I—¹’l</param>
-	/// <param name="t">•âŠÔ’l</param>
-	/// <returns>•âŠÔ‚³‚ê‚½’l</returns>
+	/// <param name="a">é–‹å§‹å€¤</param>
+	/// <param name="b">çµ‚äº†å€¤</param>
+	/// <param name="t">è£œé–“å€¤</param>
+	/// <returns>è£œé–“ã•ã‚ŒãŸå€¤</returns>
 	double LerpUnclamped(double a, double b, double t);
 
 	/// <summary>
-	/// Lerp‚ÌŠp“x”Å(0`1)
+	/// Lerpã®è§’åº¦ç‰ˆ(0ï½1)
 	/// </summary>
-	/// <param name="a">ŠJn’l</param>
-	/// <param name="b">I—¹’l</param>
-	/// <param name="t">•âŠÔ’l</param>
-	/// <returns>•âŠÔ‚³‚ê‚½Šp“x</returns>
+	/// <param name="a">é–‹å§‹å€¤</param>
+	/// <param name="b">çµ‚äº†å€¤</param>
+	/// <param name="t">è£œé–“å€¤</param>
+	/// <returns>è£œé–“ã•ã‚ŒãŸè§’åº¦</returns>
 	double LerpAngle(double a, double b, double t);
 
 	/// <summary>
-	/// t‚Ílength‚æ‚è‘å‚«‚­‚Í‚È‚ç‚¸0‚æ‚è¬‚³‚­‚È‚ç‚¸A‚»‚ÌŠÔ‚ğƒ‹[ƒv
+	/// tã¯lengthã‚ˆã‚Šå¤§ããã¯ãªã‚‰ãš0ã‚ˆã‚Šå°ã•ããªã‚‰ãšã€ãã®é–“ã‚’ãƒ«ãƒ¼ãƒ—
 	/// </summary>
-	/// <param name="t">’l</param>
-	/// <param name="length">w’è’l</param>
+	/// <param name="t">å€¤</param>
+	/// <param name="length">æŒ‡å®šå€¤</param>
 	double Repeat(double t, double length);
 
 	/// <summary>
-	/// Œ»İ’n‚©‚ç–Ú“I’n‚Ü‚Åˆê’è‘¬“x‚ÅˆÚ“®
+	/// ç¾åœ¨åœ°ã‹ã‚‰ç›®çš„åœ°ã¾ã§ä¸€å®šé€Ÿåº¦ã§ç§»å‹•
 	/// </summary>
-	/// <param name="current">Œ»İ’n</param>
-	/// <param name="target">–Ú“I’n</param>
-	/// <param name="maxDelta">‘¬“x</param>
+	/// <param name="current">ç¾åœ¨åœ°</param>
+	/// <param name="target">ç›®çš„åœ°</param>
+	/// <param name="maxDelta">é€Ÿåº¦</param>
 	double MoveTowards(double current, double target, double maxDelta);
 
 	/// <summary>
-	/// Œ»İ‚ÌŠp“x‚©‚ç–Ú“I‚ÌŠp“x‚Ü‚Åˆê’è‘¬“x‚ÅˆÚ“®
+	/// ç¾åœ¨ã®è§’åº¦ã‹ã‚‰ç›®çš„ã®è§’åº¦ã¾ã§ä¸€å®šé€Ÿåº¦ã§ç§»å‹•
 	/// </summary>
-	/// <param name="current">Œ»İ‚ÌŠp“x</param>
-	/// <param name="target">–Ú“I‚ÌŠp“x</param>
-	/// <param name="maxDelta">‘¬“x</param>
+	/// <param name="current">ç¾åœ¨ã®è§’åº¦</param>
+	/// <param name="target">ç›®çš„ã®è§’åº¦</param>
+	/// <param name="maxDelta">é€Ÿåº¦</param>
 	double MoveTowardsAngle(double current, double target, double maxDelta);
 
 	/// <summary>
-	/// Šp“x‚Ì·‚ğ•Ô‚·(“x”–@)
+	/// è§’åº¦ã®å·®ã‚’è¿”ã™(åº¦æ•°æ³•)
 	/// </summary>
-	/// <param name="current">Œ»İ‚ÌŠp“x</param>
-	/// <param name="target">–Ú•W‚Æ‚È‚éŠp“x</param>
+	/// <param name="current">ç¾åœ¨ã®è§’åº¦</param>
+	/// <param name="target">ç›®æ¨™ã¨ãªã‚‹è§’åº¦</param>
 	double DeltaAngle(double current, double target);
 
 	/// <summary>
-	/// ƒXƒ€[ƒWƒ“ƒO•âŠÔ
+	/// ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°è£œé–“
 	/// </summary>
-	/// <param name="from">ŠJn’l</param>
-	/// <param name="to">I—¹’l</param>
-	/// <param name="t">•âŠÔ’l</param>
-	/// <returns>•âŠÔ‚³‚ê‚½Šp“x</returns>
+	/// <param name="from">é–‹å§‹å€¤</param>
+	/// <param name="to">çµ‚äº†å€¤</param>
+	/// <param name="t">è£œé–“å€¤</param>
+	/// <returns>è£œé–“ã•ã‚ŒãŸè§’åº¦</returns>
 	double SmoothStep(double from, double to, double t);
 
 	/// <summary>
-	/// ƒKƒ“ƒ}•â³
+	/// ã‚¬ãƒ³ãƒè£œæ­£
 	/// </summary>
 	double Gamma(double value, double absmax, double gamma);
 
 	/// <summary>
-	/// ‰½‚ğ‰½ˆ‚É‰½•b‚Åw’è‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğˆÚ“®‚³‚¹‚é
+	/// ä½•ã‚’ä½•å‡¦ã«ä½•ç§’ã§æŒ‡å®šã—ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç§»å‹•ã•ã›ã‚‹
 	/// </summary>
-	/// <param name="current">Œ»İ’n</param>
-	/// <param name="target">–Ú“I’n</param>
-	/// <param name="currentVelocity">–‘O‚É‰Šú‰»‚µ‚½‘¬“x</param>
-	/// <param name="smoothTime">–Ú“I‚Ü‚Å‚Ì“’BŠÔ</param>
-	/// <param name="maxSpeed">Å‚‘¬“x</param>
-	/// <param name="deltaTime">ŠÖ”‚ª‘O‰ñÀs‚³‚ê‚Ä‚©‚ç‚ÌŒo‰ßŠÔ</param>
+	/// <param name="current">ç¾åœ¨åœ°</param>
+	/// <param name="target">ç›®çš„åœ°</param>
+	/// <param name="currentVelocity">äº‹å‰ã«åˆæœŸåŒ–ã—ãŸé€Ÿåº¦</param>
+	/// <param name="smoothTime">ç›®çš„ã¾ã§ã®åˆ°é”æ™‚é–“</param>
+	/// <param name="maxSpeed">æœ€é«˜é€Ÿåº¦</param>
+	/// <param name="deltaTime">é–¢æ•°ãŒå‰å›å®Ÿè¡Œã•ã‚Œã¦ã‹ã‚‰ã®çµŒéæ™‚é–“</param>
 	double SmoothDamp(double current, double target, double& currentVelocity, double smoothTime, double maxSpeed, double deltaTime);
 
 	/// <summary>
-	/// t‚ª0‚Ælength‚ÌŠÔ‚Å‰•œ‚·‚é(0`length)
+	/// tãŒ0ã¨lengthã®é–“ã§å¾€å¾©ã™ã‚‹(0ï½length)
 	/// </summary>
 	double PingPong(double t, double length);
 
 	/// <summary>
-	/// lerp‚Ì•âŠÔ’l‚ğo‚·
+	/// lerpã®è£œé–“å€¤ã‚’å‡ºã™
 	/// </summary>
-	/// <param name="a">ŠJn’l</param>
-	/// <param name="b">I—¹’l</param>
-	/// <param name="value">ŠJn‚ÆI—¹‚ÌŠÔ‚Ì’l</param>
-	/// <returns>•âŠÔ’l</returns>
+	/// <param name="a">é–‹å§‹å€¤</param>
+	/// <param name="b">çµ‚äº†å€¤</param>
+	/// <param name="value">é–‹å§‹ã¨çµ‚äº†ã®é–“ã®å€¤</param>
+	/// <returns>è£œé–“å€¤</returns>
 	double InverseLerp(double a, double b, double value);
 
 	/// <summary>
-	/// “ñ‚Â‚Ì’l‚ª‚Ù‚Ú“™‚µ‚¢‚©
+	/// äºŒã¤ã®å€¤ãŒã»ã¼ç­‰ã—ã„ã‹
 	/// </summary>
 	bool Approximately(double a, double b);
 
 	/// <summary>
-	/// ƒ‰ƒ“ƒ_ƒ€‚È’l‚ğæ“¾
+	/// ãƒ©ãƒ³ãƒ€ãƒ ãªå€¤ã‚’å–å¾—
 	/// </summary>
-	/// <param name="min">Å¬’l</param>
-	/// <param name="max">Å‘å’l</param>
+	/// <param name="min">æœ€å°å€¤</param>
+	/// <param name="max">æœ€å¤§å€¤</param>
 	double GetRand(double min, double max);
 }
 

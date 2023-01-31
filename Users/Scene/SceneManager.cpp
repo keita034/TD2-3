@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-
+#include"PostEffectManager.h"
 SceneManager::~SceneManager()
 {
 	scene->Finalize();
@@ -19,10 +19,7 @@ void SceneManager::ChangeScene(const std::string& sceneName)
 	assert(nextScene == nullptr);
 
 	nextScene = sceneFactory->CreateScene(sceneName);
-}
 
-void SceneManager::Update()
-{
 	//次のシーンの予約があるなら
 	if (nextScene)
 	{
@@ -30,6 +27,7 @@ void SceneManager::Update()
 		if (scene)
 		{
 			scene->Finalize();
+			PostEffectManager::GetInstance()->Finalize();
 			delete scene;
 		}
 
@@ -42,8 +40,12 @@ void SceneManager::Update()
 
 		//次のシーンを初期化する
 		scene->Initialize();
+		PostEffectManager::GetInstance()->PostInitialize();
 	}
+}
 
+void SceneManager::Update()
+{
 	scene->Update();
 }
 

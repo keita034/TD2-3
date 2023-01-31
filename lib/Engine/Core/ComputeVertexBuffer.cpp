@@ -1,5 +1,6 @@
 #include "ComputeVertexBuffer.h"
 #include "DirectX12Core.h"
+#include"ErrorException.h"
 
 void ComputeVertexBuffer::Create(size_t length, size_t singleSize, const void* data)
 {

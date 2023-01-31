@@ -14,7 +14,7 @@ private:
 	//デスクプリタレンジ
 	D3D12_DESCRIPTOR_RANGE descriptorRange{};
 
-	char PADING[4];
+	char PADING1[4];
 
 	size_t maxSRV = 2048;
 	size_t maxUAV = 2048;
@@ -25,6 +25,8 @@ private:
 	size_t countCBV = 0;
 
 	UINT incrementSize;
+	char PADING2[4];
+
 
 	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
 	D3D12_GPU_DESCRIPTOR_HANDLE	startGpuHandle;

@@ -328,6 +328,10 @@ void DirectX12Core::EnableInfoQueue()
 	infoQueue->PushStorageFilter(&filter);
 }
 
+DirectX12Core::~DirectX12Core()
+{
+}
+
 void DirectX12Core::BeginDraw()
 {
 	//1バックバッファ番号を取得

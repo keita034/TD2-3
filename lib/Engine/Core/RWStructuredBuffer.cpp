@@ -108,6 +108,42 @@ void RWStructuredBuffer::CreateUAV(size_t length, size_t singleSize, const void*
 	isValid = true;
 }
 
+void RWStructuredBuffer::CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc)
+{
+	texresDesc->Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+
+	D3D12_HEAP_PROPERTIES prop{};
+	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	prop.CreationNodeMask = 1;
+	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	prop.Type = D3D12_HEAP_TYPE_CUSTOM;
+	prop.VisibleNodeMask = 1;
+	HRESULT result = DirectX12Core::GetInstance()->GetDevice()->CreateCommittedResource(
+		&prop,
+		D3D12_HEAP_FLAG_NONE,
+		texresDesc,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		nullptr,
+		IID_PPV_ARGS(buffer.GetAddressOf())
+	);
+
+	if (FAILED(result))
+	{
+		printf("バッファリソースの生成に失敗");
+		return;
+	}
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+	uavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;//テクスチャとして　
+	uavDesc.Texture2D.MipSlice = 0;
+	uavDesc.Texture2D.PlaneSlice = 0;
+
+	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateUAV(uavDesc, buffer.Get());
+
+	isValid = true;
+}
+
 void RWStructuredBuffer::Update(void* data)
 {
 	void* ptr_ = nullptr;
@@ -130,7 +166,7 @@ bool RWStructuredBuffer::IsValid()
 	return isValid;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE RWStructuredBuffer::GetAddress() const
+D3D12_GPU_DESCRIPTOR_HANDLE& RWStructuredBuffer::GetAddress()
 {
 	return structuredBufferHandle;
 }

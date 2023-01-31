@@ -4,24 +4,22 @@
 #include"Camera.h"
 #include"ConstantBuffer.h"
 #include"AliceUtility.h"
-#include"BaseCollider.h"
 
 class Transform
 {
 private:
 	// 定数バッファ
 	std::shared_ptr<ConstantBuffer> constBuff;
+
 	//定数バッファのマッピング用ポインタ
 	worldViewpojCamera constBuffMap;
+	char PADING1[4];
 
 	//初期化用のビュー行列計算
 	static AliceMathF::Matrix4 defaultViewMat;
 
 	//初期化用のプロジェクション行列計算
 	static AliceMathF::Matrix4 defaultProjectionMat;
-
-	// コライダー
-	BaseCollider* collider = nullptr;
 
 public:
 	// ローカル座標
@@ -32,6 +30,7 @@ public:
 	AliceMathF::Vector3 scale = { 1.0f, 1.0f, 1.0f };
 
 	AliceMathF::Matrix4 matWorld;
+	char PADING2[4];
 
 	// 親となるワールド変換へのポインタ
 	const Transform* parent = nullptr;
@@ -54,12 +53,6 @@ public:
 	ID3D12Resource* GetconstBuff();
 
 	worldViewpojCamera* GetWorldViewpojCamera();
-
-	/// <summary>
-	/// コライダーのセット
-	/// </summary>
-	/// <param name="collider">コライダー</param>
-	void SetCollider(BaseCollider* collider);
 };
 
 namespace AliceMathF

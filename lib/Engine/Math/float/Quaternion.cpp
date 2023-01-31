@@ -3,7 +3,7 @@
 
 float AngleNormalize(float x)
 {
-	return  static_cast<int>((x > 0.0f ? x : 360.0f + x)) % 360;
+	return static_cast<float>(static_cast<int>((x > 0.0f ? x : 360.0f + x)) % 360);
 }
 
 namespace AliceMathF

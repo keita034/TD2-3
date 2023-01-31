@@ -139,6 +139,9 @@
     <Filter Include="User\ソースファイル\Scene">
       <UniqueIdentifier>{1cc486b3-54e0-458b-9c29-9570df86d589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\リソース ファイル\シェーダー\2D\PostEffect">
+      <UniqueIdentifier>{95bbfc9c-88b5-481e-9bc3-c9b203d347ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -306,9 +309,6 @@
     <ClInclude Include="lib\Engine\2D\Button.h">
       <Filter>Engine\ヘッダー ファイル\2D</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffect.h">
-      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="lib\Engine\2D\Particle\RainParticle.h">
       <Filter>Engine\ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
@@ -372,9 +372,6 @@
     <ClInclude Include="lib\Engine\Camera\CinemaCamera.h">
       <Filter>Engine\ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Engine\Core\GameMain.h">
-      <Filter>Engine\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
     <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectManager.h">
       <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
     </ClInclude>
@@ -432,6 +429,24 @@
     <ClInclude Include="lib\Engine\Core\ImGuiManager.h">
       <Filter>Engine\ヘッダー ファイル\Core</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\LutPostEffect.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Users\GameMain.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\VignettePostEffect.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Users\PostEffectFactory.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -463,14 +478,14 @@
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
     <None Include="cpp.hint" />
-    <None Include="Resources\Shaders\2D\PostEffectTest.hlsli">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </None>
     <None Include="Resources\Shaders\2D\RainParticle.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </None>
     <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -513,12 +528,6 @@
     <FxCompile Include="Resources\Shaders\3D\Model\LambertPS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffectTestPS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffectTestVS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
@@ -542,6 +551,18 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderCS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderCS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -705,9 +726,6 @@
     <ClCompile Include="lib\Engine\2D\Particle\Particle.cpp">
       <Filter>Engine\ソース ファイル\2D\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffect.cpp">
-      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="lib\Engine\2D\Particle\RainParticle.cpp">
       <Filter>Engine\ソース ファイル\2D\Particle</Filter>
     </ClCompile>
@@ -798,11 +816,26 @@
     <ClCompile Include="lib\Engine\Core\ImGuiManager.cpp">
       <Filter>Engine\ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Engine\Core\GameMain.cpp">
-      <Filter>Engine\ソース ファイル\Core</Filter>
-    </ClCompile>
     <ClCompile Include="lib\Engine\Core\AliceFramework.cpp">
       <Filter>Engine\ソース ファイル\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\BasePostEffect.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\LutPostEffect.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Users\GameMain.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\VignettePostEffect.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Users\PostEffectFactory.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

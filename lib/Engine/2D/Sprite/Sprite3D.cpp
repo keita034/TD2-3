@@ -1,6 +1,14 @@
 #include "Sprite3D.h"
 
 
+Sprite3D::Sprite3D()
+{
+}
+
+Sprite3D::~Sprite3D()
+{
+}
+
 void Sprite3D::Initialize(const uint32_t handle)
 {
 	texture = TextureManager::GetTextureData(handle);
@@ -259,10 +267,10 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 	// 頂点データ
 	PosUvColor vertices[] =
 	{//		x		y		z		u	v
-		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
-		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
-		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
-		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
+		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//左上インデックス0
+		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//左下インデックス1
+		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//右上インデックス2
+		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//右下インデックス3
 	};
 
 	// インデックスデータ

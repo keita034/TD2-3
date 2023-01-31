@@ -24,9 +24,7 @@ void ImGuiManager::Initialize(WindowsApp* windowsApp, DirectX12Core* core)
 	);
 
 	ImGuiIO& io = ImGui::GetIO();
-	//標準フォントを追加する
-	io.Fonts->AddFontDefault();
-
+	io.Fonts->AddFontFromFileTTF("Resources/Fonts/NotoSansJP-Bold.otf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 }
 
 void ImGuiManager::Finalize()

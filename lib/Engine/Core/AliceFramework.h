@@ -12,13 +12,10 @@
 #include"DirectX12Core.h"
 #include"SceneManager.h"
 #include"AbstractSceneFactory.h"
-
+#include"PostEffectManager.h"
 class AliceFramework
 {
 protected:
-
-	//終了フラグ
-	bool endRequst;
 
 	WindowsApp* windowsApp = nullptr;
 
@@ -43,9 +40,16 @@ protected:
 	//シーンファクトリー
 	AbstractSceneFactory* sceneFactory = nullptr;
 
+	PostEffectManager* postEffectManager = nullptr;
+
+	//終了フラグ
+	bool endRequst;
+	char PADING1[7]{};
+
 public:
 
 	virtual ~AliceFramework() = default;
+	AliceFramework() = default;
 
 	static void DebugInitialize();
 
@@ -72,7 +76,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw() = 0;
+	virtual void Draw();
 
 	virtual bool IsEndRequst();
 
@@ -80,5 +84,8 @@ public:
 	/// 実行
 	/// </summary>
 	void Run();
-};
 
+	//コピーコンストラクタ・代入演算子削除
+	AliceFramework& operator=(const AliceFramework&) = delete;
+	AliceFramework(const AliceFramework&) = delete;
+};
