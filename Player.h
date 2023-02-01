@@ -77,4 +77,6 @@ private:
 
 	int playerSurfacePos = 0;
 
+	int isPlayerNearCorner[6] = { 0 };
+
 };
