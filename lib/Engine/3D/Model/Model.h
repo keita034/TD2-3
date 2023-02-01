@@ -37,7 +37,7 @@ enum ShaderType
 struct ModelData
 {
 	ModelData() = default;
-	~ModelData() = default;
+	~ModelData();
 
 	std::string filePath;
 

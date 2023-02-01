@@ -3,6 +3,14 @@
 #include"RainParticle.h"
 #include"TextureManager.h"
 
+Particle::Particle()
+{
+}
+
+Particle::~Particle()
+{
+}
+
 BasicParticle* Particle::CreateParticle()
 {
 	BasicParticle* basic = new BasicParticle;

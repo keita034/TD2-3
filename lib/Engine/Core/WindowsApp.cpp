@@ -2,11 +2,20 @@
 #include"resource.h"
 #include"DirectX12Core.h"
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 //ウインドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	//ImGui用ウィンドウプロシージャ呼び出し
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+	{
+		return true;
+	}
+
 	//メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {
+
 		//ウインドウが破棄された
 	case WM_DESTROY:
 		//OSに対して、アプリの終了を伝える
@@ -80,7 +89,6 @@ bool WindowsApp::MessageWindow()
 	//×ボタンで終了メッセージが来たらゲームループを抜ける
 	if (massege.message == WM_QUIT)
 	{
-		//DirectX12Core::GetInstance()->GetDevice()->Re
 		return false;
 	}
 	return true;

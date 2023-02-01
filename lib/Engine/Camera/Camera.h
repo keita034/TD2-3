@@ -171,7 +171,7 @@ public:
 
 	GameCamera() = default;
 	~GameCamera() = default;
-	
+
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>

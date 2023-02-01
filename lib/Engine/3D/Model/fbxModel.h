@@ -38,7 +38,7 @@ private:
 	float oldFrame = 0.0f;
 
 	AliceMathF::Matrix4 globalInverseTransform;
-	char PADING[4]{};
+	char PADING1[4]{};
 
 	static Microsoft::WRL::ComPtr<ID3D12Device> device;
 	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
@@ -48,6 +48,7 @@ private:
 
 	bool vertexInitialize = false;
 
+	char PADING2[6]{};
 public:
 
 	fbxModel() = default;

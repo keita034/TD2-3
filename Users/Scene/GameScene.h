@@ -27,10 +27,11 @@
 #include"Player.h"
 #include "TouchableObject.h"
 #include "Ground.h"
+#include "BaseScene.h"
 
 class CollisionManager;
 
-class GameScene
+class GameScene : public BaseScene
 {
 private:
 
@@ -67,20 +68,22 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize() override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw() override;
 
-	//ゲッター
-	static GameScene* GetInstance();
+	/// <summary>
+	/// 後始末
+	/// </summary>
+	void Finalize() override;
 
 private:
 

@@ -116,8 +116,6 @@ void GameScene::Draw()
 	//ground->Draw();
 }
 
-GameScene* GameScene::GetInstance()
+void GameScene::Finalize()
 {
-	static GameScene instance;
-	return &instance;
 }

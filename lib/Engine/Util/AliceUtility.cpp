@@ -9,3 +9,15 @@ ConstBuffDataMaterial ModelMaterial::GetConstBuffMaterial()
 	rsult.alpha = alpha;
 	return rsult;
 }
+
+ComputeRelation::ComputeRelation()
+{
+}
+
+ComputeRelation::~ComputeRelation()
+{
+}
+
+TextureData::~TextureData()
+{
+}

@@ -13,7 +13,7 @@ private:
 public:
 
 	BasicParticle() = default;
-	~BasicParticle() = default;
+	~BasicParticle();
 
 	//‰Šú‰»
 	virtual void Initialize()override;

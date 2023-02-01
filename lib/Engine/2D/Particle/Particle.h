@@ -90,9 +90,9 @@ protected:
 	TextureData* textureData;
 public:
 
-	Particle()= default;
+	Particle();
 
-	virtual ~Particle() = default;
+	virtual ~Particle();
 
 	//‰Šú‰»
 	virtual void Initialize() = 0;

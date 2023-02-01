@@ -58,3 +58,7 @@ void Material::Initialize()
 		assert(0);
 	}
 }
+
+Material::~Material()
+{
+}
