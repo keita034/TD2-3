@@ -8,6 +8,7 @@
 #include"FieldConstant.h"
 #include"BesideFold.h"
 #include"SurfaceFold.h"
+#include"MeshCollider.h"
 
 class Stage
 {
@@ -32,6 +33,10 @@ private:
 	//Šî€‚ÌŠp“x
 	float standardAngle_;
 
+	BaseCollider* collider[24];
+
+
+
 public:
 	Stage() = default;
 	~Stage() = default;
@@ -39,7 +44,7 @@ public:
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize();
+	void Initialize(Camera* camera);
 
 	/// <summary>
 	/// XV
@@ -52,6 +57,8 @@ public:
 	void Draw();
 
 	void FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex);
+
+	void SetCollider(BaseCollider* collider,int x ,FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
 
 private:
 

@@ -27,7 +27,7 @@ bool TouchableObject::Initialize(uint32_t modelHandle, Transform* transform)
 	// コライダーの追加
 	MeshCollider* collider = new MeshCollider;
 	trans->SetCollider(collider);
-	collider->ConstructTriangles(this);
+	//collider->ConstructTriangles(this);
 	collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 	return true;

@@ -18,7 +18,7 @@ void GameMain::Initialize()
 
 	directX12Core = DirectX12Core::GetInstance();//DirectX12Coreクラス読み込み
 	directX12Core->DirectXInitialize();//DirectX12初期化
-	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
+	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 1.0f);	//背景の色変更(R,G,B,A)
 
 	//DirectX初期化処理ここまで
 

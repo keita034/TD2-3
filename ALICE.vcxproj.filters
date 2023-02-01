@@ -405,6 +405,9 @@
     <ClInclude Include="lib\Engine\Collision\TouchableObject.h">
       <Filter>Engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -755,6 +758,9 @@
     </ClCompile>
     <ClCompile Include="lib\Engine\Collision\TouchableObject.cpp">
       <Filter>Engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
