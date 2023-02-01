@@ -24,11 +24,11 @@ public:
 	/// </summary>
 	void Update(const AliceMathF::Matrix4& worldPos) override;
 
-	inline void SetRadius(float radius) { this->radius = radius; }
+	void SetRadius(float radius);
 
-	inline const AliceMathF::Vector4& GetOffset() { return offset; }
-	inline void SetOffset(const AliceMathF::Vector4& offset) { this->offset = offset; }
-	inline float GetRadius() { return radius; }
+	const AliceMathF::Vector4& GetOffset();
+	void SetOffset(const AliceMathF::Vector4& off);
+	float GetRadius();
 
 private:
 	// オブジェクト中心からのオフセット

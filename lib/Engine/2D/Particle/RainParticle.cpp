@@ -1,6 +1,10 @@
 #include "RainParticle.h"
 #include"DefaultMaterial.h"
 
+RainParticle::~RainParticle()
+{
+}
+
 void RainParticle::Initialize()
 {
 	device = DirectX12Core::GetInstance()->GetDevice();

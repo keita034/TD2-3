@@ -6,8 +6,7 @@ void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model,AliceMathF::
 {
 	triangles.clear();
 
-	int start = 0;
-
+	size_t start = 0;
 
 		const std::vector<PosNormalUv>& vertices = model->GetVertices();
 		const std::vector<uint32_t>& indices = model->GetIndices();
@@ -20,9 +19,9 @@ void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model,AliceMathF::
 		{
 
 			Triangle& tri = triangles[start + i];
-			int idx0 = indices[i * 3 + 0];
-			int idx1 = indices[i * 3 + 1];
-			int idx2 = indices[i * 3 + 2];
+			size_t idx0 = indices[i * 3 + 0];
+			size_t idx1 = indices[i * 3 + 1];
+			size_t idx2 = indices[i * 3 + 2];
 
 			tri.p0 = {
 				vertices[idx0].pos.x,
@@ -60,7 +59,7 @@ void MeshCollider::ConstructTriangles(fbxModel* model)
 
 	const std::vector<ModelMesh>& meshes = model->GetMeshs();
 
-	int start = 0;
+	size_t start = 0;
 
 	std::vector<ModelMesh>::const_iterator it = meshes.cbegin();
 	for (; it != meshes.cend(); ++it) {
@@ -75,9 +74,9 @@ void MeshCollider::ConstructTriangles(fbxModel* model)
 		for (size_t i = 0; i < triangleNum; i++) {
 
 			Triangle& tri = triangles[start + i];
-			int idx0 = indices[i * 3 + 0];
-			int idx1 = indices[i * 3 + 1];
-			int idx2 = indices[i * 3 + 2];
+			size_t idx0 = indices[i * 3 + 0];
+			size_t idx1 = indices[i * 3 + 1];
+			size_t idx2 = indices[i * 3 + 2];
 
 			tri.p0 = {
 				vertices[idx0].position.x,

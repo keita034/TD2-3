@@ -53,7 +53,7 @@ public:
 	void Initialize();
 
 	Material() = default;
-	~Material() = default;
+	~Material();
 
 private:
 	//コピーコンストラクタ・代入演算子削除

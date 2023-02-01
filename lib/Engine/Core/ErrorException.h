@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4061)
 #pragma warning(disable: 4265)
@@ -38,7 +38,7 @@
 #include<d3d12.h>
 #include<d3d12sdklayers.h>
 #include<d3dcompiler.h>
-#define DIRECTINPUT_VERSION 0x0800	//DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+#define DIRECTINPUT_VERSION 0x0800	//DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 #include<dinput.h>
 #include<d3dx12.h>
 #include<DirectXMath.h>
@@ -49,6 +49,10 @@
 #include<forward_list>
 #include<fstream>
 #include<iterator>
+#include<iostream>
+#include<imgui.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
 #include<memory>
 #include<mmsystem.h>
 #include<sstream>

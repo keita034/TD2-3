@@ -16,8 +16,8 @@ private:
 
 public:
 
-	Sprite3D() = default;
-	~Sprite3D() = default;
+	Sprite3D();
+	~Sprite3D();
 
 	/// <summary>
 	/// ‰Šú‰»

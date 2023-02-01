@@ -13,6 +13,7 @@ private:
 	std::shared_ptr<ConstantBuffer> constBuff;
 	//定数バッファのマッピング用ポインタ
 	worldViewpojCamera constBuffMap;
+	char PADING1[4];
 
 	//初期化用のビュー行列計算
 	static AliceMathF::Matrix4 defaultViewMat;
@@ -32,6 +33,9 @@ public:
 	AliceMathF::Vector3 scale = { 1.0f, 1.0f, 1.0f };
 
 	AliceMathF::Matrix4 matWorld;
+private:
+	char PADING2[4];
+public:
 
 	// 親となるワールド変換へのポインタ
 	const Transform* parent = nullptr;

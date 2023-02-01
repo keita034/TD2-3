@@ -29,6 +29,10 @@ DefaultMaterial* DefaultMaterial::GetDefaultMaterial()
 	return &material;
 }
 
+DefaultMaterial::~DefaultMaterial()
+{
+}
+
 void DefaultMaterial::CreateDefaultTexture()
 {
 	uint32_t handle = TextureManager::Load("Resources/Default/white1x1.png");
@@ -115,6 +119,7 @@ void DefaultMaterial::CreateDefaultLambertMaterial()
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
@@ -151,6 +156,7 @@ void DefaultMaterial::CreateDefaultPhongMaterial()
 	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
 	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
 	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
 	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_PHONG_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_PHONG_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
@@ -375,11 +381,11 @@ void DefaultMaterial::CreateDefaultPostEffectMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_POST_EFFECT_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->vertexShader->Create("Resources/Shaders/2D/PostEffectTestVS.hlsl");
+	DEFAULT_POST_EFFECT_MATERIAL->vertexShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTestVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_POST_EFFECT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffectTestPS.hlsl", "main", "ps_5_0");
+	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTestPS.hlsl", "main", "ps_5_0");
 
 	//頂点レイアウト設定
 	DEFAULT_POST_EFFECT_MATERIAL->inputLayouts =
@@ -400,11 +406,8 @@ void DefaultMaterial::CreateDefaultPostEffectMaterial()
 
 	//ルートシグネチャ設定
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
-	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->AddStaticSampler(0);//s0
-	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->AddStaticSampler(1);//s1
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 	//生成

@@ -1,6 +1,14 @@
 #include "Sprite3D.h"
 
 
+Sprite3D::Sprite3D()
+{
+}
+
+Sprite3D::~Sprite3D()
+{
+}
+
 void Sprite3D::Initialize(const uint32_t handle)
 {
 	texture = TextureManager::GetTextureData(handle);
@@ -17,11 +25,11 @@ void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, Billb
 {
 	AliceMathF::Matrix4 mTrans, mRot, mScale;
 
-	//平行移動行列
+	//???s????s??
 	mTrans.MakeTranslation(transform.translation);
-	//回転行列
+	//??]?s??
 	mRot.MakeRotation(transform.rotation);
-	//スケール行列
+	//?X?P?[???s??
 	mScale.MakeScaling(transform.scale);
 
 	switch (flag)
@@ -120,7 +128,7 @@ void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, Billb
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
 		spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE2D_MATERIAL[0].get();
-		printf("ブレンドの種類数を入れています");
+		printf("?u?????h???????????????");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
 		if (material)
@@ -129,12 +137,12 @@ void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, Billb
 		}
 		else
 		{
-			printf("マテリアルがnullです");
+			printf("?}?e???A????null???");
 			spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE2D_MATERIAL[0].get();
 		}
 		break;
 	default:
-		printf("ブレンドの範囲外を入れています");
+		printf("?u?????h????O??????????");
 		assert(0);
 		break;
 
@@ -162,26 +170,26 @@ void Sprite3D::Draw(Transform& transform, BlendMode blend, Material* material)
 	float texRight = trimmingRange.z / static_cast<float>(texture->width);
 	float texBottom = trimmingRange.w / static_cast<float>(texture->height);
 
-	// 頂点データ
+	// ???_?f?[?^
 	PosUvColor vertices[] =
 	{//		x		y		z		u	v
-		{{left,top,0.0f},{texLeft,texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//左上インデックス0
-		{{left,bottom,0.0f},{texLeft,texBottom},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//左下インデックス1
-		{{right,top,0.0f},{texRight,texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//右上インデックス2
-		{{right,bottom,0.0f},{texRight,texBottom},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//右下インデックス3
+		{{left,top,0.0f},{texLeft,texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//????C???f?b?N?X0
+		{{left,bottom,0.0f},{texLeft,texBottom},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?????C???f?b?N?X1
+		{{right,top,0.0f},{texRight,texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?E??C???f?b?N?X2
+		{{right,bottom,0.0f},{texRight,texBottom},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?E???C???f?b?N?X3
 	};
 
-	// インデックスデータ
+	// ?C???f?b?N?X?f?[?^
 	uint32_t indices[] =
 	{
-		1, 0, 3, // 三角形1つ目
-		2, 3, 0, // 三角形2つ目
+		1, 0, 3, // ?O?p?`1???
+		2, 3, 0, // ?O?p?`2???
 	};
 
-	//頂点バッファへのデータ転送
+	//???_?o?b?t?@???f?[?^?]??
 	vertexBuffer->Update(vertices);
 
-	//インデックスバッファへのデータ転送
+	//?C???f?b?N?X?o?b?t?@???f?[?^?]??
 	indexBuffer->Update(indices);
 
 	switch (blend)
@@ -206,7 +214,7 @@ void Sprite3D::Draw(Transform& transform, BlendMode blend, Material* material)
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
 		spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE2D_MATERIAL[0].get();
-		printf("ブレンドの種類数を入れています");
+		printf("?u?????h???????????????");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
 		if (material)
@@ -215,12 +223,12 @@ void Sprite3D::Draw(Transform& transform, BlendMode blend, Material* material)
 		}
 		else
 		{
-			printf("マテリアルがnullです");
+			printf("?}?e???A????null???");
 			spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE2D_MATERIAL[0].get();
 		}
 		break;
 	default:
-		printf("ブレンドの範囲外を入れています");
+		printf("?u?????h????O??????????");
 		assert(0);
 		break;
 
@@ -240,7 +248,7 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 
 	float widthU = static_cast<float>(width) / (texRight * static_cast<float>(texture->width));
 
-	//画像の半分のサイズ
+	//?????????T?C?Y
 
 	if (texture->width / width < animeFrame + 1)
 	{
@@ -256,26 +264,26 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 	float top = ((0.0f - anchorPoint.y) * static_cast<float>(height / 10)) * isFlipY;
 	float bottom = ((1.0f - anchorPoint.y) * static_cast<float>(height / 10)) * isFlipY;
 
-	// 頂点データ
+	// ???_?f?[?^
 	PosUvColor vertices[] =
 	{//		x		y		z		u	v
-		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
-		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
-		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
-		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
+		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//????C???f?b?N?X0
+		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?????C???f?b?N?X1
+		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?E??C???f?b?N?X2
+		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{texture->color.x,texture->color.y,texture->color.z,texture->color.w}},//?E???C???f?b?N?X3
 	};
 
-	// インデックスデータ
+	// ?C???f?b?N?X?f?[?^
 	uint32_t indices[] =
 	{
-		1, 0, 3, // 三角形1つ目
-		2, 3, 0, // 三角形2つ目
+		1, 0, 3, // ?O?p?`1???
+		2, 3, 0, // ?O?p?`2???
 	};
 
-	//頂点バッファへのデータ転送
+	//???_?o?b?t?@???f?[?^?]??
 	vertexBuffer->Update(vertices);
 
-	//インデックスバッファへのデータ転送
+	//?C???f?b?N?X?o?b?t?@???f?[?^?]??
 	indexBuffer->Update(indices);
 
 	switch (blend)
@@ -300,7 +308,7 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
 		spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE3D_MATERIAL[0].get();
-		printf("ブレンドの種類数を入れています");
+		printf("?u?????h???????????????");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
 		if (material)
@@ -309,12 +317,12 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		}
 		else
 		{
-			printf("マテリアルがnullです");
+			printf("?}?e???A????null???");
 			spriteMaterial = DefaultMaterial::GetDefaultMaterial()->DEFAULT_SPRITE2D_MATERIAL[0].get();
 		}
 		break;
 	default:
-		printf("ブレンドの範囲外を入れています");
+		printf("?u?????h????O??????????");
 		assert(0);
 		break;
 	}
@@ -329,11 +337,11 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 {
 	AliceMathF::Matrix4 mTrans, mRot, mScale;
 
-	//平行移動行列
+	//???s????s??
 	mTrans.MakeTranslation(transform.translation);
-	//回転行列
+	//??]?s??
 	mRot.MakeRotation(transform.rotation);
-	//スケール行列
+	//?X?P?[???s??
 	mScale.MakeScaling(transform.scale);
 
 	switch (flag)

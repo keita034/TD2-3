@@ -162,7 +162,7 @@ void TextureManager::Initialize()
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
-	filePaths.resize(2024);
+	filePaths.resize(static_cast<size_t>(2024));
 }
 
 TextureManager* TextureManager::GetInstance()

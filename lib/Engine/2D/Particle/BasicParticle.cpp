@@ -2,6 +2,10 @@
 #include"DefaultMaterial.h"
 #include"DirectX12Core.h"
 
+BasicParticle::~BasicParticle()
+{
+}
+
 void BasicParticle::Initialize()
 {
 	device = DirectX12Core::GetInstance()->GetDevice();
@@ -40,7 +44,7 @@ void BasicParticle::Update()
 		float f = static_cast<float>(it->frame) / static_cast<float>(it->numFrame);
 
 		//スケールの線形補間
-		it->scale = AliceMathF::Lerp(it->sScale , it->eScale, f);
+		it->scale = AliceMathF::Lerp(it->sScale, it->eScale, f);
 
 		//回転角の線形補間
 		it->rotation = AliceMathF::Lerp(it->sRotation, it->eRotation, f);

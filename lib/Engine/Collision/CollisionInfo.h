@@ -10,10 +10,7 @@ class BaseCollider;
 struct CollisionInfo
 {
 public:
-	CollisionInfo(BaseCollider* collider, const AliceMathF::Vector4& inter) {
-		this->collider = collider;
-		this->inter = inter;
-	}
+	CollisionInfo(BaseCollider* coll, const AliceMathF::Vector4& inte);
 
 	// 衝突相手のコライダー
 	BaseCollider* collider = nullptr;

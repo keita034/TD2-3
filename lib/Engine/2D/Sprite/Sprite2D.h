@@ -13,8 +13,8 @@ private:
 
 public:
 
-	Sprite2D() = default;
-	~Sprite2D() = default;
+	Sprite2D();
+	~Sprite2D();
 	
 	/// <summary>
 	/// ‰Šú‰»

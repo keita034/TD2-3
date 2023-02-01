@@ -1,8 +1,6 @@
 #include "Model.h"
 #include"PrimitiveModel.h"
 #include"objModel.h"
-#include "BaseCollider.h"
-#include "CollisionManager.h"
 
 Light* Model::light = nullptr;
 Microsoft::WRL::ComPtr<ID3D12Device> Model::device;
@@ -366,4 +364,8 @@ void Model::CommonInitialize()
 	computeRelation.computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 	filePaths.resize(maxModel);
+}
+
+ModelData::~ModelData()
+{
 }

@@ -183,10 +183,10 @@ namespace AliceMathF
 	Vector4 Vec4CmpltPs(const Vector4& vec, const Vector4& vec2)
 	{
 		Vector4 tmp;
-		tmp.x = vec.x < vec2.x ? 0xffffffff : 0x0;
-		tmp.y = vec.y < vec2.y ? 0xffffffff : 0x0;
-		tmp.z = vec.z < vec2.z ? 0xffffffff : 0x0;
-		tmp.w = vec.w < vec2.w ? 0xffffffff : 0x0;
+		tmp.x = vec.x < vec2.x ? static_cast<float>(0xffffffff) : static_cast<float>(0x0);
+		tmp.y = vec.y < vec2.y ? static_cast<float>(0xffffffff) :static_cast<float>( 0x0);
+		tmp.z = vec.z < vec2.z ? static_cast<float>(0xffffffff) :static_cast<float>( 0x0);
+		tmp.w = vec.w < vec2.w ? static_cast<float>(0xffffffff) :static_cast<float>( 0x0);
 		return tmp;
 	}
 }

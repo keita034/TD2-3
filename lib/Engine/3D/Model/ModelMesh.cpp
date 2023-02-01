@@ -1,5 +1,8 @@
 #include"ModelMesh.h"
 #include<atldef.h>
+ModelMesh::~ModelMesh()
+{
+}
 void ModelMesh::CreateBuffer()
 {
 	//頂点バッファ生成

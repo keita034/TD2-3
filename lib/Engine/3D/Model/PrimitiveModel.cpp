@@ -12,7 +12,7 @@ void PrimitiveModel::Create(ModelShape shape, ModelData* data)
 
 		//頂点バッファ・インデックス生成
 		data->vertexBuffer = std::make_unique<ComputeVertexBuffer>();
-		data->vertexBuffer->Create(data->maxVert,sizeof(PosNormalUv));
+		data->vertexBuffer->Create(data->maxVert, sizeof(PosNormalUv));
 
 		data->indexBuffer = std::make_unique<IndexBuffer>();
 		data->indexBuffer->Create(data->maxIndex);
@@ -91,7 +91,7 @@ void PrimitiveModel::CubeCreate(ModelData* data)
 
 	// 頂点データ
 	//正面
-	PosNormalUv vertexInf = {{ -1.0f, -1.0f, -1.0f }, {}, { 0.0f, 1.0f } };//左上インデックス0
+	PosNormalUv vertexInf = { { -1.0f, -1.0f, -1.0f }, {}, { 0.0f, 1.0f } };//左上インデックス0
 	data->vertices.push_back(vertexInf);
 	vertexInf = { {-1.0f, 1.0f,-1.0f},{},{ 0.0f, 0.0f} };//左下インデックス1
 	data->vertices.push_back(vertexInf);
@@ -618,9 +618,9 @@ void PrimitiveModel::CylinderCreate(ModelData* data)
 		uint32_t Index1 = data->indices[static_cast<std::vector<uint32_t, std::allocator<uint32_t>>::size_type>(i) * 3 + 1];
 		uint32_t Index2 = data->indices[static_cast<std::vector<uint32_t, std::allocator<uint32_t>>::size_type>(i) * 3 + 2];
 		//三角形を構成する頂点座標をベクトルに代入
-		AliceMathF::Vector3 p0 =data-> vertices[Index0].pos;
-		AliceMathF::Vector3 p1 =data-> vertices[Index1].pos;
-		AliceMathF::Vector3 p2 =data-> vertices[Index2].pos;
+		AliceMathF::Vector3 p0 = data->vertices[Index0].pos;
+		AliceMathF::Vector3 p1 = data->vertices[Index1].pos;
+		AliceMathF::Vector3 p2 = data->vertices[Index2].pos;
 		//p0->p1ベクトル、p0->p2ベクトルを計算(ベクトルの減算)
 		AliceMathF::Vector3 v1 = p1 - p0;
 		AliceMathF::Vector3 v2 = p2 - p0;
