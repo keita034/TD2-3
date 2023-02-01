@@ -154,7 +154,6 @@ void UserCamera::LabyrinthCamera() {
 
 	target = playerPos;
 	vTargetEye = playerPos + (forward * playerCameraDistance);
-	vTargetEye.y = -vTargetEye.y;
 }
 
 void UserCamera::MultiplyMatrix(const AliceMathF::Matrix4& matrix) {
