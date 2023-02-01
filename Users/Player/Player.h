@@ -48,7 +48,13 @@ public:
 
 	void PlayerGravitie();
 
+	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
+
 	AliceMathF::Vector3 bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform);
+
+	AliceMathF::Vector3 Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m);
+
+	void SetCameraRot(AliceMathF::Matrix4 camera) { CameraRot = camera; }
 
 private:
 
@@ -77,4 +83,7 @@ private:
 
 	int playerSurfacePos = 0;
 
+	int isPlayerNearCorner[6] = { 0 };
+
+	AliceMathF::Matrix4 CameraRot;
 };

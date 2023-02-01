@@ -44,12 +44,13 @@ private:
 
 	std::unique_ptr<CinemaCamera> camera;
 
-	UserCamera* userCamera = nullptr;
+	std::unique_ptr<UserCamera> userCamera = nullptr;
+	int cameraType = 0;
 
 	std::unique_ptr<Stage> stage;
 
 	uint32_t modelHandle1 = 0u;
-	Player* player = nullptr;
+	std::unique_ptr<Player> player;
 
 	TouchableObject* objGround = nullptr;
 
