@@ -139,7 +139,7 @@ void UserCamera::LabyrinthCamera() {
 	mouseMoved += AliceMathF::Vector2(MouseMove.x, MouseMove.y) / 500;
 	SetCursorPos(xPos_absolute, yPos_absolute);
 
-	AliceMathF::Vector3 rotation = AliceMathF::Vector3(mouseMoved.x, mouseMoved.y, 0);
+	AliceMathF::Vector3 rotation = AliceMathF::Vector3(-mouseMoved.x, mouseMoved.y, 0);
 
 	AliceMathF::Matrix4 cameraRot;
 

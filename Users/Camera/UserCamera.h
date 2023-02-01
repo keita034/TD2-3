@@ -67,6 +67,6 @@ private:
 	Transform worldTransform_;
 
 	AliceMathF::Matrix4 CameraRot;
-	float playerCameraDistance = 6.0f;
+	float playerCameraDistance = 10.0f;
 
 };
