@@ -74,4 +74,7 @@ private:
 
 	AliceMathF::Vector3 origin = { 0,0,0 };
 
+
+	int playerSurfacePos = 0;
+
 };
