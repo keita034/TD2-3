@@ -29,7 +29,6 @@ void GameScene::Initialize()
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
-	userCamera = new UserCamera(1280, 720);
 
 	stage = std::make_unique<Stage>();
 
@@ -37,10 +36,10 @@ void GameScene::Initialize()
 
 	modelHandle1 = Model::CreateObjModel("Resources/Player");
 
-	player = new Player(modelHandle1);
+	player = std::make_unique<Player>(modelHandle1);
 	player->Initialise();
 
-
+	userCamera = std::make_unique<UserCamera>(1280, 720);
 	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
 	//ground = new Ground();
@@ -49,13 +48,14 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-	AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
+	/*AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
 
-	camera->MovePosition(move);
+	camera->MovePosition(move);*/
 
-	userCamera->Update();
-	camera->SetEye(camera->GetTarget() + userCamera->GetEye());
-	camera->SetUp(userCamera->GetUp());
+	if (cameraType == 1) {
+		player->SetCameraRot(userCamera->GetCameraRot());
+	}
+	
 
 	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
 	{
@@ -75,6 +75,31 @@ void GameScene::Update()
 	stage->Update(camera.get());
 
 	player->Update(camera.get());
+
+	if (input->TriggerPush(DIK_SPACE)) {
+		if (cameraType == 0) {
+			cameraType = 1;
+		}
+		else {
+			cameraType = 0;
+		}
+	}
+
+	userCamera->SetCameraType(cameraType);
+	userCamera->SetCameraPosition(player->GetPlayerPos());
+	userCamera->Update();
+	if (cameraType == 0) {
+
+		camera->SetTarget(AliceMathF::Vector3(0.0f, 0.0f, 0.0f));
+
+		camera->SetEye(camera->GetTarget() + userCamera->GetEye());
+		camera->SetUp(userCamera->GetUp());
+	}
+	else {
+		camera->SetEye(userCamera->GetEye());
+		camera->SetTarget(userCamera->GetTarget());
+	}
+
 
 	//ground->Update(camera.get());
 

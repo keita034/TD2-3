@@ -31,7 +31,7 @@ Player::Player(uint32_t modelHandl) {
 
 void Player::Initialise() {
 
-	worldTransform_.translation = { 0,-30,-100 };
+	worldTransform_.translation = { 0,80,0 };
 
 
 }
@@ -336,6 +336,10 @@ void Player::PlayerMove() {
 		playerMovement.y = -playerSpeed;
 	}
 
+	playerMovement = Vector3Transform(playerMovement, CameraRot);
+	playerMovement.y = 0;
+	worldTransform_.translation += playerMovement;
+
 	worldTransform_.translation += playerMovement;
 }
 
@@ -520,6 +524,17 @@ AliceMathF::Vector3 Player::bVelocity(AliceMathF::Vector3& velocity, Transform& 
 		velocity.y * worldTransform.matWorld.m[1][2] +
 		velocity.z * worldTransform.matWorld.m[2][2];
 
+
+	return result;
+}
+
+AliceMathF::Vector3 Player::Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m) {
+
+	AliceMathF::Vector3 result{
+		  v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + m.m[3][0],
+		  v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + m.m[3][1],
+		  v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + m.m[3][2]
+	};
 
 	return result;
 }
