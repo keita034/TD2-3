@@ -11,7 +11,7 @@ public:
 
 	UserCamera(int window_width, int window_height);
 
-	void Initialize();
+	void Initialize(AliceMathF::Matrix4 playerPos);
 
 	void Update();
 

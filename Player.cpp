@@ -23,7 +23,7 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-
+	worldTransform_.translation = { 0,0,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -31,7 +31,6 @@ Player::Player(uint32_t modelHandl) {
 
 void Player::Initialise() {
 
-	worldTransform_.translation = { 0,80,0 };
 
 
 }
@@ -52,8 +51,8 @@ void Player::PlayerJump(Camera* camera) {
 
 	// ƒWƒƒƒ“ƒv‘€ì
 	if (input_->TriggerPush(DIK_SPACE)) {
-	const float jumpVYFist = 0.5f;
-	worldTransform_.translation.y += jumpVYFist;
+		const float jumpVYFist = 0.5f;
+		worldTransform_.translation.y += jumpVYFist;
 	}
 
 	worldTransform_.TransUpdate(camera);
@@ -245,16 +244,16 @@ void Player::PlayerMove() {
 
 	if (playerSurfacePos == 0) {
 		if (input_->KeepPush(DIK_W)) {
-			playerMovement.x = playerSpeed;
+			playerMovement.z = -playerSpeed;
 		}
 		if (input_->KeepPush(DIK_A)) {
-			playerMovement.z = playerSpeed;
+			playerMovement.x = playerSpeed;
 		}
 		if (input_->KeepPush(DIK_S)) {
-			playerMovement.x = -playerSpeed;
+			playerMovement.z = playerSpeed;
 		}
 		if (input_->KeepPush(DIK_D)) {
-			playerMovement.z = -playerSpeed;
+			playerMovement.x = -playerSpeed;
 		}
 	}
 	else if (playerSurfacePos == 1) {
@@ -340,7 +339,6 @@ void Player::PlayerMove() {
 	playerMovement.y = 0;
 	worldTransform_.translation += playerMovement;
 
-	worldTransform_.translation += playerMovement;
 }
 
 void Player::PlayerCollider(Camera* camera)
@@ -508,25 +506,6 @@ void Player::Draw() {
 	model->Draw(worldTransform_);
 }
 
-AliceMathF::Vector3 Player::bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform) {
-
-	AliceMathF::Vector3 result = { 0, 0, 0 };
-
-	result.x = velocity.x * worldTransform.matWorld.m[0][0] +
-		velocity.y * worldTransform.matWorld.m[1][0] +
-		velocity.z * worldTransform.matWorld.m[2][0];
-
-	result.y = velocity.x * worldTransform.matWorld.m[0][1] +
-		velocity.y * worldTransform.matWorld.m[1][1] +
-		velocity.z * worldTransform.matWorld.m[2][1];
-
-	result.z = velocity.x * worldTransform.matWorld.m[0][2] +
-		velocity.y * worldTransform.matWorld.m[1][2] +
-		velocity.z * worldTransform.matWorld.m[2][2];
-
-
-	return result;
-}
 
 AliceMathF::Vector3 Player::Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m) {
 

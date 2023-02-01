@@ -30,7 +30,7 @@ UserCamera::UserCamera(int window_width, int window_height) {
 
 }
 
-void UserCamera::Initialize() {
+void UserCamera::Initialize(AliceMathF::Matrix4 playerPos) {
 
 
 

@@ -50,6 +50,8 @@ public:
 
 	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
 
+    Transform* GetWorldTransform() { return &worldTransform_; }
+
 	AliceMathF::Vector3 bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform);
 
 	AliceMathF::Vector3 Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m);
@@ -67,7 +69,7 @@ private:
 	float gravity = 9.0f;
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
-	
+
 	bool ground = false;
 
 	// コライダーの追加
