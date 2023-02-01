@@ -2,7 +2,7 @@
 #include "Collision.h"
 
 using namespace DirectX;
-void MeshCollider::ConstructTriangles(Model* model)
+void MeshCollider::ConstructTriangles(std::unique_ptr<Model>& model,AliceMathF::Matrix4 matWorld)
 {
 	triangles.clear();
 
@@ -30,17 +30,24 @@ void MeshCollider::ConstructTriangles(Model* model)
 				vertices[idx0].pos.z,
 				1 };
 
+			tri.p0 = AliceMathF::Vec4Mat4Mul(tri.p0, matWorld);
+
+
 			tri.p1 = {
 				vertices[idx1].pos.x,
 				vertices[idx1].pos.y,
 				vertices[idx1].pos.z,
 				1 };
 
+			tri.p1 = AliceMathF::Vec4Mat4Mul(tri.p1, matWorld);
+
 			tri.p2 = {
 				vertices[idx2].pos.x,
 				vertices[idx2].pos.y,
 				vertices[idx2].pos.z,
 				1 };
+
+			tri.p2 = AliceMathF::Vec4Mat4Mul(tri.p2, matWorld);
 
 			tri.ComputeNormal();
 		}

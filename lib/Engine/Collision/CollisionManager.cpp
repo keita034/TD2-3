@@ -11,7 +11,7 @@ CollisionManager* CollisionManager::GetInstance()
 	return &instance;
 }
 
-void CollisionManager::CheckAllCollisions(AliceMathF::Matrix4 PlayerMatWorldPos)
+void CollisionManager::CheckAllCollisions()
 {
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;

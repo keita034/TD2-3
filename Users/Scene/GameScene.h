@@ -25,6 +25,11 @@
 #include"UserCamera.h"
 #include "Stage.h"
 #include "BaseScene.h"
+#include"Player.h"
+#include "TouchableObject.h"
+#include "Ground.h"
+
+class CollisionManager;
 
 class GameScene : public BaseScene
 {
@@ -42,6 +47,17 @@ private:
 	UserCamera* userCamera = nullptr;
 
 	std::unique_ptr<Stage> stage;
+
+	uint32_t modelHandle1 = 0u;
+	Player* player = nullptr;
+
+	TouchableObject* objGround = nullptr;
+
+
+	CollisionManager* collisionManager = nullptr;
+
+	uint32_t modelHandle2 = 0u;
+	//Ground* ground = nullptr;
 
 public:
 

@@ -447,6 +447,9 @@
     <ClInclude Include="Users\PostEffectFactory.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -836,6 +839,9 @@
     </ClCompile>
     <ClCompile Include="Users\PostEffectFactory.cpp">
       <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

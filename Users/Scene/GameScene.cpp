@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include"CollisionManager.h"
 
 GameScene::GameScene()
 {
@@ -21,16 +22,29 @@ void GameScene::Initialize()
 	//モデルにライトをセット
 	Model::SetLight(light.get());
 
+	collisionManager = CollisionManager::GetInstance();
+
 	camera = std::make_unique<CinemaCamera>();
 //	camera->SetEye({ -27.0000000f, 226.199310f, -241.000000f });
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
-	userCamera = new UserCamera(1280, 640);
+	userCamera = new UserCamera(1280, 720);
 
 	stage = std::make_unique<Stage>();
 
-	stage->Initialize();
+	stage->Initialize(camera.get());
+
+	modelHandle1 = Model::CreateObjModel("Resources/Player");
+
+	player = new Player(modelHandle1);
+	player->Initialise();
+
+
+	modelHandle2 = Model::CreateObjModel("Resources/Wall");
+
+	//ground = new Ground();
+	//ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
@@ -59,11 +73,22 @@ void GameScene::Update()
 	}
 
 	stage->Update(camera.get());
+
+	player->Update(camera.get());
+
+	//ground->Update(camera.get());
+
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollisions();
 }
 
 void GameScene::Draw()
 {
 	stage->Draw();
+
+	player->Draw();
+
+	//ground->Draw();
 }
 
 void GameScene::Finalize()
