@@ -44,12 +44,7 @@ void GameScene::Initialize()
 	modelHandle2 = Model::CreateObjModel("Resources/cube3");
 
 	model->SetBlendModel({ modelHandle1,modelHandle2 });
-	FbxModel = std::make_unique<fbxModel>();
-	FbxModel->Initialize();
-	FbxModel->Create("Resources/FBX",false,false,true,false);
-
-	fbxAnim = std::make_unique<fbxAnimation>();
-	FbxLoader::GetInstance()->LoadAnimation(fbxAnim.get(), "Resources/FBX","test");
+	
 
 	player = new Player(modelHandle1);
 	player->Initialise();
@@ -59,67 +54,13 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-	AliceMathF::Vector3 move = { 0.0f,0.0f,0.0f };
 
-	fram += 0.03f;
-	FbxModel->AnimationUpdate(fbxAnim.get(), fram);
+
 	if (cameraType == 1) {
 		player->SetCameraRot(userCamera->GetCameraRot());
 	}
 	player->Update(camera.get());
-	//model->BlendShapeUpdate(fram);
-
-	/*if (input->KeepPush(DIK_W))
-	{
-		move += {0.0f, 0.0f, 1.0f};
-	}
-	if (input->KeepPush(DIK_S))
-	{
-		move -= {0.0f, 0.0f, 1.0f};
-	}
-
-	if (input->KeepPush(DIK_A))
-	{
-		move += {1.0f, 0.0f, 0.0f};
-	}
-	if (input->KeepPush(DIK_D))
-	{
-		move -= {1.0f, 0.0f, 0.0f};
-	}
-
-	if (input->KeepPush(DIK_Z))
-	{
-		move += {0.0f, 1.0f, 0.0f};
-		camera->MoveTarget({ 0.0f, 1.0f, 0.0f });
-	}
-	if (input->KeepPush(DIK_X))
-	{
-		move -= {0.0f, 1.0f, 0.0f};
-		camera->MoveTarget({ 0.0f, -1.0f, 0.0f });
-	}
-
-	if (input->KeepPush(DIK_UP))
-	{
-		move += {0.0f, 1.0f, 0.0f};
-	}
-	if (input->KeepPush(DIK_DOWN))
-	{
-		move -= {0.0f, 1.0f, 0.0f};
-	}
-
-	if (input->KeepPush(DIK_I))
-	{
-		lns += 0.1f;
-		camera->SetFocalLength(lns);
-	}
-	if (input->KeepPush(DIK_K))
-	{
-		lns -= 0.1f;
-		camera->SetFocalLength(lns);
-
-	}
-
-	camera->MovePosition(move);*/
+	
 
 	if (input->TriggerPush(DIK_SPACE)) {
 		if (cameraType == 0) {
@@ -136,8 +77,6 @@ void GameScene::Update()
 	if (cameraType == 0) {
 
 		camera->SetTarget(AliceMathF::Vector3(0.0f,0.0f,0.0f));
-		p = camera->GetTarget();
-		p = userCamera->GetEye();
 		camera->SetEye(camera->GetTarget() + userCamera->GetEye());
 		camera->SetUp(userCamera->GetUp());
 	}
@@ -145,32 +84,14 @@ void GameScene::Update()
 		camera->SetEye(userCamera->GetEye());
 		camera->SetTarget(userCamera->GetTarget());
 	}
-
-
-	p = camera->GetEye();
 	
-	camera->Update();
-	trans.TransUpdate(camera.get());
-
-	//trans.GetWorldViewpojCamera()->matWorld =
-	//{
-	//	1.50888f,0.0f,0.0f ,0.0f
-	//	,0.0f, 2.40228f,-0.099317f,-0.0993071f,
-	//	0.0f,0.239748f,0.995156f,0.995057f,
-	//0.0f,-24.0707,101.402f,101.492 };
-	//trans.Update();
-
-	//fram += 0.01f;
+	
 
 
 }
 
 void GameScene::Draw()
 {
-	FbxModel->Draw(&trans);
-	//model->Draw(&trans);
-
-	//sprite->Draw(trans);
 
 	player->Draw();
 
