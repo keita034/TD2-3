@@ -55,7 +55,7 @@ private:
 	bool updateProjMatrix = true;
 	//ビュー行列の更新フラグ
 	bool updateViewMatrix = true;
-	char PADING1[2]{};
+	char PADDING[2]{};
 
 	//注視点と視点の距離
 	float tgtToPosLen = 0.0f;
@@ -64,7 +64,7 @@ private:
 	AliceMathF::Vector3 forward = { 0.0f,0.0f,0.0f };
 
 	bool simpleFollowWithWorldUp = false;
-	char PADING2[3]{};
+	char PADDING2[3]{};
 
 	//焦点距離
 	float focalLength = 70.0f;
@@ -72,8 +72,6 @@ private:
 	SensorSize sensorSize = SensorSize::MEDIUM_FORMAT;
 	//画角計算フラグ
 	bool updatefovAngleY;
-	char PADING3[3];
-
 	//センサーサイズ
 	CinemaCameraSensorSize cameraSensorSize = { 43.8f,32.8f };
 	//F値

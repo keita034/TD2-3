@@ -12,3 +12,23 @@ void SphereCollider::Update(const AliceMathF::Matrix4& worldPos)
 	Sphere::center = AliceMathF::Vector4(matWorld.m[3][0], matWorld.m[3][1], matWorld.m[3][2], matWorld.m[3][3]) + offset;
 	Sphere::radius = radius;
 }
+
+void SphereCollider::SetRadius(float rad)
+{
+	radius = rad;
+}
+
+const AliceMathF::Vector4& SphereCollider::GetOffset()
+{
+	return offset;
+}
+
+void SphereCollider::SetOffset(const AliceMathF::Vector4& off)
+{
+	offset = off;
+}
+
+float SphereCollider::GetRadius()
+{
+	return radius;
+}

@@ -112,13 +112,4 @@ struct FieldElement
 	bool isDraw = true;
 
 	void Draw();
-
 };
-
-inline void FieldElement::Draw()
-{
-	if (isDraw)
-	{
-		surfacePartsModel->Draw(surfacePartsModelTrans);
-	}
-}

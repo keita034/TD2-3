@@ -26,3 +26,11 @@ void GameMain::Draw()
 {
 	AliceFramework::Draw();
 }
+
+GameMain::GameMain()
+{
+}
+
+GameMain::~GameMain()
+{
+}

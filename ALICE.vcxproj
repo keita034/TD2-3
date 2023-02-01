@@ -67,7 +67,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)lib\Engine\Util;$(ProjectDir)Users;$(ProjectDir)Users\Scene;$(ProjectDir)Users\Stage;$(ProjectDir)Users\Stage\Fold;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Core\DirectX;$(ProjectDir)lib\Engine\Core\Buffer;$(ProjectDir)lib\Engine\Core\Framework;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)lib\Engine\Util;$(ProjectDir)lib\Engine\Scene;$(ProjectDir)Users;$(ProjectDir)Users\Scene;$(ProjectDir)Users\Stage;$(ProjectDir)Users\Stage\Fold;$(ProjectDir)Users\Player;$(ProjectDir)Users\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)lib\Engine\Util;$(ProjectDir)Users;$(ProjectDir)Users\Scene;$(ProjectDir)Users\Stage;$(ProjectDir)Users\Stage\Fold;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)lib\Engine\2D;$(ProjectDir)lib\Engine\2D\Sprite;$(ProjectDir)lib\Engine\2D\Particle;$(ProjectDir)lib\Engine\2D\PostEffect;$(ProjectDir)lib\Engine\Collision;$(ProjectDir)lib\Engine\3D\Model;$(ProjectDir)lib\Engine\Camera;$(ProjectDir)lib\Engine\Audio;$(ProjectDir)lib\Engine\3D;$(ProjectDir)lib\Engine\Core;$(ProjectDir)lib\Engine\Core\DirectX;$(ProjectDir)lib\Engine\Core\Buffer;$(ProjectDir)lib\Engine\Core\Framework;$(ProjectDir)lib\Engine\Math\float;$(ProjectDir)lib\Engine\Math\double;$(ProjectDir)lib\Engine\Math;$(ProjectDir)lib\Engine\Light;$(ProjectDir)lib\Engine\Input;$(ProjectDir)lib\Engine\Util;$(ProjectDir)lib\Engine\Scene;$(ProjectDir)Users;$(ProjectDir)Users\Scene;$(ProjectDir)Users\Stage;$(ProjectDir)Users\Stage\Fold;$(ProjectDir)Users\Player;$(ProjectDir)Users\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -109,16 +109,15 @@
     <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\LutPostEffect.h" />
+    <ClInclude Include="Users\Player\Player.h" />
     <ClInclude Include="Users\PostEffectFactory.h" />
-    <ClInclude Include="Users\Scene\AbstractSceneFactory.h" />
-    <ClInclude Include="Users\Scene\BaseScene.h" />
+    <ClInclude Include="lib\Engine\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="lib\Engine\Scene\BaseScene.h" />
     <ClInclude Include="Users\Stage\Fold\BesideFold.h" />
     <ClInclude Include="Users\Stage\Fold\FieldConstant.h" />
-    <ClInclude Include="lib\Engine\Core\AliceFramework.h" />
+    <ClInclude Include="lib\Engine\Core\Framework\AliceFramework.h" />
     <ClInclude Include="lib\Engine\Core\ImGuiManager.h" />
-    <ClInclude Include="BesideFold.h" />
-    <ClInclude Include="FieldConstant.h" />
-    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Users\Stage\Ground.h" />
     <ClInclude Include="lib\Engine\2D\Button.h" />
     <ClInclude Include="lib\Engine\2D\Cursor.h" />
     <ClInclude Include="lib\Engine\2D\Mesh.h" />
@@ -154,24 +153,24 @@
     <ClInclude Include="lib\Engine\Collision\RaycastHit.h" />
     <ClInclude Include="lib\Engine\Collision\SphereCollider.h" />
     <ClInclude Include="lib\Engine\Collision\TouchableObject.h" />
-    <ClInclude Include="lib\Engine\Core\ComputePipelineState.h" />
-    <ClInclude Include="lib\Engine\Core\ComputeVertexBuffer.h" />
-    <ClInclude Include="lib\Engine\Core\ConstantBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\ComputePipelineState.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\ComputeVertexBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\ConstantBuffer.h" />
     <ClInclude Include="lib\Engine\Core\DefaultMaterial.h" />
-    <ClInclude Include="lib\Engine\Core\DescriptorHeap.h" />
-    <ClInclude Include="lib\Engine\Core\DirectX12Core.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\DescriptorHeap.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\DirectX12Core.h" />
     <ClInclude Include="lib\Engine\Core\ErrorException.h" />
     <ClInclude Include="lib\Engine\Core\FPS.h" />
     <ClInclude Include="Users\GameMain.h" />
-    <ClInclude Include="lib\Engine\Core\IndexBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\IndexBuffer.h" />
     <ClInclude Include="lib\Engine\Core\Material.h" />
-    <ClInclude Include="lib\Engine\Core\PipelineState.h" />
-    <ClInclude Include="lib\Engine\Core\RootSignature.h" />
-    <ClInclude Include="lib\Engine\Core\RWStructuredBuffer.h" />
-    <ClInclude Include="lib\Engine\Core\Shader.h" />
-    <ClInclude Include="lib\Engine\Core\StructuredBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\PipelineState.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\RootSignature.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\RWStructuredBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\Shader.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\StructuredBuffer.h" />
     <ClInclude Include="lib\Engine\Core\TextureManager.h" />
-    <ClInclude Include="lib\Engine\Core\VertexBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\VertexBuffer.h" />
     <ClInclude Include="lib\Engine\Core\WindowsApp.h" />
     <ClInclude Include="lib\Engine\Input\Controller.h" />
     <ClInclude Include="lib\Engine\Input\Input.h" />
@@ -191,10 +190,9 @@
     <ClInclude Include="lib\Engine\Math\float\Vector4.h" />
     <ClInclude Include="lib\Engine\Util\AliceFunctionUtility.h" />
     <ClInclude Include="lib\Engine\Util\AliceUtility.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Users\Scene\SceneFactrory.h" />
-    <ClInclude Include="Users\Scene\SceneManager.h" />
+    <ClInclude Include="lib\Engine\Scene\SceneManager.h" />
     <ClInclude Include="Users\Stage\Stage.h" />
     <ClInclude Include="Users\Stage\Fold\SurfaceFold.h" />
     <ClInclude Include="Users\Stage\Fold\SurfaceFoldBottom2.h" />
@@ -204,7 +202,7 @@
     <ClInclude Include="Users\Stage\Fold\SurfaceFoldRight2.h" />
     <ClInclude Include="Users\Stage\Fold\SurfaceFoldTop2.h" />
     <ClInclude Include="Users\Scene\TitleScene.h" />
-    <ClInclude Include="UserCamera.h" />
+    <ClInclude Include="Users\Camera\UserCamera.h" />
     <ClInclude Include="Users\Scene\GameScene.h" />
     <ClInclude Include="Users\Stage\Fold\VerticalFold.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\VignettePostEffect.h" />
@@ -383,14 +381,16 @@
     <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\BasePostEffect.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\LutPostEffect.cpp" />
+    <ClCompile Include="lib\Engine\Collision\BaseCollider.cpp" />
+    <ClCompile Include="lib\Engine\Collision\CollisionInfo.cpp" />
+    <ClCompile Include="Users\Player\Player.cpp" />
     <ClCompile Include="Users\PostEffectFactory.cpp" />
-    <ClCompile Include="Users\Scene\AbstractSceneFactory.cpp" />
-    <ClCompile Include="Users\Scene\BaseScene.cpp" />
-    <ClCompile Include="Users\Stage\Fold\BesideFold.cpp" />
-    <ClCompile Include="lib\Engine\Core\AliceFramework.cpp" />
+    <ClCompile Include="lib\Engine\Scene\AbstractSceneFactory.cpp" />
+    <ClCompile Include="lib\Engine\Scene\BaseScene.cpp" />
+    <ClCompile Include="lib\Engine\Core\Framework\AliceFramework.cpp" />
     <ClCompile Include="lib\Engine\Core\ImGuiManager.cpp" />
-    <ClCompile Include="BesideFold.cpp" />
-    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Users\Stage\Fold\FieldConstant.cpp" />
+    <ClCompile Include="Users\Stage\Ground.cpp" />
     <ClCompile Include="lib\Engine\2D\Button.cpp" />
     <ClCompile Include="lib\Engine\2D\Cursor.cpp" />
     <ClCompile Include="lib\Engine\2D\Mesh.cpp" />
@@ -420,23 +420,23 @@
     <ClCompile Include="lib\Engine\Collision\MeshCollider.cpp" />
     <ClCompile Include="lib\Engine\Collision\SphereCollider.cpp" />
     <ClCompile Include="lib\Engine\Collision\TouchableObject.cpp" />
-    <ClCompile Include="lib\Engine\Core\ComputePipelineState.cpp" />
-    <ClCompile Include="lib\Engine\Core\ComputeVertexBuffer.cpp" />
-    <ClCompile Include="lib\Engine\Core\ConstantBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\ComputePipelineState.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\ComputeVertexBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\ConstantBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\DefaultMaterial.cpp" />
-    <ClCompile Include="lib\Engine\Core\DescriptorHeap.cpp" />
-    <ClCompile Include="lib\Engine\Core\DirectX12Core.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\DescriptorHeap.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\DirectX12Core.cpp" />
     <ClCompile Include="lib\Engine\Core\FPS.cpp" />
     <ClCompile Include="Users\GameMain.cpp" />
-    <ClCompile Include="lib\Engine\Core\IndexBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\Material.cpp" />
-    <ClCompile Include="lib\Engine\Core\PipelineState.cpp" />
-    <ClCompile Include="lib\Engine\Core\RootSignature.cpp" />
-    <ClCompile Include="lib\Engine\Core\RWStructuredBuffer.cpp" />
-    <ClCompile Include="lib\Engine\Core\Shader.cpp" />
-    <ClCompile Include="lib\Engine\Core\StructuredBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\PipelineState.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\RootSignature.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\RWStructuredBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\Shader.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\StructuredBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\TextureManager.cpp" />
-    <ClCompile Include="lib\Engine\Core\VertexBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\WindowsApp.cpp" />
     <ClCompile Include="lib\Engine\Input\Controller.cpp" />
     <ClCompile Include="lib\Engine\Input\Input.cpp" />
@@ -457,9 +457,9 @@
     <ClCompile Include="lib\Engine\Util\AliceFunctionUtility.cpp" />
     <ClCompile Include="lib\Engine\Util\AliceUtility.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Users\Scene\SceneFactrory.cpp" />
-    <ClCompile Include="Users\Scene\SceneManager.cpp" />
+    <ClCompile Include="lib\Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Users\Stage\Fold\BesideFold.cpp" />
     <ClCompile Include="Users\Stage\Stage.cpp" />
     <ClCompile Include="Users\Stage\Fold\SurfaceFold.cpp" />
     <ClCompile Include="Users\Stage\Fold\SurfaceFoldBottom2.cpp" />
@@ -469,7 +469,7 @@
     <ClCompile Include="Users\Stage\Fold\SurfaceFoldRight2.cpp" />
     <ClCompile Include="Users\Stage\Fold\SurfaceFoldTop2.cpp" />
     <ClCompile Include="Users\Scene\TitleScene.cpp" />
-    <ClCompile Include="UserCamera.cpp" />
+    <ClCompile Include="Users\Camera\UserCamera.cpp" />
     <ClCompile Include="Users\Scene\GameScene.cpp" />
     <ClCompile Include="Users\Stage\Fold\VerticalFold.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\VignettePostEffect.cpp" />

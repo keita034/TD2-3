@@ -24,10 +24,10 @@
 #include "CinemaCamera.h"
 #include"UserCamera.h"
 #include "Stage.h"
-#include "BaseScene.h"
 #include"Player.h"
 #include "TouchableObject.h"
 #include "Ground.h"
+#include "BaseScene.h"
 
 class CollisionManager;
 
@@ -83,6 +83,7 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
 private:
 
 	//コピーコンストラクタ・代入演算子削除

@@ -72,10 +72,10 @@ void Mesh::DrawBox(float x, float y, float radiusX, float radiusY, float angle, 
 	else
 	{
 
-		DrawLine(x - radiusX, y - radiusY , x + radiusX, y - radiusY, color);//左上から右上
-		DrawLine(x - radiusX, y - radiusY , x - radiusX, y + radiusY, color);//左上から左下
-		DrawLine(x + radiusX, y - radiusY , x + radiusX, y + radiusY, color);//右上から右下
-		DrawLine(x - radiusX, y + radiusY , x + radiusX, y + radiusY, color);//左下から右下
+		DrawLine(x - radiusX, y - radiusY, x + radiusX, y - radiusY, color);//左上から右上
+		DrawLine(x - radiusX, y - radiusY, x - radiusX, y + radiusY, color);//左上から左下
+		DrawLine(x + radiusX, y - radiusY, x + radiusX, y + radiusY, color);//右上から右下
+		DrawLine(x - radiusX, y + radiusY, x + radiusX, y + radiusY, color);//左下から右下
 	}
 }
 
@@ -359,7 +359,7 @@ std::unique_ptr <Buff> Mesh::CreateBuff(UINT vertexCount, UINT indexCount)
 		buff->vertexBuffer->Create(vertexCount, sizeof(PosColor));
 
 		buff->vertMap = static_cast<PosColor*>(malloc(vertexCount * sizeof(PosColor)));
-	
+
 	}
 
 	if (indexCount > 0)

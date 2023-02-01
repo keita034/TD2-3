@@ -46,10 +46,10 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider,0, Top, RightTop);
-			collider->ConstructTriangles(field[Top][RightTop].surfacePartsModel, field[Top][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider,0, Top, RightTop);
+			meshCollider->ConstructTriangles(field[Top][RightTop].surfacePartsModel, field[Top][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -75,10 +75,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Top][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider,1,Top, RightBottom);
-			collider->ConstructTriangles(field[Top][RightBottom].surfacePartsModel, field[Top][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider,1,Top, RightBottom);
+			meshCollider->ConstructTriangles(field[Top][RightBottom].surfacePartsModel, field[Top][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 		}
 
@@ -105,10 +105,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Top][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider,2, Top, LeftTop);
-			collider->ConstructTriangles(field[Top][LeftTop].surfacePartsModel, field[Top][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider,2, Top, LeftTop);
+			meshCollider->ConstructTriangles(field[Top][LeftTop].surfacePartsModel, field[Top][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -133,10 +133,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Top][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 3, Top, LeftBottom);
-			collider->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel, field[Top][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 3, Top, LeftBottom);
+			meshCollider->ConstructTriangles(field[Top][LeftBottom].surfacePartsModel, field[Top][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 
@@ -166,10 +166,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Left][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 4, Left, LeftTop);
-			collider->ConstructTriangles(field[Left][LeftTop].surfacePartsModel, field[Left][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 4, Left, LeftTop);
+			meshCollider->ConstructTriangles(field[Left][LeftTop].surfacePartsModel, field[Left][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 		}
 
@@ -193,10 +193,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Left][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 5, Left, RightTop);
-			collider->ConstructTriangles(field[Left][RightTop].surfacePartsModel, field[Left][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 5, Left, RightTop);
+			meshCollider->ConstructTriangles(field[Left][RightTop].surfacePartsModel, field[Left][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -219,10 +219,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Left][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 6, Left, LeftBottom);
-			collider->ConstructTriangles(field[Left][LeftBottom].surfacePartsModel, field[Left][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 6, Left, LeftBottom);
+			meshCollider->ConstructTriangles(field[Left][LeftBottom].surfacePartsModel, field[Left][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -245,10 +245,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Left][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 7, Left, RightBottom);
-			collider->ConstructTriangles(field[Left][RightBottom].surfacePartsModel, field[Left][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 7, Left, RightBottom);
+			meshCollider->ConstructTriangles(field[Left][RightBottom].surfacePartsModel, field[Left][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 #pragma endregion
@@ -283,10 +283,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterLeft][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 8, CenterLeft, LeftTop);
-			collider->ConstructTriangles(field[CenterLeft][LeftTop].surfacePartsModel, field[CenterLeft][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 8, CenterLeft, LeftTop);
+			meshCollider->ConstructTriangles(field[CenterLeft][LeftTop].surfacePartsModel, field[CenterLeft][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 		}
 
@@ -317,10 +317,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterLeft][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 9, CenterLeft, RightTop);
-			collider->ConstructTriangles(field[CenterLeft][RightTop].surfacePartsModel, field[CenterLeft][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 9, CenterLeft, RightTop);
+			meshCollider->ConstructTriangles(field[CenterLeft][RightTop].surfacePartsModel, field[CenterLeft][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -348,10 +348,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterLeft][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 10, CenterLeft, LeftBottom);
-			collider->ConstructTriangles(field[CenterLeft][LeftBottom].surfacePartsModel, field[CenterLeft][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 10, CenterLeft, LeftBottom);
+			meshCollider->ConstructTriangles(field[CenterLeft][LeftBottom].surfacePartsModel, field[CenterLeft][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -379,10 +379,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterLeft][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 11, CenterLeft, RightBottom);
-			collider->ConstructTriangles(field[CenterLeft][RightBottom].surfacePartsModel, field[CenterLeft][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 11, CenterLeft, RightBottom);
+			meshCollider->ConstructTriangles(field[CenterLeft][RightBottom].surfacePartsModel, field[CenterLeft][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 
@@ -413,10 +413,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterRight][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 12, CenterRight, LeftTop);
-			collider->ConstructTriangles(field[CenterRight][LeftTop].surfacePartsModel, field[CenterRight][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 12, CenterRight, LeftTop);
+			meshCollider->ConstructTriangles(field[CenterRight][LeftTop].surfacePartsModel, field[CenterRight][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -439,10 +439,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterRight][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 13, CenterRight, RightTop);
-			collider->ConstructTriangles(field[CenterRight][RightTop].surfacePartsModel, field[CenterRight][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 13, CenterRight, RightTop);
+			meshCollider->ConstructTriangles(field[CenterRight][RightTop].surfacePartsModel, field[CenterRight][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -465,10 +465,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterRight][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 14, CenterRight, LeftBottom);
-			collider->ConstructTriangles(field[CenterRight][LeftBottom].surfacePartsModel, field[CenterRight][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 14, CenterRight, LeftBottom);
+			meshCollider->ConstructTriangles(field[CenterRight][LeftBottom].surfacePartsModel, field[CenterRight][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -491,10 +491,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[CenterRight][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 15, CenterRight, RightBottom);
-			collider->ConstructTriangles(field[CenterRight][RightBottom].surfacePartsModel, field[CenterRight][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 15, CenterRight, RightBottom);
+			meshCollider->ConstructTriangles(field[CenterRight][RightBottom].surfacePartsModel, field[CenterRight][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 
@@ -529,10 +529,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Right][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 16, Right, LeftTop);
-			collider->ConstructTriangles(field[Right][LeftTop].surfacePartsModel, field[Right][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 16, Right, LeftTop);
+			meshCollider->ConstructTriangles(field[Right][LeftTop].surfacePartsModel, field[Right][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -560,10 +560,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Right][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 17, Right, RightTop);
-			collider->ConstructTriangles(field[Right][RightTop].surfacePartsModel, field[Right][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 17, Right, RightTop);
+			meshCollider->ConstructTriangles(field[Right][RightTop].surfacePartsModel, field[Right][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -591,10 +591,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Right][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 18, Right, LeftBottom);
-			collider->ConstructTriangles(field[Right][LeftBottom].surfacePartsModel, field[Right][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 18, Right, LeftBottom);
+			meshCollider->ConstructTriangles(field[Right][LeftBottom].surfacePartsModel, field[Right][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -622,10 +622,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Right][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 19, Right, RightBottom);
-			collider->ConstructTriangles(field[Right][RightBottom].surfacePartsModel, field[Right][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 19, Right, RightBottom);
+			meshCollider->ConstructTriangles(field[Right][RightBottom].surfacePartsModel, field[Right][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 #pragma endregion
@@ -653,10 +653,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Bottom][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 20, Bottom, LeftTop);
-			collider->ConstructTriangles(field[Bottom][LeftTop].surfacePartsModel, field[Bottom][LeftTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 20, Bottom, LeftTop);
+			meshCollider->ConstructTriangles(field[Bottom][LeftTop].surfacePartsModel, field[Bottom][LeftTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -679,10 +679,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Bottom][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 21, Bottom, RightTop);
-			collider->ConstructTriangles(field[Bottom][RightTop].surfacePartsModel, field[Bottom][RightTop].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 21, Bottom, RightTop);
+			meshCollider->ConstructTriangles(field[Bottom][RightTop].surfacePartsModel, field[Bottom][RightTop].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -705,10 +705,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Bottom][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 22, Bottom, LeftBottom);
-			collider->ConstructTriangles(field[Bottom][LeftBottom].surfacePartsModel, field[Bottom][LeftBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 22, Bottom, LeftBottom);
+			meshCollider->ConstructTriangles(field[Bottom][LeftBottom].surfacePartsModel, field[Bottom][LeftBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 
 		{
@@ -731,10 +731,10 @@ void Stage::Initialize(Camera* camera)
 
 			field[Bottom][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 			// コライダーの追加
-			MeshCollider* collider = new MeshCollider;
-			SetCollider(collider, 23, Bottom, RightBottom);
-			collider->ConstructTriangles(field[Bottom][RightBottom].surfacePartsModel, field[Bottom][RightBottom].surfacePartsModelTrans.matWorld);
-			collider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+			MeshCollider* meshCollider = new MeshCollider;
+			SetCollider(meshCollider, 23, Bottom, RightBottom);
+			meshCollider->ConstructTriangles(field[Bottom][RightBottom].surfacePartsModel, field[Bottom][RightBottom].surfacePartsModelTrans.matWorld);
+			meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 		}
 	}
 #pragma endregion
