@@ -33,7 +33,7 @@ private:
 	//Šî€‚ÌŠp“x
 	float standardAngle_;
 
-	BaseCollider* collider[26];
+	BaseCollider* collider[24];
 
 
 

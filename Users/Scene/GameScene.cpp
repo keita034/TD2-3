@@ -35,7 +35,7 @@ void GameScene::Initialize()
 
 	stage->Initialize(camera.get());
 
-	modelHandle1 = Model::CreateObjModel("Resources/F-15");
+	modelHandle1 = Model::CreateObjModel("Resources/Player");
 
 	player = new Player(modelHandle1);
 	player->Initialise();

@@ -46,6 +46,10 @@ public:
 	/// </summary>
 	void PlayerCollider(Camera* camera);
 
+	void PlayerGravitie();
+
+	AliceMathF::Vector3 bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform);
+
 private:
 
 	Transform worldTransform_;
@@ -58,9 +62,16 @@ private:
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
 	
+	bool ground = false;
+
+	// コライダーの追加
+	float radius = 0.3f;
 	// コライダー
 	BaseCollider* collider = nullptr;
 
 	bool onGround = true;
 	AliceMathF::Vector4 fallV;
+
+	AliceMathF::Vector3 origin = { 0,0,0 };
+
 };
