@@ -23,7 +23,7 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-	worldTransform_.translation = { -50,-30,0 };
+	worldTransform_.translation = { 60,-30,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -288,13 +288,13 @@ void Player::PlayerMove() {
 			playerMovement.y = playerSpeed;
 		}
 		if (input_->KeepPush(DIK_A)) {
-			playerMovement.z = playerSpeed;
+			playerMovement.x = playerSpeed;
 		}
 		if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
 		}
 		if (input_->KeepPush(DIK_D)) {
-			playerMovement.z = -playerSpeed;
+			playerMovement.x = -playerSpeed;
 		}
 	}
 	else if (playerSurfacePos == 4) {
@@ -334,15 +334,26 @@ void Player::PlayerMove() {
 		playerMovement.y = -playerSpeed;
 	}
 
+
+	playerMovement = Vector3Transform(playerMovement, CameraRot);
 	if (playerSurfacePos == 0) {
 		playerMovement.y = 0;
 	}
-	if (playerSurfacePos == 1) {
+	else if (playerSurfacePos == 1) {
+		playerMovement.x = 0;
+	}
+	else if (playerSurfacePos == 2) {
+		playerMovement.y = 0;
+	}
+	else if (playerSurfacePos == 3) {
+		playerMovement.x = 0;
+	}
+	else if (playerSurfacePos == 4) {
 		playerMovement.z = 0;
 	}
-
-
-	playerMovement = Vector3Transform(playerMovement, CameraRot);
+	else{
+		playerMovement.z = 0;
+	}
 	worldTransform_.translation += playerMovement;
 }
 
