@@ -73,7 +73,7 @@ private:
 	bool ground = false;
 
 	// コライダーの追加
-	float radius = 0.3f;
+	float radius = 3.0f;
 	// コライダー
 	BaseCollider* collider = nullptr;
 

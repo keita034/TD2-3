@@ -29,6 +29,8 @@
 #include "Ground.h"
 #include "BaseScene.h"
 
+#include "Goal.h"
+
 class CollisionManager;
 
 class GameScene : public BaseScene
@@ -59,6 +61,8 @@ private:
 
 	uint32_t modelHandle2 = 0u;
 	//Ground* ground = nullptr;
+
+	std::unique_ptr<Goal> goal;
 
 public:
 

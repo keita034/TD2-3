@@ -16,6 +16,7 @@ void CollisionManager::CheckAllCollisions()
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;
 
+
 	// 全ての組み合わせについて総当りチェック
 	itA = colliders.begin();
 	for (; itA != colliders.end(); ++itA) {
@@ -32,7 +33,7 @@ void CollisionManager::CheckAllCollisions()
 				Sphere* SphereB = dynamic_cast<Sphere*>(colB);
 				AliceMathF::Vector4 inter;
 				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
-					
+					isGoal = true;
 				}
 			}
 			else if (colA->GetShapeType() == COLLISIONSHAPE_MESH &&
@@ -41,7 +42,7 @@ void CollisionManager::CheckAllCollisions()
 				Sphere* sphere = dynamic_cast<Sphere*>(colB);
 				AliceMathF::Vector4 inter;
 				if (meshCollider->CheckCollisionSphere(*sphere, &inter, nullptr)) {
-					
+
 				}
 			}
 			else if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&

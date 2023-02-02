@@ -492,6 +492,9 @@
     <ClInclude Include="Users\Player\Player.h">
       <Filter>User\ヘッダーファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -893,6 +896,9 @@
     </ClCompile>
     <ClCompile Include="lib\Engine\Collision\BaseCollider.cpp">
       <Filter>Engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

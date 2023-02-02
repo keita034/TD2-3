@@ -392,12 +392,15 @@ void Player::PlayerCollider(Camera* camera)
 	worldTransform_.TransUpdate(camera);
 	collider->Update(worldTransform_.matWorld);
 
+
+	//レイの位置を調整
+	float rayPosY = -2.5f;
 	//地面メッシュコライダー
 	{
 		// 球の上端から球の下端までのレイキャスト
 		Ray Groundray;
 		Groundray.start = sphereCollider->center;
-		Groundray.start.y += sphereCollider->GetRadius();
+		Groundray.start.y += rayPosY;
 		Groundray.dir = { 0,-1,0,0 };
 		RaycastHit raycastHit;
 
@@ -430,11 +433,12 @@ void Player::PlayerCollider(Camera* camera)
 		}
 	}
 
+
 	{
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += rayPosY;
 		wall.dir = { 0,0,1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -451,7 +455,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += rayPosY;
 		wall.dir = { 0,0,-1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -469,7 +473,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += rayPosY;
 		wall.dir = { 1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -486,7 +490,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += rayPosY;
 		wall.dir = { -1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離

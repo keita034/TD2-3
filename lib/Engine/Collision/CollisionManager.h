@@ -33,6 +33,9 @@ public://メンバ関数
 
 	void QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute = (unsigned short)0xffffffff, AliceMathF::Matrix4* worldPos = nullptr);
 
+
+	bool GetIsGoal() { return isGoal; }
+
 private:
 	CollisionManager() = default;
 	CollisionManager(const CollisionManager&) = delete;
@@ -41,5 +44,9 @@ private:
 
 	//コライダーのリスト
 	std::forward_list<BaseCollider*> colliders;
+
+	int GoalCount = 0;
+
+	bool isGoal = false;
 
 };

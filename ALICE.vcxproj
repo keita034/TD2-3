@@ -106,6 +106,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\LutPostEffect.h" />
@@ -378,6 +379,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\BasePostEffect.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\LutPostEffect.cpp" />

@@ -42,6 +42,8 @@ void GameScene::Initialize()
 	userCamera = std::make_unique<UserCamera>(1280, 720);
 	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
+	goal = std::make_unique<Goal>(modelHandle1);
+
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
 }
@@ -52,10 +54,17 @@ void GameScene::Update()
 
 	camera->MovePosition(move);*/
 
+
 	if (cameraType == 1) {
 		player->SetCameraRot(userCamera->GetCameraRot());
 	}
 	
+	if (collisionManager->GetIsGoal() == true) {
+		int a = 0;
+		a++;
+
+		cameraType = 0;
+	}
 
 	if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
 	{
@@ -100,6 +109,7 @@ void GameScene::Update()
 		camera->SetTarget(userCamera->GetTarget());
 	}
 
+	goal->Update(camera.get());
 
 	//ground->Update(camera.get());
 
@@ -113,6 +123,7 @@ void GameScene::Draw()
 
 	player->Draw();
 
+	goal->Draw();
 	//ground->Draw();
 }
 
