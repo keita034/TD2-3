@@ -23,7 +23,7 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-	worldTransform_.translation = { 60,-30,0 };
+	worldTransform_.translation = { -10,80,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -245,13 +245,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.z = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.z = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -259,13 +259,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.y = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -273,13 +273,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.z = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.z = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -287,13 +287,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.y = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -301,13 +301,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.y = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -315,13 +315,13 @@ void Player::PlayerMove() {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.y = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_A)) {
+		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
 		}
-		if (input_->KeepPush(DIK_S)) {
+		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
 		}
-		if (input_->KeepPush(DIK_D)) {
+		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
 	}
@@ -408,6 +408,8 @@ void Player::PlayerCollider(Camera* camera)
 	worldTransform_.TransUpdate(camera);
 	collider->Update(worldTransform_.matWorld);
 
+	float RayPos = -1.0f;
+
 	//地面メッシュコライダー
 	{
 		// 球の上端から球の下端までのレイキャスト
@@ -450,7 +452,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 0,0,1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -467,7 +469,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 0,0,-1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -485,7 +487,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -502,7 +504,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { -1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
