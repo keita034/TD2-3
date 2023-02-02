@@ -58,7 +58,7 @@ public:
 
 	void FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex);
 
-	void SetCollider(BaseCollider* collider,int x ,FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
+	void SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
 
 private:
 

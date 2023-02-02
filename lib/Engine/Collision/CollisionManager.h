@@ -19,6 +19,15 @@ public://ƒƒ“ƒoŠÖ”
 		colliders.push_front(collider);
 	}
 
+	inline void AddCollider(BaseCollider* collider,int chengeMeshCount,int chengeMeshCount2) {
+
+		std::list<std::string>::iterator itr;
+
+		
+
+		colliders.push_front(collider);
+	}
+
 	inline void RemoveCollider(BaseCollider* collide) {
 		colliders.remove(collide);
 	}

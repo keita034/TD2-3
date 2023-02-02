@@ -624,3 +624,10 @@ void SurfaceFoldLeft2::EndLeftTo(std::array<std::array<FieldElement, 4>, 6>& fie
 		break;
 	}
 }
+
+void SurfaceFoldLeft2::SetCollider(int chengeMesh, int chengeMesh2, std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, FieldElementIndex fieldElementIndex)
+{
+
+	field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld;
+
+}
