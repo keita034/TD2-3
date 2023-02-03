@@ -357,7 +357,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterRight][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][LeftTop].field = Field::n;
 
@@ -380,7 +380,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
 			field[CenterRight][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][RightTop].field = Field::m;
 
@@ -403,7 +403,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterRight][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][LeftBottom].field = Field::o;
 
@@ -426,7 +426,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[CenterRight][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][RightBottom].field = Field::p;
 
@@ -456,7 +456,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Right][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Right][LeftTop].field = Field::r;
 
@@ -484,7 +484,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
 			field[Right][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Right][RightTop].field = Field::s;
 
@@ -512,7 +512,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Right][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Right][LeftBottom].field = Field::t;
 
@@ -540,7 +540,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Right][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Right][RightBottom].field = Field::u;
 
@@ -573,7 +573,7 @@ void Stage::Initialize(Camera* camera)
 		float angle = 180.0f;
 		{
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Bottom][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][LeftTop].field = Field::v;
 
@@ -596,7 +596,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Bottom][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][RightTop].field = Field::w;
 
@@ -619,7 +619,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Bottom][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][LeftBottom].field = Field::x;
 
@@ -642,7 +642,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map10.png");
 			field[Bottom][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][RightBottom].field = Field::y;
 
