@@ -51,7 +51,7 @@ void Stage::Initialize(Camera* camera)
 		{
 
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Top][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Top][RightBottom].field = Field::d;
 
@@ -79,7 +79,7 @@ void Stage::Initialize(Camera* camera)
 		{
 
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Top][LeftTop].field = Field::a;
 
@@ -104,7 +104,7 @@ void Stage::Initialize(Camera* camera)
 		{
 
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Top][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Top][LeftBottom].field = Field::c;
 
@@ -135,7 +135,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
 			field[Left][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Left][LeftTop].field = Field::e;
 
@@ -158,7 +158,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[Left][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightTop].field = Field::f;
 
@@ -181,7 +181,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Left][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Left][LeftBottom].field = Field::g;
 
@@ -204,7 +204,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map08.png");
 			field[Left][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightBottom].field = Field::h;
 
@@ -234,7 +234,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterLeft][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][LeftTop].field = Field::i;
 
@@ -264,7 +264,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterLeft][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][RightTop].field = Field::j;
 
@@ -293,7 +293,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterLeft][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][LeftBottom].field = Field::k;
 
@@ -321,7 +321,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterLeft][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][RightBottom].field = Field::l;
 
