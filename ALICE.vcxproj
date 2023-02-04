@@ -106,6 +106,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChangeCollider.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h" />
@@ -379,6 +380,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChangeCollider.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\BasePostEffect.cpp" />

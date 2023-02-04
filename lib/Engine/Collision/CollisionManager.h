@@ -19,13 +19,23 @@ public://ƒƒ“ƒoŠÖ”
 		colliders.push_front(collider);
 	}
 
-	inline void AddCollider(BaseCollider* collider,int chengeMeshCount,int chengeMeshCount2) {
+	/// <summary>
+	/// ‚à‚Æ‚à‚Æ‚ ‚é“–‚½‚è”»’è‚ğ•Ï‚¦‚é
+	/// </summary>
+	/// <param name="chengeMeshCount">•Ï‚¦‚½‚¢”»’è‚ÌêŠ</param>
+	/// <param name="collider">“–‚½‚è”»’è‚ğ“ü‚ê‚é</param>
+	void ChangeCollider(int chengeMeshCount, BaseCollider* collider) {
 
-		std::list<std::string>::iterator itr;
+		std::forward_list<BaseCollider*>::iterator itr;
 
-		
+		itr = colliders.begin();
 
-		colliders.push_front(collider);
+		for (int i = 0; i < chengeMeshCount - 1; i++) {
+			itr++;
+		}
+		colliders.emplace_after(itr);
+		colliders.insert_after(itr, collider);
+
 	}
 
 	inline void RemoveCollider(BaseCollider* collide) {

@@ -664,12 +664,15 @@ void Stage::Initialize(Camera* camera)
 		}
 	}
 
+	int meshColliderCount = 0;
+
 	for (size_t i = 0; i < field.size(); i++)
 	{
 		for (size_t j = 0; j < field[Top].size(); j++)
 		{
 			field[i][j].surfacePartsModelTrans.TransUpdate(camera);
-			SetCollider(static_cast<FieldIndex>(i), static_cast<FieldElementIndex>(j));
+			SetCollider(static_cast<FieldIndex>(i), static_cast<FieldElementIndex>(j), meshColliderCount);
+			meshColliderCount++;
 		}
 	}
 
@@ -745,6 +748,19 @@ void Stage::Update(Camera* camera)
 		}
 	}
 
+	int meshColliderCount = 0;
+
+	for (size_t i = 0; i < field.size(); i++)
+	{
+		for (size_t j = 0; j < field[Top].size(); j++)
+		{
+			field[i][j].surfacePartsModelTrans.TransUpdate(camera);
+			ChangeCollider(static_cast<FieldIndex>(i), static_cast<FieldElementIndex>(j), meshColliderCount);
+			meshColliderCount++;
+		}
+	}
+
+
 	// 当たり判定更新
 	/*for (int i = 0; i < 23; i++) {
 		if (collider[i]) {
@@ -796,12 +812,19 @@ void Stage::Draw()
 }
 
 
-void Stage::SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex)
+void Stage::SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber)
 {
 	// コリジョンマネージャに追加
-	MeshCollider* meshCollider = new MeshCollider;
-	CollisionManager::GetInstance()->AddCollider(meshCollider);
-	meshCollider->Update(field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
-	meshCollider->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
-	meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+	meshCollider[meshNumber] = std::make_unique<MeshCollider>();
+	CollisionManager::GetInstance()->AddCollider(meshCollider[meshNumber].get());
+	meshCollider[meshNumber]->Update(field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+	meshCollider[meshNumber]->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+	meshCollider[meshNumber]->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+}
+
+void Stage::ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber)
+{
+	// コリジョンマネージャに追加
+	meshCollider[meshNumber]->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+	meshCollider[meshNumber]->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 }
