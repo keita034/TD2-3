@@ -7,7 +7,7 @@ void Skydome::Initialize(uint32_t modelHandle)
 
 	transform_.Initialize();
 
-	float scale = 10000.0f;
+	float scale = 800.0f;
 
 	transform_.scale = { scale,scale,scale };
 }

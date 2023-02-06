@@ -64,7 +64,7 @@ private:
 	//Ground* ground = nullptr;
 
 	std::unique_ptr<Skydome> skydome;
-	uint32_t modelHSky;
+	uint32_t modelHSky = 0u;
 
 	std::unique_ptr<Goal> goal;
 

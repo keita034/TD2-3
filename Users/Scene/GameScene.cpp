@@ -115,6 +115,8 @@ void GameScene::Update()
 
 	goal->Update(camera.get());
 
+	skydome->Update(camera.get());
+
 	//ground->Update(camera.get());
 
 	//全ての衝突をチェック
@@ -123,13 +125,14 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	skydome->Draw();
+
 	stage->Draw();
 
 	player->Draw();
 
 	goal->Draw();
 
-	skydome->Draw();
 	//ground->Draw();
 }
 

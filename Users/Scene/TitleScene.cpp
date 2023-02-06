@@ -10,6 +10,7 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
+	//titleTex_ = TextureManager::GetInstance()->LoadTexture("Resources/");
 }
 
 void TitleScene::Update()
