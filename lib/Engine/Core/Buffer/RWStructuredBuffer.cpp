@@ -52,7 +52,7 @@ void RWStructuredBuffer::CreateSRV(size_t length, size_t singleSize, const void*
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, buffer.Get());
+	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateSRV(srvDesc, buffer.Get());
 
 	isValid = true;
 }
@@ -103,7 +103,7 @@ void RWStructuredBuffer::CreateUAV(size_t length, size_t singleSize, const void*
 	uavDesc.Buffer.NumElements = static_cast<UINT>(length);
 	uavDesc.Buffer.StructureByteStride = static_cast<UINT>(singleSize);
 
-	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateUAV(uavDesc, buffer.Get());
+	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateUAV(uavDesc, buffer.Get());
 
 	isValid = true;
 }
@@ -139,7 +139,7 @@ void RWStructuredBuffer::CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc)
 	uavDesc.Texture2D.MipSlice = 0;
 	uavDesc.Texture2D.PlaneSlice = 0;
 
-	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateUAV(uavDesc, buffer.Get());
+	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateUAV(uavDesc, buffer.Get());
 
 	isValid = true;
 }

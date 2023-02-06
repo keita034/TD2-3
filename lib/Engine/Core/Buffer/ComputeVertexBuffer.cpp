@@ -55,7 +55,7 @@ void ComputeVertexBuffer::Create(size_t length, size_t singleSize, const void* d
 	uavDesc.Buffer.NumElements = static_cast<UINT>(length);
 	uavDesc.Buffer.StructureByteStride = static_cast<UINT>(singleSize);
 
-	handl.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateUAV(uavDesc, vertexBuffer.Get());
+	handl.ptr = DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateUAV(uavDesc, vertexBuffer.Get());
 
 	isValid = true;
 

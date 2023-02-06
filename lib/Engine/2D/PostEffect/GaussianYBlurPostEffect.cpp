@@ -1,24 +1,17 @@
-#include "LutPostEffect.h"
+#include "GaussianYBlurPostEffect.h"
 #include "DirectX12Core.h"
 #include "TextureManager.h"
 #include "WindowsApp.h"
 #include"DefaultMaterial.h"
 
-LutPostEffect* LutPostEffect::GetInstance()
-{
-	static LutPostEffect instance;
-	return &instance;
-}
-
-void LutPostEffect::Initialize()
+void GaussianYBlurPostEffect::Initialize()
 {
 	if (needsInit)
 	{
-
 		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
-		width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-		height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width / 2);
+		height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height/2);
 
 		sprite = std::make_unique<PostEffectSprite>();
 		sprite->Initialize(DirectX12Core::GetCommandListSta().Get(), DirectX12Core::GetInstance()->GetSRVDescriptorHeap());
@@ -27,11 +20,11 @@ void LutPostEffect::Initialize()
 
 		//頂点シェーダの読み込み
 		material->vertexShader = std::make_unique<Shader>();
-		material->vertexShader->Create("Resources/Shaders/2D/PostEffect/LutShaderVS.hlsl");
+		material->vertexShader->Create("Resources/Shaders/2D/PostEffect/GaussianYBlurVS.hlsl");
 
 		//ピクセルシェーダの読み込み
 		material->pixelShader = std::make_unique<Shader>();
-		material->pixelShader->Create("Resources/Shaders/2D/PostEffect/LutShaderPS.hlsl", "main", "ps_5_0");
+		material->pixelShader->Create("Resources/Shaders/2D/PostEffect/GaussianBlurPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -53,10 +46,8 @@ void LutPostEffect::Initialize()
 		//ルートシグネチャ設定
 		material->rootSignature = std::make_unique<RootSignature>();
 		material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
-		material->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
 		material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
 		material->rootSignature->AddStaticSampler(0);//s0
-		material->rootSignature->AddStaticSampler(1);//s1
 		material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 		//生成
@@ -66,50 +57,39 @@ void LutPostEffect::Initialize()
 			DirectX12Core::GetDeviceSta().Get(),
 			DirectX12Core::GetInstance()->GetDSVDescriptorHeap(),
 			DirectX12Core::GetInstance()->GetRTVDescriptorHeap(),
-			DirectX12Core::GetInstance()->GetSRVDescriptorHeap(), 
+			DirectX12Core::GetInstance()->GetSRVDescriptorHeap(),
 			cmdList);
 
-		renderTarget->Initialize(WindowsApp::GetInstance()->GetWindowSize().width, WindowsApp::GetInstance()->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		renderTarget->Initialize(WindowsApp::GetInstance()->GetWindowSize().width / 2, WindowsApp::GetInstance()->GetWindowSize().height/2, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+		weightBuff = std::make_unique<ConstantBuffer>();
+		weightBuff->Create(sizeof(weight));
+		weightBuff->Update(weight.data());
 
 		needsInit = false;
-
-		uint32_t handle = TextureManager::Load("Resources/Lut/amoebae-66-multilut1.png");
-
-		lutTexture = TextureManager::GetTextureData(handle);
-
-		lutSizeBuff = std::make_unique<ConstantBuffer>();
-		lutSizeBuff->Create(sizeof(lutSize));
-
-		size = { 1.0f / static_cast<float>(lutTexture->width),1.0f / static_cast<float>(lutTexture->height),1.13900006f,0.714969635f ,0.0489999987f,static_cast<float>(lutTexture->width / lutTexture->height) - 3.0f };
-
-		lutSizeBuff->Update(&size);
-
-		type = "LUT";
 	}
 }
 
-void LutPostEffect::PostUpdate(RenderTarget* mainRenderTarget)
+void GaussianYBlurPostEffect::PostUpdate(RenderTarget* mainRenderTarget)
 {
 	Draw(mainRenderTarget);
 
 	MainRenderTargetDraw(mainRenderTarget);
 }
 
-void LutPostEffect::SetLutTexture(uint32_t handle)
+const std::string& GaussianYBlurPostEffect::GetType()
 {
-	lutTexture = TextureManager::GetTextureData(handle);
-
-	size = { 1.0f / static_cast<float>(lutTexture->width),1.0f / static_cast<float>(lutTexture->height),1.139f,1.729f ,0.049f,static_cast<float>(lutTexture->width / lutTexture->height) - 3.0f };
-
-	lutSizeBuff->Update(&size);
+	return "ステートメントをここに挿入します";
 }
 
-const std::string& LutPostEffect::GetType() 
+void GaussianYBlurPostEffect::SetWeight(std::array<float, 8>& weightPtr)
 {
-	return type;
+	weight = weightPtr;
+
+	weightBuff->Update(weight.data());
 }
 
-void LutPostEffect::Draw(RenderTarget* mainRenderTarget)
+void GaussianYBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
 {
 	renderTarget->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
@@ -121,14 +101,13 @@ void LutPostEffect::Draw(RenderTarget* mainRenderTarget)
 	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	cmdList->RSSetScissorRects(1, &rect);
 
-	//renderTarget->ClearRenderTarget();
+	renderTarget->ClearRenderTarget();
+	sprite->SetSize({ 1.0f,1.0f });
 
 	sprite->Draw(material.get(), mainRenderTarget->GetGpuHandle());
 
-	cmdList->SetGraphicsRootDescriptorTable(1, lutTexture->gpuHandle);
-
 	// 定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(2, lutSizeBuff->GetAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, weightBuff->GetAddress());
 
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
@@ -136,20 +115,18 @@ void LutPostEffect::Draw(RenderTarget* mainRenderTarget)
 	renderTarget->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-void LutPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
+void GaussianYBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
 {
 	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	mainRenderTarget->SetRenderTarget();
 
-	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
+	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width*2.0f, height * 2.0f);
 	cmdList->RSSetViewports(1, &viewPort);
 
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
+	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width * 2.0f), static_cast<LONG>(height * 2.00f));
 	cmdList->RSSetScissorRects(1, &rect);
-
-	
-
+	sprite->SetSize({1.01f,1.01f });
 	sprite->Draw(DefaultMaterial::GetDefaultMaterial()->DEFAULT_POST_EFFECT_MATERIAL.get(), renderTarget->GetGpuHandle());
 
 	// 描画コマンド

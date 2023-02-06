@@ -106,8 +106,10 @@ void AliceFramework::Draw()
 
 		postEffectManager->PostDrawScen();
 
+		postEffectManager->Update();
+
 		directX12Core->BeginDraw();//•`‰æ€”õ
-		postEffectManager->PostDraw();
+		postEffectManager->Draw();
 		imGuiManager->Draw();
 		//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚Ü‚Å
 		directX12Core->EndDraw();//•`‰æŒãˆ—

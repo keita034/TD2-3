@@ -174,8 +174,9 @@ void ModelMesh::Update(ComputeRelation* computeRelation, ID3D12GraphicsCommandLi
 	FillVertex();
 
 	//デスクプリタヒープをセット
-	ID3D12DescriptorHeap* descriptorHeaps[] = {
-		DirectX12Core::GetInstance()->GetDescriptorHeap()->GetHeap(),
+	ID3D12DescriptorHeap* descriptorHeaps[] =
+	{
+		DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->GetHeap(),
 	};
 	cmdList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 	//ルートシグネチャをセット
