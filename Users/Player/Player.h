@@ -39,7 +39,7 @@ public:
 	/// <summary>
 	/// プレイヤーの移動
 	/// </summary>
-	void PlayerMove();
+	void PlayerMove(Camera* camera);
 
 	/// <summary>
 	/// プレイヤーの当たり判定
@@ -85,7 +85,28 @@ private:
 
 	int playerSurfacePos = 0;
 
+
 	int isPlayerNearCorner[6] = { 0 };
 
 	AliceMathF::Matrix4 CameraRot;
+
+	AliceMathF::Vector3 PlayerSmoothMoving;
+
+	int smoothMoving = 0;
+
+	float size = 43.0f;
+	float sizeX = 43.0f;
+	float sizeYTop = 30.0f;
+	float sizeYBottom = 54.0f;
+
+	AliceMathF::Vector3 TopLeftTop = { -sizeX,sizeYTop,size };
+	AliceMathF::Vector3 TopLeftBottom = { -sizeX,sizeYBottom,-size };
+	AliceMathF::Vector3 TopRightTop = { sizeX,sizeYTop,size };
+	AliceMathF::Vector3 TopRightBottom = { sizeX,sizeYBottom,-size };
+
+	AliceMathF::Vector3 RightTopRight = { sizeX,sizeYTop,size };
+	AliceMathF::Vector3 RightTopLeft = { sizeX,sizeYTop,-size };
+	AliceMathF::Vector3 RightBottomRight = { sizeX,-sizeYBottom,size };
+	AliceMathF::Vector3 RightBottomLeft = { sizeX,-sizeYBottom,-size };
+
 };
