@@ -19,8 +19,6 @@ private:
 
 	Transform spriteTransform;
 
-	
-
 public:
 
 	TitleScene();
