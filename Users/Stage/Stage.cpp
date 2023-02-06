@@ -33,7 +33,7 @@ void Stage::Initialize(Camera* camera)
 
 			field[Top][RightTop].surfacePartsModelTrans.Initialize();
 			field[Top][RightTop].surfacePartsModelTrans.translation = { 0.0f,-12.0f,0.0f };
-			field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,42.0f,40.0f };
+			field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][RightTop].angle_ = standardAngle_;
 
