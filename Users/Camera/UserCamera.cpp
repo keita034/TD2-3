@@ -136,12 +136,21 @@ void UserCamera::LabyrinthCamera() {
 	//マウスの移動量を取得
 	MouseMove = AliceMathF::Vector2(0, 0);
 	MouseMove = (AliceMathF::Vector2(mousePosition.y, mousePosition.x) - AliceMathF::Vector2(windowWH.y, windowWH.x));//座標軸で回転している関係でこうなる(XとYが入れ替え)
+
 	mouseMoved += AliceMathF::Vector2(MouseMove.x, MouseMove.y) / 500;
 	SetCursorPos(xPos_absolute, yPos_absolute);
+
+	if (mouseMoved.x < -0.80f) {
+		mouseMoved.x = -0.80f;
+	}
+	else if (mouseMoved.x > 1.30f) {
+		mouseMoved.x = 1.30f;
+	}
 
 	AliceMathF::Vector3 rotation = AliceMathF::Vector3(-mouseMoved.x, mouseMoved.y, 0);
 
 	AliceMathF::Matrix4 cameraRot;
+
 
 	cameraRot.MakeRotation(rotation);
 
