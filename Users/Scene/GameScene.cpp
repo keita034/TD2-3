@@ -42,6 +42,10 @@ void GameScene::Initialize()
 	userCamera = std::make_unique<UserCamera>(1280, 720);
 	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
+	skydome = std::make_unique<Skydome>();
+	modelHSky = Model::CreateObjModel("Resources/skydome");
+	skydome->Initialize(modelHSky);
+
 	goal = std::make_unique<Goal>(modelHandle1);
 
 	//ground = new Ground();
@@ -111,6 +115,8 @@ void GameScene::Update()
 
 	goal->Update(camera.get());
 
+	skydome->Update(camera.get());
+
 	//ground->Update(camera.get());
 
 	//全ての衝突をチェック
@@ -119,11 +125,14 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	skydome->Draw();
+
 	stage->Draw();
 
 	player->Draw();
 
 	goal->Draw();
+
 	//ground->Draw();
 }
 
