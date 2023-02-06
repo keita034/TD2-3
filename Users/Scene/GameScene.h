@@ -28,6 +28,7 @@
 #include "TouchableObject.h"
 #include "Ground.h"
 #include "BaseScene.h"
+#include "Skydome.h"
 
 #include "Goal.h"
 
@@ -61,6 +62,9 @@ private:
 
 	uint32_t modelHandle2 = 0u;
 	//Ground* ground = nullptr;
+
+	std::unique_ptr<Skydome> skydome;
+	uint32_t modelHSky;
 
 	std::unique_ptr<Goal> goal;
 

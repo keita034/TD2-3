@@ -42,6 +42,10 @@ void GameScene::Initialize()
 	userCamera = std::make_unique<UserCamera>(1280, 720);
 	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
+	skydome = std::make_unique<Skydome>();
+	modelHSky = Model::CreateObjModel("Resources/skydome");
+	skydome->Initialize(modelHSky);
+
 	goal = std::make_unique<Goal>(modelHandle1);
 
 	//ground = new Ground();
@@ -124,6 +128,8 @@ void GameScene::Draw()
 	player->Draw();
 
 	goal->Draw();
+
+	skydome->Draw();
 	//ground->Draw();
 }
 
