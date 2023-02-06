@@ -32,12 +32,12 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightTop].field = Field::b;
 
 			field[Top][RightTop].surfacePartsModelTrans.Initialize();
-			field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
+			field[Top][RightTop].surfacePartsModelTrans.translation = { 0.0f,-12.0f,0.0f };
 			field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][RightTop].angle_ = standardAngle_;
 
-			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map01");
+			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/stageFlame/flameAll");
 
 			field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
