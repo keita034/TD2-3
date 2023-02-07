@@ -6,7 +6,12 @@
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
 
-void Stage::Initialize(Camera* camera)
+/// <summary>
+/// 静的メンバ変数の実体
+/// </summary>
+const std::string Stage::DefaultModelName = "Resources/SurfaceParts/";
+
+void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::string map3, std::string map4)
 {
 	besideFold_ = std::make_unique<BesideFold>();
 	besideFold_->Initialize();
@@ -26,6 +31,8 @@ void Stage::Initialize(Camera* camera)
 
 
 		{
+			std::string Map = DefaultModelName + map1;
+
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
 			field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -37,7 +44,7 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][RightTop].angle_ = standardAngle_;
 
-			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/stageFlame/flameAll");
+			field[Top][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
@@ -49,6 +56,7 @@ void Stage::Initialize(Camera* camera)
 		}
 
 		{
+			std::string Map = DefaultModelName + map2;
 
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
@@ -61,7 +69,7 @@ void Stage::Initialize(Camera* camera)
 			field[Top][RightBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][RightBottom].angle_ = standardAngle_;
 
-			field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map02");
+			field[Top][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Top][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
@@ -77,6 +85,7 @@ void Stage::Initialize(Camera* camera)
 
 
 		{
+			std::string Map = DefaultModelName + map3;
 
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
@@ -89,7 +98,7 @@ void Stage::Initialize(Camera* camera)
 			field[Top][LeftTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][LeftTop].angle_ = standardAngle_;
 
-			field[Top][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map03");
+			field[Top][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Top][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Top][LeftTop].surfacePartsModel->SetModel(field[Top][LeftTop].surfacePartsModelHandle);
@@ -102,6 +111,7 @@ void Stage::Initialize(Camera* camera)
 		}
 
 		{
+			std::string Map = DefaultModelName + map4;
 
 			//右下　
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
@@ -114,7 +124,7 @@ void Stage::Initialize(Camera* camera)
 			field[Top][LeftBottom].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][LeftBottom].angle_ = standardAngle_;
 
-			field[Top][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map04");
+			field[Top][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Top][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Top][LeftBottom].surfacePartsModel->SetModel(field[Top][LeftBottom].surfacePartsModelHandle);

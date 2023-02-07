@@ -35,16 +35,17 @@ private:
 
 	std::unique_ptr<MeshCollider> meshCollider[24];
 
-
+private:
+	static const std::string DefaultModelName;//モデルの名前
 
 public:
 	Stage() = default;
 	~Stage() = default;
-
+	
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Camera* camera);
+	void Initialize(Camera* camera,std::string map1, std::string map2, std::string map3, std::string map4);
 
 	/// <summary>
 	/// 更新

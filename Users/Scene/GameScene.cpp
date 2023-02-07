@@ -37,7 +37,7 @@ void GameScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 
-	stage->Initialize(camera.get());
+	stage->Initialize(camera.get(), "Map01", "Map02", "Map03", "Map04");
 
 	modelHandle1 = Model::CreateObjModel("Resources/Player");
 
