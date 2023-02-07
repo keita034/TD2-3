@@ -28,6 +28,7 @@
 #include "TouchableObject.h"
 #include "Ground.h"
 #include "BaseScene.h"
+#include "SceneManager.h"
 #include "Skydome.h"
 
 #include "Goal.h"
@@ -49,6 +50,8 @@ private:
 
 	std::unique_ptr<UserCamera> userCamera = nullptr;
 	int cameraType = 0;
+
+	SceneManager* sceneManager = nullptr;
 
 	std::unique_ptr<Stage> stage;
 

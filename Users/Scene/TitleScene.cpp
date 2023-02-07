@@ -1,13 +1,5 @@
 #include "TitleScene.h"
 
-TitleScene::TitleScene()
-{
-}
-
-TitleScene::~TitleScene()
-{
-}
-
 void TitleScene::Initialize()
 {
 	input = Input::GetInstance();
@@ -22,6 +14,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+	// シーンチェンジ
 	if (input->TriggerPush(DIK_SPACE))
 	{
 		sceneManager->ChangeScene("GAME");

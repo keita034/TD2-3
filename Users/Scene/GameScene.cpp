@@ -24,6 +24,8 @@ void GameScene::Initialize()
 
 	collisionManager = CollisionManager::GetInstance();
 
+	sceneManager = SceneManager::GetInstance();
+
 	camera = std::make_unique<CinemaCamera>();
 //	camera->SetEye({ -27.0000000f, 226.199310f, -241.000000f });
 //	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
@@ -121,6 +123,12 @@ void GameScene::Update()
 
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollisions();
+
+	// シーンチェンジ
+	if (input->TriggerPush(DIK_Y))
+	{
+		sceneManager->ChangeScene("TITLE");
+	}
 }
 
 void GameScene::Draw()
