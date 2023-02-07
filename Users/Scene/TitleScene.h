@@ -1,6 +1,5 @@
 #pragma once
 #include"BaseScene.h"
-#include"SceneManager.h"
 #include "ErrorException.h"
 #include "TextureManager.h"
 #include "Transform.h"
@@ -14,7 +13,7 @@ private:
 	SceneManager* sceneManager = nullptr;
 
 	std::unique_ptr<Sprite2D> spriteTitle_;
-	uint32_t titleTex_;
+	uint32_t titleTex_ = 0;
 	char PADDING[4];
 
 	Transform spriteTransform;

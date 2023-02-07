@@ -28,8 +28,10 @@
 #include "TouchableObject.h"
 #include "Ground.h"
 #include "BaseScene.h"
-#include "SceneManager.h"
 #include "Skydome.h"
+
+#include "TitleScene.h"
+#include "ResultScene.h"
 
 #include "Goal.h"
 
@@ -37,6 +39,16 @@ class CollisionManager;
 
 class GameScene : public BaseScene
 {
+private:
+	enum SCENE
+	{
+		title,
+		game,
+		result
+	};
+
+	SCENE scene = SCENE::title;
+
 private:
 
 	Mesh* mesh2D = nullptr;
@@ -51,7 +63,8 @@ private:
 	std::unique_ptr<UserCamera> userCamera = nullptr;
 	int cameraType = 0;
 
-	SceneManager* sceneManager = nullptr;
+	std::unique_ptr<TitleScene> titleScene;
+	std::unique_ptr<ResultScene> resultScene;
 
 	std::unique_ptr<Stage> stage;
 
@@ -59,7 +72,6 @@ private:
 	std::unique_ptr<Player> player;
 
 	TouchableObject* objGround = nullptr;
-
 
 	CollisionManager* collisionManager = nullptr;
 

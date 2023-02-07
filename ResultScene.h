@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseScene.h"
-#include "SceneManager.h"
 #include "Input.h"
 
 class ResultScene : public BaseScene
