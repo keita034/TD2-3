@@ -484,7 +484,7 @@ void Stage::Initialize(Camera* camera)
 
 		{
 			//âEè„
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map09.png");
 			field[Right][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Right][RightTop].field = Field::s;
 
