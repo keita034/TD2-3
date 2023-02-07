@@ -185,8 +185,6 @@ void AliceModel::AnimationUpdate(const AliceMotionData* animation, float frame)
 
 		mesh.Update(computeRelation.get(), cmdList);
 	}
-
-
 }
 
 void AliceModel::CommonInitialize()
