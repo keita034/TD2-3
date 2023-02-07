@@ -12,6 +12,8 @@ Player::Player(uint32_t modelHandl) {
 
 	worldTransform_.Initialize();
 
+	modelWorldTransform_.Initialize();
+
 	float a = 8.5f;
 
 	worldTransform_.scale = { a,a,a };
@@ -23,7 +25,14 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
+	uint32_t handl = AliceModel::CreateModel("Resources/Kaede");
 
+	aliceModel = std::make_unique<AliceModel>();
+	aliceModel->SetModel(handl);
+
+	handl = AliceMotionData::CreateMotion("Resources/Kaede");
+	walkMotion = std::make_unique<AliceMotionData>();
+	walkMotion->SetMotion(handl);
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -38,10 +47,17 @@ void Player::Initialise() {
 
 void Player::Update(Camera* camera) {
 
+	frame += 0.017f;
+
 	PlayerJump(camera);
 	PlayerCollider(camera);
 	PlayerMove();
 	worldTransform_.TransUpdate(camera);
+	modelWorldTransform_.translation = worldTransform_.translation;
+	modelWorldTransform_.scale = { 0.1,0.1,0.1 };
+	modelWorldTransform_.TransUpdate(camera);
+
+	aliceModel->AnimationUpdate(walkMotion.get(), frame);
 }
 
 void Player::PlayerJump(Camera* camera) {
@@ -502,7 +518,9 @@ void Player::PlayerCollider(Camera* camera)
 
 void Player::Draw() {
 
-	model->Draw(worldTransform_);
+	//model->Draw(worldTransform_);
+
+	aliceModel->Draw(&modelWorldTransform_);
 }
 
 AliceMathF::Vector3 Player::bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform) {
