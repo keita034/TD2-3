@@ -357,6 +357,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (playerSurfacePos == 0) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.x = 0;
 
@@ -370,6 +371,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 0) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -383,6 +385,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (playerSurfacePos == 0) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.x = 0;
 
@@ -396,6 +399,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 0) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -411,6 +415,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (playerSurfacePos == 2) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.x = 0;
 
@@ -424,6 +429,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 2) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -437,6 +443,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (playerSurfacePos == 2) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.x = 0;
 
@@ -450,6 +457,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 2) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -465,6 +473,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopRightTop.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 1) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -478,6 +487,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 1) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -492,6 +502,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 3) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
@@ -505,6 +516,7 @@ void Player::PlayerMove(Camera* camera) {
 	if (TopRightTop.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
 		if (playerSurfacePos == 3) {
 			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
 			worldTransform_.translation.z = PlayerSmoothMoving.z;
 			playerMovement.z = 0;
 
