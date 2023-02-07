@@ -23,7 +23,7 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-	worldTransform_.translation = { -10,-80,0 };
+	worldTransform_.translation = { -80,0,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -239,6 +239,7 @@ void Player::PlayerMove(Camera* camera) {
 		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
+		worldTransform_.rotation = { 0,0,0 };
 	}
 	else if (playerSurfacePos == 1) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
@@ -254,6 +255,7 @@ void Player::PlayerMove(Camera* camera) {
 			else if (input_->KeepPush(DIK_D)) {
 				playerMovement.x = -playerSpeed;
 			}
+			worldTransform_.rotation = { 0,0,-90 * AliceMathF::Deg2Rad };
 		}
 	}
 	else if (playerSurfacePos == 2) {
@@ -269,6 +271,7 @@ void Player::PlayerMove(Camera* camera) {
 		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
+		worldTransform_.rotation = { 0,0,180 * AliceMathF::Deg2Rad };
 	}
 	else if (playerSurfacePos == 3) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
@@ -284,6 +287,7 @@ void Player::PlayerMove(Camera* camera) {
 			else if (input_->KeepPush(DIK_D)) {
 				playerMovement.x = -playerSpeed;
 			}
+			worldTransform_.rotation = { 0,0,90 * AliceMathF::Deg2Rad };
 		}
 
 	}
@@ -301,6 +305,7 @@ void Player::PlayerMove(Camera* camera) {
 			else if (input_->KeepPush(DIK_D)) {
 				playerMovement.x = -playerSpeed;
 			}
+			worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
 		}
 	}
 	else if (playerSurfacePos == 5) {
@@ -316,6 +321,7 @@ void Player::PlayerMove(Camera* camera) {
 		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
 		}
+		worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,0,0 };
 	}
 
 

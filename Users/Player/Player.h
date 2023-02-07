@@ -100,7 +100,7 @@ private:
 	float sizeYBottom = 54.0f;
 
 	AliceMathF::Vector3 TopLeftTop = { -sizeX,sizeYTop,size };
-	AliceMathF::Vector3 TopLeftBottom = { -sizeX,sizeYBottom,-size };
+	AliceMathF::Vector3 TopLeftBottom = { -sizeX,-sizeYBottom,-size };
 	AliceMathF::Vector3 TopRightTop = { sizeX,sizeYTop,size };
 	AliceMathF::Vector3 TopRightBottom = { sizeX,sizeYBottom,-size };
 
