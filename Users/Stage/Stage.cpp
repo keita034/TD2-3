@@ -8,11 +8,6 @@
 
 void Stage::Initialize(Camera* camera)
 {
-	besideFold_ = std::make_unique<BesideFold>();
-	besideFold_->Initialize();
-
-	verticalFold_ = std::make_unique<VerticalFold>();
-	verticalFold_->Initialize();
 
 	surfaceFold_ = std::make_unique<SurfaceFold>();
 	surfaceFold_->Initialize();
@@ -749,16 +744,6 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 
 	switch (foldIndex)
 	{
-	case FoldIndex::Vertical:
-
-		verticalFold_->Start(field, FieldSurfaceIndex);
-
-		break;
-	case FoldIndex::Beside:
-
-		besideFold_->Start(field, FieldSurfaceIndex);
-
-		break;
 	case FoldIndex::Surface:
 
 		surfaceFold_->Start(field, FieldSurfaceIndex, standardAngle_);
@@ -768,37 +753,11 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 		break;
 	}
 
-	//fieldPlaneDrawFlag = true;
 }
 
 void Stage::Update(Camera* camera)
 {
-	//if (fieldPlaneDrawFlag)
-	{
-		//switch (foldDirection)
-		//{
-		//case FoldIndex::Vertical://c
-
-		//	verticalFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-		//	break;
-
-		//case FoldIndex::Beside://‰¡
-
-		//	besideFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-
-		//	break;
-
-		//case FoldIndex::Surface:
-
-		surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-
-		///break;
-
-	//default:
-		//break;
-	//}
-
-	}
+	surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
 
 	for (size_t i = 0; i < field.size(); i++)
 	{
@@ -816,8 +775,6 @@ void Stage::Update(Camera* camera)
 		}
 	}
 	
-
-
 }
 
 void Stage::Draw()
@@ -837,14 +794,6 @@ void Stage::Draw()
 	{
 		switch (foldDirection)
 		{
-		case FoldIndex::Vertical://c
-			verticalFold_->Draw();
-			break;
-
-		case FoldIndex::Beside://‰¡
-			besideFold_->Draw();
-			break;
-
 		case FoldIndex::Surface:
 
 			surfaceFold_->Draw();

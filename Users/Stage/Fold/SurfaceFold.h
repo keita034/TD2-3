@@ -1,17 +1,17 @@
 #pragma once
 #include"ErrorException.h"
-#include"fbxModel.h"
-#include"FbxLoader.h"
 #include"FieldConstant.h"
+#include"AliceModel.h"
+#include"AliceMotionData.h"
 
 class SurfaceFold
 {
 private:
 
 	//面折りモデル
-	std::unique_ptr<fbxModel> surfaceFoldFbxmodel_;
+	std::unique_ptr<AliceModel> surfaceFoldFbxmodel_;
 	//面折りアニメーション
-	std::unique_ptr<fbxAnimation> surfaceFoldFbxmodelAnime_;
+	std::unique_ptr<AliceMotionData> surfaceFoldFbxmodelAnime_;
 
 	//アニメーションフレーム
 	float fieldPlaneAnimeFlam_ = 0.0f;

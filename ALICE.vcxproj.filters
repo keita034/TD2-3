@@ -522,13 +522,13 @@
     <ClInclude Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.h">
       <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="AliceMotionData.h">
+    <ClInclude Include="lib\Engine\3D\Model\AliceMotionData.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="AliceModel.h">
+    <ClInclude Include="lib\Engine\3D\Model\AliceModel.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="AliceFileStream.h">
+    <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -984,13 +984,13 @@
     <ClCompile Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.cpp">
       <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="AliceMotionData.cpp">
+    <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="AliceModel.cpp">
+    <ClCompile Include="lib\Engine\3D\Model\AliceModel.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="AliceFileStream.cpp">
+    <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

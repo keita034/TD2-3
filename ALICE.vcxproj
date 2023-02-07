@@ -106,9 +106,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AliceFileStream.h" />
-    <ClInclude Include="AliceModel.h" />
-    <ClInclude Include="AliceMotionData.h" />
+    <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h" />
+    <ClInclude Include="lib\Engine\3D\Model\AliceModel.h" />
+    <ClInclude Include="lib\Engine\3D\Model\AliceMotionData.h" />
     <ClInclude Include="lib\Engine\Core\Buffer\DepthStencilBuffer.h" />
     <ClInclude Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.h" />
@@ -423,9 +423,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AliceFileStream.cpp" />
-    <ClCompile Include="AliceModel.cpp" />
-    <ClCompile Include="AliceMotionData.cpp" />
+    <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp" />
+    <ClCompile Include="lib\Engine\3D\Model\AliceModel.cpp" />
+    <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp" />
     <ClCompile Include="lib\Engine\Core\Buffer\DepthStencilBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.cpp" />

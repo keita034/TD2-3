@@ -53,11 +53,9 @@ private:
 
 	TouchableObject* objGround = nullptr;
 
-
 	CollisionManager* collisionManager = nullptr;
 
 	uint32_t modelHandle2 = 0u;
-	//Ground* ground = nullptr;
 
 public:
 

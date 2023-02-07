@@ -21,6 +21,7 @@ void GameScene::Initialize()
 	light->SetLightColor(lightColor);
 	//モデルにライトをセット
 	Model::SetLight(light.get());
+	AliceModel::SetLight(light.get());
 
 	collisionManager = CollisionManager::GetInstance();
 
@@ -40,11 +41,6 @@ void GameScene::Initialize()
 	player = new Player(modelHandle1);
 	player->Initialise();
 
-
-	modelHandle2 = Model::CreateObjModel("Resources/Wall");
-
-	//ground = new Ground();
-	//ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
@@ -76,8 +72,6 @@ void GameScene::Update()
 
 	player->Update(camera.get());
 
-	//ground->Update(camera.get());
-
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollisions();
 }
@@ -88,7 +82,6 @@ void GameScene::Draw()
 
 	player->Draw();
 
-	//ground->Draw();
 }
 
 void GameScene::Finalize()

@@ -1,6 +1,6 @@
 #include "SurfaceFoldCenterLeft2.h"
 
-void SurfaceFoldCenterLeft2::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldCenterLeft2::StartCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	field[CenterLeft][LeftTop].isDraw = false;
 	field[CenterLeft][RightTop].isDraw = false;
@@ -213,7 +213,7 @@ void SurfaceFoldCenterLeft2::ShrinkAnimeCenterLeftTo(std::array<std::array<Field
 	}
 }
 
-void SurfaceFoldCenterLeft2::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldCenterLeft2::ReplaceCenterLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	FieldElement element;
 	Transform transform1;
