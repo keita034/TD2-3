@@ -1,11 +1,12 @@
-#include "fbxModel.h"
-#include"FbxLoader.h"
+#include "AliceModel.h"
+#include"AliceFileLoad.h"
 
-std::shared_ptr<ComputeRelation> fbxModel::computeRelation;
-Microsoft::WRL::ComPtr<ID3D12Device> fbxModel::device;
-Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> fbxModel::cmdList;
+std::unique_ptr<ComputeRelation> AliceModel::computeRelation;
+ID3D12Device* AliceModel::device;
+ID3D12GraphicsCommandList* AliceModel::cmdList;
+Light* AliceModel::light;
 
-void fbxModel::Initialize()
+void AliceModel::Initialize()
 {
 	postureMatBuff = std::make_unique<ConstantBuffer>();
 
@@ -13,9 +14,23 @@ void fbxModel::Initialize()
 
 	AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
 	postureMatBuff->Update(&tmp);
+
+	for (size_t i = 0; i < nodes.size(); i++)
+	{
+		if (nodes[i].parent)
+		{
+			auto itr = std::find_if(nodes.begin(), nodes.end(), [&](Node& node)
+				{
+					return node.name == nodes[i].parent->name;
+				});
+
+			itr->childrens.push_back(&nodes[i]);
+		}
+
+	}
 }
 
-void fbxModel::Draw(Transform* transform, Material* material)
+void AliceModel::Draw(Transform* transform, Material* material)
 {
 	if (!material)
 	{
@@ -64,64 +79,66 @@ void fbxModel::Draw(Transform* transform, Material* material)
 
 
 		cmdList->SetGraphicsRootConstantBufferView(3, postureMatBuff->GetAddress());
-		meshes[i].Draw(cmdList.Get(), transform, light);
+		meshes[i].Draw(cmdList, transform, light);
 	}
 
 	IsAnime = false;
 }
 
-void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
+void AliceModel::AnimationUpdate(const AliceMotionData* animation, float frame)
 {
 	IsAnime = true;
 
 	vertexInitialize = true;
 
 	AliceMathF::Matrix4 mxIdentity = AliceMathF::MakeIdentity();
-	aiNode* pNode = mScene->mRootNode;
-	aiAnimation* pAnimation = animation->mAnimation->mAnimations[0];
 
-	FLOAT TicksPerSecond = (FLOAT)(pAnimation->mTicksPerSecond != 0 ? pAnimation->mTicksPerSecond : 25.0f);
+	Node* pNode = &nodes[0];
 
-	FLOAT TimeInTicks = frame * TicksPerSecond;
-	FLOAT AnimationTime = fmod(TimeInTicks, (FLOAT)pAnimation->mDuration);
+	float TicksPerSecond = (animation->ticksPerSecond != 0 ? animation->ticksPerSecond : 25.0f);
+
+	float TimeInTicks = frame * TicksPerSecond;
+	float AnimationTime = fmod(TimeInTicks, animation->duration);
 
 	for (ModelMesh& mesh : meshes)
 	{
-		ReadNodeHeirarchy(&mesh, pAnimation, AnimationTime, pNode, mxIdentity);
+		ReadNodeHeirarchy(&mesh, animation, AnimationTime, pNode, mxIdentity);
 
-		UINT nNumBones = (UINT)mesh.bones.size();
-
-		for (UINT i = 0; i < nNumBones; i++)
+		for (size_t i = 0; i < mesh.bones.size(); i++)
 		{
-			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name]->matrix;
+			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name].matrix;
 		}
 
-		mesh.Update(computeRelation.get(), cmdList.Get());
+		mesh.Update(computeRelation.get(), cmdList);
 	}
 
 
 }
 
-void fbxModel::Create(const char* filePath, bool smoothing, bool inverseU, bool inverseV, bool animeFlag)
+void AliceModel::Create(const char* filePath)
 {
-	static_cast<void>(smoothing);
 
-	FbxLoader::GetInstance()->LoadModel(this, filePath, inverseU, inverseV, animeFlag);
+	/*if (!AliceFileLoad::GetInstance()->ModelLoad(filePath, this))
+	{
+		assert(0);
+	}*/
 
 	//バッファ生成
-	for (size_t i = 0; i < meshes.size(); i++)
-	{
-		meshes[i].CreateBuffer();
-	}
+	//for (size_t i = 0; i < meshes.size(); i++)
+	//{
+	//	meshes[i].CreateBuffer();
+	//}
+
+	//Initialize();
 }
 
-void fbxModel::CommonInitialize()
+void AliceModel::CommonInitialize()
 {
-	device = DirectX12Core::GetInstance()->GetDevice();
-	cmdList = DirectX12Core::GetInstance()->GetCommandList();
+	device = DirectX12Core::GetInstance()->GetDevice().Get();
+	cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
 	//初期化
-	computeRelation = std::make_shared<ComputeRelation>();
+	computeRelation = std::make_unique<ComputeRelation>();
 
 	//ルートシグネチャの初期化
 	computeRelation->rootSignature = std::make_unique<RootSignature>();
@@ -149,7 +166,7 @@ void fbxModel::CommonInitialize()
 	computeRelation->computePipelineState->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 }
 
-bool fbxModel::TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData)
+bool AliceModel::TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData)
 {
 	//メッシュの中からマテリアルを探す
 	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
@@ -176,7 +193,7 @@ bool fbxModel::TransTexture(const std::string& materialName, const std::string& 
 	return false;
 }
 
-bool fbxModel::TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData)
+bool AliceModel::TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData)
 {
 	//メッシュの中からマテリアルを探す
 	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
@@ -187,16 +204,16 @@ bool fbxModel::TransTexture(const std::string& materialName, size_t textureIndex
 	if (materialItr != meshes.end())
 	{
 		//マテリアルの中からテクスチャ探す
-		
-			materialItr->textures[textureIndex] = textureData;
 
-			return true;
+		materialItr->textures[textureIndex] = textureData;
+
+		return true;
 	}
 
 	return false;
 }
 
-bool fbxModel::FlipUV(const std::string& materialName, bool inverseU, bool inverseV)
+bool AliceModel::FlipUV(const std::string& materialName, bool inverseU, bool inverseV)
 {
 	//メッシュの中からマテリアルを探す
 	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
@@ -226,7 +243,7 @@ bool fbxModel::FlipUV(const std::string& materialName, bool inverseU, bool inver
 	return false;
 }
 
-bool fbxModel::rotationUV(const std::string& materialName, float angle)
+bool AliceModel::rotationUV(const std::string& materialName, float angle)
 {
 	//メッシュの中からマテリアルを探す
 	auto materialItr = std::find_if(meshes.begin(), meshes.end(), [&](ModelMesh& p)
@@ -252,7 +269,7 @@ bool fbxModel::rotationUV(const std::string& materialName, float angle)
 	return false;
 }
 
-void fbxModel::InitializeVertex()
+void AliceModel::InitializeVertex()
 {
 	for (ModelMesh& mesh : meshes)
 	{
@@ -264,22 +281,21 @@ void fbxModel::InitializeVertex()
 	}
 }
 
-const std::vector<ModelMesh>& fbxModel::GetMeshs()
+const std::vector<ModelMesh>& AliceModel::GetMeshs()
 {
 	return meshes;
 }
 
-void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation, float AnimationTime, const aiNode* pNode, const AliceMathF::Matrix4& mxParentTransform)
+void AliceModel::ReadNodeHeirarchy(ModelMesh* mesh, const AliceMotionData* pAnimation, float AnimationTime, const Node* pNode, const AliceMathF::Matrix4& mxParentTransform)
 {
 	AliceMathF::Matrix4 mxNodeTransformation = AliceMathF::MakeIdentity();
-	mxNodeTransformation = pNode->mTransformation;
-	mxNodeTransformation = mxNodeTransformation.Transpose();
+	mxNodeTransformation = pNode->transform;
 
 	AliceMathF::Matrix4 mxThisTrans = mxNodeTransformation.Transpose();
 
-	std::string strNodeName(pNode->mName.data);
+	std::string strNodeName = pNode->name;
 
-	const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
+	const MotionNode* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
 
 	if (pNodeAnim)
 	{
@@ -290,9 +306,9 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 		mxScaling.MakeScaling(vScaling);
 
 		//回転角
-		AliceMathF::Vector4 vRotationQ = {};
+		AliceMathF::Quaternion vRotationQ = {};
 		CalcInterpolatedRotation(vRotationQ, AnimationTime, pNodeAnim);
-		AliceMathF::Matrix4 mxRotationM = AliceMathF::Quaternion(vRotationQ).Rotate();
+		AliceMathF::Matrix4 mxRotationM = vRotationQ.Rotate();
 
 		//移動
 		AliceMathF::Vector3 vTranslation = {};
@@ -309,44 +325,44 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 	AliceMathF::Matrix4 matirx;
 	if (mesh->bones.find(strNodeName) != mesh->bones.end())
 	{
-		offsetMatirx = mesh->bones[strNodeName]->offsetMatirx;
+		offsetMatirx = mesh->bones[strNodeName].offsetMatirx;
 
 		matirx
 			= offsetMatirx.MatrixMultiply(mxGlobalTransformation).
 			MatrixMultiply(globalInverseTransform);
 
-		mesh->bones[strNodeName]->matrix = matirx;
+		mesh->bones[strNodeName].matrix = matirx;
 
 	}
 
-	for (UINT i = 0; i < pNode->mNumChildren; i++)
+	for (UINT i = 0; i < pNode->childrens.size(); i++)
 	{
 		ReadNodeHeirarchy(mesh
 			, pAnimation
 			, AnimationTime
-			, pNode->mChildren[i]
+			, pNode->childrens[i]
 			, mxGlobalTransformation);
 	}
 }
 
-aiNodeAnim* fbxModel::FindNodeAnim(const aiAnimation* pAnimation, const std::string& strNodeName)
+const MotionNode* AliceModel::FindNodeAnim(const AliceMotionData* pAnimation, const std::string& strNodeName)
 {
-	for (UINT i = 0; i < pAnimation->mNumChannels; i++)
+	for (UINT i = 0; i < pAnimation->channels.size(); i++)
 	{
-		if (std::string(pAnimation->mChannels[i]->mNodeName.data) == strNodeName)
+		if (std::string(pAnimation->channels[i].name) == strNodeName)
 		{
-			return pAnimation->mChannels[i];
+			return &pAnimation->channels[i];
 		}
 	}
 
 	return nullptr;
 }
 
-void fbxModel::CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+void AliceModel::CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
 {
-	if (pNodeAnim->mNumScalingKeys == 1)
+	if (pNodeAnim->scalingKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->mScalingKeys[0].mValue;
+		mxOut = pNodeAnim->scalingKeys[0].value;
 		return;
 	}
 
@@ -358,129 +374,123 @@ void fbxModel::CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float Animati
 	}
 
 	UINT NextScalingIndex = (ScalingIndex + 1);
-	ATLASSERT(NextScalingIndex < pNodeAnim->mNumScalingKeys);
-	float DeltaTime = (float)(pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime);
-	float Factor = (AnimationTime - (float)pNodeAnim->mScalingKeys[ScalingIndex].mTime) / DeltaTime;
+	ATLASSERT(NextScalingIndex < pNodeAnim->scalingKeys.size());
+	float DeltaTime = (pNodeAnim->scalingKeys[NextScalingIndex].time - pNodeAnim->scalingKeys[ScalingIndex].time);
+	float Factor = (AnimationTime - pNodeAnim->scalingKeys[ScalingIndex].time) / DeltaTime;
 	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
 
-	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->mScalingKeys[ScalingIndex].mValue, pNodeAnim->mScalingKeys[NextScalingIndex].mValue, Factor);
+	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->scalingKeys[ScalingIndex].value, pNodeAnim->scalingKeys[NextScalingIndex].value, Factor);
 
 }
 
-bool fbxModel::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nScalingIndex)
+bool AliceModel::FindScaling(float AnimationTime, const MotionNode* pNodeAnim, UINT& nScalingIndex)
 {
 	nScalingIndex = 0;
-	if (!(pNodeAnim->mNumScalingKeys > 0))
+	if (!(pNodeAnim->scalingKeys.size() > 0))
 	{
-		return FALSE;
+		return false;
 	}
 
-	for (UINT i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
+	for (size_t i = 0; i < pNodeAnim->scalingKeys.size() - 1; i++)
 	{
-		if ((AnimationTime >= (float)pNodeAnim->mScalingKeys[i].mTime)
-			&& (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime))
+		if ((AnimationTime >= pNodeAnim->scalingKeys[i].time) && (AnimationTime < pNodeAnim->scalingKeys[i + 1].time))
 		{
 			nScalingIndex = i;
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-void fbxModel::CalcInterpolatedRotation(AliceMathF::Vector4& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+void AliceModel::CalcInterpolatedRotation(AliceMathF::Quaternion& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
 {
-	if (pNodeAnim->mNumRotationKeys == 1)
+	if (pNodeAnim->rotationKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->mRotationKeys[0].mValue;
+		mxOut = pNodeAnim->rotationKeys[0].value;
 		return;
 	}
 
 	UINT RotationIndex = 0;
 	if (!FindRotation(AnimationTime, pNodeAnim, RotationIndex))
 	{
-		mxOut = AliceMathF::Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		mxOut = AliceMathF::Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 		return;
 	}
 
 	UINT NextRotationIndex = (RotationIndex + 1);
-	ATLASSERT(NextRotationIndex < pNodeAnim->mNumRotationKeys);
-	float DeltaTime = (float)(pNodeAnim->mRotationKeys[NextRotationIndex].mTime
-		- pNodeAnim->mRotationKeys[RotationIndex].mTime);
-	float Factor = (AnimationTime - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+	ATLASSERT(NextRotationIndex < pNodeAnim->rotationKeys.size());
+
+	float DeltaTime = pNodeAnim->rotationKeys[NextRotationIndex].time - pNodeAnim->rotationKeys[RotationIndex].time;
+	float Factor = (AnimationTime - pNodeAnim->rotationKeys[RotationIndex].time) / DeltaTime;
 	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
 
-	AliceMathF::QuaternionSlerp(mxOut
-		, pNodeAnim->mRotationKeys[RotationIndex].mValue
-		, pNodeAnim->mRotationKeys[NextRotationIndex].mValue
-		, Factor);
+	AliceMathF::QuaternionSlerp(mxOut, pNodeAnim->rotationKeys[RotationIndex].value, pNodeAnim->rotationKeys[NextRotationIndex].value, Factor);
 
 }
 
-bool fbxModel::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nRotationIndex)
+bool AliceModel::FindRotation(float AnimationTime, const MotionNode* pNodeAnim, UINT& nRotationIndex)
 {
 	nRotationIndex = 0;
-	if (!(pNodeAnim->mNumRotationKeys > 0))
+	if (!(pNodeAnim->rotationKeys.size() > 0))
 	{
-		return FALSE;
+		return false;
 	}
 
-	for (UINT i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+	for (size_t i = 0; i < pNodeAnim->rotationKeys.size() - 1; i++)
 	{
 
-		if ((AnimationTime >= (float)pNodeAnim->mRotationKeys[i].mTime)
-			&& (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime))
+		if ((AnimationTime >= pNodeAnim->rotationKeys[i].time) && (AnimationTime < pNodeAnim->rotationKeys[i + 1].time))
 		{
 			nRotationIndex = i;
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-void fbxModel::CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const aiNodeAnim* pNodeAnim)
+void AliceModel::CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
 {
-	if (pNodeAnim->mNumPositionKeys == 1)
+	if (pNodeAnim->positionKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->mPositionKeys[0].mValue;
+		mxOut = pNodeAnim->positionKeys[0].value;
 		return;
 	}
 
 	UINT PositionIndex = 0;
 	if (!FindPosition(AnimationTime, pNodeAnim, PositionIndex))
 	{
-		mxOut = AliceMathF::Vector3( 0.0f, 0.0f, 0.0f );
+		mxOut = AliceMathF::Vector3(0.0f, 0.0f, 0.0f);
 		return;
 	}
 
 	UINT NextPositionIndex = (PositionIndex + 1);
 
-	ATLASSERT(NextPositionIndex < pNodeAnim->mNumPositionKeys);
-	float DeltaTime = (float)(pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime);
-	float Factor = (AnimationTime - (float)pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+	ATLASSERT(NextPositionIndex < pNodeAnim->positionKeys.size());
+	float DeltaTime = (pNodeAnim->positionKeys[NextPositionIndex].time - pNodeAnim->positionKeys[PositionIndex].time);
+	float Factor = (AnimationTime - pNodeAnim->positionKeys[PositionIndex].time) / DeltaTime;
 	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
 
-	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->mPositionKeys[PositionIndex].mValue, pNodeAnim->mPositionKeys[NextPositionIndex].mValue, Factor);
+	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->positionKeys[PositionIndex].value, pNodeAnim->positionKeys[NextPositionIndex].value, Factor);
 }
 
-bool fbxModel::FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim, UINT& nPosIndex)
+bool AliceModel::FindPosition(float AnimationTime, const MotionNode* pNodeAnim, UINT& nPosIndex)
 {
 	nPosIndex = 0;
-	if (!(pNodeAnim->mNumPositionKeys > 0))
+	if (!(pNodeAnim->positionKeys.size() > 0))
 	{
-		return FALSE;
+		return false;
 	}
 
-	for (UINT i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++)
+	for (size_t i = 0; i < pNodeAnim->positionKeys.size() - 1; i++)
 	{
-		if ((AnimationTime >= (float)pNodeAnim->mPositionKeys[i].mTime)
-			&& (AnimationTime < (float)pNodeAnim->mPositionKeys[i + 1].mTime))
+		if ((AnimationTime >= pNodeAnim->positionKeys[i].time)&& (AnimationTime < pNodeAnim->positionKeys[i + 1].time))
 		{
 			nPosIndex = i;
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }

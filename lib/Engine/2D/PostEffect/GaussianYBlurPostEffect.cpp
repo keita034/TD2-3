@@ -79,7 +79,7 @@ void GaussianYBlurPostEffect::PostUpdate(RenderTarget* mainRenderTarget)
 
 const std::string& GaussianYBlurPostEffect::GetType()
 {
-	return "ステートメントをここに挿入します";
+	return type;
 }
 
 void GaussianYBlurPostEffect::SetWeight(std::array<float, 8>& weightPtr)

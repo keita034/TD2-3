@@ -1,4 +1,6 @@
 #include "AliceFramework.h"
+#include"AliceModel.h"
+#include"AliceMotionData.h"
 
 void AliceFramework::DebugInitialize()
 {
@@ -46,6 +48,8 @@ void AliceFramework::Initialize()
 
 	Model::CommonInitialize();
 	fbxModel::CommonInitialize();
+	AliceModel::CommonInitialize();
+	AliceMotionData::CommonInitialize();
 
 	imGuiManager = std::make_unique<ImGuiManager>();
 	imGuiManager->Initialize(windowsApp, directX12Core);
