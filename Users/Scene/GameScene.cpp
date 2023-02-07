@@ -127,7 +127,7 @@ void GameScene::Update()
 	// シーンチェンジ
 	if (input->TriggerPush(DIK_Y))
 	{
-		sceneManager->ChangeScene("TITLE");
+		sceneManager->ChangeScene("RESULT");
 	}
 }
 
