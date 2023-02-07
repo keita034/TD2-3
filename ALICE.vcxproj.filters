@@ -507,6 +507,9 @@
     <ClInclude Include="Skydome.h">
       <Filter>User\ヘッダーファイル\Skydome</Filter>
     </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>User\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ALICE.rc">
@@ -917,6 +920,9 @@
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>User\ソースファイル\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>User\ソースファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

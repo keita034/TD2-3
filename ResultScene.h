@@ -1,27 +1,16 @@
 #pragma once
-#include"BaseScene.h"
-#include "ErrorException.h"
-#include "TextureManager.h"
-#include "Transform.h"
-#include "Sprite2D.h"
+#include "BaseScene.h"
 #include "Input.h"
 
-class TitleScene : public BaseScene
+class ResultScene : public BaseScene
 {
 private:
 	Input* input = nullptr;
 	SceneManager* sceneManager = nullptr;
 
-	std::unique_ptr<Sprite2D> spriteTitle_;
-	uint32_t titleTex_ = 0;
-	char PADDING[4];
-
-	Transform spriteTransform;
-
 public:
-
-	TitleScene() = default;
-	~TitleScene() = default;
+	ResultScene() = default;
+	~ResultScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -45,7 +34,7 @@ public:
 
 private:
 	//コピーコンストラクタ・代入演算子削除
-	TitleScene& operator=(const TitleScene&) = delete;
-	TitleScene(const TitleScene&) = delete;
+	ResultScene& operator=(const ResultScene&) = delete;
+	ResultScene(const ResultScene&) = delete;
 };
 

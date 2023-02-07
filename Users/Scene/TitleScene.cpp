@@ -1,17 +1,8 @@
 #include "TitleScene.h"
 
-TitleScene::TitleScene()
-{
-}
-
-TitleScene::~TitleScene()
-{
-}
-
 void TitleScene::Initialize()
 {
 	input = Input::GetInstance();
-	sceneManager = SceneManager::GetInstance();
 
 	titleTex_ = TextureManager::GetInstance()->LoadTexture("Resources/title/title.png");
 	spriteTitle_.reset(Sprite::Create2DSprite(titleTex_));
@@ -22,10 +13,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	if (input->TriggerPush(DIK_SPACE))
-	{
-		sceneManager->ChangeScene("GAME");
-	}
+
 }
 
 void TitleScene::Draw()
