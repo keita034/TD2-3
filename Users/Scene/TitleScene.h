@@ -6,6 +6,8 @@
 #include "Sprite2D.h"
 #include "Input.h"
 #include "CinemaCamera.h"
+#include "AliceModel.h"
+#include "AliceMotionData.h"
 
 #include "UserCamera.h"
 #include "Stage.h"
@@ -21,11 +23,17 @@ private:
 
 	std::unique_ptr<Stage> stage_;
 
+	std::unique_ptr<AliceModel> aliceModel;
+	std::unique_ptr<AliceMotionData> walkMotion;
+
 	std::unique_ptr<Sprite2D> spriteTitle_;
 	uint32_t titleTex_ = 0;
 	char PADDING[4];
 
 	Transform spriteTransform;
+	Transform fbxTransform;
+	float frame = 0;
+	AliceMathF::Vector3 fbxTranslation = {-100.0f,0.0f,0.0f};
 
 public:
 

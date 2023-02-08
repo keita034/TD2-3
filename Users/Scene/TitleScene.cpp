@@ -11,15 +11,27 @@ void TitleScene::Initialize()
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(camera_.get());
 
+	uint32_t handl = AliceModel::CreateModel("Resources/Kaede/Model");
+
+	aliceModel = std::make_unique<AliceModel>();
+	aliceModel->SetModel(handl);
+
+	handl = AliceMotionData::CreateMotion("Resources/Kaede/title");
+	walkMotion = std::make_unique<AliceMotionData>();
+	walkMotion->SetMotion(handl);
+
 	titleTex_ = TextureManager::GetInstance()->LoadTexture("Resources/title/title.png");
 	spriteTitle_.reset(Sprite::Create2DSprite(titleTex_));
 
 	spriteTransform.Initialize();
+	fbxTransform.Initialize();
 	spriteTransform.translation = { 640.0f,360.0f,0.0f };
 }
 
 void TitleScene::Update()
 {
+	frame += 0.017f;
+
 	stage_->SetStageObjScale({ 20.0f,20.0f,20.0f });
 
 	stage_->SetStageTopTrans({ 10.0f,20.0f,10.0f });
@@ -39,12 +51,19 @@ void TitleScene::Update()
 
 	camera_->SetEye(camera_->GetTarget() + userCamera_->GetEye());
 	camera_->SetUp(userCamera_->GetUp());
+
+	fbxTransform.translation = { fbxTranslation.x,fbxTranslation.y,fbxTranslation.z };
+	fbxTransform.scale = { 0.1f,0.1f,0.1f };
+	fbxTransform.TransUpdate(camera_.get());
+	
+	aliceModel->AnimationUpdate(walkMotion.get(), frame);
 }
 
 void TitleScene::Draw()
 {
 	spriteTitle_->Draw(spriteTransform);
 	stage_->Draw();
+	aliceModel->Draw(&fbxTransform);
 }
 
 void TitleScene::Finalize()
