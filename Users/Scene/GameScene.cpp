@@ -69,7 +69,7 @@ void GameScene::Initialize()
 	gameBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/game.mp3", 0.05f);
 	resultBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/result.mp3", 0.05f);
 
-	audioManager->PlayWave(titleBgmhandl);
+	audioManager->PlayWave(titleBgmhandl, true);
 }
 
 void GameScene::Update()
@@ -92,7 +92,7 @@ void GameScene::Update()
 		{
 			scene = game;
 			audioManager->StopWave(titleBgmhandl);
-			audioManager->PlayWave(gameBgmhandl);
+			audioManager->PlayWave(gameBgmhandl, true);
 
 		}
 		break;
@@ -185,7 +185,7 @@ void GameScene::Update()
 		{
 			scene = result;
 			audioManager->StopWave(gameBgmhandl);
-			audioManager->PlayWave(resultBgmhandl);
+			audioManager->PlayWave(resultBgmhandl, true);
 			collisionManager->SetGoal(false);
 		}
 		break;
@@ -211,7 +211,7 @@ void GameScene::Update()
 		{
 			scene = title;
 			audioManager->StopWave(resultBgmhandl);
-			audioManager->PlayWave(titleBgmhandl);
+			audioManager->PlayWave(titleBgmhandl, true);
 		}
 		break;
 
