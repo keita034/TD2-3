@@ -134,6 +134,7 @@ void SurfaceFoldTop2::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& fie
 
 	case TopToRight:
 
+
 		//テクスチャをセット
 		surfaceFoldFbxmodel_->TransTexture("Material.004", 0, field[Top][LeftTop].textureData);
 		surfaceFoldFbxmodel_->TransTexture("Material.003", 0, field[Top][RightTop].textureData);
