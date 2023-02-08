@@ -111,6 +111,8 @@ private:
 
 	int smoothMoving = 0;
 
+	int playerSideMove = 0;
+
 	float size = 43.0f;
 	float sizeX = 43.0f;
 	float sizeYTop = 30.0f;

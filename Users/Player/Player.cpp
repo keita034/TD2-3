@@ -34,7 +34,7 @@ Player::Player(uint32_t modelHandl) {
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
 	
-	worldTransform_.translation = { 0,-90,0 };
+	worldTransform_.translation = { 90,-30,0 };
 
 	//worldTransform_.translation = { -80,0,0 };
 
@@ -60,6 +60,9 @@ void Player::Update(Camera* camera) {
 	modelWorldTransform_.scale = { 0.1,0.1,0.1 };
 	if (topORbottom == 1) {
 		rot = { 0,rot.y,rot.z };
+	}
+	if (playerSideMove == 1) {
+		rot = { 0,0,rot.z };
 	}
 	modelWorldTransform_.rotation = rot + worldTransform_.rotation;
 	modelWorldTransform_.TransUpdate(camera);
@@ -251,6 +254,7 @@ void Player::PlayerMove(Camera* camera) {
 	AliceMathF::Vector3 playerMovement = { 0,0,0 };
 
 	topORbottom = 0;
+	playerSideMove = 0;
 
 	if (playerSurfacePos == 0) {
 		if (input_->KeepPush(DIK_W)) {
@@ -275,21 +279,21 @@ void Player::PlayerMove(Camera* camera) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
 			if (input_->KeepPush(DIK_W)) {
 				playerMovement.y = playerSpeed;
-				worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
+				worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad,0 };
 			}
 			else if (input_->KeepPush(DIK_A)) {
 				playerMovement.x = playerSpeed;
-				worldTransform_.rotation = { 0,-90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad };
+				worldTransform_.rotation = { 0 * AliceMathF::Deg2Rad,0,-90 * AliceMathF::Deg2Rad };
 			}
 			else if (input_->KeepPush(DIK_S)) {
 				playerMovement.y = -playerSpeed;
-				worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,180 * AliceMathF::Deg2Rad,0 };
+				worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad,0 };
 			}
 			else if (input_->KeepPush(DIK_D)) {
 				playerMovement.x = -playerSpeed;
-				worldTransform_.rotation = { 0,90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
+				worldTransform_.rotation = { 180 * AliceMathF::Deg2Rad,0,-90 * AliceMathF::Deg2Rad };
 			}
-			
+			playerSideMove = 1;
 		}
 	}
 	else if (playerSurfacePos == 2) {
@@ -315,21 +319,21 @@ void Player::PlayerMove(Camera* camera) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
 			if (input_->KeepPush(DIK_W)) {
 				playerMovement.y = playerSpeed;
-				worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
+				worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad,0 };
 			}
 			else if (input_->KeepPush(DIK_A)) {
 				playerMovement.x = playerSpeed;
-				worldTransform_.rotation = { 0,-90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad };
+				worldTransform_.rotation = { 180 * AliceMathF::Deg2Rad,0,90 * AliceMathF::Deg2Rad };
 			}
 			else if (input_->KeepPush(DIK_S)) {
 				playerMovement.y = -playerSpeed;
-				worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,180 * AliceMathF::Deg2Rad,0 };
+				worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad,0 };
 			}
 			else if (input_->KeepPush(DIK_D)) {
 				playerMovement.x = -playerSpeed;
-				worldTransform_.rotation = { 0,90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
+				worldTransform_.rotation = { 0,0,90 * AliceMathF::Deg2Rad };
 			}
-			//worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
+			playerSideMove = 1;
 		}
 
 	}
@@ -351,26 +355,27 @@ void Player::PlayerMove(Camera* camera) {
 				playerMovement.x = -playerSpeed;
 				worldTransform_.rotation = { 0,90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
 			}
+			playerSideMove = 1;
 		}
 	}
 	else if (playerSurfacePos == 5) {
 		if (input_->KeepPush(DIK_W)) {
 			playerMovement.y = playerSpeed;
-			worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
+			worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,180 * AliceMathF::Deg2Rad,0 };
 		}
 		else if (input_->KeepPush(DIK_A)) {
 			playerMovement.x = playerSpeed;
-			worldTransform_.rotation = { 0,-90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad };
+			worldTransform_.rotation = { 0,90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad };
 		}
 		else if (input_->KeepPush(DIK_S)) {
 			playerMovement.y = -playerSpeed;
-			worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,0,180 * AliceMathF::Deg2Rad };
+			worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,0,0 };
 		}
 		else if (input_->KeepPush(DIK_D)) {
 			playerMovement.x = -playerSpeed;
-			worldTransform_.rotation = { 0,90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
+			worldTransform_.rotation = { 0,-90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
 		}
-		
+		playerSideMove = 1;
 	}
 
 
@@ -598,8 +603,49 @@ void Player::PlayerMove(Camera* camera) {
 			worldTransform_.translation += playerMovement;
 		}
 	}
+	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 5) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
 
+			if (input_->KeepPush(DIK_A)) {
+				playerMovement.z = playerSpeed;
+				playerSurfacePos = 3;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	//Žè‘O
+	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 4) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
 
+			if (input_->KeepPush(DIK_D)) {
+				playerMovement.z = -playerSpeed;
+				playerSurfacePos = 3;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 4) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
+
+			if (input_->KeepPush(DIK_A)) {
+				playerMovement.z = -playerSpeed;
+				playerSurfacePos = 1;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
 
 }
 
