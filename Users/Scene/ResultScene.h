@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseScene.h"
 #include "Input.h"
+#include"AudioManager.h"
 
 class ResultScene : public BaseScene
 {

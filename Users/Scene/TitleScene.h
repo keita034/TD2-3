@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "UserCamera.h"
 #include "Stage.h"
+#include "AudioManager.h"
 
 class TitleScene : public BaseScene
 {

@@ -15,6 +15,7 @@ void GameScene::Initialize()
 {
 	input = Input::GetInstance();
 	mesh2D = Mesh::GetInstance();
+	audioManager = AudioManager::GetInstance();
 
 	//ライト初期化
 	light.reset(Light::Create());
@@ -35,25 +36,6 @@ void GameScene::Initialize()
 	resultScene->Initialize();
 
 	stage = std::make_unique<Stage>();
-
-	//stage->Initialize(camera.get(),"Resources/SurfaceParts/",
-	//	"Map01", "Map02", "Map03", "Map04",		//02
-	//	"Map05", "Map06", "Map07", "Map08",		//01
-	//	"Map09", "Map010", "Map011", "Map012",	//03
-	//	"Map013", "Map014", "Map015", "Map016",	//04
-	//	"Map017", "Map018", "Map019", "Map020",	//05
-	//	"Map021", "Map022", "Map023", "Map024"	//06
-	//);
-
-	//stage->Initialize(camera.get(), "Resources/SurfaceParts/",
-	//	 //左上    //右上    //左下     //右下
-	//	"Map017", "Map018", "Map019", "Map020",	//05
-	//	"Map01" , "Map02" , "Map03" , "Map04" ,	//01
-	//	"Map021", "Map022", "Map023", "Map024",	//06
-	//	"Map013", "Map014", "Map015", "Map016",	//04
-	//	"Map05" , "Map06" , "Map07" , "Map08" ,	//02
-	//	"Map09" , "Map010", "Map011", "Map012"	//03
-	//);
 
 	stage->Initialize(camera.get(), "Resources/SurfaceParts/",
 		//左上    //右上    //左下     //右下
@@ -82,6 +64,12 @@ void GameScene::Initialize()
 
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
+
+	titleBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/title.mp3", 0.05f);
+	gameBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/game.mp3", 0.05f);
+	resultBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/result.mp3", 0.05f);
+
+	audioManager->PlayWave(titleBgmhandl);
 }
 
 void GameScene::Update()
@@ -103,6 +91,9 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_SPACE))
 		{
 			scene = game;
+			audioManager->StopWave(titleBgmhandl);
+			audioManager->PlayWave(gameBgmhandl);
+
 		}
 		break;
 #pragma endregion
@@ -189,6 +180,8 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_RETURN))
 		{
 			scene = result;
+			audioManager->StopWave(gameBgmhandl);
+			audioManager->PlayWave(resultBgmhandl);
 		}
 		break;
 
@@ -201,6 +194,8 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_SPACE))
 		{
 			scene = title;
+			audioManager->StopWave(resultBgmhandl);
+			audioManager->PlayWave(titleBgmhandl);
 		}
 		break;
 

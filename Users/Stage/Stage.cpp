@@ -65,7 +65,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map1;
 
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Top][RightTop].field = Field::b;
 
@@ -119,7 +119,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map3;
 
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
 			field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Top][LeftTop].field = Field::a;
 
@@ -144,7 +144,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map4;
 
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Top][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Top][LeftBottom].field = Field::c;
 
@@ -250,7 +250,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map8;
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map08.png");
 			field[Left][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightBottom].field = Field::h;
 
@@ -281,7 +281,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map9;
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[CenterLeft][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][LeftTop].field = Field::i;
 
@@ -342,7 +342,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map11;
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map08.png");
 			field[CenterLeft][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][LeftBottom].field = Field::k;
 
@@ -371,7 +371,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map12;
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterLeft][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterLeft][RightBottom].field = Field::l;
 
@@ -456,7 +456,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map15;
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[CenterRight][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][LeftBottom].field = Field::o;
 
@@ -480,7 +480,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map16;
 			//右下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterRight][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[CenterRight][RightBottom].field = Field::p;
 
@@ -540,7 +540,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map18;
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map09.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Right][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Right][RightTop].field = Field::s;
 
@@ -569,7 +569,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map19;
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[Right][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Right][LeftBottom].field = Field::t;
 
@@ -656,7 +656,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map22;
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Bottom][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][RightTop].field = Field::w;
 
@@ -680,7 +680,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map23;
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Bottom][LeftBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][LeftBottom].field = Field::x;
 
@@ -704,7 +704,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map24;
 			//右下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map10.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Bottom][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Bottom][RightBottom].field = Field::y;
 
