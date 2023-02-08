@@ -59,7 +59,7 @@ void GameScene::Initialize()
 
 	goal = std::make_unique<Goal>(modelHandle1);
 
-	tatamiTimer = 150;
+	tatamiTimer = 15tata0;
 
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
