@@ -46,7 +46,6 @@ void GameScene::Initialize()
 	player->Initialise();
 
 	userCamera = std::make_unique<UserCamera>(1280, 720);
-	modelHandle2 = Model::CreateObjModel("Resources/Wall");
 
 	skydome = std::make_unique<Skydome>();
 	modelHSky = Model::CreateObjModel("Resources/skydome");
