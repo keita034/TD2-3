@@ -18,12 +18,6 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 	DefaultModelName = failPath;
 
-	besideFold_ = std::make_unique<BesideFold>();
-	besideFold_->Initialize();
-
-	verticalFold_ = std::make_unique<VerticalFold>();
-	verticalFold_->Initialize();
-
 	surfaceFold_ = std::make_unique<SurfaceFold>();
 	surfaceFold_->Initialize();
 
@@ -911,8 +905,8 @@ void Stage::SetStageFrameTrans(const AliceMathF::Vector3& trans)
 
 void Stage::SetStageTopTrans(const AliceMathF::Vector3& trans)
 {
-	field[Top][RightTop].surfacePartsModelTrans.translation = { trans.x,trans.y,trans.z };
-	field[Top][RightBottom].surfacePartsModelTrans.translation = { trans.x,trans.y,-trans.z };
+	field[Top][RightTop].surfacePartsModelTrans.translation = { -trans.x,-trans.y,trans.z };
+	field[Top][RightBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
 	field[Top][LeftTop].surfacePartsModelTrans.translation = { -trans.x,trans.y,trans.z };
 	field[Top][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,trans.y,-trans.z };
 }
@@ -921,8 +915,8 @@ void Stage::SetStageLeftTrans(const AliceMathF::Vector3& trans)
 {
 	field[Left][RightTop].surfacePartsModelTrans.translation = { -trans.x,trans.y,trans.z };
 	field[Left][RightBottom].surfacePartsModelTrans.translation = { -trans.x,trans.y,-trans.z };
-	field[Left][LeftTop].surfacePartsModelTrans.translation = { -trans.x,-trans.y,trans.z };
-	field[Left][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
+	field[Left][LeftTop].surfacePartsModelTrans.translation = { trans.x,trans.y,trans.z };
+	field[Left][LeftBottom].surfacePartsModelTrans.translation = { trans.x,trans.y,-trans.z };
 }
 
 void Stage::SetStageCenterLeftTrans(const AliceMathF::Vector3& trans)

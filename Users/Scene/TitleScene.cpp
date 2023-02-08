@@ -10,9 +10,6 @@ void TitleScene::Initialize()
 	modelCamera_->Initialize(UpdateProjMatrixFunc_Perspective);
 	userCamera_ = std::make_unique<UserCamera>(1280, 720);
 
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(camera_.get());
-
 	uint32_t handl = AliceModel::CreateModel("Resources/Kaede");
 
 	aliceModel = std::make_unique<AliceModel>();
@@ -59,8 +56,8 @@ void TitleScene::Update()
 	stage_->SetStageFrameScale({ 20.0f,20.0f,20.0f });
 	stage_->SetStageFrameTrans({ 0.0f,-1.0f,0.0f });
 
-	stage_->SetStageTopTrans({ 10.0f,20.0f,10.0f });
-	stage_->SetStageLeftTrans({ 20.0f,10.0f,10.0f });
+	stage_->SetStageTopTrans({ 20.0f,10.0f,10.0f });
+	stage_->SetStageLeftTrans({ 10.0f,20.0f,10.0f });
 	stage_->SetStageCenterLeftTrans({ 10.0f,10.0f,20.0f });
 	stage_->SetStageCenterRightTrans({ 20.0f,10.0f,10.0f });
 	stage_->SetStageRightTrans({10.0f,10.0f,20.0f});
