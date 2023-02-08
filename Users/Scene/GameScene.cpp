@@ -37,25 +37,6 @@ void GameScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 
-	//stage->Initialize(camera.get(),"Resources/SurfaceParts/",
-	//	"Map01", "Map02", "Map03", "Map04",		//02
-	//	"Map05", "Map06", "Map07", "Map08",		//01
-	//	"Map09", "Map010", "Map011", "Map012",	//03
-	//	"Map013", "Map014", "Map015", "Map016",	//04
-	//	"Map017", "Map018", "Map019", "Map020",	//05
-	//	"Map021", "Map022", "Map023", "Map024"	//06
-	//);
-
-	//stage->Initialize(camera.get(), "Resources/SurfaceParts/",
-	//	 //左上    //右上    //左下     //右下
-	//	"Map017", "Map018", "Map019", "Map020",	//05
-	//	"Map01" , "Map02" , "Map03" , "Map04" ,	//01
-	//	"Map021", "Map022", "Map023", "Map024",	//06
-	//	"Map013", "Map014", "Map015", "Map016",	//04
-	//	"Map05" , "Map06" , "Map07" , "Map08" ,	//02
-	//	"Map09" , "Map010", "Map011", "Map012"	//03
-	//);
-
 	stage->Initialize(camera.get(), "Resources/SurfaceParts/",
 		//左上    //右上    //左下     //右下
 		"Map07" , "Map08" , "Map05" , "Map06" ,	//01
