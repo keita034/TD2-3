@@ -25,12 +25,12 @@ Player::Player(uint32_t modelHandl) {
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-	uint32_t handl = AliceModel::CreateModel("Resources/Kaede/Model");
+	uint32_t handl = AliceModel::CreateModel("Resources/Kaede");
 
 	aliceModel = std::make_unique<AliceModel>();
 	aliceModel->SetModel(handl);
 
-	handl = AliceMotionData::CreateMotion("Resources/Kaede/title");
+	handl = AliceMotionData::CreateMotion("Resources/Kaede");
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
 	
