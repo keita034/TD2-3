@@ -188,4 +188,5 @@ AliceMathF::Vector3 UserCamera::Vector3Transform(const AliceMathF::Vector3& v, c
 	};
 
 	return result;
+
 }

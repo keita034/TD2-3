@@ -84,6 +84,8 @@ private:
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
 
+	int topORbottom = 0;
+
 	bool ground = false;
 
 	// コライダーの追加
