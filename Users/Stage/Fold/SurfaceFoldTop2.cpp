@@ -158,7 +158,7 @@ void SurfaceFoldTop2::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& fie
 		surfaceFoldFbxmodel_->rotationUV("Material.007", (field[Right][LeftBottom].angle_) * AliceMathF::Deg2Rad);
 		surfaceFoldFbxmodel_->rotationUV("Material.008", (field[Right][RightBottom].angle_) * AliceMathF::Deg2Rad);
 
-		fieldPlaneTrans_.rotation = { 0.0f,0.0f,0.0f };
+		fieldPlaneTrans_.rotation = { 0.0f,0.0f,90.0f * AliceMathF::Deg2Rad };
 
 		field[Right][LeftTop].isDraw = false;
 		field[Right][RightTop].isDraw = false;
