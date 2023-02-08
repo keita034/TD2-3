@@ -28,7 +28,7 @@ void TitleScene::Update()
 {
 	stage_->SetStageObjScale({ 20.0f,20.0f,20.0f });
 	stage_->SetStageFrameScale({ 20.0f,20.0f,20.0f });
-	stage_->SetStageFrameTrans({ 0.0f,0.0f,0.0f });
+	stage_->SetStageFrameTrans({ 0.0f,-1.0f,0.0f });
 
 	stage_->SetStageTopTrans({ 10.0f,20.0f,10.0f });
 	stage_->SetStageLeftTrans({ 20.0f,10.0f,10.0f });
