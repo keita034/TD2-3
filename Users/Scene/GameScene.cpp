@@ -37,8 +37,8 @@ void GameScene::Initialize()
 	stage = std::make_unique<Stage>();
 
 	//stage->Initialize(camera.get(),"Resources/SurfaceParts/",
-	//	"Map01", "Map02", "Map03", "Map04",		//01
-	//	"Map05", "Map06", "Map07", "Map08",		//02
+	//	"Map01", "Map02", "Map03", "Map04",		//02
+	//	"Map05", "Map06", "Map07", "Map08",		//01
 	//	"Map09", "Map010", "Map011", "Map012",	//03
 	//	"Map013", "Map014", "Map015", "Map016",	//04
 	//	"Map017", "Map018", "Map019", "Map020",	//05
@@ -57,11 +57,11 @@ void GameScene::Initialize()
 
 	stage->Initialize(camera.get(), "Resources/SurfaceParts/",
 		//¶ã    //‰Eã    //¶‰º     //‰E‰º
-		"Map07" , "Map08" , "Map05"  , "Map06",	//05
-		"Map01" , "Map02" , "Map03" , "Map04" ,	//01
-		"Map021", "Map022", "Map023", "Map024",	//06
+		"Map07" , "Map08" , "Map05" , "Map06" ,	//01
+		"Map018", "Map020", "Map017", "Map019",	//05
+		"Map022", "Map021", "Map024", "Map023",	//06
 		"Map013", "Map014", "Map015", "Map016",	//04
-		"Map05" , "Map06" , "Map07" , "Map08" ,	//02
+		"Map01" , "Map03" , "Map02" , "Map04" ,	//02
 		"Map09" , "Map010", "Map011", "Map012"	//03
 	);
 

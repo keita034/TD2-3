@@ -79,7 +79,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Top][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Top][RightTop].surfacePartsModel->SetModel(field[Top][RightTop].surfacePartsModelHandle);
-			field[Top][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Top][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -104,7 +104,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Top][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
-			field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 
 
@@ -133,7 +133,6 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Top][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Top][LeftTop].surfacePartsModel->SetModel(field[Top][LeftTop].surfacePartsModelHandle);
-			field[Top][LeftTop].surfacePartsModel->SetTexture(handl);
 
 
 			field[Top][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
@@ -159,7 +158,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Top][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Top][LeftBottom].surfacePartsModel->SetModel(field[Top][LeftBottom].surfacePartsModelHandle);
-			field[Top][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 
 			field[Top][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
@@ -203,7 +202,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			std::string Map = DefaultModelName + map6;
 			//âEè„
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
 			field[Left][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightTop].field = Field::f;
 
@@ -217,7 +216,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Left][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Left][RightTop].surfacePartsModel->SetModel(field[Left][RightTop].surfacePartsModelHandle);
-			field[Left][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Left][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -241,7 +240,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Left][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Left][LeftBottom].surfacePartsModel->SetModel(field[Left][LeftBottom].surfacePartsModelHandle);
-			field[Left][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Left][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -265,7 +264,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Left][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Left][RightBottom].surfacePartsModel->SetModel(field[Left][RightBottom].surfacePartsModelHandle);
-			field[Left][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Left][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -301,7 +300,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterLeft][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][LeftTop].surfacePartsModel->SetModel(field[CenterLeft][LeftTop].surfacePartsModelHandle);
-			field[CenterLeft][LeftTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterLeft][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -332,7 +331,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterLeft][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][RightTop].surfacePartsModel->SetModel(field[CenterLeft][RightTop].surfacePartsModelHandle);
-			field[CenterLeft][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 
 			field[CenterLeft][RightTop].surfacePartsModelTrans.TransUpdate(camera);
@@ -362,7 +361,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterLeft][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][LeftBottom].surfacePartsModel->SetModel(field[CenterLeft][LeftBottom].surfacePartsModelHandle);
-			field[CenterLeft][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterLeft][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -391,7 +390,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterLeft][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][RightBottom].surfacePartsModel->SetModel(field[CenterLeft][RightBottom].surfacePartsModelHandle);
-			field[CenterLeft][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterLeft][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -423,7 +422,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterRight][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][LeftTop].surfacePartsModel->SetModel(field[CenterRight][LeftTop].surfacePartsModelHandle);
-			field[CenterRight][LeftTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterRight][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -447,7 +446,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterRight][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][RightTop].surfacePartsModel->SetModel(field[CenterRight][RightTop].surfacePartsModelHandle);
-			field[CenterRight][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterRight][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -471,7 +470,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterRight][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][LeftBottom].surfacePartsModel->SetModel(field[CenterRight][LeftBottom].surfacePartsModelHandle);
-			field[CenterRight][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterRight][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -495,7 +494,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[CenterRight][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][RightBottom].surfacePartsModel->SetModel(field[CenterRight][RightBottom].surfacePartsModelHandle);
-			field[CenterRight][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[CenterRight][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -531,7 +530,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Right][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Right][LeftTop].surfacePartsModel->SetModel(field[Right][LeftTop].surfacePartsModelHandle);
-			field[Right][LeftTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Right][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -560,7 +559,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Right][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Right][RightTop].surfacePartsModel->SetModel(field[Right][RightTop].surfacePartsModelHandle);
-			field[Right][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Right][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -589,7 +588,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Right][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Right][LeftBottom].surfacePartsModel->SetModel(field[Right][LeftBottom].surfacePartsModelHandle);
-			field[Right][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Right][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -618,7 +617,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Right][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Right][RightBottom].surfacePartsModel->SetModel(field[Right][RightBottom].surfacePartsModelHandle);
-			field[Right][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Right][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -647,7 +646,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Bottom][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][LeftTop].surfacePartsModel->SetModel(field[Bottom][LeftTop].surfacePartsModelHandle);
-			field[Bottom][LeftTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Bottom][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -671,7 +670,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Bottom][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][RightTop].surfacePartsModel->SetModel(field[Bottom][RightTop].surfacePartsModelHandle);
-			field[Bottom][RightTop].surfacePartsModel->SetTexture(handl);
+
 
 			field[Bottom][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -695,7 +694,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Bottom][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][LeftBottom].surfacePartsModel->SetModel(field[Bottom][LeftBottom].surfacePartsModelHandle);
-			field[Bottom][LeftBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Bottom][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -719,7 +718,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Bottom][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][RightBottom].surfacePartsModel->SetModel(field[Bottom][RightBottom].surfacePartsModelHandle);
-			field[Bottom][RightBottom].surfacePartsModel->SetTexture(handl);
+
 
 			field[Bottom][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
 
