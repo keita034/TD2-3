@@ -65,7 +65,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map1;
 
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Top][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Top][RightTop].field = Field::b;
 
@@ -90,7 +90,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map2;
 
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Top][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Top][RightBottom].field = Field::d;
 
@@ -119,7 +119,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 			std::string Map = DefaultModelName + map3;
 
 			//左下
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Top][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Top][LeftTop].field = Field::a;
 
@@ -178,7 +178,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			std::string Map = DefaultModelName + map5;
 			//左上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[Left][LeftTop].textureData = TextureManager::GetTextureData(handl);
 			field[Left][LeftTop].field = Field::e;
 
@@ -192,7 +192,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			field[Left][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Left][LeftTop].surfacePartsModel->SetModel(field[Left][LeftTop].surfacePartsModelHandle);
-			field[Left][LeftTop].surfacePartsModel->SetTexture(handl);
+			
 
 			field[Left][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
 
@@ -203,7 +203,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 			std::string Map = DefaultModelName + map6;
 			//右上
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map01.png");
 			field[Left][RightTop].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightTop].field = Field::f;
 
@@ -251,7 +251,7 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 		{
 			std::string Map = DefaultModelName + map8;
 			//右下　
-			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map08.png");
+			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Left][RightBottom].textureData = TextureManager::GetTextureData(handl);
 			field[Left][RightBottom].field = Field::h;
 

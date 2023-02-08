@@ -106,8 +106,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ChangeCollider.h" />
-    <ClInclude Include="Goal.h" />
+    <ClInclude Include="lib\Engine\Collision\ChangeCollider.h" />
+    <ClInclude Include="Users\Goal.h" />
     <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h" />
     <ClInclude Include="lib\Engine\3D\Model\AliceModel.h" />
     <ClInclude Include="lib\Engine\3D\Model\AliceMotionData.h" />
@@ -123,8 +123,8 @@
     <ClInclude Include="lib\Engine\Core\DirectX\RenderTarget.h" />
     <ClInclude Include="lib\Engine\Core\Buffer\RenderTargetBuffer.h" />
     <ClInclude Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.h" />
-    <ClInclude Include="ResultScene.h" />
-    <ClInclude Include="Skydome.h" />
+    <ClInclude Include="Users\Scene\ResultScene.h" />
+    <ClInclude Include="Users\Skydome.h" />
     <ClInclude Include="Users\Player\Player.h" />
     <ClInclude Include="Users\PostEffectFactory.h" />
     <ClInclude Include="lib\Engine\Scene\AbstractSceneFactory.h" />
@@ -427,8 +427,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ChangeCollider.cpp" />
-    <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="lib\Engine\Collision\ChangeCollider.cpp" />
+    <ClCompile Include="Users\Goal.cpp" />
     <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp" />
     <ClCompile Include="lib\Engine\3D\Model\AliceModel.cpp" />
     <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp" />
@@ -446,8 +446,8 @@
     <ClCompile Include="lib\Engine\Core\DirectX\RenderTarget.cpp" />
     <ClCompile Include="lib\Engine\Core\Buffer\RenderTargetBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.cpp" />
-    <ClCompile Include="ResultScene.cpp" />
-    <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="Users\Scene\ResultScene.cpp" />
+    <ClCompile Include="Users\Skydome.cpp" />
     <ClCompile Include="Users\Player\Player.cpp" />
     <ClCompile Include="Users\PostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\Scene\AbstractSceneFactory.cpp" />
