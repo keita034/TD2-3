@@ -182,6 +182,7 @@ void Model::Draw(Transform& transform, Material* material)
 	cmdList->SetGraphicsRootConstantBufferView(0, transform.GetconstBuff()->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(1, modelData->constBuffMaterial->GetAddress());
 	light->SetConstBufferView(cmdList.Get(), 2);
+	cmdList->SetGraphicsRootConstantBufferView(3, modelData->constBuffVelocity->GetAddress());
 
 	// SRVヒープの設定コマンド
 	cmdList->SetDescriptorHeaps(1, modelData->textureData->srvHeap.GetAddressOf());
@@ -224,8 +225,9 @@ void Model::BlendShapeUpdate(float& t)
 	modelData->csInputBlendVer->Update(blendModels[static_cast<size_t>(index)]->vertices.data());
 
 	//デスクプリタヒープをセット
-	ID3D12DescriptorHeap* descriptorHeaps[] = {
-		DirectX12Core::GetInstance()->GetDescriptorHeap()->GetHeap(),
+	ID3D12DescriptorHeap* descriptorHeaps[] =
+	{
+		DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->GetHeap(),
 	};
 	cmdList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 	//ルートシグネチャをセット

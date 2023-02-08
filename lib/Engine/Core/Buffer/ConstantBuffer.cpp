@@ -38,7 +38,7 @@ void ConstantBuffer::Create(size_t size)
 	constantBufferView.BufferLocation = buffer->GetGPUVirtualAddress();
 	constantBufferView.SizeInBytes = static_cast<UINT>(resDesc.Width);
 
-	DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateCBV(constantBufferView);
+	DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateCBV(constantBufferView);
 
 	isValid = true;
 }

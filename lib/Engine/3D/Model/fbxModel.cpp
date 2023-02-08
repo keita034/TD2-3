@@ -93,7 +93,7 @@ void fbxModel::AnimationUpdate(const fbxAnimation* animation, float frame)
 
 		for (UINT i = 0; i < nNumBones; i++)
 		{
-			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name].matrix;
+			mesh.vecBones[i].matrix = mesh.bones[mesh.vecBones[i].name]->matrix;
 		}
 
 		mesh.Update(computeRelation.get(), cmdList.Get());
@@ -309,13 +309,13 @@ void fbxModel::ReadNodeHeirarchy(ModelMesh* mesh, const aiAnimation* pAnimation,
 	AliceMathF::Matrix4 matirx;
 	if (mesh->bones.find(strNodeName) != mesh->bones.end())
 	{
-		offsetMatirx = mesh->bones[strNodeName].offsetMatirx;
+		offsetMatirx = mesh->bones[strNodeName]->offsetMatirx;
 
 		matirx
 			= offsetMatirx.MatrixMultiply(mxGlobalTransformation).
 			MatrixMultiply(globalInverseTransform);
 
-		mesh->bones[strNodeName].matrix = matirx;
+		mesh->bones[strNodeName]->matrix = matirx;
 
 	}
 

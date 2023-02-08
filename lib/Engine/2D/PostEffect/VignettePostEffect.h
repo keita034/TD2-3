@@ -35,7 +35,7 @@ public:
 	void Initialize() override;
 
 	//更新
-	void PostUpdate(D3D12_GPU_DESCRIPTOR_HANDLE& srv, D3D12_GPU_DESCRIPTOR_HANDLE& uav) override;
+	void PostUpdate(RenderTarget* mainRenderTarget) override;
 
 	/// <summary>
 	/// ビネットの設定
@@ -76,6 +76,10 @@ public:
 	const std::string& GetType()override;
 
 private:
+
+	void Draw(RenderTarget* mainRenderTarget)override;
+
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
 
 	//ビネットデータを設定
 	void SetData(const AliceMathF::Vector3& color = { 1.0f,1.0f,1.0f }, const AliceMathF::Vector2& center = { 0.5f,0.5f }, float power = 1.0f, const AliceMathF::Vector2& size = { 1.0,1.0f });

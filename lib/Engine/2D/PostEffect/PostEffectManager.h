@@ -7,33 +7,19 @@
 #include"BasePostEffect.h"
 #include"RWStructuredBuffer.h"
 #include"PostEffectFactory.h"
+#include"RenderTarget.h"
 
 class PostEffectManager final
 {
 private:
 
-	struct PostResource
-	{
-		RWStructuredBuffer buff;
-		D3D12_RESOURCE_STATES states = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-
-	private:
-		char PADDING[4]{};
-	public:
-
-		~PostResource() = default;
-		PostResource() = default;
-
-	private:
-		//コピーコンストラクタ・代入演算子削除
-		PostResource& operator=(const PostResource&) = delete;
-		PostResource(const PostResource&) = delete;
-	};
-
 	HRESULT result;
 	char PADDING1[4]{};
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
-	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> cmdList = nullptr;
+	ID3D12Device* device = nullptr;
+	ID3D12GraphicsCommandList* cmdList = nullptr;
+	DSVDescriptorHeap* dsvHeap = nullptr;
+	RTVDescriptorHeap* rtvHeap = nullptr;
+	DescriptorHeap* srvHeap = nullptr;
 
 	//頂点バッファ
 	std::unique_ptr<VertexBuffer> vertexBuffer;
@@ -48,27 +34,17 @@ private:
 
 	std::list<BasePostEffect*> postEffects;
 
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
-
-	TextureData windowTex{};
-
-	std::array<PostResource, 2> postwinTex;
-
 	//有効か
 	bool isAalid = false;
 
 	bool isFlip = false;
 	char PADDING2[6]{};
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
-
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV;
-
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV;
-
 	static const float clearColor[4];
 
 	PostEffectFactory* factory = nullptr;
+
+	std::unique_ptr<RenderTarget> mainRenderTarget;
 
 public:
 	
@@ -78,7 +54,7 @@ public:
 
 	void PostInitialize();
 
-	void PostDraw();
+	void Update();
 
 	void PreDrawScen();
 
@@ -92,6 +68,8 @@ public:
 
 	bool IsAalid();
 
+	void Draw();
+
 private:
 
 	~PostEffectManager();
@@ -103,7 +81,7 @@ private:
 
 	void CreateDepthStencilView();
 
-	void Draw();
+
 
 	//コピーコンストラクタ・代入演算子削除
 	PostEffectManager& operator=(const PostEffectManager&) = delete;

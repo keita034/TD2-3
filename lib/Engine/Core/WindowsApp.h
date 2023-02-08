@@ -10,8 +10,8 @@ private:
 	WNDCLASSEX wndclassex{};
 	HWND hwnd;
 	MSG massege{};//メッセージ
-	int windowWidth = 1280;//横幅
-	int windowHeight = 720;//縦幅
+	UINT windowWidth = 1280;//横幅
+	UINT windowHeight = 720;//縦幅
 
 public:
 	
@@ -19,9 +19,9 @@ public:
 	struct WindowsSize
 	{
 		//横幅
-		int width;
+		UINT width;
 		//縦幅
-		int height;
+		UINT height;
 	};
 
 	/// <summary>
@@ -37,7 +37,7 @@ public:
 	/// <param name="title">タイトル(ワイド文字)</param>
 	/// <param name="width">ウィンドウ横幅</param>
 	/// <param name="height">ウィンドウ横幅</param>
-	void CreatWindow(const wchar_t* title = L"DirectXGame", int width = 1280, int height = 720);
+	void CreatWindow(const wchar_t* title = L"DirectXGame", UINT width = 1280, UINT height = 720);
 	
 	/// <summary>
 	/// メッセージ処理
