@@ -34,7 +34,9 @@ Player::Player(uint32_t modelHandl) {
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
 	
-	worldTransform_.translation = { -80,0,0 };
+	worldTransform_.translation = { 0,100,0 };
+
+	//worldTransform_.translation = { -80,0,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
