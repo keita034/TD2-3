@@ -68,4 +68,5 @@
 #include<Windows.h>
 #include<wrl.h>
 #include<random>
+#include<tchar.h>
 #pragma warning(pop)

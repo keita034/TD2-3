@@ -17,6 +17,7 @@ private:
 	friend class FbxLoader;
 	friend class fbxModel;
 	friend class ModelMesh;
+	friend class AliceModel;
 
 public:
 

@@ -5,7 +5,7 @@
 
 #include "ChangeCollider.h"
 
-void SurfaceFoldLeft2::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldLeft2::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	field[Left][LeftTop].isDraw = false;
 	field[Left][RightTop].isDraw = false;
@@ -220,7 +220,7 @@ void SurfaceFoldLeft2::ShrinkAnimeLeftTo(std::array<std::array<FieldElement, 4>,
 	}
 }
 
-void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	FieldElement element;
 	Transform transform1;

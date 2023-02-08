@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -82,7 +82,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -106,6 +106,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h" />
+    <ClInclude Include="lib\Engine\3D\Model\AliceModel.h" />
+    <ClInclude Include="lib\Engine\3D\Model\AliceMotionData.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\DepthStencilBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianYBlurPostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianBlurPostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\LutPostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectSprite.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\RenderTarget.h" />
+    <ClInclude Include="lib\Engine\Core\Buffer\RenderTargetBuffer.h" />
+    <ClInclude Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.h" />
     <ClInclude Include="ChangeCollider.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
@@ -221,7 +236,10 @@
     <None Include="cpp.hint" />
     <None Include="Resources\Shaders\2D\Mesh.hlsli" />
     <None Include="Resources\Shaders\2D\Particle.hlsli" />
+    <None Include="Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli" />
+    <None Include="Resources\Shaders\2D\PostEffect\LutShader.hlsli" />
     <None Include="Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli" />
+    <None Include="Resources\Shaders\2D\PostEffect\VignetteShader.hlsli" />
     <None Include="Resources\Shaders\2D\RainParticle.hlsli" />
     <None Include="Resources\Shaders\2D\Sprite.hlsli" />
     <None Include="Resources\Shaders\3D\Model\Lambert.hlsli" />
@@ -230,6 +248,18 @@
     <None Include="Resources\Shaders\3D\Model\Phong.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\MeshPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -260,6 +290,24 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
@@ -272,10 +320,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderCS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\RainParticleGS.hlsl">
@@ -374,14 +428,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderCS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp" />
+    <ClCompile Include="lib\Engine\3D\Model\AliceModel.cpp" />
+    <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\DepthStencilBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.cpp" />
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.cpp" />
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianYBlurPostEffect.cpp" />
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianBlurPostEffect.cpp" />
     <ClCompile Include="ChangeCollider.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp" />
@@ -389,6 +445,10 @@
     <ClCompile Include="lib\Engine\2D\PostEffect\LutPostEffect.cpp" />
     <ClCompile Include="lib\Engine\Collision\BaseCollider.cpp" />
     <ClCompile Include="lib\Engine\Collision\CollisionInfo.cpp" />
+    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectSprite.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\RenderTarget.cpp" />
+    <ClCompile Include="lib\Engine\Core\Buffer\RenderTargetBuffer.cpp" />
+    <ClCompile Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Users\Player\Player.cpp" />

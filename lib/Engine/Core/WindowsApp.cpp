@@ -39,7 +39,7 @@ WindowsApp::WindowsSize WindowsApp::GetWindowsSize()
 	return GetInstance()->GetWindowSize();
 }
 
-void WindowsApp::CreatWindow(const wchar_t* title,int width, int height)
+void WindowsApp::CreatWindow(const wchar_t* title, UINT width, UINT height)
 {
 	windowHeight = height;
 	windowWidth = width;

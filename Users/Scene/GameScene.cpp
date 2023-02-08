@@ -21,6 +21,7 @@ void GameScene::Initialize()
 	light->SetLightColor(lightColor);
 	//モデルにライトをセット
 	Model::SetLight(light.get());
+	AliceModel::SetLight(light.get());
 
 	collisionManager = CollisionManager::GetInstance();;
 
@@ -160,6 +161,23 @@ void GameScene::Update()
 	default:
 		break;
 	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
+	{
+		stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
+	}
+
+	if (Input::GetInstance()->TriggerPush(DIK_Z))
+	{
+		stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
+	}
+
+	stage->Update(camera.get());
+
+	player->Update(camera.get());
+
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollisions();
 }
 
 void GameScene::Draw()

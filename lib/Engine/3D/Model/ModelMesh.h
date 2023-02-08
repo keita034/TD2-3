@@ -95,6 +95,9 @@ struct Node
 	AliceMathF::Matrix4 globalTransform;
 	//親ノード
 	Node* parent = nullptr;
+	//子ノード
+	std::vector<Node*>childrens;
+
 };
 
 struct BoneData
@@ -127,7 +130,7 @@ public:
 	//テクスチャ
 	std::vector <TextureData*> texturesNormal;
 
-	std::unordered_map<std::string, Bone> bones;
+	std::unordered_map<std::string, Bone*> bones;
 
 	std::vector<Bone> vecBones;
 

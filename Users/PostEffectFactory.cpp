@@ -1,6 +1,7 @@
 #include "PostEffectFactory.h"
 #include "LutPostEffect.h"
 #include "VignettePostEffect.h"
+#include "GaussianBlurPostEffect.h"
 
 PostEffectFactory* PostEffectFactory::GetInstance()
 {
@@ -20,6 +21,10 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	{
 		postEffect = VignettePostEffect::GetInstance();
 	}
-
+	else if (postEffectName == "GAUSSIANBLUR")
+	{
+		postEffect = GaussianBlurPostEffect::GetInstance();
+	}
+	
 	return postEffect;
 }

@@ -38,7 +38,7 @@ void StructuredBuffer::Create(size_t length, size_t singleSize, const void* data
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, buffer.Get());
+	structuredBufferHandle.ptr = DirectX12Core::GetInstance()->GetSRVDescriptorHeap()->CreateSRV(srvDesc, buffer.Get());
 
 	isValid = true;
 }

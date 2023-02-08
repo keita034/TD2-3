@@ -184,6 +184,8 @@
     <Filter Include="User\ヘッダーファイル\Player">
       <UniqueIdentifier>{7b434cc0-2c0c-4fdc-b1e9-8fdf6e115367}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\リソース ファイル\シェーダー\2D\Particle">
+      <UniqueIdentifier>{ec14444c-7448-4f8d-82bb-d7154e3b0403}</UniqueIdentifier>
     <Filter Include="User\ソースファイル\Skydome">
       <UniqueIdentifier>{f8d2fde5-a9b5-48b0-b3f6-771c39bf5ad7}</UniqueIdentifier>
     </Filter>
@@ -498,6 +500,41 @@
     <ClInclude Include="Users\Player\Player.h">
       <Filter>User\ヘッダーファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianBlurPostEffect.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.h">
+      <Filter>Engine\ヘッダー ファイル\Core\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\Buffer\DepthStencilBuffer.h">
+      <Filter>Engine\ヘッダー ファイル\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\Buffer\RenderTargetBuffer.h">
+      <Filter>Engine\ヘッダー ファイル\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\DirectX\RenderTarget.h">
+      <Filter>Engine\ヘッダー ファイル\Core\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.h">
+      <Filter>Engine\ヘッダー ファイル\Core\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\PostEffectSprite.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianYBlurPostEffect.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.h">
+      <Filter>Engine\ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\3D\Model\AliceMotionData.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\3D\Model\AliceModel.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
     <ClInclude Include="Goal.h">
       <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
@@ -528,9 +565,6 @@
     <None Include="Resources\Shaders\2D\Mesh.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </None>
-    <None Include="Resources\Shaders\2D\Particle.hlsli">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </None>
     <None Include="Resources\Shaders\3D\Model\ModelBasic.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
@@ -541,14 +575,26 @@
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
     <None Include="cpp.hint" />
-    <None Include="Resources\Shaders\2D\RainParticle.hlsli">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </None>
     <None Include="Resources\Shaders\3D\Model\ModelSimple.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
     <None Include="Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli">
       <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\PostEffect\LutShader.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\PostEffect\VignetteShader.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\Particle.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="Resources\Shaders\2D\RainParticle.hlsli">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -562,15 +608,6 @@
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\MeshVS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\ParticleGS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\ParticlePS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\ParticleVS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\LambertVS.hlsl">
@@ -594,15 +631,6 @@
     <FxCompile Include="Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\RainParticleGS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\RainParticlePS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\RainParticleVS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
@@ -615,17 +643,50 @@
     <FxCompile Include="Resources\Shaders\3D\Model\ModelSimplePS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderCS.hlsl">
-      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderCS.hlsl">
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
       <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\ParticleGS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\ParticlePS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\ParticleVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\RainParticleGS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\RainParticlePS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\2D\RainParticleVS.hlsl">
+      <Filter>Engine\リソース ファイル\シェーダー\2D\Particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -840,9 +901,6 @@
     <ClCompile Include="lib\Engine\Core\DirectX\DescriptorHeap.cpp">
       <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Engine\Core\DirectX\DirectX12Core.cpp">
-      <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="lib\Engine\Core\DirectX\PipelineState.cpp">
       <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
     </ClCompile>
@@ -912,6 +970,44 @@
     <ClCompile Include="lib\Engine\Collision\BaseCollider.cpp">
       <Filter>Engine\ソース ファイル\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianBlurPostEffect.cpp">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\DirectX\DirectX12Core.cpp">
+      <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.cpp">
+      <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\Buffer\RenderTargetBuffer.cpp">
+      <Filter>Engine\ソース ファイル\Core\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\Buffer\DepthStencilBuffer.cpp">
+      <Filter>Engine\ソース ファイル\Core\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\DirectX\DSVDescriptorHeap.cpp">
+      <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\Core\DirectX\RenderTarget.cpp">
+      <Filter>Engine\ソース ファイル\Core\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\PostEffectSprite.cpp">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianYBlurPostEffect.cpp">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.cpp">
+      <Filter>Engine\ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\3D\Model\AliceModel.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
     <ClCompile Include="Goal.cpp">
       <Filter>User\ソースファイル</Filter>
     </ClCompile>

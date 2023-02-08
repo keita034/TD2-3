@@ -8,13 +8,15 @@
 
 void SurfaceFold::Initialize()
 {
-	//ñ ê‹ÇËÉÇÉfÉã
-	surfaceFoldFbxmodel_ = std::make_unique<fbxModel>();
-	surfaceFoldFbxmodel_->Initialize();
-	surfaceFoldFbxmodel_->Create("Resources/SurfaceFold/FBX 2013", false, false, true, false);
-	surfaceFoldFbxmodelAnime_ = std::make_unique<fbxAnimation>();
-	FbxLoader::GetInstance()->LoadAnimation(surfaceFoldFbxmodelAnime_.get(), "Resources/SurfaceFold/FBX 2013", "");
+	uint32_t handl = AliceModel::CreateModel("Resources/SurfaceFold");
 
+	//ñ ê‹ÇËÉÇÉfÉã
+	surfaceFoldFbxmodel_ = std::make_unique<AliceModel>();
+	surfaceFoldFbxmodel_->SetModel(handl);
+
+	handl = AliceMotionData::CreateMotion("Resources/SurfaceFold");
+	surfaceFoldFbxmodelAnime_ = std::make_unique<AliceMotionData>();
+	surfaceFoldFbxmodelAnime_->SetMotion(handl);
 
 	fieldPlaneTrans_.Initialize();
 	fieldPlaneTrans_.scale = { 0.4f,0.4f ,0.4f };

@@ -76,7 +76,6 @@ private:
 	CollisionManager* collisionManager = nullptr;
 
 	uint32_t modelHandle2 = 0u;
-	//Ground* ground = nullptr;
 
 	std::unique_ptr<Skydome> skydome;
 	uint32_t modelHSky = 0u;
