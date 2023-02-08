@@ -11,7 +11,7 @@ public:
 
 	UserCamera(int window_width, int window_height);
 
-	void Initialize();
+	void Initialize(AliceMathF::Matrix4 playerPos);
 
 	void Update();
 
@@ -67,6 +67,6 @@ private:
 	Transform worldTransform_;
 
 	AliceMathF::Matrix4 CameraRot;
-	float playerCameraDistance = 6.0f;
+	float playerCameraDistance = 10.0f;
 
 };

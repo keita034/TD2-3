@@ -1,4 +1,9 @@
 #include "SurfaceFoldTop2.h"
+#include "MeshCollider.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
+
+#include "ChangeCollider.h"
 
 void SurfaceFoldTop2::StartTopTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
 {
@@ -249,6 +254,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Left][LeftTop].surfacePartsModelTrans = transform2;
 		field[Left][LeftTop].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftTop, 3);
+		//SetCollider(field, Left, LeftTop, 5);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightTop].surfacePartsModelTrans;
@@ -268,6 +276,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Left][RightTop] = std::move(element);
 		field[Left][RightTop].surfacePartsModelTrans = transform2;
 		field[Left][RightTop].angle_ = angle2;
+
+		//SetCollider(field, Top, LeftBottom, 4);
+		//SetCollider(field, Left, RightTop, 6);
 
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
@@ -289,6 +300,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Left][LeftBottom].surfacePartsModelTrans = transform2;
 		field[Left][LeftBottom].angle_ = angle2;
 
+		//SetCollider(field, Top, RightTop, 1);
+		//SetCollider(field, Left, LeftBottom, 7);
+
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Left][RightBottom].surfacePartsModelTrans;
@@ -308,6 +322,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Left][RightBottom] = std::move(element);
 		field[Left][RightBottom].surfacePartsModelTrans = transform2;
 		field[Left][RightBottom].angle_ = angle2;
+
+		//SetCollider(field, Top, RightBottom, 2);
+		//SetCollider(field, Left, RightBottom, 8);
 
 		break;
 
@@ -333,6 +350,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
 		field[CenterLeft][LeftBottom].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftTop, 1);
+		//SetCollider(field, CenterLeft, LeftBottom, 7);
+
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightBottom].surfacePartsModelTrans;
@@ -352,6 +372,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterLeft][RightBottom] = std::move(element);
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
 		field[CenterLeft][RightBottom].angle_ = angle2;
+
+		//SetCollider(field, Top, RightTop, 2);
+		//SetCollider(field, CenterLeft, RightBottom, 8);
 
 		//3”Ô‚Æ5”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
@@ -374,6 +397,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
 		field[CenterLeft][LeftTop].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftBottom, 3);
+		//SetCollider(field, CenterLeft, LeftTop, 5);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][RightTop].surfacePartsModelTrans;
@@ -393,6 +419,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterLeft][RightTop] = std::move(element);
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
 		field[CenterLeft][RightTop].angle_ = angle2;
+
+		//SetCollider(field, Top, RightBottom, 4);
+		//SetCollider(field, CenterLeft, RightTop, 6);
 
 		break;
 
@@ -418,6 +447,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterRight][RightBottom].surfacePartsModelTrans = transform2;
 		field[CenterRight][RightBottom].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftTop, 2);
+		//SetCollider(field, CenterRight, RightBottom, 8);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterRight][RightTop].surfacePartsModelTrans;
@@ -437,6 +469,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterRight][RightTop] = std::move(element);
 		field[CenterRight][RightTop].surfacePartsModelTrans = transform2;
 		field[CenterRight][RightTop].angle_ = angle2;
+
+		//SetCollider(field, Top, RightTop, 4);
+		//SetCollider(field, CenterRight, RightTop, 6);
 
 		//1”Ô‚Æ5”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
@@ -458,6 +493,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterRight][LeftBottom].surfacePartsModelTrans = transform2;
 		field[CenterRight][LeftBottom].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftBottom, 1);
+		//SetCollider(field, CenterRight, LeftBottom, 7);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterRight][LeftTop].surfacePartsModelTrans;
@@ -477,6 +515,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[CenterRight][LeftTop] = std::move(element);
 		field[CenterRight][LeftTop].surfacePartsModelTrans = transform2;
 		field[CenterRight][LeftTop].angle_ = angle2;
+
+		//SetCollider(field, Top, RightBottom, 3);
+		//SetCollider(field, CenterRight, LeftTop, 5);
 
 		break;
 
@@ -502,6 +543,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
 		field[Right][RightTop].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftTop, 4);
+		//SetCollider(field, Right, RightTop, 6);
+
 		//3”Ô‚Æ5”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
@@ -521,6 +565,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
 		field[Right][LeftTop].angle_ = angle2;
+
+		//SetCollider(field, Top, RightTop, 3);
+		//SetCollider(field, Right, LeftTop, 5);
 
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][LeftBottom].surfacePartsModelTrans;
@@ -542,6 +589,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
 		field[Right][RightBottom].angle_ = angle2;
 
+		//SetCollider(field, Top, LeftBottom, 2);
+		//SetCollider(field, Right, RightBottom, 8);
+
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Top][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
@@ -561,6 +611,9 @@ void SurfaceFoldTop2::ReplaceTopTo(std::array<std::array<FieldElement, 4>, 6>& f
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
 		field[Right][LeftBottom].angle_ = angle2;
+
+		//SetCollider(field, Top, RightBottom, 1);
+		//SetCollider(field, Right, LeftBottom, 7);
 
 		break;
 
@@ -618,3 +671,4 @@ void SurfaceFoldTop2::EndTopTo(std::array<std::array<FieldElement, 4>, 6>& field
 		break;
 	}
 }
+

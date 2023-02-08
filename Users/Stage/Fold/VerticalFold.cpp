@@ -1,5 +1,6 @@
 #include "VerticalFold.h"
 
+
 void VerticalFold::Initialize()
 {
 	//縦折りモデル
@@ -121,6 +122,7 @@ void VerticalFold::Replace(std::array<std::array<FieldElement, 4>, 6>& field, Fi
 	field[fieldIndex][RightBottom] = std::move(element);
 	field[fieldIndex][RightBottom].surfacePartsModelTrans = transform2;
 
+
 	//2番と4番を入れ替える
 	transform1 = field[fieldIndex][LeftTop].surfacePartsModelTrans;
 	transform2 = field[fieldIndex][LeftBottom].surfacePartsModelTrans;
@@ -140,3 +142,13 @@ void VerticalFold::Draw()
 {
 	verticalFoldFbxmodel_->Draw(&fieldPlaneTrans_);
 }
+
+//void VerticalFold::SetCollider(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int changeNumber)
+//{
+//	// コリジョンマネージャに追加
+//	MeshCollider* meshCollider = new MeshCollider;
+//	CollisionManager::GetInstance()->AddCollider(changeNumber, meshCollider);
+//	meshCollider->Update(field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+//	meshCollider->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
+//	meshCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+//}

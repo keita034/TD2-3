@@ -19,6 +19,25 @@ public://メンバ関数
 		colliders.push_front(collider);
 	}
 
+	/// <summary>
+	/// もともとある当たり判定を変える
+	/// </summary>
+	/// <param name="chengeMeshCount">変えたい判定の場所</param>
+	/// <param name="collider">当たり判定を入れる</param>
+	void ChangeCollider(int chengeMeshCount, BaseCollider* collider) {
+
+		std::forward_list<BaseCollider*>::iterator itr;
+
+		itr = colliders.begin();
+
+		for (int i = 0; i < chengeMeshCount - 1; i++) {
+			itr++;
+		}
+		colliders.emplace_after(itr);
+		colliders.insert_after(itr, collider);
+
+	}
+
 	inline void RemoveCollider(BaseCollider* collide) {
 		colliders.remove(collide);
 	}
@@ -33,6 +52,9 @@ public://メンバ関数
 
 	void QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute = (unsigned short)0xffffffff, AliceMathF::Matrix4* worldPos = nullptr);
 
+
+	bool GetIsGoal() { return isGoal; }
+
 private:
 	CollisionManager() = default;
 	CollisionManager(const CollisionManager&) = delete;
@@ -41,5 +63,9 @@ private:
 
 	//コライダーのリスト
 	std::forward_list<BaseCollider*> colliders;
+
+	int GoalCount = 0;
+
+	bool isGoal = false;
 
 };

@@ -39,7 +39,7 @@ public:
 	/// <summary>
 	/// プレイヤーの移動
 	/// </summary>
-	void PlayerMove();
+	void PlayerMove(Camera* camera);
 
 	/// <summary>
 	/// プレイヤーの当たり判定
@@ -49,6 +49,8 @@ public:
 	void PlayerGravitie();
 
 	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
+
+    Transform* GetWorldTransform() { return &worldTransform_; }
 
 	AliceMathF::Vector3 bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform);
 
@@ -67,11 +69,11 @@ private:
 	float gravity = 9.0f;
 	float playerJumpSpeed = 0;
 	float playerSpeed = 0.5f;
-	
+
 	bool ground = false;
 
 	// コライダーの追加
-	float radius = 0.3f;
+	float radius = 2.0f;
 	// コライダー
 	BaseCollider* collider = nullptr;
 
@@ -83,7 +85,28 @@ private:
 
 	int playerSurfacePos = 0;
 
+
 	int isPlayerNearCorner[6] = { 0 };
 
 	AliceMathF::Matrix4 CameraRot;
+
+	AliceMathF::Vector3 PlayerSmoothMoving;
+
+	int smoothMoving = 0;
+
+	float size = 43.0f;
+	float sizeX = 43.0f;
+	float sizeYTop = 30.0f;
+	float sizeYBottom = 54.0f;
+
+	AliceMathF::Vector3 TopLeftTop = { -sizeX,sizeYTop,size };
+	AliceMathF::Vector3 TopLeftBottom = { -sizeX,-sizeYBottom,-size };
+	AliceMathF::Vector3 TopRightTop = { sizeX,sizeYTop,size };
+	AliceMathF::Vector3 TopRightBottom = { sizeX,sizeYBottom,-size };
+
+	AliceMathF::Vector3 RightTopRight = { sizeX,sizeYTop,size };
+	AliceMathF::Vector3 RightTopLeft = { sizeX,sizeYTop,-size };
+	AliceMathF::Vector3 RightBottomRight = { sizeX,-sizeYBottom,size };
+	AliceMathF::Vector3 RightBottomLeft = { sizeX,-sizeYBottom,-size };
+
 };

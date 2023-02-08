@@ -1,14 +1,27 @@
 #pragma once
 #include"BaseScene.h"
+#include "ErrorException.h"
+#include "TextureManager.h"
+#include "Transform.h"
+#include "Sprite2D.h"
+#include "Input.h"
 
 class TitleScene : public BaseScene
 {
 private:
+	Input* input = nullptr;
+	SceneManager* sceneManager = nullptr;
+
+	std::unique_ptr<Sprite2D> spriteTitle_;
+	uint32_t titleTex_ = 0;
+	char PADDING[4];
+
+	Transform spriteTransform;
 
 public:
 
-	TitleScene();
-	~TitleScene();
+	TitleScene() = default;
+	~TitleScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -29,5 +42,10 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
+private:
+	//コピーコンストラクタ・代入演算子削除
+	TitleScene& operator=(const TitleScene&) = delete;
+	TitleScene(const TitleScene&) = delete;
 };
 
