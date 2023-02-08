@@ -21,6 +21,16 @@ void TitleScene::Initialize()
 	handl = AliceMotionData::CreateMotion("Resources/Kaede/title");
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
+	userCamera_ = std::make_unique<UserCamera>(1280, 720);
+
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(camera_.get(), "Resources/SurfaceParts/",
+		"Map01", "Map02", "Map03", "Map04",
+		"Map05", "Map06", "Map07", "Map08",
+		"Map09", "Map010", "Map011", "Map012",
+		"Map013", "Map014", "Map015", "Map016",
+		"Map017", "Map018", "Map019", "Map020",
+		"Map021", "Map022", "Map023", "Map024");
 
 	titleTex_ = TextureManager::GetInstance()->LoadTexture("Resources/title/title.png");
 	spriteTitle_.reset(Sprite::Create2DSprite(titleTex_));
@@ -44,6 +54,10 @@ void TitleScene::Update()
 	time += 1;
 
 	stage_->SetStageObjScale({ 20.0f,20.0f,20.0f });
+
+	stage_->SetStageObjScale({ 20.0f,20.0f,20.0f });
+	stage_->SetStageFrameScale({ 20.0f,20.0f,20.0f });
+	stage_->SetStageFrameTrans({ 0.0f,-1.0f,0.0f });
 
 	stage_->SetStageTopTrans({ 10.0f,20.0f,10.0f });
 	stage_->SetStageLeftTrans({ 20.0f,10.0f,10.0f });
@@ -79,6 +93,10 @@ void TitleScene::Update()
 	{
 		time = 0;
 	}
+	camera_->SetTarget(AliceMathF::Vector3(0.0f, 15.0f, 0.0f));
+
+	camera_->SetEye(camera_->GetTarget() + userCamera_->GetEye());
+	camera_->SetUp(userCamera_->GetUp());
 }
 
 void TitleScene::Draw()

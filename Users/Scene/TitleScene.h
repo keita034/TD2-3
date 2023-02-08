@@ -9,7 +9,6 @@
 #include "AliceModel.h"
 #include "AliceMotionData.h"
 #include "Camera.h"
-
 #include "UserCamera.h"
 #include "Stage.h"
 
