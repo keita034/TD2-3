@@ -18,12 +18,6 @@ void Stage::Initialize(Camera* camera, std::string failPath,
 
 	DefaultModelName = failPath;
 
-	besideFold_ = std::make_unique<BesideFold>();
-	besideFold_->Initialize();
-
-	verticalFold_ = std::make_unique<VerticalFold>();
-	verticalFold_->Initialize();
-
 	surfaceFold_ = std::make_unique<SurfaceFold>();
 	surfaceFold_->Initialize();
 
