@@ -37,7 +37,13 @@ void GameScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 
-	stage->Initialize(camera.get(), "Map01", "Map02", "Map03", "Map04");
+	stage->Initialize(camera.get(),"Resources/SurfaceParts/",
+		"Map01", "Map02", "Map03", "Map04",
+		"Map05", "Map06", "Map07", "Map08",
+		"Map09", "Map010", "Map011", "Map012",
+		"Map013", "Map014", "Map015", "Map016",
+		"Map017", "Map018", "Map019", "Map020",
+		"Map021", "Map022", "Map023", "Map024");
 
 	modelHandle1 = Model::CreateObjModel("Resources/Player");
 

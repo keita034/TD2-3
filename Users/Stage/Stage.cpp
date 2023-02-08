@@ -6,13 +6,18 @@
 #include "CollisionAttribute.h"
 #include "CollisionManager.h"
 
-/// <summary>
-/// 静的メンバ変数の実体
-/// </summary>
-const std::string Stage::DefaultModelName = "Resources/SurfaceParts/";
 
-void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::string map3, std::string map4)
+void Stage::Initialize(Camera* camera, std::string failPath,
+	std::string map1, std::string map2, std::string map3, std::string map4,
+	std::string map5, std::string map6, std::string map7, std::string map8,
+	std::string map9, std::string map10, std::string map11, std::string map12,
+	std::string map13, std::string map14, std::string map15, std::string map16,
+	std::string map17, std::string map18, std::string map19, std::string map20,
+	std::string map21, std::string map22, std::string map23, std::string map24)
 {
+
+	DefaultModelName = failPath;
+
 	besideFold_ = std::make_unique<BesideFold>();
 	besideFold_->Initialize();
 
@@ -23,8 +28,40 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 	surfaceFold_->Initialize();
 
 	uint32_t handl;
+	{
+		int meshColliderCount = 0;
+		for (size_t i = 0; i < field.size(); i++)
+		{
+			for (size_t j = 0; j < field[Top].size(); j++)
+			{
+				GoodbyeStage(meshColliderCount);
+				meshColliderCount++;
+			}
+		}
+		//CollisionManager::GetInstance()->RemoveCollider(StageBlockCollider.get());
+	}
+
+
+	//ステージブロック
+	BlockCollider = std::make_unique<Model>();
+
+	modelHandle = Model::CreateObjModel("Resources/SurfaceParts/stageFlame/flameAll");
+	
+	BlockCollider->SetModel(modelHandle);
+	BlockTrans.Initialize();
+	BlockTrans.translation = { 0.0f,-12.0f,0.0f };
+	BlockTrans.scale = { 40.0f,40.0f,40.0f };
+	BlockTrans.TransUpdate(camera);
+
+	// コリジョンマネージャに追加
+	StageBlockCollider = std::make_unique<MeshCollider>();
+	CollisionManager::GetInstance()->AddCollider(StageBlockCollider.get());
+	StageBlockCollider->Update(BlockTrans.matWorld);
+	StageBlockCollider->ConstructTriangles(BlockCollider, BlockTrans.matWorld);
+	StageBlockCollider->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 
 #pragma region 上
+
 
 	{
 		standardAngle_ = 90.0f;
@@ -39,7 +76,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Top][RightTop].field = Field::b;
 
 			field[Top][RightTop].surfacePartsModelTrans.Initialize();
-			field[Top][RightTop].surfacePartsModelTrans.translation = { 0.0f,-12.0f,0.0f };
+			field[Top][RightTop].surfacePartsModelTrans.translation = { 20.0f,30.0f,20.0f };
 			field[Top][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Top][RightTop].surfacePartsModelTrans.rotation = { 0.0f ,standardAngle_ * AliceMathF::Deg2Rad,0.0f };
 			field[Top][RightTop].angle_ = standardAngle_;
@@ -52,7 +89,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 
 			field[Top][RightTop].surfacePartsModelTrans.TransUpdate(camera);
 
-			
+
 		}
 
 		{
@@ -75,11 +112,11 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Top][RightBottom].surfacePartsModel->SetModel(field[Top][RightBottom].surfacePartsModelHandle);
 			field[Top][RightBottom].surfacePartsModel->SetTexture(handl);
 
-			
+
 
 			field[Top][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 
 		}
 
@@ -106,8 +143,8 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 
 
 			field[Top][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
@@ -132,8 +169,8 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 
 
 			field[Top][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 	}
 
@@ -144,6 +181,8 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 		float angle = -90.0f;
 
 		{
+
+			std::string Map = DefaultModelName + map5;
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
 			field[Left][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -155,18 +194,20 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Left][LeftTop].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
 			field[Left][LeftTop].angle_ = (angle);
 
-			field[Left][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map05");
+			field[Left][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Left][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Left][LeftTop].surfacePartsModel->SetModel(field[Left][LeftTop].surfacePartsModelHandle);
 			field[Left][LeftTop].surfacePartsModel->SetTexture(handl);
 
 			field[Left][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
+
 
 		}
 
 		{
+
+			std::string Map = DefaultModelName + map6;
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[Left][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -178,18 +219,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Left][RightTop].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
 			field[Left][RightTop].angle_ = (angle);
 
-			field[Left][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map06");
+			field[Left][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Left][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Left][RightTop].surfacePartsModel->SetModel(field[Left][RightTop].surfacePartsModelHandle);
 			field[Left][RightTop].surfacePartsModel->SetTexture(handl);
 
 			field[Left][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map7;
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Left][LeftBottom].textureData = TextureManager::GetTextureData(handl);
@@ -201,18 +243,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Left][LeftBottom].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
 			field[Left][LeftBottom].angle_ = (angle);
 
-			field[Left][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map07");
+			field[Left][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Left][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Left][LeftBottom].surfacePartsModel->SetModel(field[Left][LeftBottom].surfacePartsModelHandle);
 			field[Left][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Left][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map8;
 			//右下　
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map08.png");
 			field[Left][RightBottom].textureData = TextureManager::GetTextureData(handl);
@@ -224,15 +267,15 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Left][RightBottom].surfacePartsModelTrans.rotation = { angle * AliceMathF::Deg2Rad,0.0f,90.0f * AliceMathF::Deg2Rad };
 			field[Left][RightBottom].angle_ = (angle);
 
-			field[Left][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map08");
+			field[Left][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Left][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Left][RightBottom].surfacePartsModel->SetModel(field[Left][RightBottom].surfacePartsModelHandle);
 			field[Left][RightBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Left][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 	}
 #pragma endregion
@@ -243,6 +286,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 		float angle = 0.0f;
 
 		{
+			std::string Map = DefaultModelName + map9;
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterLeft][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -259,20 +303,21 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[CenterLeft][LeftTop].angle_ = angle;
 
-			field[CenterLeft][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map09");
+			field[CenterLeft][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterLeft][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][LeftTop].surfacePartsModel->SetModel(field[CenterLeft][LeftTop].surfacePartsModelHandle);
 			field[CenterLeft][LeftTop].surfacePartsModel->SetTexture(handl);
 
 			field[CenterLeft][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 
 		}
 
 
 		{
+			std::string Map = DefaultModelName + map10;
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterLeft][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -289,7 +334,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[CenterLeft][RightTop].angle_ = angle;
 
-			field[CenterLeft][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map010");
+			field[CenterLeft][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterLeft][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][RightTop].surfacePartsModel->SetModel(field[CenterLeft][RightTop].surfacePartsModelHandle);
@@ -297,11 +342,12 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 
 
 			field[CenterLeft][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map11;
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterLeft][LeftBottom].textureData = TextureManager::GetTextureData(handl);
@@ -318,18 +364,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[CenterLeft][LeftBottom].angle_ = angle;
 
-			field[CenterLeft][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map011");
+			field[CenterLeft][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterLeft][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][LeftBottom].surfacePartsModel->SetModel(field[CenterLeft][LeftBottom].surfacePartsModelHandle);
 			field[CenterLeft][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 			field[CenterLeft][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map12;
 			//右下　
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterLeft][RightBottom].textureData = TextureManager::GetTextureData(handl);
@@ -346,15 +393,15 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[CenterLeft][RightBottom].angle_ = angle;
 
-			field[CenterLeft][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map012");
+			field[CenterLeft][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterLeft][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterLeft][RightBottom].surfacePartsModel->SetModel(field[CenterLeft][RightBottom].surfacePartsModelHandle);
 			field[CenterLeft][RightBottom].surfacePartsModel->SetTexture(handl);
 
 			field[CenterLeft][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-		
+
+
 		}
 	}
 
@@ -366,6 +413,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 		float angle = 0.0f;
 
 		{
+			std::string Map = DefaultModelName + map13;
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[CenterRight][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -377,18 +425,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[CenterRight][LeftTop].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
 			field[CenterRight][LeftTop].angle_ = angle;
 
-			field[CenterRight][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map013");
+			field[CenterRight][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterRight][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][LeftTop].surfacePartsModel->SetModel(field[CenterRight][LeftTop].surfacePartsModelHandle);
 			field[CenterRight][LeftTop].surfacePartsModel->SetTexture(handl);
 
 			field[CenterRight][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map14;
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map05.png");
 			field[CenterRight][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -400,18 +449,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[CenterRight][RightTop].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
 			field[CenterRight][RightTop].angle_ = angle;
 
-			field[CenterRight][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map014");
+			field[CenterRight][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterRight][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][RightTop].surfacePartsModel->SetModel(field[CenterRight][RightTop].surfacePartsModelHandle);
 			field[CenterRight][RightTop].surfacePartsModel->SetTexture(handl);
 
 			field[CenterRight][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map15;
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[CenterRight][LeftBottom].textureData = TextureManager::GetTextureData(handl);
@@ -423,18 +473,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[CenterRight][LeftBottom].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
 			field[CenterRight][LeftBottom].angle_ = angle;
 
-			field[CenterRight][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map015");
+			field[CenterRight][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterRight][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][LeftBottom].surfacePartsModel->SetModel(field[CenterRight][LeftBottom].surfacePartsModelHandle);
 			field[CenterRight][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 			field[CenterRight][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map16;
 			//右下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map06.png");
 			field[CenterRight][RightBottom].textureData = TextureManager::GetTextureData(handl);
@@ -446,15 +497,15 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[CenterRight][RightBottom].surfacePartsModelTrans.rotation = { (angle + -90.0f) * AliceMathF::Deg2Rad,0.0f ,-90.0f * AliceMathF::Deg2Rad };
 			field[CenterRight][RightBottom].angle_ = angle;
 
-			field[CenterRight][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map016");
+			field[CenterRight][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[CenterRight][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[CenterRight][RightBottom].surfacePartsModel->SetModel(field[CenterRight][RightBottom].surfacePartsModelHandle);
 			field[CenterRight][RightBottom].surfacePartsModel->SetTexture(handl);
 
 			field[CenterRight][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 	}
 
@@ -465,6 +516,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 		float angle = 0.0f;
 
 		{
+			std::string Map = DefaultModelName + map17;
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map02.png");
 			field[Right][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -481,18 +533,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[Right][LeftTop].angle_ = angle;
 
-			field[Right][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map017");
+			field[Right][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Right][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Right][LeftTop].surfacePartsModel->SetModel(field[Right][LeftTop].surfacePartsModelHandle);
 			field[Right][LeftTop].surfacePartsModel->SetTexture(handl);
 
 			field[Right][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map18;
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map09.png");
 			field[Right][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -509,18 +562,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[Right][RightTop].angle_ = angle;
 
-			field[Right][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map018");
+			field[Right][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Right][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Right][RightTop].surfacePartsModel->SetModel(field[Right][RightTop].surfacePartsModelHandle);
 			field[Right][RightTop].surfacePartsModel->SetTexture(handl);
 
 			field[Right][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map19;
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Right][LeftBottom].textureData = TextureManager::GetTextureData(handl);
@@ -537,18 +591,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[Right][LeftBottom].angle_ = angle;
 
-			field[Right][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map019");
+			field[Right][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Right][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Right][LeftBottom].surfacePartsModel->SetModel(field[Right][LeftBottom].surfacePartsModelHandle);
 			field[Right][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Right][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map20;
 			//右下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Right][RightBottom].textureData = TextureManager::GetTextureData(handl);
@@ -565,15 +620,15 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			};
 			field[Right][RightBottom].angle_ = angle;
 
-			field[Right][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map020");
+			field[Right][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Right][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Right][RightBottom].surfacePartsModel->SetModel(field[Right][RightBottom].surfacePartsModelHandle);
 			field[Right][RightBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Right][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-		
-			
+
+
 		}
 	}
 #pragma endregion
@@ -582,6 +637,7 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 	{
 		float angle = 180.0f;
 		{
+			std::string Map = DefaultModelName + map21;
 			//左上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Bottom][LeftTop].textureData = TextureManager::GetTextureData(handl);
@@ -593,18 +649,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Bottom][LeftTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Bottom][LeftTop].angle_ = angle;
 
-			field[Bottom][LeftTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map021");
+			field[Bottom][LeftTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Bottom][LeftTop].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][LeftTop].surfacePartsModel->SetModel(field[Bottom][LeftTop].surfacePartsModelHandle);
 			field[Bottom][LeftTop].surfacePartsModel->SetTexture(handl);
 
 			field[Bottom][LeftTop].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map22;
 			//右上
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map03.png");
 			field[Bottom][RightTop].textureData = TextureManager::GetTextureData(handl);
@@ -616,18 +673,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Bottom][RightTop].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Bottom][RightTop].angle_ = angle;
 
-			field[Bottom][RightTop].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map022");
+			field[Bottom][RightTop].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Bottom][RightTop].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][RightTop].surfacePartsModel->SetModel(field[Bottom][RightTop].surfacePartsModelHandle);
 			field[Bottom][RightTop].surfacePartsModel->SetTexture(handl);
 
 			field[Bottom][RightTop].surfacePartsModelTrans.TransUpdate(camera);
-			
+
 
 		}
 
 		{
+			std::string Map = DefaultModelName + map23;
 			//左下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map04.png");
 			field[Bottom][LeftBottom].textureData = TextureManager::GetTextureData(handl);
@@ -639,18 +697,19 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Bottom][LeftBottom].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Bottom][LeftBottom].angle_ = angle;
 
-			field[Bottom][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map023");
+			field[Bottom][LeftBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Bottom][LeftBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][LeftBottom].surfacePartsModel->SetModel(field[Bottom][LeftBottom].surfacePartsModelHandle);
 			field[Bottom][LeftBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Bottom][LeftBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 
 		{
+			std::string Map = DefaultModelName + map24;
 			//右下
 			handl = TextureManager::Load("Resources/FoldPlaneImg/MateMap\\Map10.png");
 			field[Bottom][RightBottom].textureData = TextureManager::GetTextureData(handl);
@@ -662,15 +721,15 @@ void Stage::Initialize(Camera* camera, std::string map1, std::string map2, std::
 			field[Bottom][RightBottom].surfacePartsModelTrans.scale = { 40.0f,40.0f,40.0f };
 			field[Bottom][RightBottom].angle_ = angle;
 
-			field[Bottom][RightBottom].surfacePartsModelHandle = Model::CreateObjModel("Resources/SurfaceParts/Map024");
+			field[Bottom][RightBottom].surfacePartsModelHandle = Model::CreateObjModel(Map);
 
 			field[Bottom][RightBottom].surfacePartsModel = std::make_unique<Model>();
 			field[Bottom][RightBottom].surfacePartsModel->SetModel(field[Bottom][RightBottom].surfacePartsModelHandle);
 			field[Bottom][RightBottom].surfacePartsModel->SetTexture(handl);
 
 			field[Bottom][RightBottom].surfacePartsModelTrans.TransUpdate(camera);
-			
-			
+
+
 		}
 	}
 
@@ -749,6 +808,8 @@ void Stage::Update(Camera* camera)
 
 	}
 
+	BlockTrans.TransUpdate(camera);
+
 	for (size_t i = 0; i < field.size(); i++)
 	{
 		for (size_t j = 0; j < field[Top].size(); j++)
@@ -793,8 +854,9 @@ void Stage::Draw()
 				field[i][j].Draw();
 			}
 		}
+		
 	}
-
+	BlockCollider->Draw(BlockTrans);
 	if (fieldPlaneDrawFlag)
 	{
 		switch (foldDirection)
@@ -832,9 +894,16 @@ void Stage::SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementInd
 	meshCollider[meshNumber]->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 }
 
+
+
 void Stage::ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber)
 {
 	// コリジョンマネージャに追加
 	meshCollider[meshNumber]->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
 	meshCollider[meshNumber]->SetAttribute(COLLISION_ATTR_LANDSHAPE);
+}
+
+void Stage::GoodbyeStage(int meshNumber)
+{
+	CollisionManager::GetInstance()->RemoveCollider(meshCollider[meshNumber].get());
 }

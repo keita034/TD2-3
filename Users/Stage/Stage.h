@@ -30,13 +30,17 @@ private:
 
 	std::unique_ptr<SurfaceFold> surfaceFold_;
 
+	uint32_t modelHandle = 0u;
+	std::unique_ptr<Model> BlockCollider;
+	Transform BlockTrans;
+
 	//基準の角度
 	float standardAngle_;
 
 	std::unique_ptr<MeshCollider> meshCollider[24];
+	std::unique_ptr<MeshCollider> StageBlockCollider;
 
-private:
-	static const std::string DefaultModelName;//モデルの名前
+	std::string DefaultModelName;//モデルの名前
 
 public:
 	Stage() = default;
@@ -45,7 +49,13 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Camera* camera,std::string map1, std::string map2, std::string map3, std::string map4);
+	void Initialize(Camera* camera, std::string failPath,
+		std::string map1, std::string map2, std::string map3, std::string map4,
+		std::string map5, std::string map6, std::string map7, std::string map8,
+		std::string map9, std::string map10, std::string map11, std::string map12,
+		std::string map13, std::string map14, std::string map15, std::string map16,
+		std::string map17, std::string map18, std::string map19, std::string map20,
+		std::string map21, std::string map22, std::string map23, std::string map24);
 
 	/// <summary>
 	/// 更新
@@ -62,6 +72,8 @@ public:
 	void SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex,int meshNumber);
 
 	void ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber);
+
+	void GoodbyeStage(int meshNumber);
 
 private:
 
