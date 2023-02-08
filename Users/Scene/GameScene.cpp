@@ -111,30 +111,34 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (player->GetPlayerSurfacePos() != 4 && player->GetPlayerSurfacePos() != 3) {
-			if (Input::GetInstance()->TriggerPush(DIK_3))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
+		if (isTatamu == 0) {
+			if (player->GetPlayerSurfacePos() != 4 && player->GetPlayerSurfacePos() != 3) {
+				if (Input::GetInstance()->TriggerPush(DIK_3))
+				{
+					isTatamu = 1;
+					stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
+				}
 			}
 		}
-
-		if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5) {
-			if (Input::GetInstance()->TriggerPush(DIK_2))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+		
+		if (isTatamu == 0) {
+			if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5) {
+				if (Input::GetInstance()->TriggerPush(DIK_2))
+				{
+					isTatamu = 1;
+					stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+				}
 			}
 		}
-
-		if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3) {
-			if (Input::GetInstance()->TriggerPush(DIK_1))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
+		if (isTatamu == 0) {
+			if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3) {
+				if (Input::GetInstance()->TriggerPush(DIK_1))
+				{
+					isTatamu = 1;
+					stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
+				}
 			}
 		}
-
 		stage->Update(camera.get());
 
 		if (isTatamu == 0) {
