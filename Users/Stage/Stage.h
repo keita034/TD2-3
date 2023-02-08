@@ -69,6 +69,8 @@ public:
 
 	void ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber);
 
+	void SetStageObjScale(const AliceMathF::Vector3& scale);
+
 	void GoodbyeStage(int meshNumber);
 
 	void SetStageObjScale(const AliceMathF::Vector3& scale);
