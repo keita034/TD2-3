@@ -828,3 +828,85 @@ void Stage::ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElement
 	meshCollider[meshNumber]->ConstructTriangles(field[fieldIndex][fieldElementIndex].surfacePartsModel, field[fieldIndex][fieldElementIndex].surfacePartsModelTrans.matWorld);
 	meshCollider[meshNumber]->SetAttribute(COLLISION_ATTR_LANDSHAPE);
 }
+
+void Stage::SetStageObjScale(const AliceMathF::Vector3& scale)
+{
+	field[Top][RightTop].surfacePartsModelTrans.scale = scale;
+	field[Top][RightBottom].surfacePartsModelTrans.scale = scale;
+	field[Top][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[Top][LeftBottom].surfacePartsModelTrans.scale = scale;
+
+	field[Left][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[Left][RightTop].surfacePartsModelTrans.scale = scale;
+	field[Left][LeftBottom].surfacePartsModelTrans.scale = scale;
+	field[Left][RightBottom].surfacePartsModelTrans.scale = scale;
+
+	field[CenterLeft][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[CenterLeft][RightTop].surfacePartsModelTrans.scale = scale;
+	field[CenterLeft][LeftBottom].surfacePartsModelTrans.scale = scale;
+	field[CenterLeft][RightBottom].surfacePartsModelTrans.scale = scale;
+
+	field[CenterRight][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[CenterRight][RightTop].surfacePartsModelTrans.scale = scale;
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.scale = scale;
+	field[CenterRight][RightBottom].surfacePartsModelTrans.scale = scale;
+
+	field[Right][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[Right][RightTop].surfacePartsModelTrans.scale = scale;
+	field[Right][LeftBottom].surfacePartsModelTrans.scale = scale;
+	field[Right][RightBottom].surfacePartsModelTrans.scale = scale;
+
+	field[Bottom][LeftTop].surfacePartsModelTrans.scale = scale;
+	field[Bottom][RightTop].surfacePartsModelTrans.scale = scale;
+	field[Bottom][LeftBottom].surfacePartsModelTrans.scale = scale;
+	field[Bottom][RightBottom].surfacePartsModelTrans.scale = scale;
+}
+
+void Stage::SetStageTopTrans(const AliceMathF::Vector3& trans)
+{
+	field[Top][RightTop].surfacePartsModelTrans.translation = {trans.x,trans.y,trans.z};
+	field[Top][RightBottom].surfacePartsModelTrans.translation = { trans.x,trans.y,-trans.z };
+	field[Top][LeftTop].surfacePartsModelTrans.translation = { -trans.x,trans.y,trans.z };
+	field[Top][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,trans.y,-trans.z };
+}
+
+void Stage::SetStageLeftTrans(const AliceMathF::Vector3& trans)
+{
+	field[Left][RightTop].surfacePartsModelTrans.translation = { -trans.x,trans.y,trans.z };
+	field[Left][RightBottom].surfacePartsModelTrans.translation = { -trans.x,trans.y,-trans.z };
+	field[Left][LeftTop].surfacePartsModelTrans.translation = { -trans.x,-trans.y,trans.z };
+	field[Left][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
+}
+
+void Stage::SetStageCenterLeftTrans(const AliceMathF::Vector3& trans)
+{
+	field[CenterLeft][RightTop].surfacePartsModelTrans.translation = { -trans.x,trans.y,-trans.z };
+	field[CenterLeft][RightBottom].surfacePartsModelTrans.translation = { trans.x,trans.y,-trans.z };
+	field[CenterLeft][LeftTop].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
+	field[CenterLeft][LeftBottom].surfacePartsModelTrans.translation = { trans.x,-trans.y,-trans.z };
+}
+
+void Stage::SetStageCenterRightTrans(const AliceMathF::Vector3& trans)
+{
+	field[CenterRight][RightTop].surfacePartsModelTrans.translation = { trans.x,trans.y,-trans.z };
+	field[CenterRight][RightBottom].surfacePartsModelTrans.translation = { trans.x,trans.y,trans.z };
+	field[CenterRight][LeftTop].surfacePartsModelTrans.translation = { trans.x,-trans.y,-trans.z };
+	field[CenterRight][LeftBottom].surfacePartsModelTrans.translation = { trans.x,-trans.y,trans.z };
+}
+
+void Stage::SetStageRightTrans(const AliceMathF::Vector3& trans)
+{
+	field[Right][RightTop].surfacePartsModelTrans.translation = { trans.x,trans.y,trans.z };
+	field[Right][RightBottom].surfacePartsModelTrans.translation = { -trans.x,trans.y,trans.z };
+	field[Right][LeftTop].surfacePartsModelTrans.translation = { trans.x,-trans.y,trans.z };
+	field[Right][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,trans.z };
+}
+
+void Stage::SetStageBottomTrans(const AliceMathF::Vector3& trans)
+{
+	field[Bottom][RightTop].surfacePartsModelTrans.translation = { trans.x,-trans.y,trans.z };
+	field[Bottom][RightBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,trans.z };
+	field[Bottom][LeftTop].surfacePartsModelTrans.translation = { trans.x,-trans.y,-trans.z };
+	field[Bottom][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
+}
+

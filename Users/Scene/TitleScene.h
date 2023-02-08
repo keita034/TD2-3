@@ -5,12 +5,21 @@
 #include "Transform.h"
 #include "Sprite2D.h"
 #include "Input.h"
+#include "CinemaCamera.h"
+
+#include "UserCamera.h"
+#include "Stage.h"
 
 class TitleScene : public BaseScene
 {
 private:
 	Input* input = nullptr;
-	SceneManager* sceneManager = nullptr;
+
+	std::unique_ptr<CinemaCamera> camera_;
+	std::unique_ptr<UserCamera> userCamera_;
+	int cameraType = 0;
+
+	std::unique_ptr<Stage> stage_;
 
 	std::unique_ptr<Sprite2D> spriteTitle_;
 	uint32_t titleTex_ = 0;
