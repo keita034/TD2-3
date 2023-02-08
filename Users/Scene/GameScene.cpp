@@ -15,6 +15,7 @@ void GameScene::Initialize()
 {
 	input = Input::GetInstance();
 	mesh2D = Mesh::GetInstance();
+	audioManager = AudioManager::GetInstance();
 
 	//ƒ‰ƒCƒg‰Šú‰»
 	light.reset(Light::Create());
@@ -82,6 +83,12 @@ void GameScene::Initialize()
 
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
+
+	titleBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/title.mp3", 0.05f);
+	gameBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/game.mp3", 0.05f);
+	resultBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/result.mp3", 0.05f);
+
+	audioManager->PlayWave(titleBgmhandl);
 }
 
 void GameScene::Update()
@@ -103,6 +110,9 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_SPACE))
 		{
 			scene = game;
+			audioManager->StopWave(titleBgmhandl);
+			audioManager->PlayWave(gameBgmhandl);
+
 		}
 		break;
 #pragma endregion
@@ -189,6 +199,8 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_RETURN))
 		{
 			scene = result;
+			audioManager->StopWave(gameBgmhandl);
+			audioManager->PlayWave(resultBgmhandl);
 		}
 		break;
 
@@ -201,6 +213,8 @@ void GameScene::Update()
 		if (input->TriggerPush(DIK_SPACE))
 		{
 			scene = title;
+			audioManager->StopWave(resultBgmhandl);
+			audioManager->PlayWave(titleBgmhandl);
 		}
 		break;
 

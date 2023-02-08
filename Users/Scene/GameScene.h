@@ -54,6 +54,7 @@ private:
 	Mesh* mesh2D = nullptr;
 	Mesh3D* mesh3D = nullptr;
 	Input* input = nullptr;
+	AudioManager* audioManager = nullptr;
 
 	std::unique_ptr<Light> light;
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
@@ -84,6 +85,12 @@ private:
 
 	int tatamiTimer = 0;
 	int isTatamu = 0;
+
+	uint32_t titleBgmhandl;
+	uint32_t gameBgmhandl;
+	uint32_t resultBgmhandl;
+
+
 
 public:
 
