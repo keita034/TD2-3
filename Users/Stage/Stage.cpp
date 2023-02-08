@@ -999,3 +999,8 @@ void Stage::SetStageBottomTrans(const AliceMathF::Vector3& trans)
 	field[Bottom][LeftTop].surfacePartsModelTrans.translation = { trans.x,-trans.y,-trans.z };
 	field[Bottom][LeftBottom].surfacePartsModelTrans.translation = { -trans.x,-trans.y,-trans.z };
 }
+
+Transform Stage::GetStageTransform(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex)
+{
+	return field[fieldIndex][fieldElementIndex].surfacePartsModelTrans;
+}

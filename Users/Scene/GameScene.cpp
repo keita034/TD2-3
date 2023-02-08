@@ -155,6 +155,8 @@ void GameScene::Update()
 			camera->SetTarget(userCamera->GetTarget());
 		}
 
+		//ここにゴールのワールドトランスフォームをぶち込め
+		//goal->SetGoal(AliceMathF::GetWorldPosition(stage->GetStageMatrix(static_cast<FieldIndex>,static_cast<FieldElementIndex>))//いったんコメントアウトにしとく
 		goal->Update(camera.get());
 
 		skydome->Update(camera.get());

@@ -35,7 +35,7 @@ public:
 	/// </summary>
 	void Collider(Camera* camera);
 
-
+	void SetGoal(AliceMathF::Vector3 x) { worldTransform_.translation = x; }
 
 private:
 

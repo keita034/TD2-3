@@ -88,6 +88,9 @@ public:
 	void SetStageRightTrans(const AliceMathF::Vector3& trans);
 	void SetStageBottomTrans(const AliceMathF::Vector3& trans);
 #pragma endregion
+
+	Transform GetStageTransform(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
+
 private:
 
 	// コピーコンストラクタを禁止
