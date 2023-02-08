@@ -101,7 +101,7 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 4) {
+		if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 4) {
 			if (Input::GetInstance()->TriggerPush(DIK_1))
 			{
 				isTatamu = 1;
@@ -109,7 +109,7 @@ void GameScene::Update()
 			}
 		}
 
-		if (player->GetPlayerSurfacePos() != 1 && player->GetPlayerSurfacePos() != 5) {
+		if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5) {
 			if (Input::GetInstance()->TriggerPush(DIK_2))
 			{
 				isTatamu = 1;
