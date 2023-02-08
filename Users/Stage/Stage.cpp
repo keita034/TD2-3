@@ -941,6 +941,17 @@ void Stage::SetStageObjScale(const AliceMathF::Vector3& scale)
 	field[Bottom][RightBottom].surfacePartsModelTrans.scale = scale;
 }
 
+void Stage::SetStageFrameScale(const AliceMathF::Vector3& scale)
+{
+	BlockTrans.scale = scale;
+}
+
+void Stage::SetStageFrameTrans(const AliceMathF::Vector3& trans)
+{
+	BlockTrans.translation = trans;
+
+}
+
 void Stage::SetStageTopTrans(const AliceMathF::Vector3& trans)
 {
 	field[Top][RightTop].surfacePartsModelTrans.translation = { trans.x,trans.y,trans.z };
