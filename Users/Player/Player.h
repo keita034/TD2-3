@@ -60,6 +60,8 @@ public:
 
 	void SetCameraRot(AliceMathF::Matrix4 camera) { CameraRot = camera; }
 
+	int GetPlayerSurfacePos() { return playerSurfacePos; }
+
 private:
 
 	Transform worldTransform_;

@@ -38,7 +38,13 @@ void GameScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 
-	stage->Initialize(camera.get());
+	stage->Initialize(camera.get(),"Resources/SurfaceParts/",
+		"Map01", "Map02", "Map03", "Map04",
+		"Map05", "Map06", "Map07", "Map08",
+		"Map09", "Map010", "Map011", "Map012",
+		"Map013", "Map014", "Map015", "Map016",
+		"Map017", "Map018", "Map019", "Map020",
+		"Map021", "Map022", "Map023", "Map024");
 
 	modelHandle1 = Model::CreateObjModel("Resources/Player");
 
@@ -53,12 +59,22 @@ void GameScene::Initialize()
 
 	goal = std::make_unique<Goal>(modelHandle1);
 
+	tatamiTimer = 150;
+
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
 {
+
+	if (isTatamu == 1) {
+		tatamiTimer--;
+		if (tatamiTimer < 0) {
+			tatamiTimer = 150;
+			isTatamu = 0;
+		}
+	}
 	switch (scene)
 	{
 	case GameScene::title:
@@ -85,24 +101,35 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
-		{
-			stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
-		}
+		//if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 4) {
+			if (Input::GetInstance()->TriggerPush(DIK_3))
+			{
+				isTatamu = 1;
+				stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
+			}
+		//}
 
-		if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
-		{
-			stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
-		}
+		//if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5) {
+			if (Input::GetInstance()->TriggerPush(DIK_2))
+			{
+				isTatamu = 1;
+				stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+			}
+		//}
 
-		if (Input::GetInstance()->TriggerPush(DIK_Z))
-		{
-			stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
-		}
+		//if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3) {
+			if (Input::GetInstance()->TriggerPush(DIK_1))
+			{
+				isTatamu = 1;
+				stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
+			}
+		//}
 
 		stage->Update(camera.get());
 
-		player->Update(camera.get());
+		if (isTatamu == 0) {
+			player->Update(camera.get());
+		}
 
 		if (input->TriggerPush(DIK_SPACE)) {
 			if (cameraType == 0) {
@@ -128,6 +155,8 @@ void GameScene::Update()
 			camera->SetTarget(userCamera->GetTarget());
 		}
 
+		//ここにゴールのワールドトランスフォームをぶち込め
+		//goal->SetGoal(AliceMathF::GetWorldPosition(stage->GetStageMatrix(static_cast<FieldIndex>,static_cast<FieldElementIndex>))//いったんコメントアウトにしとく
 		goal->Update(camera.get());
 
 		skydome->Update(camera.get());

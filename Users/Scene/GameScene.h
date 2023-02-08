@@ -82,6 +82,9 @@ private:
 
 	std::unique_ptr<Goal> goal;
 
+	int tatamiTimer = 0;
+	int isTatamu = 0;
+
 public:
 
 	GameScene();
