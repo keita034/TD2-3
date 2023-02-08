@@ -55,6 +55,8 @@ public://ƒƒ“ƒoŠÖ”
 
 	bool GetIsGoal() { return isGoal; }
 
+	void SetGoal(bool x) { isGoal = x; }
+
 private:
 	CollisionManager() = default;
 	CollisionManager(const CollisionManager&) = delete;

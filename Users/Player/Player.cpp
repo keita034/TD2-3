@@ -46,8 +46,9 @@ Player::Player(uint32_t modelHandl) {
 
 void Player::Initialise() {
 
-
-
+	worldTransform_.translation = { -44,-34,-20 };
+	worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad,0 };
+	collider->Update(worldTransform_.matWorld);
 }
 
 void Player::Update(Camera* camera) {

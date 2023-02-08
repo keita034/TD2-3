@@ -177,11 +177,12 @@ void GameScene::Update()
 		//全ての衝突をチェック
 		collisionManager->CheckAllCollisions();
 
-		if (input->TriggerPush(DIK_RETURN))
+		if (collisionManager->GetIsGoal())
 		{
 			scene = result;
 			audioManager->StopWave(gameBgmhandl);
 			audioManager->PlayWave(resultBgmhandl);
+			collisionManager->SetGoal(false);
 		}
 		break;
 
@@ -190,7 +191,18 @@ void GameScene::Update()
 	case GameScene::result:
 #pragma region ResultScene
 		resultScene->Update();
-
+		stage->Initialize(camera.get(), "Resources/SurfaceParts/",
+			//左上    //右上    //左下     //右下
+			"Map07", "Map08", "Map05", "Map06",	//01
+			"Map018", "Map020", "Map017", "Map019",	//05
+			"Map022", "Map021", "Map024", "Map023",	//06
+			"Map013", "Map014", "Map015", "Map016",	//04
+			"Map01", "Map03", "Map02", "Map04",	//02
+			"Map09", "Map010", "Map011", "Map012"	//03
+		);
+		player->Initialise();
+		camera->Initialize();
+		cameraType = 0;
 		if (input->TriggerPush(DIK_SPACE))
 		{
 			scene = title;
