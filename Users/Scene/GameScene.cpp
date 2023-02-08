@@ -59,23 +59,12 @@ void GameScene::Initialize()
 
 	goal = std::make_unique<Goal>(modelHandle1);
 
-	tatamiTimer = 15tata0;
-
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
 }
 
 void GameScene::Update()
 {
-
-	if (isTatamu == 1) {
-		tatamiTimer--;
-		if (tatamiTimer < 0) {
-			tatamiTimer = 150;
-			isTatamu = 0;
-		}
-	}
-
 	switch (scene)
 	{
 	case GameScene::title:
@@ -102,37 +91,24 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3) {
-			if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
-			}
+		if (Input::GetInstance()->TriggerPush(DIK_1))
+		{
+			stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
 		}
 
-		if (player->GetPlayerSurfacePos() != 1 && player->GetPlayerSurfacePos() != 5) {
-			if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
-			}
+		if (Input::GetInstance()->TriggerPush(DIK_2))
+		{
+			stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
 		}
 
-		if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 4) {
-			if (Input::GetInstance()->TriggerPush(DIK_Z))
-			{
-				isTatamu = 1;
-				stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
-			}
+		if (Input::GetInstance()->TriggerPush(DIK_3))
+		{
+			stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
 		}
-
 
 		stage->Update(camera.get());
 
-		if (isTatamu == 0) {
-			player->Update(camera.get());
-		}
-
+		player->Update(camera.get());
 
 		if (input->TriggerPush(DIK_SPACE)) {
 			if (cameraType == 0) {
