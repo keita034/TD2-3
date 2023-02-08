@@ -10,7 +10,7 @@ void TitleScene::Initialize()
 	modelCamera_->Initialize(UpdateProjMatrixFunc_Perspective);
 	userCamera_ = std::make_unique<UserCamera>(1280, 720);
 
-	uint32_t handl = AliceModel::CreateModel("Resources/Kaede");
+	uint32_t handl = AliceModel::CreateModel("Resources/Kaede/model");
 
 	aliceModel = std::make_unique<AliceModel>();
 	aliceModel->SetModel(handl);
