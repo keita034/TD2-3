@@ -52,7 +52,7 @@ public:
 
 	AliceMathF::Vector3 GetPlayerPos() { return  AliceMathF::GetWorldPosition(worldTransform_); }
 
-    Transform* GetWorldTransform() { return &worldTransform_; }
+	Transform* GetWorldTransform() { return &worldTransform_; }
 
 	AliceMathF::Vector3 bVelocity(AliceMathF::Vector3& velocity, Transform& worldTransform);
 
@@ -67,6 +67,8 @@ public:
 private:
 
 	Transform worldTransform_;
+	Transform modelWorldTransform_;
+	std::unique_ptr<Model> model;
 
 	std::unique_ptr<AliceModel> aliceModel;
 	std::unique_ptr<AliceMotionData> walkMotion;
@@ -98,9 +100,11 @@ private:
 
 	AliceMathF::Vector3 origin = { 0,0,0 };
 
+
 	int playerSurfacePos = 0;
 
 	float frame;
+	int x = 0;
 
 	int isPlayerNearCorner[6] = { 0 };
 
@@ -126,7 +130,5 @@ private:
 	AliceMathF::Vector3 RightTopLeft = { sizeX,sizeYTop,-size };
 	AliceMathF::Vector3 RightBottomRight = { sizeX,-sizeYBottom,size };
 	AliceMathF::Vector3 RightBottomLeft = { sizeX,-sizeYBottom,-size };
-
-
 
 };
