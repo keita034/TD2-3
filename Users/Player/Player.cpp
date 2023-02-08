@@ -58,6 +58,7 @@ void Player::Update(Camera* camera) {
 	worldTransform_.TransUpdate(camera);
 	modelWorldTransform_.translation = worldTransform_.translation;
 	modelWorldTransform_.scale = { 0.1,0.1,0.1 };
+	modelWorldTransform_.rotation = rot;
 	modelWorldTransform_.TransUpdate(camera);
 
 	aliceModel->AnimationUpdate(walkMotion.get(), frame);

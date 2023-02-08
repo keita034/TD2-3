@@ -154,6 +154,7 @@ void UserCamera::LabyrinthCamera() {
 
 	cameraRot.MakeRotation(rotation);
 
+	rot = rotation;
 	CameraRot = cameraRot;
 
 	//ワールド前方ベクトル

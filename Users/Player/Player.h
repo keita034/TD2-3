@@ -59,6 +59,8 @@ public:
 	AliceMathF::Vector3 Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m);
 
 	void SetCameraRot(AliceMathF::Matrix4 camera) { CameraRot = camera; }
+	void SetCameraRot(AliceMathF::Vector3 camera) { rot = camera; }
+
 
 	int GetPlayerSurfacePos() { return playerSurfacePos; }
 
@@ -73,6 +75,8 @@ private:
 
 
 	Input* input_ = nullptr;
+
+	AliceMathF::Vector3 rot;
 
 	int jumpFlag = 0;
 	int jumpFrame = 0;

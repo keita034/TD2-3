@@ -126,6 +126,7 @@ void GameScene::Update()
 		stage->Update(camera.get());
 
 		if (isTatamu == 0) {
+			player->SetCameraRot(userCamera->GetCameraRotVec3());
 			player->Update(camera.get());
 		}
 

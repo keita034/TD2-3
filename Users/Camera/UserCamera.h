@@ -27,6 +27,7 @@ public:
 	AliceMathF::Vector3 GetUp() { return vUp; }
 	AliceMathF::Vector3 GetTarget() { return target; }
 	AliceMathF::Matrix4 GetCameraRot() { return this->CameraRot; }
+	AliceMathF::Vector3 GetCameraRotVec3() { return this->rot; }
 
 
 	void SetCameraType(int x) { cameraType = x; }
@@ -41,7 +42,7 @@ private:
 
 	// ‰ñ“]s—ñ
 	AliceMathF::Matrix4 matRot;
-
+	AliceMathF::Vector3 rot;
 	float fTheta = 4.57f;//ƒJƒƒ‰‰¡•ûŒüŠp“x
 	float fDelta = 0.43f;//ƒJƒƒ‰c•ûŒüŠp“x
 
