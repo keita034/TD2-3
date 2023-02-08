@@ -111,7 +111,7 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 4) {
+		if (player->GetPlayerSurfacePos() != 4 && player->GetPlayerSurfacePos() != 3) {
 			if (Input::GetInstance()->TriggerPush(DIK_3))
 			{
 				isTatamu = 1;
@@ -167,7 +167,7 @@ void GameScene::Update()
 		}
 
 		//ここにゴールのワールドトランスフォームをぶち込め
-		//goal->SetGoal(AliceMathF::GetWorldPosition(stage->GetStageMatrix(static_cast<FieldIndex>,static_cast<FieldElementIndex>))//いったんコメントアウトにしとく
+		//goal->SetGoal(AliceMathF::GetWorldPosition(stage->GetStageTransform(static_cast < FieldIndex>3, static_cast < FieldElementIndex>1)));//いったんコメントアウトにしとく
 		goal->Update(camera.get());
 
 		skydome->Update(camera.get());

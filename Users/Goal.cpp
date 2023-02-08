@@ -16,7 +16,7 @@ Goal::Goal(uint32_t modelHandl)
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);
 	CollisionManager::GetInstance()->AddCollider(collider);
 
-	worldTransform_.translation = { 20,30,20 };
+	worldTransform_.translation = { 20,30,-20 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
