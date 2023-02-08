@@ -28,6 +28,8 @@ namespace AliceMathF
 
 		Quaternion(const Vector4& v);
 
+		Quaternion(const DirectX::XMVECTOR& v);
+
 		//ベクトルからベクトルの角度
 		Quaternion(const Vector3& u, const Vector3& v);
 
@@ -80,14 +82,16 @@ namespace AliceMathF
 
 	};
 
-//2項演算子オーバーロード
-const Quaternion operator + (const Quaternion& q1, const Quaternion& q2);
-const Quaternion operator - (const Quaternion& q1, const Quaternion& q2);
-const Quaternion operator * (const Quaternion& q1, const Quaternion& q2);
-const Quaternion operator * (const Quaternion& q, float s);
-const Quaternion operator * (float s, const Quaternion& q);
-const Quaternion operator / (const Quaternion& q, float s);
-const Vector3 operator*(Quaternion q, Vector3 vec);
+	//2項演算子オーバーロード
+	const Quaternion operator + (const Quaternion& q1, const Quaternion& q2);
+	const Quaternion operator - (const Quaternion& q1, const Quaternion& q2);
+	const Quaternion operator * (const Quaternion& q1, const Quaternion& q2);
+	const Quaternion operator * (const Quaternion& q, float s);
+	const Quaternion operator * (float s, const Quaternion& q);
+	const Quaternion operator / (const Quaternion& q, float s);
+	const Vector3 operator*(Quaternion q, Vector3 vec);
 
-void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t);
+	void QuaternionSlerp(Quaternion& vOut, const Quaternion& qStart, const Quaternion& qEnd, float t);
+
+	void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t);
 }

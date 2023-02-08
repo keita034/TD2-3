@@ -19,9 +19,6 @@ private:
 		float lutMul;
 	};
 
-	float width = 0.0f;
-	float height = 0.0f;
-
 	TextureData* lutTexture;
 
 	lutSize size = {};
@@ -34,13 +31,18 @@ public:
 
 	void Initialize() override;
 
-	void PostUpdate(D3D12_GPU_DESCRIPTOR_HANDLE& srv, D3D12_GPU_DESCRIPTOR_HANDLE& uav) override;
+	void PostUpdate(RenderTarget* mainRenderTarget) override;
 
 	void SetLutTexture(uint32_t handle);
 
 	const std::string& GetType()override;
 
 private:
+
+	void Draw(RenderTarget* mainRenderTarget)override;
+
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+
 
 	LutPostEffect() = default;
 	~LutPostEffect() = default;

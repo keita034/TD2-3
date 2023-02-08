@@ -1,6 +1,10 @@
 #pragma once
 #include"ErrorException.h"
 #include"DescriptorHeap.h"
+#include"DSVDescriptorHeap.h"
+#include"RTVDescriptorHeap.h"
+#include"RenderTargetBuffer.h"
+#include"DepthStencilBuffer.h"
 
 /// <summary>
 /// コア
@@ -10,24 +14,30 @@ class DirectX12Core
 private:
 
 	HRESULT result;
-	char PADDING[4];
+	char PADING[4];
 	Microsoft::WRL::ComPtr<ID3D12Device> device;
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> cmdAllocator;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
+
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 
+	//RTV用のデスクプリタヒープ
+	std::unique_ptr<RTVDescriptorHeap> rtvHeap;
+
+	//SRV用のデスクプリタヒープ
+	std::unique_ptr<DescriptorHeap> srvHeap;
+
+	//深度バッファ
+	std::unique_ptr<DepthStencilBuffer> depthBuff;
+
+	//DSV用のデスクプリタヒープ
+	std::unique_ptr<DSVDescriptorHeap> dsvHeap;
+
 	//バックバッファ
-	std::vector< Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
-
-	//バリアーデスク
-	D3D12_RESOURCE_BARRIER barrierDesc{};
-
-	//デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+	std::vector<std::unique_ptr<RenderTargetBuffer>> backBuffers;
 
 	//フェンスの生成
 	UINT64 fenceVal = 0;
@@ -35,10 +45,9 @@ private:
 	//スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-
 	//クリアーカラー
-	FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };
+	//FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };
+	FLOAT clearColor[4] = { 1.0f,1.0f,1.0f,1.0f};
 
 	//ビューポート
 	D3D12_VIEWPORT viewport{};
@@ -46,17 +55,11 @@ private:
 	//シザー矩形
 	D3D12_RECT scissorRect{};
 
-	//深度バッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
-
-	//深度ビュー用デスクプリタヒープ
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap;
-
 	static DirectX12Core* DirectX12Core_;
 	
-	//デスクプリタヒープ
-	std::unique_ptr<DescriptorHeap> descriptorHeap;
+	UINT bbIndex;
 
+	char PADING2[4]{};
 public:
 
 	//シングルトンインスタンスの取得
@@ -121,7 +124,17 @@ public:
 	/// <summary>
 	/// SRV,CBV,URV用デスクプリタヒープ取得
 	/// </summary>
-	DescriptorHeap* GetDescriptorHeap();
+	DescriptorHeap* GetSRVDescriptorHeap();
+
+	/// <summary>
+	/// RTV用デスクプリタヒープ取得
+	/// </summary>
+	RTVDescriptorHeap* GetRTVDescriptorHeap();
+
+	/// <summary>
+	/// DSV用デスクプリタヒープ取得
+	/// </summary>
+	DSVDescriptorHeap* GetDSVDescriptorHeap();
 
 	/// <summary>
 	/// リソースの状態を変える

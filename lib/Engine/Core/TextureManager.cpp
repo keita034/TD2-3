@@ -61,7 +61,7 @@ TextureData* TextureManager::FromTextureData(const std::string& path)
 	DirectX::ScratchImage scratchImg{};
 	DirectX::ScratchImage mipChain{};
 
-	result->srvHeap = directX12Core->GetDescriptorHeap()->GetHeap();
+	result->srvHeap = directX12Core->GetSRVDescriptorHeap()->GetHeap();
 
 	LoadFile(path, metadata, scratchImg);
 
@@ -242,7 +242,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateShaderResourceView(ID3D12Resou
 
 	D3D12_GPU_DESCRIPTOR_HANDLE result{};
 
-	result.ptr = directX12Core->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff);
+	result.ptr = directX12Core->GetSRVDescriptorHeap()->CreateSRV(srvDesc, texBuff);
 
 	return result;
 }

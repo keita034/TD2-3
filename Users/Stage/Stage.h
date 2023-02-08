@@ -24,10 +24,6 @@ private:
 
 	std::array<std::array<FieldElement, 4>, 6> field;
 
-	std::unique_ptr<VerticalFold> verticalFold_;
-
-	std::unique_ptr<BesideFold> besideFold_;
-
 	std::unique_ptr<SurfaceFold> surfaceFold_;
 
 	uint32_t modelHandle = 0u;

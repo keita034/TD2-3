@@ -33,6 +33,14 @@ namespace AliceMathF
 		w = v.w;
 	}
 
+	Quaternion::Quaternion(const DirectX::XMVECTOR& v)
+	{
+		x = v.m128_f32[0];
+		y = v.m128_f32[1];
+		z = v.m128_f32[2];
+		w = v.m128_f32[3];
+	}
+
 	Quaternion::Quaternion(const aiQuaternion& q)
 	{
 		x = q.x;
@@ -409,6 +417,21 @@ namespace AliceMathF
 		temp.z = (xz - wy) * vec.x + (yz + wx) * vec.y + (1.0f - (xx + yy)) * vec.z;
 
 		return temp;
+	}
+
+	void QuaternionSlerp(Quaternion& vOut, const Quaternion& qStart, const Quaternion& qEnd, float t)
+	{
+
+		//Quaternion start = Quaternion(qStart);
+		//Quaternion end = Quaternion(qEnd);
+		//
+		//vOut = start.Slerp(end, t).GetElement();
+
+		DirectX::XMVECTOR start = { qStart.x, qStart.y ,qStart.z ,qStart.w };
+
+		DirectX::XMVECTOR end = { qEnd.x, qEnd.y ,qEnd.z ,qEnd.w };
+
+		vOut = DirectX::XMQuaternionSlerp(start, end, t);
 	}
 
 	void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t)

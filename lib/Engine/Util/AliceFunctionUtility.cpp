@@ -18,20 +18,19 @@ namespace AliceFunctionUtility
 	// ディレクトリからファイル名一覧を所得
 	std::vector<std::string> getFileNames(const std::string& folderPath)
 	{
+
+		std::filesystem::directory_iterator iter(folderPath), end;
+		std::error_code err;
+		std::vector<std::string> file_names;
+
+		for (; iter != end && !err; iter.increment(err))
 		{
-			std::filesystem::directory_iterator iter(folderPath), end;
-			std::error_code err;
-			std::vector<std::string> file_names;
+			const std::filesystem::directory_entry entry = *iter;
 
-			for (; iter != end && !err; iter.increment(err))
-			{
-				const std::filesystem::directory_entry entry = *iter;
-
-				file_names.push_back(entry.path().string());
-			}
-
-			return file_names;
+			file_names.push_back(entry.path().string());
 		}
+
+		return file_names;
 	}
 
 	std::string GetFileName(std::string& path)
@@ -78,5 +77,26 @@ namespace AliceFunctionUtility
 	{
 		std::filesystem::path filePath = path.c_str();
 		return filePath.replace_extension(ext).string();
+	}
+
+	bool FileIsExist(const std::string& path)
+	{
+		FILE* fp;
+
+		fopen_s(&fp, path.c_str(), "r");
+
+		if (fp == NULL)
+		{
+			printf("%sは存在しません。\n", path.c_str());
+
+			fclose(fp);
+
+			return false;
+
+		}
+
+		fclose(fp);
+
+		return true;
 	}
 };

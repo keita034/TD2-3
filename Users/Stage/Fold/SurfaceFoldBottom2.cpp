@@ -4,7 +4,7 @@
 #include "CollisionManager.h"
 #include "ChangeCollider.h"
 
-void SurfaceFoldBottom2::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldBottom2::StartBottomTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	field[Bottom][LeftTop].isDraw = false;
 	field[Bottom][RightTop].isDraw = false;
@@ -218,7 +218,7 @@ void SurfaceFoldBottom2::ShrinkAnimeBottomTo(std::array<std::array<FieldElement,
 	}
 }
 
-void SurfaceFoldBottom2::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, fbxModel* surfaceFoldFbxmodel_)
+void SurfaceFoldBottom2::ReplaceBottomTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
 	FieldElement element;
 	Transform transform1;

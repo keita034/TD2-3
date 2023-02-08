@@ -5,6 +5,8 @@
 #include"Input.h"
 #include"Vector3.h"
 #include"BaseCollider.h"
+#include"AliceModel.h"
+#include"AliceMotionData.h"
 
 class Player {
 
@@ -63,7 +65,13 @@ public:
 private:
 
 	Transform worldTransform_;
+	Transform modelWorldTransform_;
 	std::unique_ptr<Model> model;
+
+	std::unique_ptr<AliceModel> aliceModel;
+	std::unique_ptr<AliceMotionData> walkMotion;
+
+
 	Input* input_ = nullptr;
 
 	int jumpFlag = 0;
@@ -87,6 +95,7 @@ private:
 
 	int playerSurfacePos = 0;
 
+	float frame;
 
 	int isPlayerNearCorner[6] = { 0 };
 

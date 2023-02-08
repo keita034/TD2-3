@@ -303,7 +303,7 @@ void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 		const char* boneName = meshBone->mName.C_Str();
 
 		//新しくボーンを追加し、追加したボーンの参照を得る
-		Bone& bone = model->meshes.back().bones[meshBone->mName.C_Str()];
+		Bone bone;
 
 		bone.name = boneName;
 
@@ -314,6 +314,7 @@ void FbxLoader::ParseSkin(fbxModel* model, aiMesh* mesh)
 		bone.index = i;
 
 		model->meshes.back().vecBones.push_back(bone);
+		model->meshes.back().bones[bone.name] = &model->meshes.back().vecBones.back();
 
 		//影響を受ける全頂点について
 		for (size_t k = 0; k < meshBone->mNumWeights; k++)

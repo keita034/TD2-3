@@ -52,5 +52,11 @@ namespace AliceFunctionUtility
 	/// <param name="path">ファイルパス</param>
 	/// <param name="ext">置き換える拡張子</param>
 	std::string ReplaceExtension(const std::string& path, const char* ext);
+
+	/// <summary>
+	/// ファイルが存在するかどうか
+	/// </summary>
+	/// <param name="path">ファイルパス</param>
+	bool FileIsExist(const std::string& path);
 };
 

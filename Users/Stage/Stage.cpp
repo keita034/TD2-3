@@ -757,16 +757,6 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 
 	switch (foldIndex)
 	{
-	case FoldIndex::Vertical:
-
-		verticalFold_->Start(field, FieldSurfaceIndex);
-
-		break;
-	case FoldIndex::Beside:
-
-		besideFold_->Start(field, FieldSurfaceIndex);
-
-		break;
 	case FoldIndex::Surface:
 
 		surfaceFold_->Start(field, FieldSurfaceIndex, standardAngle_);
@@ -776,37 +766,11 @@ void Stage::FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex)
 		break;
 	}
 
-	//fieldPlaneDrawFlag = true;
 }
 
 void Stage::Update(Camera* camera)
 {
-	//if (fieldPlaneDrawFlag)
-	{
-		//switch (foldDirection)
-		//{
-		//case FoldIndex::Vertical://c
-
-		//	verticalFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-		//	break;
-
-		//case FoldIndex::Beside://‰¡
-
-		//	besideFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-
-		//	break;
-
-		//case FoldIndex::Surface:
-
-		surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
-
-		///break;
-
-	//default:
-		//break;
-	//}
-
-	}
+	surfaceFold_->Update(camera, field, FieldSurfaceIndex, fieldPlaneDrawFlag);
 
 	BlockTrans.TransUpdate(camera);
 
@@ -838,6 +802,7 @@ void Stage::Update(Camera* camera)
 			collider[i]->Update(field[Top][RightTop].surfacePartsModelTrans.matWorld);
 		}
 	}
+	
 	*/
 
 
@@ -861,14 +826,6 @@ void Stage::Draw()
 	{
 		switch (foldDirection)
 		{
-		case FoldIndex::Vertical://c
-			verticalFold_->Draw();
-			break;
-
-		case FoldIndex::Beside://‰¡
-			besideFold_->Draw();
-			break;
-
 		case FoldIndex::Surface:
 
 			surfaceFold_->Draw();
