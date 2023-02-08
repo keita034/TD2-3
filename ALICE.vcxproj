@@ -121,6 +121,13 @@
     <ClInclude Include="lib\Engine\Core\DirectX\RenderTarget.h" />
     <ClInclude Include="lib\Engine\Core\Buffer\RenderTargetBuffer.h" />
     <ClInclude Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.h" />
+    <ClInclude Include="ChangeCollider.h" />
+    <ClInclude Include="Goal.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\BasePostEffect.h" />
+    <ClInclude Include="lib\Engine\2D\PostEffect\LutPostEffect.h" />
+    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="Skydome.h" />
     <ClInclude Include="Users\Player\Player.h" />
     <ClInclude Include="Users\PostEffectFactory.h" />
     <ClInclude Include="lib\Engine\Scene\AbstractSceneFactory.h" />
@@ -431,6 +438,8 @@
     <ClCompile Include="lib\Engine\2D\PostEffect\GaussianXBlurPostEffect.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\GaussianYBlurPostEffect.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\GaussianBlurPostEffect.cpp" />
+    <ClCompile Include="ChangeCollider.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\AbstractPostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\BasePostEffect.cpp" />
     <ClCompile Include="lib\Engine\2D\PostEffect\LutPostEffect.cpp" />
@@ -440,6 +449,8 @@
     <ClCompile Include="lib\Engine\Core\DirectX\RenderTarget.cpp" />
     <ClCompile Include="lib\Engine\Core\Buffer\RenderTargetBuffer.cpp" />
     <ClCompile Include="lib\Engine\Core\DirectX\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Users\Player\Player.cpp" />
     <ClCompile Include="Users\PostEffectFactory.cpp" />
     <ClCompile Include="lib\Engine\Scene\AbstractSceneFactory.cpp" />

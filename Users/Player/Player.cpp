@@ -14,9 +14,9 @@ Player::Player(uint32_t modelHandl) {
 
 	modelWorldTransform_.Initialize();
 
-	float a = 8.5f;
+	float PlayerScale = 8.5f;
 
-	worldTransform_.scale = { a,a,a };
+	worldTransform_.scale = { PlayerScale,PlayerScale,PlayerScale };
 
 
 	//worldTransform_.SetCollider(new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius));
@@ -33,6 +33,8 @@ Player::Player(uint32_t modelHandl) {
 	handl = AliceMotionData::CreateMotion("Resources/Kaede");
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
+	
+	worldTransform_.translation = { -80,0,0 };
 
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
@@ -40,7 +42,6 @@ Player::Player(uint32_t modelHandl) {
 
 void Player::Initialise() {
 
-	worldTransform_.translation = { 0,100,0 };
 
 
 }
@@ -51,7 +52,7 @@ void Player::Update(Camera* camera) {
 
 	PlayerJump(camera);
 	PlayerCollider(camera);
-	PlayerMove();
+	PlayerMove(camera);
 	worldTransform_.TransUpdate(camera);
 	modelWorldTransform_.translation = worldTransform_.translation;
 	modelWorldTransform_.scale = { 0.1,0.1,0.1 };
@@ -63,17 +64,14 @@ void Player::Update(Camera* camera) {
 void Player::PlayerJump(Camera* camera) {
 
 	// 落下処理
-	if (!onGround) {
 
-		PlayerGravitie();
+	PlayerGravitie();
 
-	}
-	// ジャンプ操作
-	else if (input_->TriggerPush(DIK_SPACE)) {
-		onGround = false;
-		const float jumpVYFist = 1.2f;
-		fallV = { 0, jumpVYFist, 0, 0 };
-	}
+	//// ジャンプ操作
+	//if (input_->TriggerPush(DIK_SPACE)) {
+	//	const float jumpVYFist = 0.5f;
+	//	worldTransform_.translation.y += jumpVYFist;
+	//}
 
 	worldTransform_.TransUpdate(camera);
 	collider->Update(worldTransform_.matWorld);
@@ -81,279 +79,482 @@ void Player::PlayerJump(Camera* camera) {
 
 void Player::PlayerGravitie() {
 
-	playerSurfacePos = 0;
-
 	AliceMathF::Vector3 origin = { 0,0,0 };
 
-	AliceMathF::Vector3 TopLeftTop = { -30.0f,30.0f,30.0f };
-	AliceMathF::Vector3 TopLeftBottom = { -30.0f,30.0f,-30.0f };
-	AliceMathF::Vector3 TopRightTop = { 30.0f,30.0f,30.0f };
-	AliceMathF::Vector3 TopRightBottom = { 30.0f,30.0f,-30.0f };
-
-	AliceMathF::Vector3 RightTopRight = { 30.0f,30.0f,30.0f };
-	AliceMathF::Vector3 RightTopLeft = { 30.0f,30.0f,-30.0f };
-	AliceMathF::Vector3 RightBottomRight = { 30.0f,-30.0f,30.0f };
-	AliceMathF::Vector3 RightBottomLeft = { 30.0f,-30.0f,-30.0f };
 
 	//どこの面にイルカ
 
 	if (TopLeftTop.x < AliceMathF::GetWorldPosition(worldTransform_).x && AliceMathF::GetWorldPosition(worldTransform_).x < TopRightTop.x) {
 		if (TopLeftTop.z > AliceMathF::GetWorldPosition(worldTransform_).z && AliceMathF::GetWorldPosition(worldTransform_).z > TopRightBottom.z) {
-			if (origin.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
-				// 下向き加速度
-				const float fallAcc = -0.01f;
-				const float fallVYMin = -0.5f;
-				// 加速
-				fallV.x = 0;
-				fallV.y = max(fallV.y + fallAcc, fallVYMin);
-				fallV.z = 0;
+			if (TopLeftTop.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 0;
 			}
 		}
-	}
-	else {
-		// 移動
-		worldTransform_.translation.x += fallV.x;
-		worldTransform_.translation.y += fallV.y;
-		worldTransform_.translation.z += fallV.z;
 	}
 	if (RightTopLeft.z < AliceMathF::GetWorldPosition(worldTransform_).z && AliceMathF::GetWorldPosition(worldTransform_).z < RightTopRight.z) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
-			if (origin.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
-				// 横向き加速度
-				const float fallAcc = -0.01f;
-				const float fallVYMin = -0.5f;
-				// 加速
-				fallV.x = max(fallV.x + fallAcc, fallVYMin);
-				fallV.y = 0;
-				fallV.z = 0;
+			if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 1;
 			}
 		}
-	}
-	else {
-		// 移動
-		worldTransform_.translation.x += fallV.x;
-		worldTransform_.translation.y += fallV.y;
-		worldTransform_.translation.z += fallV.z;
 	}
 	if (TopLeftTop.x < AliceMathF::GetWorldPosition(worldTransform_).x && AliceMathF::GetWorldPosition(worldTransform_).x < TopRightTop.x) {
 		if (TopLeftTop.z > AliceMathF::GetWorldPosition(worldTransform_).z && AliceMathF::GetWorldPosition(worldTransform_).z > TopRightBottom.z) {
-			if (origin.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
-				// 上向き加速度
-				const float fallAcc = 0.01f;
-				const float fallVYMin = 0.5f;
-				// 加速
-				fallV.x = 0;
-				fallV.y = max(fallV.y + fallAcc, fallVYMin);
-				fallV.z = 0;
+			if (RightBottomRight.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 2;
 			}
 		}
-	}
-	else {
-		// 移動
-		worldTransform_.translation.x += fallV.x;
-		worldTransform_.translation.y += fallV.y;
-		worldTransform_.translation.z += fallV.z;
 	}
 	if (RightTopLeft.z < AliceMathF::GetWorldPosition(worldTransform_).z && AliceMathF::GetWorldPosition(worldTransform_).z < RightTopRight.z) {
 		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
-			if (origin.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
-				// 横向き加速度
-				const float fallAcc = 0.01f;
-				const float fallVYMin = 0.5f;
-				// 加速
-				fallV.x = max(fallV.x + fallAcc, fallVYMin);
-				fallV.y = 0;
-				fallV.z = 0;
+			if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 3;
 			}
 		}
-	}
-	else {
-		// 移動
-		worldTransform_.translation.x += fallV.x;
-		worldTransform_.translation.y += fallV.y;
-		worldTransform_.translation.z += fallV.z;
 	}
 	if (TopLeftTop.x < AliceMathF::GetWorldPosition(worldTransform_).x && TopRightTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (TopLeftTop.y > AliceMathF::GetWorldPosition(worldTransform_).y && TopLeftBottom.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
-			if (origin.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
-				// 横向き加速度
-				const float fallAcc = -0.01f;
-				const float fallVYMin = -0.5f;
-				// 加速
-				fallV.x = 0;
-				fallV.y = 0;
-				fallV.z = max(fallV.z + fallAcc, fallVYMin);
+			if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 4;
 			}
 		}
-	}
-	else {
-		// 移動
-		worldTransform_.translation.x += fallV.x;
-		worldTransform_.translation.y += fallV.y;
-		worldTransform_.translation.z += fallV.z;
 	}
 	if (TopLeftTop.x < AliceMathF::GetWorldPosition(worldTransform_).x && TopRightTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
 		if (TopLeftTop.y > AliceMathF::GetWorldPosition(worldTransform_).y && TopLeftBottom.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
-			if (origin.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
-				// 横向き加速度
-				const float fallAcc = 0.01f;
-				const float fallVYMin = 0.5f;
-				// 加速
-				fallV.x = 0;
-				fallV.y = 0;
-				fallV.z = max(fallV.z + fallAcc, fallVYMin);
+			if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
 
-				// 移動
-				worldTransform_.translation.x += fallV.x;
-				worldTransform_.translation.y += fallV.y;
-				worldTransform_.translation.z += fallV.z;
+				playerSurfacePos = 5;
 			}
 		}
 	}
-	else {
+
+
+	if (TopLeftTop.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
+		// 下向き加速度
+		const float fallAcc = -0.01f;
+		const float fallVYMin = -0.5f;
+		// 加速
+		fallV.x = 0;
+		fallV.y = max(fallV.y + fallAcc, fallVYMin);
+		fallV.z = 0;
+
 		// 移動
 		worldTransform_.translation.x += fallV.x;
 		worldTransform_.translation.y += fallV.y;
 		worldTransform_.translation.z += fallV.z;
+
+		//playerSurfacePos = 0;
 	}
 
+	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
 
+		// 横向き加速度
+		const float fallAcc = -0.01f;
+		const float fallVYMin = -0.5f;
+		// 加速
+		fallV.x = max(fallV.x + fallAcc, fallVYMin);
+		fallV.y = 0;
+		fallV.z = 0;
 
-	//if (TopLeftTop.y < AliceMathF::GetWorldPosition(worldTransform_).y) {
-	//	// 下向き加速度
-	//	const float fallAcc = -0.01f;
-	//	const float fallVYMin = -0.5f;
-	//	// 加速
-	//	fallV.x = 0;
-	//	fallV.y = max(fallV.y + fallAcc, fallVYMin);
-	//	fallV.z = 0;
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+		//playerSurfacePos = 1;
 
-	//if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
-	//	// 横向き加速度
-	//	const float fallAcc = -0.01f;
-	//	const float fallVYMin = -0.5f;
-	//	// 加速
-	//	fallV.x = max(fallV.x + fallAcc, fallVYMin);
-	//	fallV.y = 0;
-	//	fallV.z = 0;
+	}
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+	if (RightBottomRight.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
+		// 上向き加速度
+		const float fallAcc = 0.01f;
+		const float fallVYMin = 0.5f;
+		// 加速
+		fallV.x = 0;
+		fallV.y = max(fallV.y + fallAcc, fallVYMin);
+		fallV.z = 0;
 
-	//if (RightBottomRight.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
-	//	// 上向き加速度
-	//	const float fallAcc = 0.01f;
-	//	const float fallVYMin = 0.5f;
-	//	// 加速
-	//	fallV.x = 0;
-	//	fallV.y = max(fallV.y + fallAcc, fallVYMin);
-	//	fallV.z = 0;
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+		//playerSurfacePos = 2;
+	}
 
-	//if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
-	//	// 横向き加速度
-	//	const float fallAcc = 0.01f;
-	//	const float fallVYMin = 0.5f;
-	//	// 加速
-	//	fallV.x = max(fallV.x + fallAcc, fallVYMin);
-	//	fallV.y = 0;
-	//	fallV.z = 0;
+	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
+		// 横向き加速度
+		const float fallAcc = 0.01f;
+		const float fallVYMin = 0.5f;
+		// 加速
+		fallV.x = max(fallV.x + fallAcc, fallVYMin);
+		fallV.y = 0;
+		fallV.z = 0;
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
 
-	//if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
-	//	// 横向き加速度
-	//	const float fallAcc = -0.01f;
-	//	const float fallVYMin = -0.5f;
-	//	// 加速
-	//	fallV.x = 0;
-	//	fallV.y = 0;
-	//	fallV.z = max(fallV.z + fallAcc, fallVYMin);
+		//playerSurfacePos = 3;
+	}
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+	if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
+		// 横向き加速度
+		const float fallAcc = -0.01f;
+		const float fallVYMin = -0.5f;
+		// 加速
+		fallV.x = 0;
+		fallV.y = 0;
+		fallV.z = max(fallV.z + fallAcc, fallVYMin);
 
-	//if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
-	//	// 横向き加速度
-	//	const float fallAcc = 0.01f;
-	//	const float fallVYMin = 0.5f;
-	//	// 加速
-	//	fallV.x = 0;
-	//	fallV.y = 0;
-	//	fallV.z = max(fallV.z + fallAcc, fallVYMin);
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
 
-	//	// 移動
-	//	worldTransform_.translation.x += fallV.x;
-	//	worldTransform_.translation.y += fallV.y;
-	//	worldTransform_.translation.z += fallV.z;
-	//}
+		//playerSurfacePos = 4;
+	}
+
+	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
+		// 横向き加速度
+		const float fallAcc = 0.01f;
+		const float fallVYMin = 0.5f;
+		// 加速
+		fallV.x = 0;
+		fallV.y = 0;
+		fallV.z = max(fallV.z + fallAcc, fallVYMin);
+
+		// 移動
+		worldTransform_.translation.x += fallV.x;
+		worldTransform_.translation.y += fallV.y;
+		worldTransform_.translation.z += fallV.z;
+
+		//playerSurfacePos = 5;
+	}
 
 }
 
-void Player::PlayerMove() {
+void Player::PlayerMove(Camera* camera) {
 
 	AliceMathF::Vector3 playerMovement = { 0,0,0 };
 
-	if (input_->KeepPush(DIK_W)) {
-		playerMovement.z = playerSpeed;
+	if (playerSurfacePos == 0) {
+		if (input_->KeepPush(DIK_W)) {
+			playerMovement.z = -playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_A)) {
+			playerMovement.x = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_S)) {
+			playerMovement.z = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_D)) {
+			playerMovement.x = -playerSpeed;
+		}
+		worldTransform_.rotation = { 0,0,0 };
 	}
-	if (input_->KeepPush(DIK_A)) {
-		playerMovement.x = -playerSpeed;
+	else if (playerSurfacePos == 1) {
+		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_A)) {
+				playerMovement.x = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_D)) {
+				playerMovement.x = -playerSpeed;
+			}
+			worldTransform_.rotation = { 0,0,-90 * AliceMathF::Deg2Rad };
+		}
 	}
-	if (input_->KeepPush(DIK_S)) {
-		playerMovement.z = -playerSpeed;
+	else if (playerSurfacePos == 2) {
+		if (input_->KeepPush(DIK_W)) {
+			playerMovement.z = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_A)) {
+			playerMovement.x = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_S)) {
+			playerMovement.z = -playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_D)) {
+			playerMovement.x = -playerSpeed;
+		}
+		worldTransform_.rotation = { 0,0,180 * AliceMathF::Deg2Rad };
 	}
-	if (input_->KeepPush(DIK_D)) {
-		playerMovement.x = playerSpeed;
+	else if (playerSurfacePos == 3) {
+		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_A)) {
+				playerMovement.x = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_D)) {
+				playerMovement.x = -playerSpeed;
+			}
+			worldTransform_.rotation = { 0,0,90 * AliceMathF::Deg2Rad };
+		}
+
+	}
+	else if (playerSurfacePos == 4) {//億
+		if (RightBottomRight.y < AliceMathF::GetWorldPosition(worldTransform_).y && AliceMathF::GetWorldPosition(worldTransform_).y < RightTopRight.y) {
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_A)) {
+				playerMovement.x = playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+			}
+			else if (input_->KeepPush(DIK_D)) {
+				playerMovement.x = -playerSpeed;
+			}
+			worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,0,0 };
+		}
+	}
+	else if (playerSurfacePos == 5) {
+		if (input_->KeepPush(DIK_W)) {
+			playerMovement.y = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_A)) {
+			playerMovement.x = playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_S)) {
+			playerMovement.y = -playerSpeed;
+		}
+		else if (input_->KeepPush(DIK_D)) {
+			playerMovement.x = -playerSpeed;
+		}
+		worldTransform_.rotation = { -90 * AliceMathF::Deg2Rad,0,0 };
 	}
 
+
+	if (input_->KeepPush(DIK_UP)) {
+		playerMovement.y = playerSpeed;
+	}
+	if (input_->KeepPush(DIK_DOWN)) {
+		playerMovement.y = -playerSpeed;
+	}
+
+
+	playerMovement = Vector3Transform(playerMovement, CameraRot);
+	if (playerSurfacePos == 0) {
+		playerMovement.y = 0;
+
+	}
+	else if (playerSurfacePos == 1) {
+		playerMovement.x = 0;
+
+	}
+	else if (playerSurfacePos == 2) {
+		playerMovement.y = 0;
+	}
+	else if (playerSurfacePos == 3) {
+		playerMovement.x = 0;
+	}
+	else if (playerSurfacePos == 4) {
+		playerMovement.z = 0;
+	}
+	else {
+		playerMovement.z = 0;
+	}
+	PlayerSmoothMoving = worldTransform_.translation;
+
 	worldTransform_.translation += playerMovement;
+	worldTransform_.TransUpdate(camera);
+
+	//上ゐる
+	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 0) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+				playerSurfacePos = 1;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 0) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+				playerSurfacePos = 4;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 0) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+				playerSurfacePos = 3;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 0) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.y = -playerSpeed;
+				playerSurfacePos = 5;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+
+	//下ゐる
+	if (TopRightTop.x < AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 2) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
+
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+				playerSurfacePos = 1;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (RightTopRight.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 2) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+				playerSurfacePos = 4;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (TopLeftTop.x > AliceMathF::GetWorldPosition(worldTransform_).x) {
+		if (playerSurfacePos == 2) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.x = 0;
+
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+				playerSurfacePos = 3;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 2) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_W)) {
+				playerMovement.y = playerSpeed;
+				playerSurfacePos = 5;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+
+	//Right
+	if (TopRightTop.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 1) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_D)) {
+				playerMovement.x = -playerSpeed;
+				playerSurfacePos = 4;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 1) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_A)) {
+				playerMovement.x = -playerSpeed;
+				playerSurfacePos = 5;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	//Left
+	if (RightTopLeft.z > AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 3) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_D)) {
+				playerMovement.x = playerSpeed;
+				playerSurfacePos = 5;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+	if (TopRightTop.z < AliceMathF::GetWorldPosition(worldTransform_).z) {
+		if (playerSurfacePos == 3) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.z = 0;
+
+			if (input_->KeepPush(DIK_A)) {
+				playerMovement.x = playerSpeed;
+				playerSurfacePos = 4;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+
+
+
+
 }
 
 void Player::PlayerCollider(Camera* camera)
@@ -407,6 +608,8 @@ void Player::PlayerCollider(Camera* camera)
 	worldTransform_.TransUpdate(camera);
 	collider->Update(worldTransform_.matWorld);
 
+	float RayPos = -1.0f;
+
 	//地面メッシュコライダー
 	{
 		// 球の上端から球の下端までのレイキャスト
@@ -449,7 +652,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 0,0,1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -466,7 +669,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 0,0,-1,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -484,7 +687,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { 1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -501,7 +704,7 @@ void Player::PlayerCollider(Camera* camera)
 		//横メッシュコライダー
 		Ray wall;
 		wall.start = sphereCollider->center;
-		wall.start.y += sphereCollider->GetRadius();
+		wall.start.y += RayPos;
 		wall.dir = { -1,0,0,0 };
 		RaycastHit wallRaycastHit;
 		// スムーズに坂を下る為の吸着距離
@@ -539,6 +742,17 @@ AliceMathF::Vector3 Player::bVelocity(AliceMathF::Vector3& velocity, Transform& 
 		velocity.y * worldTransform.matWorld.m[1][2] +
 		velocity.z * worldTransform.matWorld.m[2][2];
 
+
+	return result;
+}
+
+AliceMathF::Vector3 Player::Vector3Transform(const AliceMathF::Vector3& v, const AliceMathF::Matrix4& m) {
+
+	AliceMathF::Vector3 result{
+		  v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + m.m[3][0],
+		  v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + m.m[3][1],
+		  v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + m.m[3][2]
+	};
 
 	return result;
 }

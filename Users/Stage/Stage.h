@@ -29,7 +29,7 @@ private:
 	//äÓèÄÇÃäpìx
 	float standardAngle_;
 
-	BaseCollider* collider[24];
+	std::unique_ptr<MeshCollider> meshCollider[24];
 
 
 
@@ -54,7 +54,9 @@ public:
 
 	void FieldPlaneFoldStart(FieldIndex fieldIndex, FoldIndex foldIndex);
 
-	void SetCollider(BaseCollider* collider,int x ,FieldIndex fieldIndex, FieldElementIndex fieldElementIndex);
+	void SetCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex,int meshNumber);
+
+	void ChangeCollider(FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int meshNumber);
 
 private:
 

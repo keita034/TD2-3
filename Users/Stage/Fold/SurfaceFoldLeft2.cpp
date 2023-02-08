@@ -1,4 +1,9 @@
 #include "SurfaceFoldLeft2.h"
+#include "MeshCollider.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
+
+#include "ChangeCollider.h"
 
 void SurfaceFoldLeft2::StartLeftTo(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, Transform& fieldPlaneTrans_, AliceModel* surfaceFoldFbxmodel_)
 {
@@ -248,6 +253,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Top][LeftTop].surfacePartsModelTrans = transform2;
 		field[Top][LeftTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftTop, 4);
+		//SetCollider(field, Top, LeftTop, 6);
+
 		//3”Ô‚Æ5”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Top][LeftBottom].surfacePartsModelTrans;
@@ -267,6 +275,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Top][LeftBottom] = std::move(element);
 		field[Top][LeftBottom].surfacePartsModelTrans = transform2;
 		field[Top][LeftBottom].angle_ = angle2;
+
+		//SetCollider(field, Left, RightTop, 3);
+		//SetCollider(field, Top, LeftBottom, 5);
 
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
@@ -288,6 +299,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Top][RightTop].surfacePartsModelTrans = transform2;
 		field[Top][RightTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftBottom, 2);
+		//SetCollider(field, Top, RightTop, 8);
+
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Top][RightBottom].surfacePartsModelTrans;
@@ -307,6 +321,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Top][RightBottom] = std::move(element);
 		field[Top][RightBottom].surfacePartsModelTrans = transform2;
 		field[Top][RightBottom].angle_ = angle2;
+
+		//SetCollider(field, Left, RightBottom, 1);
+		//SetCollider(field, Top, RightBottom, 7);
 
 		break;
 #pragma endregion
@@ -335,6 +352,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[CenterLeft][RightTop].surfacePartsModelTrans = transform2;
 		field[CenterLeft][RightTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftTop, 2);
+		//SetCollider(field, CenterLeft, RightTop, 8);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftTop].surfacePartsModelTrans;
@@ -354,6 +374,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[CenterLeft][LeftTop] = std::move(element);
 		field[CenterLeft][LeftTop].surfacePartsModelTrans = transform2;
 		field[CenterLeft][LeftTop].angle_ = angle2;
+
+		//SetCollider(field, Left, RightTop, 4);
+		//SetCollider(field, CenterLeft, LeftTop, 6);
 
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
@@ -375,6 +398,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[CenterLeft][RightBottom].surfacePartsModelTrans = transform2;
 		field[CenterLeft][RightBottom].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftBottom, 1);
+		//SetCollider(field, CenterLeft, RightBottom, 7);
+
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[CenterLeft][LeftBottom].surfacePartsModelTrans;
@@ -395,6 +421,8 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[CenterLeft][LeftBottom].surfacePartsModelTrans = transform2;
 		field[CenterLeft][LeftBottom].angle_ = angle2;
 
+		//SetCollider(field, Left, RightBottom, 3);
+		//SetCollider(field, CenterLeft, LeftBottom, 5);
 
 		break;
 #pragma endregion
@@ -422,6 +450,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Right][RightTop].surfacePartsModelTrans = transform2;
 		field[Right][RightTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftTop, 3);
+		//SetCollider(field, Right, RightTop, 5);
+
 		//1”Ô‚Æ7”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Right][LeftTop].surfacePartsModelTrans;
@@ -441,6 +472,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Right][LeftTop] = std::move(element);
 		field[Right][LeftTop].surfacePartsModelTrans = transform2;
 		field[Right][LeftTop].angle_ = angle2;
+
+		//SetCollider(field, Left, RightTop, 1);
+		//SetCollider(field, Right, LeftTop, 7);
 
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
@@ -462,6 +496,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Right][RightBottom].surfacePartsModelTrans = transform2;
 		field[Right][RightBottom].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftBottom, 4);
+		//SetCollider(field, Right, RightBottom, 6);
+
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Right][LeftBottom].surfacePartsModelTrans;
@@ -481,6 +518,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Right][LeftBottom] = std::move(element);
 		field[Right][LeftBottom].surfacePartsModelTrans = transform2;
 		field[Right][LeftBottom].angle_ = angle2;
+
+		//SetCollider(field, Left, RightBottom, 2);
+		//SetCollider(field, Right, LeftBottom, 8);
 
 		break;
 #pragma endregion
@@ -509,6 +549,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Bottom][LeftTop].surfacePartsModelTrans = transform2;
 		field[Bottom][LeftTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftTop, 1);
+		//SetCollider(field, Bottom, LeftTop, 7);
+
 		//2”Ô‚Æ8”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightTop].surfacePartsModelTrans;
 		transform2 = field[Bottom][LeftBottom].surfacePartsModelTrans;
@@ -528,6 +571,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Bottom][LeftBottom] = std::move(element);
 		field[Bottom][LeftBottom].surfacePartsModelTrans = transform2;
 		field[Bottom][LeftBottom].angle_ = angle2;
+
+		//SetCollider(field, Left, RightTop, 2);
+		//SetCollider(field, Bottom, LeftBottom, 8);
 
 		//3”Ô‚Æ5”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][LeftBottom].surfacePartsModelTrans;
@@ -549,6 +595,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Bottom][RightTop].surfacePartsModelTrans = transform2;
 		field[Bottom][RightTop].angle_ = angle2;
 
+		//SetCollider(field, Left, LeftBottom, 3);
+		//SetCollider(field, Bottom, RightTop, 5);
+
 		//4”Ô‚Æ6”Ô‚ð“ü‚ê‘Ö‚¦‚é
 		transform1 = field[Left][RightBottom].surfacePartsModelTrans;
 		transform2 = field[Bottom][RightBottom].surfacePartsModelTrans;
@@ -568,6 +617,9 @@ void SurfaceFoldLeft2::ReplaceLeftTo(std::array<std::array<FieldElement, 4>, 6>&
 		field[Bottom][RightBottom] = std::move(element);
 		field[Bottom][RightBottom].surfacePartsModelTrans = transform2;
 		field[Bottom][RightBottom].angle_ = angle2;
+
+		//SetCollider(field, Left, RightBottom, 4);
+		//SetCollider(field, Bottom, RightBottom, 6);
 
 		break;
 #pragma endregion
@@ -624,3 +676,4 @@ void SurfaceFoldLeft2::EndLeftTo(std::array<std::array<FieldElement, 4>, 6>& fie
 		break;
 	}
 }
+

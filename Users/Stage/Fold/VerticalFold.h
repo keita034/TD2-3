@@ -46,6 +46,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	//void SetCollider(std::array<std::array<FieldElement, 4>, 6>& field, FieldIndex fieldIndex, FieldElementIndex fieldElementIndex, int changeNumber);
+
 private:
 
 	// コピーコンストラクタを禁止

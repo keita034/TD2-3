@@ -186,6 +186,11 @@
     </Filter>
     <Filter Include="Engine\リソース ファイル\シェーダー\2D\Particle">
       <UniqueIdentifier>{ec14444c-7448-4f8d-82bb-d7154e3b0403}</UniqueIdentifier>
+    <Filter Include="User\ソースファイル\Skydome">
+      <UniqueIdentifier>{f8d2fde5-a9b5-48b0-b3f6-771c39bf5ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="User\ヘッダーファイル\Skydome">
+      <UniqueIdentifier>{e778715f-3256-4709-af04-4624797e0c76}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -530,6 +535,17 @@
     </ClInclude>
     <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Goal.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeCollider.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>User\ヘッダーファイル\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>User\ヘッダーファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -992,6 +1008,17 @@
     </ClCompile>
     <ClCompile Include="lib\Engine\3D\Model\AliceFileStream.cpp">
       <Filter>Engine\ソース ファイル</Filter>
+    <ClCompile Include="Goal.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeCollider.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>User\ソースファイル\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>User\ソースファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
