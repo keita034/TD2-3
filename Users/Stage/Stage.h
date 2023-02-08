@@ -75,6 +75,16 @@ public:
 
 	void GoodbyeStage(int meshNumber);
 
+	void SetStageObjScale(const AliceMathF::Vector3& scale);
+
+#pragma region SetStageTrans
+	void SetStageTopTrans(const AliceMathF::Vector3& trans);
+	void SetStageLeftTrans(const AliceMathF::Vector3& trans);
+	void SetStageCenterLeftTrans(const AliceMathF::Vector3& trans);
+	void SetStageCenterRightTrans(const AliceMathF::Vector3& trans);
+	void SetStageRightTrans(const AliceMathF::Vector3& trans);
+	void SetStageBottomTrans(const AliceMathF::Vector3& trans);
+#pragma endregion
 private:
 
 	// コピーコンストラクタを禁止

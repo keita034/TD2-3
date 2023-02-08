@@ -91,19 +91,19 @@ void GameScene::Update()
 			cameraType = 0;
 		}
 
-		if (Input::GetInstance()->TriggerPush(DIK_LSHIFT))
+		if (Input::GetInstance()->TriggerPush(DIK_1))
+		{
+			stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
+		}
+
+		if (Input::GetInstance()->TriggerPush(DIK_2))
+		{
+			stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+		}
+
+		if (Input::GetInstance()->TriggerPush(DIK_3))
 		{
 			stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
-		}
-
-		if (Input::GetInstance()->TriggerPush(DIK_RSHIFT))
-		{
-			stage->FieldPlaneFoldStart(CenterRightToCenterLeft, FoldIndex::Surface);
-		}
-
-		if (Input::GetInstance()->TriggerPush(DIK_Z))
-		{
-			stage->FieldPlaneFoldStart(BottomToRight, FoldIndex::Surface);
 		}
 
 		stage->Update(camera.get());
