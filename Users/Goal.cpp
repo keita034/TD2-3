@@ -10,7 +10,7 @@ Goal::Goal(uint32_t modelHandl)
 
 	worldTransform_.Initialize();
 
-	float PlayerScale = 8.5f;
+	float PlayerScale = 3.0f;
 	worldTransform_.scale = { PlayerScale,PlayerScale,PlayerScale };
 
 	collider = new SphereCollider(AliceMathF::Vector4(0, radius, 0, 0), radius);

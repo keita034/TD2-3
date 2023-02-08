@@ -47,7 +47,7 @@ void GameScene::Initialize()
 		"Map09" , "Map010", "Map011", "Map012"	//03
 	);
 
-	modelHandle1 = Model::CreateObjModel("Resources/Player");
+	modelHandle1 = Model::CreateObjModel("Resources/goal");
 
 	player = std::make_unique<Player>(modelHandle1);
 	player->Initialise();
