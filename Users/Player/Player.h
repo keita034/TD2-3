@@ -67,12 +67,12 @@ public:
 private:
 
 	Transform worldTransform_;
-	Transform modelWorldTransform_;
-	std::unique_ptr<Model> model;
 
 	std::unique_ptr<AliceModel> aliceModel;
 	std::unique_ptr<AliceMotionData> walkMotion;
+	std::unique_ptr<AliceMotionData> standMotion;
 
+	bool isWalk;
 
 	Input* input_ = nullptr;
 
@@ -97,7 +97,6 @@ private:
 	AliceMathF::Vector4 fallV;
 
 	AliceMathF::Vector3 origin = { 0,0,0 };
-
 
 	int playerSurfacePos = 0;
 
@@ -127,5 +126,7 @@ private:
 	AliceMathF::Vector3 RightTopLeft = { sizeX,sizeYTop,-size };
 	AliceMathF::Vector3 RightBottomRight = { sizeX,-sizeYBottom,size };
 	AliceMathF::Vector3 RightBottomLeft = { sizeX,-sizeYBottom,-size };
+
+
 
 };
