@@ -26,8 +26,6 @@ void GameScene::Initialize()
 	collisionManager = CollisionManager::GetInstance();;
 
 	camera = std::make_unique<CinemaCamera>();
-//	camera->SetEye({ -27.0000000f, 226.199310f, -241.000000f });
-//	camera->SetTarget({ 0.0f, 85.1993027f, 0.0f });
 	camera->Initialize();
 
 	titleScene = std::make_unique<TitleScene>();

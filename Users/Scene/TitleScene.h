@@ -8,6 +8,7 @@
 #include "CinemaCamera.h"
 #include "AliceModel.h"
 #include "AliceMotionData.h"
+#include "Camera.h"
 
 #include "UserCamera.h"
 #include "Stage.h"
@@ -18,6 +19,7 @@ private:
 	Input* input = nullptr;
 
 	std::unique_ptr<CinemaCamera> camera_;
+	std::unique_ptr<GameCamera> modelCamera_;
 	std::unique_ptr<UserCamera> userCamera_;
 	int cameraType = 0;
 
@@ -33,7 +35,11 @@ private:
 	Transform spriteTransform;
 	Transform fbxTransform;
 	float frame = 0;
-	AliceMathF::Vector3 fbxTranslation = {-100.0f,0.0f,0.0f};
+	AliceMathF::Vector3 translation;
+
+	AliceMathF::Vector3 start;
+	AliceMathF::Vector3 end;
+	float time = 0;
 
 public:
 
