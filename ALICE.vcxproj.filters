@@ -531,17 +531,17 @@
     <ClInclude Include="lib\Engine\3D\Model\AliceFileStream.h">
       <Filter>Engine\ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="ChangeCollider.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ResultScene.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Skydome.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>User\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="Goal.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeCollider.h">
+      <Filter>User\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>User\ヘッダーファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1005,17 +1005,17 @@
     <ClCompile Include="lib\Engine\3D\Model\AliceMotionData.cpp">
       <Filter>Engine\ソース ファイル\3D\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ResultScene.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Skydome.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ChangeCollider.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>User\ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="Goal.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>User\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>User\ソースファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
