@@ -34,10 +34,10 @@ Player::Player(uint32_t modelHandl) {
 	walkMotion = std::make_unique<AliceMotionData>();
 	walkMotion->SetMotion(handl);
 	
-	worldTransform_.translation = { 90,-30,0 };
+	worldTransform_.translation = { -43,-34,-20 };
 
 	//worldTransform_.translation = { -80,0,0 };
-
+	worldTransform_.rotation = { 90 * AliceMathF::Deg2Rad,-90 * AliceMathF::Deg2Rad,0 };
 	collider->Update(worldTransform_.matWorld);
 	collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
@@ -524,6 +524,36 @@ void Player::PlayerMove(Camera* camera) {
 			if (input_->KeepPush(DIK_W)) {
 				playerMovement.y = playerSpeed;
 				playerSurfacePos = 5;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+
+	if (TopLeftBottom.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
+		if (playerSurfacePos == 3) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.y = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.x = playerSpeed;
+				playerSurfacePos = 2;
+			}
+			worldTransform_.translation += playerMovement;
+		}
+	}
+
+	if (TopLeftBottom.y > AliceMathF::GetWorldPosition(worldTransform_).y) {
+		if (playerSurfacePos == 5) {
+			worldTransform_.translation.x = PlayerSmoothMoving.x;
+			worldTransform_.translation.y = PlayerSmoothMoving.y;
+			worldTransform_.translation.z = PlayerSmoothMoving.z;
+			playerMovement.y = 0;
+
+			if (input_->KeepPush(DIK_S)) {
+				playerMovement.x = playerSpeed;
+				playerSurfacePos = 2;
 			}
 			worldTransform_.translation += playerMovement;
 		}
