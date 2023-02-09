@@ -51,13 +51,15 @@ void Player::Initialise() {
 	collider->Update(worldTransform_.matWorld);
 }
 
-void Player::Update(Camera* camera) {
+void Player::Update(Camera* camera,int x) {
 
 	frame += 0.017f;
 
 	PlayerJump(camera);
 	PlayerCollider(camera);
+	if (x == 1) {
 	PlayerMove(camera);
+	}
 	worldTransform_.TransUpdate(camera);
 	modelWorldTransform_.translation = worldTransform_.translation;
 	modelWorldTransform_.scale = { 0.1,0.1,0.1 };
@@ -405,14 +407,6 @@ void Player::PlayerMove(Camera* camera) {
 			worldTransform_.rotation = { 0,-90 * AliceMathF::Deg2Rad,90 * AliceMathF::Deg2Rad };
 		}
 		playerSideMove = 1;
-	}
-
-
-	if (input_->KeepPush(DIK_UP)) {
-		playerMovement.y = playerSpeed;
-	}
-	if (input_->KeepPush(DIK_DOWN)) {
-		playerMovement.y = -playerSpeed;
 	}
 
 

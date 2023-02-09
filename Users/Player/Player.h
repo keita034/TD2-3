@@ -26,7 +26,7 @@ public:
 	/// XV
 	/// </summary>
 	/// <param name="camera"></param>
-	void Update(Camera* camera);
+	void Update(Camera* camera, int x);
 
 	/// <summary>
 	/// ÀÛ‚Ì•`‰æ

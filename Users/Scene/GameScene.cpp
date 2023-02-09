@@ -177,7 +177,7 @@ void GameScene::Update()
 		if (isTatamu == 0)
 		{
 			player->SetCameraRot(userCamera->GetCameraRotVec3());
-			player->Update(camera.get());
+			player->Update(camera.get(), cameraType);
 		}
 
 		if (input->TriggerPush(DIK_SPACE))
