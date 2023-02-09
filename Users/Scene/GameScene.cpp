@@ -39,12 +39,12 @@ void GameScene::Initialize()
 
 	stage->Initialize(camera.get(), "Resources/SurfaceParts/",
 		//¶ã    //‰Eã    //¶‰º     //‰E‰º
-		"Map07" , "Map08" , "Map05" , "Map06" ,	//01
+		"Map07", "Map08", "Map05", "Map06",	//01
 		"Map018", "Map020", "Map017", "Map019",	//05
 		"Map022", "Map021", "Map024", "Map023",	//06
 		"Map013", "Map014", "Map015", "Map016",	//04
-		"Map01" , "Map03" , "Map02" , "Map04" ,	//02
-		"Map09" , "Map010", "Map011", "Map012"	//03
+		"Map01", "Map03", "Map02", "Map04",	//02
+		"Map09", "Map010", "Map011", "Map012"	//03
 	);
 
 	modelHandle1 = Model::CreateObjModel("Resources/goal");
@@ -69,15 +69,22 @@ void GameScene::Initialize()
 	gameBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/game.mp3", 0.05f);
 	resultBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/result.mp3", 0.05f);
 
+	cancelSEhandl = audioManager->LoadAudio("Resources/sound/SE/cancel.mp3", 0.5f);
+	clearSEhandl = audioManager->LoadAudio("Resources/sound/SE/clear.mp3", 0.5f);
+	turnSEhandl = audioManager->LoadAudio("Resources/sound/SE/turn.mp3", 0.5f);
+
+
 	audioManager->PlayWave(titleBgmhandl, true);
 }
 
 void GameScene::Update()
 {
 
-	if (isTatamu == 1) {
+	if (isTatamu == 1)
+	{
 		tatamiTimer--;
-		if (tatamiTimer < 0) {
+		if (tatamiTimer < 0)
+		{
 			tatamiTimer = 150;
 			isTatamu = 0;
 		}
@@ -100,57 +107,87 @@ void GameScene::Update()
 
 	case GameScene::game:
 #pragma region GameScene
-		if (cameraType == 1) {
+		if (cameraType == 1)
+		{
 			player->SetCameraRot(userCamera->GetCameraRot());
 		}
 
-		if (collisionManager->GetIsGoal() == true) {
+		if (collisionManager->GetIsGoal() == true)
+		{
 			int a = 0;
 			a++;
 
 			cameraType = 0;
 		}
 
-		if (isTatamu == 0) {
-			if (player->GetPlayerSurfacePos() != 4 && player->GetPlayerSurfacePos() != 3) {
-				if (Input::GetInstance()->TriggerPush(DIK_3))
+		if (Input::GetInstance()->TriggerPush(DIK_3))
+		{
+			if (isTatamu == 0)
+			{
+				if (player->GetPlayerSurfacePos() != 4 && player->GetPlayerSurfacePos() != 3)
 				{
+					audioManager->PlayWave(turnSEhandl);
+
 					isTatamu = 1;
 					stage->FieldPlaneFoldStart(TopToRight, FoldIndex::Surface);
 				}
-			}
-		}
-		
-		if (isTatamu == 0) {
-			if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5) {
-				if (Input::GetInstance()->TriggerPush(DIK_2))
+				else
 				{
-					isTatamu = 1;
-					stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+					audioManager->PlayWave(cancelSEhandl);
 				}
 			}
 		}
-		if (isTatamu == 0) {
-			if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3) {
-				if (Input::GetInstance()->TriggerPush(DIK_1))
+
+		if (Input::GetInstance()->TriggerPush(DIK_2))
+		{
+			if (isTatamu == 0)
+			{
+				if (player->GetPlayerSurfacePos() != 2 && player->GetPlayerSurfacePos() != 5)
 				{
+
+					audioManager->PlayWave(turnSEhandl);
+					isTatamu = 1;
+					stage->FieldPlaneFoldStart(CenterLeftToBottom, FoldIndex::Surface);
+				}
+				else
+				{
+					audioManager->PlayWave(cancelSEhandl);
+				}
+			}
+		}
+
+		if (Input::GetInstance()->TriggerPush(DIK_1))
+		{
+			if (isTatamu == 0)
+			{
+				if (player->GetPlayerSurfacePos() != 0 && player->GetPlayerSurfacePos() != 3)
+				{
+					audioManager->PlayWave(turnSEhandl);
 					isTatamu = 1;
 					stage->FieldPlaneFoldStart(TopToLeft, FoldIndex::Surface);
+				}
+				else
+				{
+					audioManager->PlayWave(cancelSEhandl);
 				}
 			}
 		}
 		stage->Update(camera.get());
 
-		if (isTatamu == 0) {
+		if (isTatamu == 0)
+		{
 			player->SetCameraRot(userCamera->GetCameraRotVec3());
 			player->Update(camera.get());
 		}
 
-		if (input->TriggerPush(DIK_SPACE)) {
-			if (cameraType == 0) {
+		if (input->TriggerPush(DIK_SPACE))
+		{
+			if (cameraType == 0)
+			{
 				cameraType = 1;
 			}
-			else {
+			else
+			{
 				cameraType = 0;
 			}
 		}
@@ -158,14 +195,16 @@ void GameScene::Update()
 		userCamera->SetCameraType(cameraType);
 		userCamera->SetCameraPosition(player->GetPlayerPos());
 		userCamera->Update();
-		if (cameraType == 0) {
+		if (cameraType == 0)
+		{
 
 			camera->SetTarget(AliceMathF::Vector3(0.0f, 0.0f, 0.0f));
 
 			camera->SetEye(camera->GetTarget() + userCamera->GetEye());
 			camera->SetUp(userCamera->GetUp());
 		}
-		else {
+		else
+		{
 			camera->SetEye(userCamera->GetEye());
 			camera->SetTarget(userCamera->GetTarget());
 		}
@@ -187,6 +226,8 @@ void GameScene::Update()
 			audioManager->StopWave(gameBgmhandl);
 			audioManager->PlayWave(resultBgmhandl, true);
 			collisionManager->SetGoal(false);
+			audioManager->PlayWave(clearSEhandl);
+		
 		}
 		break;
 
