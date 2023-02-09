@@ -90,7 +90,9 @@ private:
 	uint32_t gameBgmhandl;
 	uint32_t resultBgmhandl;
 
-
+	uint32_t cancelSEhandl;
+	uint32_t clearSEhandl;
+	uint32_t turnSEhandl;
 
 public:
 
