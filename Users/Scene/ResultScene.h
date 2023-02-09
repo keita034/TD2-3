@@ -2,13 +2,25 @@
 #include "BaseScene.h"
 #include "Input.h"
 #include"AudioManager.h"
+#include "TextureManager.h"
+#include "Sprite2D.h"
+#include "Camera.h"
+#include "Transform.h"
+#include "AliceModel.h"
+#include "AliceMotionData.h"
 
 class ResultScene : public BaseScene
 {
 private:
 	Input* input = nullptr;
-	SceneManager* sceneManager = nullptr;
 
+	// スプライト
+	std::unique_ptr<Sprite2D> sprite;
+	uint32_t tex = 0;
+	char PADDING[4];
+	Transform transform;
+	float frame = 0;
+	
 public:
 	ResultScene() = default;
 	~ResultScene() = default;

@@ -56,6 +56,10 @@ private:
 	Input* input = nullptr;
 	AudioManager* audioManager = nullptr;
 
+	std::unique_ptr<Sprite2D> UI;
+	uint32_t texUI = 0;
+	Transform spriteTransform;
+
 	std::unique_ptr<Light> light;
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
 

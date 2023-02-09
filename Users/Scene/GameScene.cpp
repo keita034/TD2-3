@@ -65,6 +65,11 @@ void GameScene::Initialize()
 	//ground = new Ground();
 	//ground->Initialise(modelHandle2);
 
+	texUI = TextureManager::GetInstance()->LoadTexture("Resources/UI.png");
+	UI.reset(Sprite::Create2DSprite(texUI));
+	spriteTransform.Initialize();
+	spriteTransform.translation = { 640.0f,360.0f,0.0f };
+
 	titleBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/title.mp3", 0.05f);
 	gameBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/game.mp3", 0.05f);
 	resultBgmhandl = audioManager->LoadAudio("Resources/sound/BGM/result.mp3", 0.05f);
@@ -280,6 +285,7 @@ void GameScene::Draw()
 		stage->Draw();
 		player->Draw();
 		goal->Draw();
+		UI->Draw(spriteTransform);
 
 		break;
 
